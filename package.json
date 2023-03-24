@@ -1,17 +1,12 @@
 {
-    "name": "nodejs",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "dependencies": {
-      "@types/node": "^18.0.6",
-      "node-fetch": "^3.2.6"
-    }
+  "name": "koa-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "private": true,
+  "dependencies": {
+    "guess": "^1.0.2",
+    "koa": "^2.13.4"
   }
-  
+}

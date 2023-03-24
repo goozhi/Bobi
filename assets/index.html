@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title>InsCode + Koa 演示项目</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="InsCode Koa Demo" />
+    <style>
+        html {
+            font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+            sans-serif;
+            font-size: 16px;
+            word-spacing: 1px;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            box-sizing: border-box;
+        }
+
+        *,
+        :after,
+        :before {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+
+        h2 {
+            font-size: 36px;
+            font-weight: 500;
+        }
+
+        .container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            display: flex;
+        }
+
+        .header .nav {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            list-style-type: none;
+            list-style-image: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header .nav li {
+            padding-left: 30px;
+        }
+
+        .header .nav a {
+            font-size: 16px;
+            color: #000;
+            text-decoration: none;
+        }
+
+        @media (max-width: 400px) {
+            .header {
+                padding: 24px 12px;
+            }
+        }
+
+        @media (max-width: 350px) {
+            .header .nav li {
+                padding-left: 16px;
+            }
+        }
+
+        .button--green {
+            display: block;
+            border-radius: 4px;
+            border: 1px solid #3b8070;
+            color: #3b8070;
+            text-decoration: none;
+        }
+
+        .button--green:hover {
+            color: #fff;
+            background-color: #3b8070;
+        }
+
+        .button--grey {
+            display: block;
+            border-radius: 4px;
+            border: 1px solid #35495e;
+            color: #35495e;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .button--grey:hover {
+            color: #fff;
+            background-color: #35495e;
+        }
+
+        .container {
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+        }
+
+        .links a {
+            margin-bottom: 8px;
+            font-size: 18px;
+            height: 55px;
+            line-height: 55px;
+            transition: all .5s ease;
+            width: 170px;
+        }
+
+        .title {
+            font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+            'Helvetica Neue', Arial, sans-serif;
+            display: block;
+            font-weight: 600;
+            font-size: 36px;
+            color: #35495e;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-weight: 400;
+            font-size: 28px;
+        }
+
+        .subtitle,
+        h2,
+        p {
+            color: #526488;
+            word-spacing: 5px;
+            padding-bottom: 50px;
+        }
+
+        h2 {
+            padding: 10px;
+        }
+
+        a {
+            color: #06f;
+            text-decoration: none;
+        }
+
+        .logo {
+            height: 300px;
+            width: 300px;
+        }
+
+        .cs-logo {
+            height: 30px;
+            width: 211px;
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <div>
+        <div>
+            <div class="container">
+                <div>
+                    <svg class="logo" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="m2.38233684 0v17.1715286l7.48129676-8.55172611h.3408552l-5.5456481 6.34516321 7.3097743 10.890742h-2.38452644l-6.29304787-9.3871418-.91746244 1.0707232v8.3171585h-2.37357825v-25.8564476zm19.53895746 25.9985201c-2.3940149 0-4.3403686-.6893968-5.8390609-2.0681902-1.4938264-1.3787935-2.2436591-3.5049473-2.2494982-6.3784615 0-2.8730208.7761085-5.1003026 2.3283256-6.6818453 1.552217-1.58104946 3.5263061-2.37774051 5.9222675-2.39007319 2.3940149 0 4.3403686.6901367 5.8390608 2.07041009 1.4938265 1.3802734 2.242686 3.5069205 2.2465787 6.3799414 0 2.8759807-.7761085 5.106469-2.3283255 6.6914648-1.552217 1.5845026-3.5258196 2.3772472-5.9208077 2.3782338zm.2211545-17.24256484c-1.722523 0-3.15066.7762188-4.284411 2.32865644-1.133751 1.5524376-1.701113 3.7148495-1.7020862 6.4872356 0 2.7699197.5213795 4.8213375 1.5641384 6.1542534 1.042759 1.3329159 2.4251566 1.9993739 4.147193 1.9993739 1.722523 0 3.1506599-.7762188 4.2844109-2.3286564 1.1347242-1.5524376 1.7020863-3.7131229 1.7020863-6.482056 0-2.7699196-.5213795-4.8213374-1.5641385-6.1542533-1.0427589-1.33291595-2.4261297-2.00036053-4.1501125-2.00233376zm24.7941122 17.09901244c-1.5424852 0-2.596679-.2984508-3.1625813-.8953525-.5221094-.5051465-.7831641-.9441899-.7831641-1.3171301v-.7251615c-1.1108813 2.0462381-2.8900918 3.0693571-5.3376315 3.0693571-2.8591935 0-4.4809926-1.3102238-4.8653975-3.9306714-.0457595-.2792754-.0684645-.5619334-.0678901-.8450351.0046848-.3208768.0505668-.6397694.1364991-.9486297.0900189-.345315.3510735-.7241749.783164-1.1365796.8661274-.828756 2.7638222-1.3348892 5.6930844-1.5183994.7250167-.069063 1.3931026-.1035945 2.0042576-.1035945.6106685 0 1.1661092.0221988 1.666322.0665964v-5.7124968c-.0452527-.0221988-.0452527-.1319596 0-.3292825.0366126-.2588808-.0045932-.5229388-.1182409-.7577198-.1291602-.3221987-.2926504-.6291296-.4875616-.9153314-.2058269-.29845083-.5683353-.55645047-1.0875251-.77399892-.6529293-.24120716-1.3454886-.35299402-2.0400219-.32928252-1.0017487.02454115-1.9959198.18302828-2.9567545.47135498-1.1206131.3107835-1.9419743.61540067-2.4640837.91385146l-.136488-.24196712c1.9257719-.92121465 4.0271977-1.40362652 6.1565598-1.41332499 2.333678 0 3.8751901.42547742 4.6245362 1.27643225.588772.66596466.883158 1.36695416.883158 2.10296836v11.5433873c0 .6674446.1313789 1.1790041.3941366 1.5346786.2627577.3551811.5291649.5446111.7992215.5682898l.3736999.0688164h1.0561401v.2715656zm-8.7396143-.1383727c1.1989358.0015969 2.3560825-.4464623 3.2487075-1.2579332.963445-.8386221 1.4792287-1.6488791 1.5473511-2.430771v-4.1659789c-.6140746-.0503173-1.2325284-.075476-1.8553616-.075476-.6186473 0-1.2368249.034551-1.8517122.1035946-1.7239827.2086689-2.8470288.5996148-3.3691381 1.1728377-.5221094.5732229-.7819476 1.3664608-.7795316 2.3797137.000677.2073701.0116391.414575.0328617.620827.2033939 2.4403905 1.2120917 3.6605857 3.0260933 3.6605857z" fill="#86dcd9" transform="translate(0 11)"/></svg>
+                    <h1 class="title">Koa - 基于 Node.js 平台的下一代 Web 开发框架</h1>
+                    <div class="links">
+                        <a href="https://koajs.com/" target="_blank" class="button--green">文档</a>
+                        <a href="https://github.com/koajs/koa" target="_blank" class="button--grey">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
