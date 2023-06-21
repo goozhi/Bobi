@@ -12,6 +12,8 @@ app.use(async (ctx, next) => {
   const rt = ctx.response.get('X-Response-Time');
   console.log(`${ctx.method} ${ctx.url} - ${rt}`);
 });
+// body parser
+app.use(bodyParser());
 
 // x-response-time
 
@@ -27,7 +29,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
   if (ctx.path === '/') {
     const html = fs.readFileSync(`${dirName}/index.html`);
-    ctx.res.setHeader('Content-Type','text/html;charset=utf-8');
+    ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
     ctx.body = html;
   } else {
     await next();
@@ -43,51 +45,38 @@ app.use(async (ctx, next) => {
           <body>
             <h1>About Page</h1>
             <form method="POST">
-              <label for="name">Name:</label>
-              <input type="text" name="name" id="name" required>
-              <br>
-              <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required>
-              <br>
-              <label for="message">Message:</label>
-              <textarea name="message" id="message" required></textarea>
-              <br>
-              <input type="submit" value="Submit">
+            <label for="input">input:</label>
+            <textarea name="message" id="message" required></textarea>
+            <br>
+            <input type="submit" value="Submit">
             </form>
           </body>
         </html>
       `;
       ctx.body = html;
     } else if (ctx.method === 'POST') {
-      // ctx.request.body
-      const html2 = `
-        <html>
-          <body>
-            <h1>About Page</h1>
-            <form method="POST">
-              <label for="name">fuck name:</label>
-              <input type="text" name="name" id="name" required>
-              <br>
-              <label for="email">Email:</label>
-              <input type="email" name="email" id="email" required>
-              <br>
-              <label for="message">Message:</label>
-              <textarea name="message" id="message" required></textarea>
-              <br>
-              <input type="submit" value="Submit">
-            </form>
-          </body>
-        </html>
-      `;
-      ctx.body = html2;
+      const message = ctx.request.body.message+'iii';
+      const html = `
+      <html>
+      <body>
+        <h1>About Page</h1>
+        <form method="POST">
+        <label for="input">input:</label>
+        <textarea name="message" id="message" required>${message}</textarea>
+        <br>
+        <input type="submit" value="Submit">
+        </form>
+      </body>
+    </html>
+  `;
+      ctx.body = html;
     }
+
   } else {
     await next();
   }
 });
 
-// body parser
-app.use(bodyParser());
 
 app.listen(9000, () => {
   console.log(`app listening at http://localhost:9000`)
