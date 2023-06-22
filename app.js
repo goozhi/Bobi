@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
+const commd = require('./scripts/commd');
 const app = new Koa();
 
 const dirName = path.join(__dirname, 'assets');
@@ -46,7 +47,7 @@ app.use(async (ctx, next) => {
             <h1>About Page</h1>
             <form method="POST">
             <label for="input">input:</label>
-            <textarea name="message" id="message" required></textarea>
+            <textarea style="width:100%;" name="message" id="message" required></textarea>
             <br>
             <input type="submit" value="Submit">
             </form>
@@ -55,21 +56,39 @@ app.use(async (ctx, next) => {
       `;
       ctx.body = html;
     } else if (ctx.method === 'POST') {
-      const message = ctx.request.body.message+'iii';
-      const html = `
-      <html>
-      <body>
-        <h1>About Page</h1>
-        <form method="POST">
-        <label for="input">input:</label>
-        <textarea name="message" id="message" required>${message}</textarea>
-        <br>
-        <input type="submit" value="Submit">
-        </form>
-      </body>
-    </html>
-  `;
-      ctx.body = html;
+      const message = ctx.request.body.message;
+      if (!message) {
+        throw new Error(`error`)
+      }
+      await commd(message).then(result => {
+        outputText = result.outputText
+        const html = `
+        <html>
+        <body>
+          <h1>About Page</h1>
+          <form method="POST">
+          <label for="input">input:</label>
+          <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
+          <br>
+          <input type="submit" value="Submit">
+          </form>
+          <label for="output">output:</label>
+          <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
+          <br>
+          <button onclick="copy()">Copy</button>
+          <script>
+          function copy() {
+            const output = document.getElementById("output");
+            navigator.clipboard.writeText(output.value).then(() => {
+              console.log('text copied to clipboard');
+            });
+          }
+          </script>
+        </body>
+      </html>
+    `;
+        ctx.body = html;
+      }).catch(err => ctx.body = err.stack || err)
     }
 
   } else {

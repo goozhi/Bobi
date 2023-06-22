@@ -2,12 +2,14 @@
   "name": "koa-demo",
   "version": "1.0.0",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "go": "nodemon app.js"
   },
   "private": true,
   "dependencies": {
     "guess": "^1.0.2",
     "koa": "^2.13.4",
-    "koa-bodyparser": "^4.4.0"
+    "koa-bodyparser": "^4.4.0",
+    "yargs": "^17.7.2"
   }
 }
