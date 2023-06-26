@@ -93,7 +93,7 @@ app.use(async (ctx, next) => {
             .then(data => {
               alert(data)
             })
-            .catch(error => console.error(error));
+            // .catch(error => console.error(error));
           }
           </script>          
           <script>
