@@ -76,6 +76,26 @@ app.use(async (ctx, next) => {
           <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
           <br>
           <button onclick="copy()">Copy</button>
+          <button onclick="sendData()">Send Data</button>
+
+          <script>
+          function sendData() {
+            const url = '${ctx.href.replace(/\?.*/,"")}';
+            const message = document.getElementById('message').value;
+            fetch(url, {
+              method: 'POST',
+              body: JSON.stringify({message}),
+              headers: {
+                'Content-Type': 'application/json'
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              alert(data)
+            })
+            .catch(error => console.error(error));
+          }
+          </script>          
           <script>
           function copy() {
             const output = document.getElementById("output");
@@ -86,6 +106,7 @@ app.use(async (ctx, next) => {
           </script>
         </body>
       </html>
+
     `;
         ctx.body = html;
       }).catch(err => ctx.body = err.stack || err)
