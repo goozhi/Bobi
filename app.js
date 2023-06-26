@@ -89,11 +89,10 @@ app.use(async (ctx, next) => {
                 'Content-Type': 'application/json'
               }
             })
-            .then(response => response.json())
             .then(data => {
               alert(data)
             })
-            // .catch(error => console.error(error));
+            .catch(error => console.error(error));
           }
           </script>          
           <script>
