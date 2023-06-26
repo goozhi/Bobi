@@ -80,7 +80,7 @@ app.use(async (ctx, next) => {
 
           <script>
           function sendData() {
-            const url = '${ctx.href.replace(/\?.*/,"")}';
+            const url = '${ctx.href.replace(/\?.*/,"").replace(/http\b/,"https")}';
             const message = document.getElementById('message').value;
             fetch(url, {
               method: 'POST',
