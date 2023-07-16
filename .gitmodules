@@ -1,4 +1,4 @@
 [submodule "scripst"]
 	path = scripst
-	url = git@gitee.com:wrvr/scripts.git
+	url = https://gitee.com/wrvr/scripts.git
 	branch = master
