@@ -1,3 +1,12 @@
 # Koa
 
-基于 Node.js 平台的下一代 Web 开发框架。
+## 构建命令
+```
+npm i && git submodule update --init && git submodule update --remote
+```
+
+## 运行命令
+```
+npm run go
+```
+
