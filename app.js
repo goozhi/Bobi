@@ -4,7 +4,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const commd = require('./scripst/commd');
 const app = new Koa();
-
+const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
 // logger
 
@@ -27,9 +27,16 @@ app.use(async (ctx, next) => {
 
 // response
 // index page
+const obj_ybkc = {}
+const href_fictions = [...fictions].map(([key, value]) => {
+  const path_fiction = key.bookName.split('').map(ele => ele.charCodeAt(0)).join('-')
+  obj_ybkc[path_fiction] = key
+  return `<a href="/${path_fiction}" target="_blank" class="button--grey">${key.bookName}</a>`
+})
+
 app.use(async (ctx, next) => {
   if (ctx.path === '/') {
-    const html = fs.readFileSync(`${dirName}/index.html`);
+    const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
     ctx.body = html;
   } else {
@@ -39,7 +46,7 @@ app.use(async (ctx, next) => {
 
 // about page
 app.use(async (ctx, next) => {
-  if (ctx.path === '/about') {
+  if (ctx.path === '/func') {
     if (ctx.method === 'GET') {
       const html = `
         <html>
@@ -92,11 +99,30 @@ app.use(async (ctx, next) => {
       }).catch(err => ctx.body = err.stack || err)
     }
 
+  } else if (ctx.path === '/about') {
+    const html = fs.readFileSync(`${dirName}/about.html`);
+    ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
+    ctx.body = html;
   } else {
     await next();
   }
 });
 
+app.use(async (ctx, next) => {
+  const gkjq_yj_ab = Object.entries(obj_ybkc).some(([key, value]) => {
+    if ('/' + key === ctx.path) {
+      const html = fs.readFileSync(`${dirName}/fiction.html`).toString().replace(/fiction-content/, [...fictions.get(value)].map(([key, value], index_1) => `第${index_1+1}章<h2>${value.title}</h2>` + value.content).join('\n\n')).replace(/\n/g, '<br>').replace(/fiction-title/, value.bookName);
+      ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
+      ctx.body = html;
+      return true
+    }
+  })
+  if (gkjq_yj_ab) {
+
+  } else {
+    await next()
+  }
+})
 
 app.listen(9000, () => {
   console.log(`app listening at http://localhost:9000`)

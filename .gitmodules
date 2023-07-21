@@ -2,3 +2,6 @@
 	path = scripst
 	url = https://gitee.com/wrvr/scripts.git
 	branch = master
+[submodule "my-fictions"]
+	path = my-fictions
+	url = https://gitee.com/wrvr/my-fictions.git
