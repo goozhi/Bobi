@@ -54,7 +54,7 @@ app.use(async (ctx, next) => {
             <h1>About Page</h1>
             <form method="POST">
             <label for="input">input:</label>
-            <textarea style="width:auto;" name="message" id="message" required></textarea>
+            <textarea style="width:100%;" name="message" id="message" required></textarea>
             <br>
             <input type="submit" value="Submit">
             </form>
@@ -75,12 +75,12 @@ app.use(async (ctx, next) => {
           <h1>About Page</h1>
           <form method="POST">
           <label for="input">input:</label>
-          <textarea style="width:auto;" rows=8 name="message" id="message" required>${message}</textarea>
+          <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
           <br>
           <input type="submit" value="Submit">
           </form>
           <label for="output">output:</label>
-          <textarea style="width:auto;" rows=16 name="output" id="output" required>${outputText}</textarea>
+          <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
           <br>
           <button onclick="copy()">Copy</button>
           <script>
