@@ -34,15 +34,6 @@ const href_fictions = [...fictions].map(([key, value]) => {
   return `<a href="/${path_fiction}" target="_blank" class="button--grey">${key.bookName}</a>`
 })
 
-app.use(async (ctx, next) => {
-  if (ctx.path === '/') {
-    const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
-    ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
-    ctx.body = html;
-  } else {
-    await next();
-  }
-});
 
 // about page
 app.use(async (ctx, next) => {
@@ -99,8 +90,18 @@ app.use(async (ctx, next) => {
       }).catch(err => ctx.body = err.stack || err)
     }
 
-  } else if (ctx.path === '/about') {
-    const html = fs.readFileSync(`${dirName}/about.html`);
+  } else if (ctx.path === '/') {
+    const html = fs.readFileSync(`${dirName}/index.html`);
+    ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
+    ctx.body = html;
+  } else {
+    await next();
+  }
+});
+
+app.use(async (ctx, next) => {
+  if (ctx.path === '/fiction-enter') {
+    const html = fs.readFileSync(`${dirName}/fiction-enter.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
     ctx.body = html;
   } else {
