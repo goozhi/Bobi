@@ -6,6 +6,7 @@ const commd = require('./scripst/commd');
 const app = new Koa();
 const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
+const koaStatic = require('koa-static')
 // logger
 
 app.use(async (ctx, next) => {
@@ -43,6 +44,8 @@ app.use(async (ctx, next) => {
         await next();
     }
 });
+
+app.use(koaStatic(__dirname + '/assets/img'));
 
 // about page
 app.use(async (ctx, next) => {
@@ -123,7 +126,15 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-
+app.use(async (ctx, next) => {
+    if ('/info-of-lee' === ctx.path) {
+        const html = fs.readFileSync(`${dirName}/info-of-lee.html`)
+        ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
+        ctx.body = html
+    } else {
+        await next()
+    }
+})
 const port = 9000
 app.listen(port, () => {
     console.log(`app listening at http://localhost:${port}`)
