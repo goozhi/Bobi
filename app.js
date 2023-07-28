@@ -150,8 +150,35 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if ('/hsoy-esqt' === ctx.path) {
         const yxna_hsoy_esqt = '/storage/emulated/0/\u7a00\u6709\u8f6f\u4ef6/'
-        if (fs.existsSync(yxna_hsoy_esqt)) {
-            const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt)
+        if (!fs.existsSync(yxna_hsoy_esqt)) {
+            try {
+                uzms('csrf-yxna ac zznq-' + yxna_hsoy_esqt)
+            } catch (err) {
+                ctx.body = err.toString()
+                return
+            }
+        }
+        const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt)
+        if (ctx.method === 'get') {
+            ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
+            ctx.body = `
+            <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hsoy-esqt</title>
+</head>
+
+<body>
+    <form method="post">
+        <textarea name="hsoy-esqt" id="" cols="30" rows="10">${vnwm_2.join('\n')}</textarea>
+    </form>
+</body>
+
+</html>`
+        } else {
             const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.body.esqt_wu))
             if (!vnwm_1.length) {
                 if (vnwm_1.length > 1) {
@@ -163,12 +190,6 @@ app.use(async (ctx, next) => {
             } else {
                 ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
                 ctx.body = 'hmpc diyc dk esqt.'
-            }
-        } else {
-            try {
-                uzms('csrf-yxna ac zznq-' + yxna_hsoy_esqt)
-            } catch (err) {
-                ctx.body = err.toString()
             }
         }
     } else {
