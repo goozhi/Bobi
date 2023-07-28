@@ -180,7 +180,7 @@ app.use(async (ctx, next) => {
 
 </html>`
         } else {
-            const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.body.esqt_wu))
+            const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqt_wu))
             if (!vnwm_1.length) {
                 if (vnwm_1.length > 1) {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
