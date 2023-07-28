@@ -159,7 +159,7 @@ app.use(async (ctx, next) => {
             }
         }
         const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt)
-        if (ctx.method === 'get') {
+        if (ctx.method === 'GET') {
             ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
             ctx.body = `
             <!DOCTYPE html>
