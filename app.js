@@ -173,7 +173,7 @@ app.use(async (ctx, next) => {
 
 <body>
     <form method="post">
-        <textarea name="hsoy-esqt" id="" cols="30" rows="10">${vnwm_2.join('\n')}</textarea>
+        <textarea name="esqt_wu" id="" cols="30" rows="10">${vnwm_2.join('\n')}</textarea>
         <button>zhms</button>
     </form>
 </body>
