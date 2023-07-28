@@ -10,6 +10,7 @@ const koaStatic = require('koa-static')
 const yxna_caju = ['wjdk-vktm', 'afoa', 'yxna-caju', 'hsoy-esqt']
 const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
+const send = require('koa-send')
 // logger
 
 app.use(async (ctx, next) => {
@@ -203,7 +204,7 @@ app.use(async (ctx, next) => {
             } else {
                 const yxna_esqt = path.join(yxna_hsoy_esqt, vnwm_1[0])
                 ctx.attachment(yxna_esqt)
-                ctx.body = fs.readFileSync(yxna_esqt)
+                await send(ctx, yxna_esqt)
             }
         } else {
             ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
