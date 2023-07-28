@@ -181,7 +181,7 @@ app.use(async (ctx, next) => {
 </html>`
         } else {
             const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqt_wu))
-            if (!vnwm_1.length) {
+            if (vnwm_1.length) {
                 if (vnwm_1.length > 1) {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
                     ctx.body = 'rt lzca vdzv esqt_wu: ' + vnwm_1.join(' ae ')
