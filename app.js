@@ -204,7 +204,7 @@ app.use(async (ctx, next) => {
             } else {
                 const yxna_esqt = path.join(yxna_hsoy_esqt, vnwm_1[0])
                 ctx.attachment(yxna_esqt)
-                await send(ctx, yxna_esqt)
+                await send(ctx, '/storage/emulated/0/稀有软件/AA逆向助手_50732.apk')
             }
         } else {
             ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
