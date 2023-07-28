@@ -186,7 +186,7 @@ app.use(async (ctx, next) => {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
                     ctx.body = 'rt lzca vdzv esqt_wu: ' + vnwm_1.join(' ae ')
                 } else {
-                    ctx.body = path.join(yxna_hsoy_esqt, vnwm_1[0])
+                    ctx.body = fs.readFileSync(path.join(yxna_hsoy_esqt, vnwm_1[0]))
                 }
             } else {
                 ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
