@@ -151,7 +151,7 @@ app.use(async (ctx, next) => {
     if ('/hsoy-esqt' === ctx.path) {
         const yxna_hsoy_esqt = '/storage/emulated/0/\u7a00\u6709\u8f6f\u4ef6/'
         if (fs.existsSync(yxna_hsoy_esqt)) {
-            const vnwm_2 = fs.readdirSync('')
+            const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt)
             const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.body.esqt_wu))
             if (!vnwm_1.length) {
                 if (vnwm_1.length > 1) {
