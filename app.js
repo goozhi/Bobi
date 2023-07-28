@@ -7,6 +7,9 @@ const app = new Koa();
 const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
+const yxna_caju = ['wjdk-vktm', 'afoa', 'yxna-caju', 'hsoy-esqt']
+const neig = require('./neig')
+const uzms = require('./afoa/uz_ms')
 // logger
 
 app.use(async (ctx, next) => {
@@ -49,7 +52,7 @@ app.use(koaStatic(__dirname + '/assets/img'));
 
 // about page
 app.use(async (ctx, next) => {
-    if (ctx.path === '/func') {
+    if (ctx.path === '/afoa') {
         if (ctx.method === 'GET') {
             const html = `
         <html>
@@ -127,7 +130,7 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
-    if ('/info-of-lee' === ctx.path) {
+    if ('/wjdk-vktm' === ctx.path) {
         const html = fs.readFileSync(`${dirName}/info-of-lee.html`)
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
         ctx.body = html
@@ -135,7 +138,44 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-const port = 9000
-app.listen(port, () => {
-    console.log(`app listening at http://localhost:${port}`)
+app.use(async (ctx, next) => {
+    if ('/yxna-caju' === ctx.path) {
+        const html = yxna_caju.toString()
+        ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
+        ctx.body = html
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+    if ('/hsoy-esqt' === ctx.path) {
+        const yxna_hsoy_esqt = '/storage/emulated/0/\u7a00\u6709\u8f6f\u4ef6/'
+        if (fs.existsSync(yxna_hsoy_esqt)) {
+            const vnwm_2 = fs.readdirSync('')
+            const vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.body.esqt_wu))
+            if (!vnwm_1.length) {
+                if (vnwm_1.length > 1) {
+                    ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
+                    ctx.body = 'rt lzca vdzv esqt_wu: ' + vnwm_1.join(' ae ')
+                } else {
+                    ctx.body = path.join(yxna_hsoy_esqt, vnwm_1[0])
+                }
+            } else {
+                ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
+                ctx.body = 'hmpc diyc dk esqt.'
+            }
+        } else {
+            try {
+                uzms('csrf-yxna ac zznq-' + yxna_hsoy_esqt)
+            } catch (err) {
+                ctx.body = err.toString()
+            }
+        }
+    } else {
+        await next()
+    }
+})
+
+app.listen(neig.izlp, () => {
+    console.log(`app listening at http://localhost:${neig.izlp}`)
 });
