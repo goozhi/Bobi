@@ -158,7 +158,7 @@ app.use(async (ctx, next) => {
                 return
             }
         }
-        const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt)
+        const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt, { recursive: true })
         if (ctx.method === 'GET') {
             ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
             ctx.body = `

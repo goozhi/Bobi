@@ -1,3 +1,3 @@
-s1 = Symbol('foo')
+const fs = require('fs')
 
-console.log(s1)
+console.log(fs.readdirSync(__dirname, { recursive: true }))
