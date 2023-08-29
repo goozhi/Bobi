@@ -15,6 +15,8 @@ var vnwm_1
 var yxna_esqt
 // logger
 
+app.use(koaStatic(__dirname + '/assets/img'));
+
 app.use(async (ctx, next) => {
     await next();
     const rt = ctx.response.get('X-Response-Time');
