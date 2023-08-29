@@ -86,12 +86,12 @@ app.use(async (ctx, next) => {
           <label for="input">input:</label>
           <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
           <br>
-          <input type="submit" value="Submit">
+          <input type="submit"  style="width:100%;" value="Submit">
           </form>
           <label for="output">output:</label>
           <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
           <br>
-          <button onclick="copy()">Copy</button>
+          <button onclick="copy()"  style="width:100%;">Copy</button>
           <script>
           function copy() {
             const output = document.getElementById("output");
