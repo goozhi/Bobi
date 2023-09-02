@@ -131,7 +131,7 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if (/\/eysj-zjqt\//.test(ctx.path)) {
         const eysj = ctx.path.replace(/.*\//, "")
-        ctx.body = await eysj_zjqt({ rjyf: /\/rjyf\//.test(ctx.path), eysj }).catch(err => { throw err })
+        ctx.body = await eysj_zjqt({ rjyf: /\/rjyf\//.test(ctx.path), eysj }).catch(err => ctx.body = err.stack || err)
     } else {
         await next()
     }
