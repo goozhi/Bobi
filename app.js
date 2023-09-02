@@ -10,7 +10,9 @@ const koaStatic = require('koa-static')
 const yxna_caju = ['wjdk-vktm', 'afoa', 'yxna-caju', 'hsoy-esqt']
 const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
-const send = require('koa-send')
+const send = require('koa-send');
+const eysj_zjqt = require('./afoa/eysj_zjqt')
+const { default: axios } = require('axios');
 var vnwm_1
 var yxna_esqt
 // logger
@@ -127,8 +129,9 @@ app.use(async (ctx, next) => {
     }
 });
 app.use(async (ctx, next) => {
-    if (/\/eysj-zjqt/.test(ctx.path)) {
-        ctx.body = 'yes'
+    if (/\/eysj-zjqt\//.test(ctx.path)) {
+        const eysj = ctx.path.replace(/.*\//, "")
+        ctx.body = await eysj_zjqt({ rjyf: /\/rjyf\//.test(ctx.path), eysj }).catch(err => { throw err })
     } else {
         await next()
     }
