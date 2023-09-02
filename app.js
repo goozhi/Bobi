@@ -126,7 +126,14 @@ app.use(async (ctx, next) => {
         await next();
     }
 });
-
+app.use(async (ctx, next) => {
+    if (/\/eysj-zjqt/.test(ctx.path)) {
+        ctx.body = 'yes'
+    } else {
+        await next()
+    }
+}
+)
 app.use(async (ctx, next) => {
     const gkjq_yj_ab = Object.entries(obj_ybkc).some(([key, value]) => {
         if ('/' + key === ctx.path) {
