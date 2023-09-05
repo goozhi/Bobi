@@ -46,7 +46,7 @@ const href_fictions = [...fictions].map(([key, value]) => {
 })
 
 app.use(async (ctx, next) => {
-    if (ctx.path === '/') {
+    if (ctx.path === '/mamamia') {
         const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
         ctx.body = html;
@@ -120,7 +120,7 @@ app.use(async (ctx, next) => {
 });
 
 app.use(async (ctx, next) => {
-    if (ctx.path === '/fiction-enter') {
+    if (ctx.path === '/') {
         const html = fs.readFileSync(`${dirName}/fiction-enter.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
         ctx.body = html;
