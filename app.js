@@ -56,13 +56,13 @@ app.use(async (ctx, next) => {
 });
 
 // about page
-let gkqj_pc_ce_dbkz = false
+const diwr_0 = { gkqj_pc_ce_dbkz: false }
 app.use(async (ctx, next) => {
     const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
-            gkqj_pc_ce_dbkz = true
+            diwr_0.gkqj_pc_ce_dbkz = true
         }
     }
     if (ctx.path === '/afoa') {
@@ -78,13 +78,13 @@ app.use(async (ctx, next) => {
             <input type="submit" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${user_uid}"):""</script>
+            <script>${diwr_0.gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${user_uid}"):""</script>
           </body>
         </html>
       `;
             ctx.body = html;
-            if (gkqj_pc_ce_dbkz) {
-                gkqj_pc_ce_dbkz = false
+            if (diwr_0.gkqj_pc_ce_dbkz) {
+                diwr_0.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
             const message = ctx.request.body.message;
