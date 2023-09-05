@@ -59,7 +59,7 @@ app.use(async (ctx, next) => {
 let gkqj_pc_ce_dbkz = false
 app.use(async (ctx, next) => {
     const my_uids = ['1690565669798_7478497577']
-    const user_uid = ctx.header.cookie ? ctx.header.cookie.match(/(?<=uid=)\w+/) : my_uids[0]
+    const user_uid = ctx.request.header.cookie ? ctx.request.header.cookie.match(/(?<=uid=)\w+/) : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid[0])) {
             gkqj_pc_ce_dbkz = true
