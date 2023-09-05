@@ -64,7 +64,7 @@ app.use(async (ctx, next) => {
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
             diwr_0.gkqj_pc_ce_dbkz = true
-            diwr_0.new_user.push(user_uid)
+            diwr_0.new_user.includes(user_uid) ? diwr_0.new_user.push(user_uid) : ""
         }
     }
     if (ctx.path === '/afoa') {
@@ -80,7 +80,7 @@ app.use(async (ctx, next) => {
             <input type="submit" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${diwr_0.new_user.length}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
+            <script>${diwr_0.new_user.length}?document.getElementById("test1").innerText=("恭喜，您有${diwr_0.new_user.length}个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
           </body>
         </html>
       `;
