@@ -77,7 +77,7 @@ app.use(async (ctx, next) => {
             <label for="input">input:</label>
             <textarea style="width:100%;" name="message" id="message" required></textarea>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" style="width:100%;" value="Submit">
             </form>
             <div id="test1"></div>
             <script>${diwr_0.new_user.length}?document.getElementById("test1").innerText=("恭喜，您有${diwr_0.new_user.length}个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
