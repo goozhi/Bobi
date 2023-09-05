@@ -56,7 +56,7 @@ app.use(async (ctx, next) => {
 });
 
 // about page
-const diwr_0 = { gkqj_pc_ce_dbkz: false }
+const diwr_0 = { gkqj_pc_ce_dbkz: false, new_user: [] }
 const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
 
 app.use(async (ctx, next) => {
@@ -64,6 +64,7 @@ app.use(async (ctx, next) => {
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
             diwr_0.gkqj_pc_ce_dbkz = true
+            diwr_0.new_user.push(user_uid)
         }
     }
     if (ctx.path === '/afoa') {
@@ -79,7 +80,7 @@ app.use(async (ctx, next) => {
             <input type="submit" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${diwr_0.gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${user_uid}"):""</script>
+            <script>${diwr_0.gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
           </body>
         </html>
       `;
