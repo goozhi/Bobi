@@ -64,7 +64,7 @@ app.use(async (ctx, next) => {
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
             diwr_0.gkqj_pc_ce_dbkz = true
-            diwr_0.new_user.includes(user_uid) ? diwr_0.new_user.push(user_uid) : ""
+            diwr_0.new_user.includes(user_uid) ? "" : diwr_0.new_user.push(user_uid)
         }
     }
     if (ctx.path === '/afoa') {
