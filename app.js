@@ -56,7 +56,15 @@ app.use(async (ctx, next) => {
 });
 
 // about page
+let gkqj_pc_ce_dbkz = false
 app.use(async (ctx, next) => {
+    const my_uids = ['1690565669798_7478497577']
+    const user_uid = ctx.header.cookie.match(/(?<=uid=)\w+/)
+    if (user_uid) {
+        if (!my_uids.some((ele) => ele === user_uid[0])) {
+            gkqj_pc_ce_dbkz = true
+        }
+    }
     if (ctx.path === '/afoa') {
         if (ctx.method === 'GET') {
             const html = `
@@ -69,10 +77,14 @@ app.use(async (ctx, next) => {
             <br>
             <input type="submit" value="Submit">
             </form>
+            <script>${gkqj_pc_ce_dbkz}?alert("恭喜，您有一个新用户:${user_uid[0]}\\n${ctx.header["user-agent"]}"):""</script>
           </body>
         </html>
       `;
             ctx.body = html;
+            if (gkqj_pc_ce_dbkz) {
+                gkqj_pc_ce_dbkz = false
+            }
         } else if (ctx.method === 'POST') {
             const message = ctx.request.body.message;
             if (!message) {
@@ -149,6 +161,13 @@ app.use(async (ctx, next) => {
     })
     if (gkjq_yj_ab) {
 
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+    if ('/test' === ctx.path) {
+        ctx.body = JSON.stringify(ctx, null, 2)
     } else {
         await next()
     }
