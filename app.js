@@ -80,7 +80,7 @@ app.use(async (ctx, next) => {
             <input type="submit" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${diwr_0.gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
+            <script>${diwr_0.new_user.length}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${diwr_0.new_user.join('-----')}"):""</script>
           </body>
         </html>
       `;
