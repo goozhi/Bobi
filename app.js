@@ -57,8 +57,9 @@ app.use(async (ctx, next) => {
 
 // about page
 const diwr_0 = { gkqj_pc_ce_dbkz: false }
+const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
+
 app.use(async (ctx, next) => {
-    const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
