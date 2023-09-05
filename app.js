@@ -58,8 +58,8 @@ app.use(async (ctx, next) => {
 // about page
 let gkqj_pc_ce_dbkz = false
 app.use(async (ctx, next) => {
-    const my_uids = ['1690565669798_7478497577']
-    const user_uid = ctx.request.header.cookie ? ctx.request.header.cookie.match(/(?<=uid=)\w+/) : my_uids[0]
+    const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
+    const user_uid = ctx.request.header["user-agent"] ? ctx.request.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid[0])) {
             gkqj_pc_ce_dbkz = true
@@ -77,7 +77,7 @@ app.use(async (ctx, next) => {
             <br>
             <input type="submit" value="Submit">
             </form>
-            <script>${gkqj_pc_ce_dbkz}?alert("恭喜，您有一个新用户:${user_uid[0]}\\n${ctx.header["user-agent"]}"):""</script>
+            <script>${gkqj_pc_ce_dbkz}?alert("恭喜，您有一个新用户:\\n${ctx.header["user-agent"]}"):""</script>
           </body>
         </html>
       `;
