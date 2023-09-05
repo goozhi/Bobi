@@ -59,9 +59,9 @@ app.use(async (ctx, next) => {
 let gkqj_pc_ce_dbkz = false
 app.use(async (ctx, next) => {
     const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
-    const user_uid = ctx.request.header["user-agent"] ? ctx.request.header["user-agent"] : my_uids[0]
+    const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
-        if (!my_uids.some((ele) => ele === user_uid[0])) {
+        if (!my_uids.some((ele) => ele === user_uid)) {
             gkqj_pc_ce_dbkz = true
         }
     }
@@ -77,7 +77,8 @@ app.use(async (ctx, next) => {
             <br>
             <input type="submit" value="Submit">
             </form>
-            <script>${gkqj_pc_ce_dbkz}?alert("恭喜，您有一个新用户:\\n${ctx.header["user-agent"]}"):""</script>
+            <div id="test1"></div>
+            <script>${gkqj_pc_ce_dbkz}?document.getElementById("test1").innerText=("恭喜，您有一个新用户:\\n${user_uid}"):""</script>
           </body>
         </html>
       `;
