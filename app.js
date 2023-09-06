@@ -62,7 +62,7 @@ const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (
 app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
-        if (!my_uids.some((ele) => ele.name === user_uid)) {
+        if (!my_uids.some((ele) => ele === user_uid)) {
             diwr_0.gkqj_pc_ce_dbkz = true
             diwr_0.new_user[user_uid] = diwr_0.new_user[user_uid] ? { date: new Date() } : { date: new Date() }
         }
