@@ -64,7 +64,7 @@ app.use(async (ctx, next) => {
     if (user_uid) {
         if (!my_uids.some((ele) => ele.name === user_uid)) {
             diwr_0.gkqj_pc_ce_dbkz = true
-            diwr_0.new_user[user_uid] ? { date: new Date() } : { date: new Date() }
+            diwr_0.new_user[user_uid] = diwr_0.new_user[user_uid] ? { date: new Date() } : { date: new Date() }
         }
     }
     if (ctx.path === '/afoa') {
