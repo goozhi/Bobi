@@ -80,7 +80,7 @@ app.use(async (ctx, next) => {
             <input type="submit" style="width:100%;" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${Object.keys(diwr_0.new_user).length}?document.getElementById("test1").innerText=("恭喜，您有${Object.keys(diwr_0.new_user).length}个新用户:\\n${Object.entries(diwr_0.new_user).map(ele => ele[0] + "URL:"+ele[1].url+" host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('-----')}"):""</script>
+            <script>${Object.keys(diwr_0.new_user).length}?document.getElementById("test1").innerText=("恭喜，您有${Object.keys(diwr_0.new_user).length}个新用户:\\n${Object.entries(diwr_0.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('-----')}"):""</script>
           </body>
         </html>
       `;
@@ -259,6 +259,17 @@ app.use(async (ctx, next) => {
         } else {
             ctx.attachment(yxna_esqt)
             await send(ctx, vnwm_1[0], { root: yxna_hsoy_esqt })
+        }
+    } else if (/\/fdbj-rjqt?/.test(ctx.path)) {
+        const diwr_yhld = ctx.path.match(/\?name=(.*)/)
+        const nikc_fdbj_rjqt = '/storage/emulated/0/wrvr/fdbj-rjqt/'
+        if (diwr_yhld) {
+            if (fs.existsSync(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))) {
+                ctx.attachment(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))
+                await send(ctx, diwr_yhld[1], { root: nikc_fdbj_rjqt })
+            }
+        } else {
+            ctx.body = 'hpmc diyc dk rjqt.'
         }
     } else {
         await next()
