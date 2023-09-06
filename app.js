@@ -260,16 +260,24 @@ app.use(async (ctx, next) => {
             ctx.attachment(yxna_esqt)
             await send(ctx, vnwm_1[0], { root: yxna_hsoy_esqt })
         }
-    } else if (/\/fdbj-rjqt?/.test(ctx.path)) {
-        const diwr_yhld = ctx.path.match(/\?name=(.*)/)
+    } else {
+        await next()
+    }
+})
+
+app.use(async (ctx, next) => {
+    if (ctx.path === '/fdbj-rjqt') {
+        const diwr_yhld = ctx.url.match(/\?name=(.*)/)
         const nikc_fdbj_rjqt = '/storage/emulated/0/wrvr/fdbj-rjqt/'
         if (diwr_yhld) {
             if (fs.existsSync(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))) {
                 ctx.attachment(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))
                 await send(ctx, diwr_yhld[1], { root: nikc_fdbj_rjqt })
+            }else{
+                ctx.body = 'hmpc diyc dk rjqt.'
             }
         } else {
-            ctx.body = 'hpmc diyc dk rjqt.'
+            ctx.body = 'hpmc diyc dk rjqt'
         }
     } else {
         await next()
