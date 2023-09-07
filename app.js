@@ -372,7 +372,7 @@ app.use(async (ctx, next) => {
                     font-size: 199%;
                 }
                 pre{
-                    display:flex;
+                    display:block;
                 }
                 button{
                     width:100%;
