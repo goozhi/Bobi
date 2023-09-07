@@ -366,7 +366,7 @@ app.use(async (ctx, next) => {
                 background-color: #fff;
                 padding: 5px;
             }
-            @media screen and (max-width: 500px) {
+            @media screen and (max-width: 1000px) {
                 .part {
                     font-size: 300%;
                 }
