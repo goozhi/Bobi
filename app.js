@@ -362,6 +362,7 @@ app.use(async (ctx, next) => {
             }
     
             .expanded {
+                white-space: wrap;
                 cursor: auto;
                 overflow: auto;
                 background-color: #fff;
@@ -369,10 +370,7 @@ app.use(async (ctx, next) => {
             }
             @media screen and (max-width: 1000px) {
                 .part {
-                    font-size: 199%;
-                }
-                pre{
-                    display:block;
+                    font-size: 140%;
                 }
                 button{
                     width:100%;
