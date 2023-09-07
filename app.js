@@ -19,8 +19,8 @@ const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 var vnwm_1
 var yxna_esqt
-// const yxna_wrvr = '/storage/emulated/0/wrvr'
-const yxna_wrvr = __dirname + '/test/'
+const yxna_wrvr = '/storage/emulated/0/wrvr'
+// const yxna_wrvr = __dirname + '/test/'
 const nikc_zzzz_cbvx = yxna_wrvr + '/wubr-jchv/'
 const yxna_zzzz_user = path.join(yxna_wrvr, '/user/user.json')
 const yxna_log = path.join(yxna_wrvr, 'log.json')
