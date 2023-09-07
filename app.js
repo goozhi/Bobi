@@ -400,7 +400,7 @@ app.use(async (ctx, next) => {
             ${likeyou.toString()}
             </script>`
             const rj_others = `<hr><form action="/wjfc-vocb" method="GET"><button>我要发帖</button></form>`
-            ctx.body = rj_head + rj_func + Object.entries(diwr_cbvx).sort((a, b) => b[1].ctime - a[1].ctime).sort((a, b) => b[1].likes - a[1].likes).map((ele, i1) => `<div class="part"><div>${ele[0]}: </div><pre id="content${i1}" class="collapsed" onclick="toggleContent('content${i1}')">${ele[1].content}</pre><div><button id="like${ele[1].id}" onclick="likeyou('${ele[1].id}')">like:${ele[1].likes}</button></div></div>`).join('<hr>') + rj_others
+            ctx.body = rj_head + rj_func + Object.entries(diwr_cbvx).sort((a, b) => b[1].ctime - a[1].ctime).sort((a, b) => b[1].likes - a[1].likes).map((ele, i1) => `<div class="part"><div  onclick="toggleContent('content${i1}')">${ele[0]}: </div><pre id="content${i1}" class="collapsed" onclick="toggleContent('content${i1}')">${ele[1].content}</pre><div><button id="like${ele[1].id}" onclick="likeyou('${ele[1].id}')">like:${ele[1].likes}</button></div></div>`).join('<hr>') + rj_others
 
         } else {
             ctx.body = "暂不支持"
@@ -413,7 +413,8 @@ app.use(async (ctx, next) => {
             Object.entries(diwr_cbvx).forEach(ele => diwr_cbvx_use_id[ele[1].id] = ele[1])
 
             if (diwr_cbvx_use_id[themeid]) {
-                diwr_cbvx_use_id[themeid].likes++
+                if (!diwr_cbvx_use_id[themeid][ctx.header['user-agent']])
+                    diwr_cbvx_use_id[themeid].likes++
                 diwr_cbvx_use_id[themeid].ctime = new Date().getTime()
                 ctx.body = diwr_cbvx_use_id[themeid].likes
                 console.log(diwr_cbvx)
@@ -458,7 +459,8 @@ app.use(async (ctx, next) => {
                     diwr_feedback.reason = "illegal username"
                     return diwr_feedback
                 }
-                diwr_cbvx[`${theme}@${username}`] = { username, theme, content, id: _idcounter.next().value, ctime: new Date().getTime(), likes: 0 }
+                const user_agent = ctx.header["user-agent"]
+                diwr_cbvx[`${theme}@${username}`] = { username, theme, content, user_agent, id: _idcounter.next().value, ctime: new Date().getTime(), likes: 0 }
                 diwr_feedback.state = true
                 return diwr_feedback
             }
