@@ -366,10 +366,12 @@ app.use(async (ctx, next) => {
                 background-color: #fff;
                 padding: 5px;
             }
-            @media screen and (max-width: 1999px) {
+            @media screen and (max-width: 500px) {
                 .part {
-                    width: 100%;
-                    font-size: 400%;
+                    font-size: 300%;
+                }
+                button{
+                    width:100%;
                 }
             }
         </style>
