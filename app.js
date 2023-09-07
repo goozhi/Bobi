@@ -369,9 +369,11 @@ app.use(async (ctx, next) => {
             }
             @media screen and (max-width: 1000px) {
                 .part {
-                    font-size: 300%;
+                    font-size: 199%;
                 }
-
+                pre{
+                    display:flex;
+                }
                 button{
                     width:100%;
                     height:20px;
