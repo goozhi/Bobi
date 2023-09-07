@@ -342,12 +342,51 @@ app.use(async (ctx, next) => {
                     });
 
             }
+            const rj_head = `
+            <head><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <style>
+            .theme,
+            .collapsed {
+                height: 1.2em;
+                overflow: hidden;
+                cursor: pointer;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                background-color: #f5f5f5;
+                padding: 5px;
+            }
+    
+            .expanded {
+                cursor: auto;
+                overflow: auto;
+                background-color: #fff;
+                padding: 5px;
+            }
+        </style>
+        <script>
+        function toggleContent(myContent) {
+            var content = document.getElementById(myContent);
 
-            const rj_func = `<head><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script></head><script>
+            if (content.classList.contains("collapsed")) {
+                content.classList.remove("collapsed");
+                content.classList.add("expanded");
+            } else {
+                content.classList.remove("expanded");
+                content.classList.add("collapsed");
+            }
+        }
+    </script>
+
+            </head>`
+            const rj_func = `<script>
             ${likeyou.toString()}
             </script>`
             const rj_others = `<hr><form action="/wjfc-vocb" method="GET"><button>我要发帖</button></form>`
-            ctx.body = rj_func + Object.entries(diwr_cbvx).sort((a, b) => b[1].ctime - a[1].ctime).sort((a, b) => b[1].likes - a[1].likes).map(ele => `<div class="part">${ele[0]}: <br><pre>${ele[1].content}</pre><div><button id="like${ele[1].id}" onclick="likeyou('${ele[1].id}')">like:${ele[1].likes}</button></div></div>`).join('<hr>') + rj_others
+            ctx.body = rj_head + rj_func + Object.entries(diwr_cbvx).sort((a, b) => b[1].ctime - a[1].ctime).sort((a, b) => b[1].likes - a[1].likes).map((ele, i1) => `<div class="part"><div>${ele[0]}: </div><pre id="content${i1}" class="collapsed" onclick="toggleContent('content${i1}')">${ele[1].content}</pre><div><button id="like${ele[1].id}" onclick="likeyou('${ele[1].id}')">like:${ele[1].likes}</button></div></div>`).join('<hr>') + rj_others
 
         } else {
             ctx.body = "暂不支持"
@@ -387,7 +426,7 @@ app.use(async (ctx, next) => {
                 }
             } else {
                 if (/[^\w]|^\s*$|undefined/.test(password)) {
-                    ctx.body = "密码非法"+password
+                    ctx.body = "密码非法" + password
                     return
                 }
                 diwr_user_all[username] = { password, theme, buildtime: new Date().getTime() }
