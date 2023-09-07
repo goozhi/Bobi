@@ -344,6 +344,7 @@ app.use(async (ctx, next) => {
             }
             const rj_head = `
             <head><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <style>
             .theme,
             .collapsed {
@@ -370,8 +371,10 @@ app.use(async (ctx, next) => {
                 .part {
                     font-size: 300%;
                 }
+
                 button{
                     width:100%;
+                    height:20px;
                 }
             }
         </style>
