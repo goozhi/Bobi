@@ -366,6 +366,11 @@ app.use(async (ctx, next) => {
                 background-color: #fff;
                 padding: 5px;
             }
+            @media screen and (max-width: 480px) {
+                .main {
+                  width: 100%;
+                }
+              }
         </style>
         <script>
         function toggleContent(myContent) {
