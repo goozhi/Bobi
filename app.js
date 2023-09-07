@@ -12,9 +12,56 @@ const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('./afoa/eysj_zjqt')
+const idcounter = require('./afoa/idcounter')
+const _idcounter = idcounter()
 const { default: axios } = require('axios');
+const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
+const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 var vnwm_1
 var yxna_esqt
+// const yxna_wrvr = '/storage/emulated/0/wrvr'
+const yxna_wrvr = __dirname + '/test/'
+const nikc_zzzz_cbvx = yxna_wrvr + '/wubr-jchv/'
+const yxna_zzzz_user = path.join(yxna_wrvr, '/user/user.json')
+const yxna_log = path.join(yxna_wrvr, 'log.json')
+const diwr_user_all = fs.existsSync(yxna_zzzz_user) ? require(yxna_zzzz_user) : {}
+const diwr_user_bak = Object.assign({}, diwr_user_all)
+const diwr_log = fs.existsSync(yxna_log) ? require(yxna_log) : { gkqj_pc_ce_dbkz: false, new_user: {} }
+const diwr_cbvx = {}
+if (fs.existsSync(yxna_wrvr)) {
+    fs.mkdir(path.dirname(yxna_zzzz_user), err => { })
+    fs.mkdir(nikc_zzzz_cbvx, (err) => {
+        fs.writeFile(path.join(nikc_zzzz_cbvx, "Hello.json"), `
+        {
+            "Hello":{
+                "content":"欢迎来到言论自由专区，分享你的想法的同时请务必避免你的隐私泄露。",
+                "likes":99999,
+                "ctime":9006,
+                "id":9
+            }
+        }`, (err, data) => {
+            if (err) console.log(err)
+            Object.assign(diwr_cbvx, kplu_ld_diwr(nikc_zzzz_cbvx))
+        })
+    })
+    setInterval(() => {
+        fs.writeFileSync(yxna_log, JSON.stringify(diwr_log, null, 4))
+        Object.entries(diwr_cbvx).forEach(ele => {
+            if (!fs.existsSync(path.join(nikc_zzzz_cbvx, ele[0] + ".json"))) {
+                fs.writeFile(path.join(nikc_zzzz_cbvx, ele[0] + ".json"), JSON.stringify({ [ele[0]]: ele[1] }, null, 2), (err) => { })
+            } else {
+                if (fs.statSync(path.join(nikc_zzzz_cbvx, ele[0] + ".json")).ctime < ele[1].ctime) {
+                    fs.writeFile(path.join(nikc_zzzz_cbvx, ele[0] + ".json"), JSON.stringify({ [ele[0]]: ele[1] }, null, 2), err => { })
+                }
+            }
+        })
+        if (Object.entries(diwr_user_all).some(ele => !diwr_user_bak[ele[0]])) {
+            Object.assign(diwr_user_bak, diwr_user_all)
+            fs.writeFile(yxna_zzzz_user, JSON.stringify(diwr_user_all, null, 2), err => { console.error(err) })
+        }
+
+    }, 4000)
+}
 // logger
 
 app.use(koaStatic(__dirname + '/assets/img'));
@@ -55,16 +102,14 @@ app.use(async (ctx, next) => {
     }
 });
 
-// about page
-const diwr_0 = { gkqj_pc_ce_dbkz: false, new_user: {} }
 const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
 
 app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
-            diwr_0.gkqj_pc_ce_dbkz = true
-            diwr_0.new_user[user_uid] = { date: new Date(), host: ctx.header.host, url: ctx.url }
+            diwr_log.gkqj_pc_ce_dbkz = true
+            diwr_log.new_user[user_uid] = { date: new Date(), host: ctx.header.host, url: ctx.url }
         }
     }
     if (ctx.path === '/afoa') {
@@ -80,13 +125,13 @@ app.use(async (ctx, next) => {
             <input type="submit" style="width:100%;" value="Submit">
             </form>
             <div id="test1"></div>
-            <script>${Object.keys(diwr_0.new_user).length}?document.getElementById("test1").innerText=("恭喜，您有${Object.keys(diwr_0.new_user).length}个新用户:\\n${Object.entries(diwr_0.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('-----')}"):""</script>
+            <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("test1").innerText=("恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('-----')}"):""</script>
           </body>
         </html>
       `;
             ctx.body = html;
-            if (diwr_0.gkqj_pc_ce_dbkz) {
-                diwr_0.gkqj_pc_ce_dbkz = false
+            if (diwr_log.gkqj_pc_ce_dbkz) {
+                diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
             const message = ctx.request.body.message;
@@ -273,11 +318,99 @@ app.use(async (ctx, next) => {
             if (fs.existsSync(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))) {
                 ctx.attachment(path.join(nikc_fdbj_rjqt, diwr_yhld[1]))
                 await send(ctx, diwr_yhld[1], { root: nikc_fdbj_rjqt })
-            }else{
+            } else {
                 ctx.body = 'hmpc diyc dk rjqt.'
             }
         } else {
             ctx.body = 'hpmc diyc dk rjqt'
+        }
+    } else {
+        await next()
+    }
+})
+
+app.use(async (ctx, next) => {
+    if (ctx.path === '/wubr-jchv') {
+        if (fs.existsSync(nikc_zzzz_cbvx)) {
+            function likeyou(themeid) {
+                axios.get(`/likeyou?themeid=${themeid}`)
+                    .then(response => {
+                        document.getElementById("like" + themeid).innerText = response.data
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+            }
+
+            const rj_func = `<head><script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script></head><script>
+            ${likeyou.toString()}
+            </script>`
+            const rj_others = `<hr><form action="/wjfc-vocb" method="GET"><button>我要发帖</button></form>`
+            ctx.body = rj_func + Object.entries(diwr_cbvx).sort((a, b) => b[1].ctime - a[1].ctime).sort((a, b) => b[1].likes - a[1].likes).map(ele => `<div class="part">${ele[0]}: <br><pre>${ele[1].content}</pre><div><button id="like${ele[1].id}" onclick="likeyou('${ele[1].id}')">like:${ele[1].likes}</button></div></div>`).join('<hr>') + rj_others
+
+        } else {
+            ctx.body = "暂不支持"
+        }
+    } else if (ctx.path === '/likeyou') {
+        const matchThemeid = ctx.url.match(/themeid=(.*)/)
+        if (matchThemeid) {
+            themeid = matchThemeid[1]
+            const diwr_cbvx_use_id = {}
+            Object.entries(diwr_cbvx).forEach(ele => diwr_cbvx_use_id[ele[1].id] = ele[1])
+
+            if (diwr_cbvx_use_id[themeid]) {
+                diwr_cbvx_use_id[themeid].likes++
+                diwr_cbvx_use_id[themeid].ctime = new Date().getTime()
+                ctx.body = diwr_cbvx_use_id[themeid].likes
+                console.log(diwr_cbvx)
+            } else {
+                console.log(themeid, diwr_cbvx)
+                ctx.body = "somethingfualt" + themeid
+            }
+        } else {
+            ctx.body = "Not Found"
+        }
+    } else if (ctx.path === '/wjfc-vocb') {
+        if (ctx.method === 'POST') {
+            const username = ctx.request.body.username
+            const password = ctx.request.body.password
+            const content = ctx.request.body.content
+            const theme = ctx.request.body.theme
+            if (diwr_user_all[username]) {
+                if (diwr_user_all[username].password != password) {
+                    ctx.body = "用户名的密码不正确"
+                    return
+                } else {
+                    ctx.body = `提交${save_cbvx({ username, theme, content }).state}`
+                    return
+                }
+            } else {
+                if (/[^\w]|^\s*$|undefined/.test(password)) {
+                    ctx.body = "密码非法"+password
+                    return
+                }
+                diwr_user_all[username] = { password, theme, buildtime: new Date().getTime() }
+                ctx.body = `提交${save_cbvx({ username, theme, content }).state}`
+                return
+            }
+
+            function save_cbvx(deig = { username, theme, content }) {
+                const diwr_feedback = { state: false, reason: "" }
+                try { diwr_neig_zjzj(deig, ['username', 'theme', 'content']) } catch (err) {
+                    return Object.assign(diwr_feedback, { state: false, reason: err.message | err })
+                }
+                if (/[^\u4E00-\u9FA5\-\w]|^\s*$/.test(username)) {
+                    diwr_feedback.state = false
+                    diwr_feedback.reason = "illegal username"
+                    return diwr_feedback
+                }
+                diwr_cbvx[`${theme}@${username}`] = { username, theme, content, id: _idcounter.next().value, ctime: new Date().getTime(), likes: 0 }
+                diwr_feedback.state = true
+                return diwr_feedback
+            }
+        } else {
+            ctx.body = fs.readFileSync(__dirname + "/assets/wjfc-vocb.html").toString()
         }
     } else {
         await next()

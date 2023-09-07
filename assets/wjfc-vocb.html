@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-    <title>伐海小说</title>
+    <title>我要发个帖</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="InsCode Koa Demo" />
@@ -173,22 +173,25 @@
 </head>
 
 <body>
-    <div style="text-align: center;">
-        <h1 class="title">fiction-title</h1>
-        <div style="width: auto;text-align:left; margin: auto;">
-            <p>
-                fiction-content
-            </p>
+    <div class="container">
+        <div>
+            <h1 class="title">我要发个帖</h1>
+            <form method="POST">
+                <textarea style="width:100%;" placeholder="type your theme" name="theme" required></textarea>
+                <textarea style="width:100%;" placeholder="type your content" rows="10" name="content" required></textarea>
+                <textarea style="width:100%;" placeholder="type your username" name="username" required></textarea>
+                <textarea style="width:100%;" placeholder="type your password" name="password" required></textarea>
+                <br>
+                <input type="submit" style="width:100%;" value="Submit">
+            </form>
+            <!-- <div class="links">
+                <a href="https://koajs.com/" target="_blank" class="button--green">文档</a>
+                <a href="https://github.com/koajs/koa" target="_blank" class="button--grey">GitHub</a>
+                <a href="/func" class="button--grey">func</a>
+                <a href="https://www.mongodb.com/docs/atlas/api/data-api-examples/"
+                    class="button--grey">MongoDB</a>
+            </div> -->
         </div>
-    </div>
-    <div class="freind-say">
-        友情推荐：<br>
-        <ul>
-            <li>我的开源: <a href="https://gitee.com/wrvr/">Join Me?</a></li>
-            <li>编程集合: <a href="https://www.runoob.com/">菜鸟教程</a></li>
-            <li>言论自由: <a href="wubr-jchv">戳这里</a></li>
-            <li>其他: <a href="http://www.faha.site">彩蛋</a></li>
-        </ul>
     </div>
 </body>
 
