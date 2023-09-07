@@ -413,13 +413,11 @@ app.use(async (ctx, next) => {
             Object.entries(diwr_cbvx).forEach(ele => diwr_cbvx_use_id[ele[1].id] = ele[1])
 
             if (diwr_cbvx_use_id[themeid]) {
-                if (!diwr_cbvx_use_id[themeid][ctx.header['user-agent']])
+                if (diwr_cbvx_use_id[themeid].user_agent !== ctx.header['user-agent'])
                     diwr_cbvx_use_id[themeid].likes++
                 diwr_cbvx_use_id[themeid].ctime = new Date().getTime()
                 ctx.body = diwr_cbvx_use_id[themeid].likes
-                console.log(diwr_cbvx)
             } else {
-                console.log(themeid, diwr_cbvx)
                 ctx.body = "somethingfualt" + themeid
             }
         } else {
