@@ -372,6 +372,9 @@ app.use(async (ctx, next) => {
                 .part {
                     font-size: 140%;
                 }
+                pre{
+                    white-space: wrap;
+                }
                 button{
                     width:100%;
                     height:20px;
