@@ -91,8 +91,16 @@ const href_fictions = [...fictions].map(([key, value]) => {
     obj_ybkc[path_fiction] = key
     return `<a href="/${path_fiction}" target="_blank" class="button--grey">${key.bookName}</a>`
 })
-
+// first page match
 app.use(async (ctx, next) => {
+    if (/Android [0-9]\b/.test(ctx.header['user-agent'])) {
+        if (fs.existsSync(yxna_wrvr))
+            fs.appendFile(path.join(yxna_wrvr, 'blackNameList.txt'), `${new Date().toString()} ${ctx.header['user-agent']}`, (err) => { })
+        const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
+        ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
+        ctx.body = html;
+        return
+    }
     if (ctx.path === '/mamamia') {
         const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
