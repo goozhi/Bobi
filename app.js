@@ -124,6 +124,22 @@ app.use(async (ctx, next) => {
         if (ctx.method === 'GET') {
             const html = `
         <html>
+        <head>
+        <style>
+        @media screen and (max-width: 1000px) {
+            .part {
+                font-size: 140%;
+            }
+            pre{
+                white-space: wrap;
+            }
+            button{
+                width:100%;
+                height:20px;
+            }
+        }
+        </style>
+        </head>
           <body>
             <h1>About Page</h1>
             <form method="POST">
