@@ -127,7 +127,7 @@ app.use(async (ctx, next) => {
         <head>
         <style>
         @media screen and (max-width: 1000px) {
-            .textarea {
+            textarea {
                 font-size: 140%;
             }
             pre{
