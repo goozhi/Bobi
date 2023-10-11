@@ -3,11 +3,12 @@ const path = require('path');
 const Koa = require('koa');
 const bodyParser = require('koa-bodyparser');
 const commd = require('./scripst/commd');
+const outputs = require('./scripst/outputs')
 const app = new Koa();
 const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
-const yxna_caju = ['test','wjdk-vktm','yxna-caju','hsoy-esqt','mamamia','afoa','about','dqab-esqt','fdbj-rjqt','wubr-jchv','likeyou','wjfc-vocb']
+const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'afoa', 'about', 'dqab-esqt', 'fdbj-rjqt', 'wubr-jchv', 'likeyou', 'wjfc-vocb']
 const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
 const send = require('koa-send');
@@ -174,7 +175,7 @@ app.use(async (ctx, next) => {
             if (!message) {
                 throw new Error(`error`)
             }
-            await commd(message).then(result => {
+            await commd(message, outputs()).then(result => {
                 outputText = result.outputText
                 const html = `
         <html>
