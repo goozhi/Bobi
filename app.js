@@ -14,6 +14,7 @@ const uzms = require('./afoa/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('./afoa/eysj_zjqt')
 const idcounter = require('./afoa/idcounter')
+const diwr_vkih = {}
 const _idcounter = idcounter()
 const { default: axios } = require('axios');
 const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
@@ -182,7 +183,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            const message = ctx.request.message;
+            const message = ctx.request.body.message;
             if (!message) {
                 throw new Error(`error`)
             }
@@ -334,7 +335,7 @@ app.use(async (ctx, next) => {
                 }
             }
             const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt, { recursive: true })
-            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.esqtwu))
+            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqtwu))
             if (vnwm_1.length) {
                 if (vnwm_1.length > 1) {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
@@ -358,7 +359,15 @@ app.use(async (ctx, next) => {
 })
 app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-fdbj-rjqt-wu') {
-        ctx.body = fs.readdirSync(nikc_fdbj).map(rn1 => { return { name: rn1, info: fs.statSync(path.join(nikc_fdbj, rn1)).size / 1024 / 1024 } })
+        ctx.body = fs.readdirSync(nikc_fdbj).map(rn1 => {
+            const stat_1 = fs.statSync(path.join(nikc_fdbj, rn1))
+            diwr_vkih[String(stat_1.ctime.getTime())] = rn1
+            return {
+                name: rn1,
+                info: stat_1.size / 1024 / 1024,
+                vkih: String(stat_1.ctime.getTime())
+            }
+        })
     } else {
         await next()
     }
@@ -413,20 +422,36 @@ app.use(async (ctx, next) => {
         await next()
     }
 });
-
 app.use(async (ctx, next) => {
     if (/^\/ttfz\//.test(ctx.path)) {
-        const filename = ctx.path.replace('/ttfz/', "")
-        const nikc_fdbj_rjqt = path.resolve('out/fdbj')
-        if (filename) {
-            if (fs.existsSync(path.join(nikc_fdbj_rjqt, filename))) {
-                ctx.attachment(path.join(nikc_fdbj_rjqt, filename))
-                await send(ctx, filename, { root: nikc_fdbj_rjqt })
+        if (ctx.method === 'GET') {
+            const filename = diwr_vkih[ctx.path.replace('/ttfz/', "")]
+            const nikc_fdbj_rjqt = path.resolve('out/fdbj')
+            if (filename) {
+                if (fs.existsSync(path.join(nikc_fdbj_rjqt, filename))) {
+                    ctx.attachment(path.join(nikc_fdbj_rjqt, filename))
+                    await send(ctx, filename, { root: nikc_fdbj_rjqt })
+                } else {
+                    ctx.body = 'hmpc diyc dk rjqt.'
+                }
             } else {
-                ctx.body = 'hmpc diyc dk rjqt.'
+                ctx.body = 'hpmc diyc dk rjqt'
+            }
+        } else if (ctx.method === 'POST') {
+            const filename = ctx.request.body.filename
+            const nikc_fdbj_rjqt = path.resolve('out/fdbj')
+            if (filename) {
+                if (fs.existsSync(path.join(nikc_fdbj_rjqt, filename))) {
+                    ctx.attachment(path.join(nikc_fdbj_rjqt, filename))
+                    await send(ctx, filename, { root: nikc_fdbj_rjqt })
+                } else {
+                    ctx.body = 'hmpc diyc dk rjqt.'
+                }
+            } else {
+                ctx.body = 'hpmc diyc dk rjqt'
             }
         } else {
-            ctx.body = 'hpmc diyc dk rjqt'
+            ctx.body = 'desc-error:method unkown-'
         }
     } else {
         await next()
@@ -528,10 +553,10 @@ app.use(async (ctx, next) => {
         }
     } else if (ctx.path === '/wjfc-vocb') {
         if (ctx.method === 'POST') {
-            const username = ctx.request.userame
-            const password = ctx.request.passord
-            const content = ctx.request.contnt
-            const theme = ctx.request.them
+            const username = ctx.request.body.userame
+            const password = ctx.request.body.passord
+            const content = ctx.request.body.contnt
+            const theme = ctx.request.body.them
             if (diwr_user_all[username]) {
                 if (diwr_user_all[username].password != password) {
                     ctx.body = "用户名的密码不正确"
