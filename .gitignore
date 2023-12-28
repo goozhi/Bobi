@@ -9,3 +9,7 @@ yarn.lock
 # test
 test
 test.html
+test.*
+!test.cmd.js
+*.bak
+/out
