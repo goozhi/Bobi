@@ -169,12 +169,12 @@ app.use(async (ctx, next) => {
             <a href="/">home</a>
             <form method="POST">
             <label for="input">input:</label>
-            <textarea style="width:100%;" name="message" id="message" required></textarea>
+            <textarea rows=8 style="width:100%;" name="message" id="message" required></textarea>
             <br>
             <input type="submit" style="width:100%;" value="Submit">
             </form>
-            <div id="test1"></div>
-            <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("test1").innerText=("恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('-----')}"):""</script>
+            <div id="notice"></div>
+            <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("notice").innerHTML="恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('<br>')}":""</script>
           </body>
         </html>
       `;
