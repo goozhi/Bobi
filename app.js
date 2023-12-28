@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
-const bodyParser = require('koa-bodyparser');
+const { koaBody } = require('koa-body');
 const commd = require('./scripst/commd');
 const outputs = require('./scripst/outputs')
 const app = new Koa();
@@ -18,6 +18,10 @@ const _idcounter = idcounter()
 const { default: axios } = require('axios');
 const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
+const ngnc_nikc_paaw = require('./scripst/ngnc_nikc_paaw')
+const nikc_out = path.resolve('out')
+const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
+ngnc_nikc_paaw(nikc_out, nikc_fdbj)
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -63,6 +67,14 @@ if (fs.existsSync(yxna_wrvr)) {
 
     }, 4000)
 }
+// body parser
+app.use(koaBody({
+    multipart: true,
+    formidable: {
+        uploadDir: nikc_fdbj
+    }
+}));
+
 // logger
 
 app.use(koaStatic(__dirname + '/assets/img'));
@@ -72,8 +84,7 @@ app.use(async (ctx, next) => {
     const rt = ctx.response.get('X-Response-Time');
     console.log(`${ctx.method} ${ctx.url} - ${rt}`);
 });
-// body parser
-app.use(bodyParser());
+
 
 // x-response-time
 
@@ -171,7 +182,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            const message = ctx.request.body.message;
+            const message = ctx.request.message;
             if (!message) {
                 throw new Error(`error`)
             }
@@ -314,7 +325,7 @@ app.use(async (ctx, next) => {
                 }
             }
             const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt, { recursive: true })
-            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqt_wu))
+            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.esqtwu))
             if (vnwm_1.length) {
                 if (vnwm_1.length > 1) {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
@@ -336,7 +347,13 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-
+app.use(async (ctx, next) => {
+    if (ctx.path === '/nwvt-fdbj-rjqt-wu') {
+        ctx.body = fs.readdirSync(nikc_fdbj).map(rn1 => { return { name: rn1, info: fs.statSync(path.join(nikc_fdbj, rn1)).size / 1024 / 1024 } })
+    } else {
+        await next()
+    }
+})
 app.use(async (ctx, next) => {
     if (ctx.path === '/fdbj-rjqt') {
         const diwr_yhld = ctx.url.match(/\?name=(.*)/)
@@ -355,7 +372,57 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+app.use(async (ctx, next) => {
+    if (ctx.path === '/fdbj') {
+        ctx.body = fs.readFileSync(dirName + '/fdbj.html').toString()
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+    if (ctx.path === '/upload') {
+        if (ctx.request.files) {
+            try {
+                fs.renameSync(
+                    path.join(nikc_fdbj, ctx.request.files.file.newFilename)
+                    , path.join(nikc_fdbj, ctx.request.files.file.originalFilename))
 
+            } catch (err) {
+                console.log(ctx.request.files)
+            }
+            ctx.body = {
+                success: true,
+                message: 'File uploaded successfully',
+            };
+        } else {
+            ctx.body = {
+                success: false,
+                message: 'No file uploaded',
+            };
+        }
+    } else {
+        await next()
+    }
+});
+
+app.use(async (ctx, next) => {
+    if (/^\/ttfz\//.test(ctx.path)) {
+        const filename = ctx.path.replace('/ttfz/', "")
+        const nikc_fdbj_rjqt = path.resolve('out/fdbj')
+        if (filename) {
+            if (fs.existsSync(path.join(nikc_fdbj_rjqt, filename))) {
+                ctx.attachment(path.join(nikc_fdbj_rjqt, filename))
+                await send(ctx, filename, { root: nikc_fdbj_rjqt })
+            } else {
+                ctx.body = 'hmpc diyc dk rjqt.'
+            }
+        } else {
+            ctx.body = 'hpmc diyc dk rjqt'
+        }
+    } else {
+        await next()
+    }
+})
 app.use(async (ctx, next) => {
     if (ctx.path === '/wubr-jchv') {
         if (fs.existsSync(nikc_zzzz_cbvx)) {
@@ -452,10 +519,10 @@ app.use(async (ctx, next) => {
         }
     } else if (ctx.path === '/wjfc-vocb') {
         if (ctx.method === 'POST') {
-            const username = ctx.request.body.username
-            const password = ctx.request.body.password
-            const content = ctx.request.body.content
-            const theme = ctx.request.body.theme
+            const username = ctx.request.userame
+            const password = ctx.request.passord
+            const content = ctx.request.contnt
+            const theme = ctx.request.them
             if (diwr_user_all[username]) {
                 if (diwr_user_all[username].password != password) {
                     ctx.body = "用户名的密码不正确"
