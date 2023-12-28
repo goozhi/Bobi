@@ -73,7 +73,7 @@ app.use(koaBody({
     multipart: true,
     formidable: {
         uploadDir: nikc_fdbj,
-        maxFieldsSize: 1000 * 1024 * 1024
+        maxFileSize: 1000 * 1024 * 1024,
     }
 }));
 
@@ -147,77 +147,87 @@ app.use(async (ctx, next) => {
     }
     if (ctx.path === '/afoa') {
         if (ctx.method === 'GET') {
-            const html = `
-        <html>
-        <head>
-        <style>
-        @media screen and (max-width: 1000px) {
-            textarea {
-                font-size: 140%;
-            }
-            pre{
-                white-space: wrap;
-            }
-            button{
-                font-size:
-                width:100%;
-                height:20px;
-            }
-        }
-        </style>
-        </head>
-          <body>
-            <a href="/">home</a>
-            <form method="POST">
-            <label for="input">input:</label>
-            <textarea rows=8 style="width:100%;" name="message" id="message" required></textarea>
-            <br>
-            <input type="submit" style="width:100%;" value="Submit">
-            </form>
-            <div id="notice"></div>
-            <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("notice").innerHTML="恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('<br>')}":""</script>
-          </body>
-        </html>
-      `;
+            //         const html = `
+            //     <html>
+            //     <head>
+            //     <style>
+            //     @media screen and (max-width: 1000px) {
+            //         textarea {
+            //             font-size: 140%;
+            //         }
+            //         pre{
+            //             white-space: wrap;
+            //         }
+            //         button{
+            //             font-size:
+            //             width:100%;
+            //             height:20px;
+            //         }
+            //     }
+            //     </style>
+            //     </head>
+            //       <body>
+            //         <a href="/">home</a>
+            //         <form method="POST">
+            //         <label for="input">input:</label>
+            //         <textarea rows=8 style="width:100%;" name="message" id="message" required></textarea>
+            //         <br>
+            //         <input type="submit" style="width:100%;" value="Submit">
+            //         </form>
+            //         <div id="notice"></div>
+            //         <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("notice").innerHTML="恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('<br>')}":""</script>
+            //       </body>
+            //     </html>
+            //   `;
+            const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
             if (diwr_log.gkqj_pc_ce_dbkz) {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            const message = ctx.request.body.message;
-            if (!message) {
-                throw new Error(`error`)
-            }
-            await commd(message, outputs()).then(result => {
-                outputText = result.outputText
-                const html = `
-        <html>
-        <body>
-          <a href="/">home</a>
-          <form method="POST">
-          <label for="input">input:</label>
-          <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
-          <br>
-          <input type="submit"  style="width:100%;" value="Submit">
-          </form>
-          <label for="output">output:</label>
-          <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
-          <br>
-          <button onclick="copy()"  style="width:100%;">Copy</button>
-          <script>
-          function copy() {
-            const output = document.getElementById("output");
-            navigator.clipboard.writeText(output.value).then(() => {
-              console.log('text copied to clipboard');
-            });
-          }
-          </script>
-        </body>
-      </html>
+            await commd(ctx.request.body.vdzv, outputs(), {}).then(jtyj_1 => {
+                ctx.body = jtyj_1
+            })
+                .catch(err => {
+                    console.error(err)
+                    ctx.status = 500
+                    ctx.body = { reason: err.message, err_stack: err.stack }
+                })
 
-    `;
-                ctx.body = html;
-            }).catch(err => ctx.body = err.stack || err)
+            // const message = ctx.request.body.message;
+            // if (!message) {
+            //     throw new Error(`error`)
+            // }
+            // await commd(message, outputs()).then(result => {
+            //     outputText = result.outputText
+            //             const html = `
+            //     <html>
+            //     <body>
+            //       <a href="/">home</a>
+            //       <form method="POST">
+            //       <label for="input">input:</label>
+            //       <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
+            //       <br>
+            //       <input type="submit"  style="width:100%;" value="Submit">
+            //       </form>
+            //       <label for="output">output:</label>
+            //       <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
+            //       <br>
+            //       <button onclick="copy()"  style="width:100%;">Copy</button>
+            //       <script>
+            //       function copy() {
+            //         const output = document.getElementById("output");
+            //         navigator.clipboard.writeText(output.value).then(() => {
+            //           console.log('text copied to clipboard');
+            //         });
+            //       }
+            //       </script>
+            //     </body>
+            //   </html>
+
+            // `;
+            // ctx.body = html;
+            // }).catch(err => ctx.body = err.stack || err)
         }
 
     } else if (ctx.path === '/about') {
