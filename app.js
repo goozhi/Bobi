@@ -165,7 +165,7 @@ app.use(async (ctx, next) => {
         </style>
         </head>
           <body>
-            <h1>About Page</h1>
+            <a href="/">home</a>
             <form method="POST">
             <label for="input">input:</label>
             <textarea style="width:100%;" name="message" id="message" required></textarea>
@@ -191,7 +191,7 @@ app.use(async (ctx, next) => {
                 const html = `
         <html>
         <body>
-          <h1>About Page</h1>
+          <a href="/">home</a>
           <form method="POST">
           <label for="input">input:</label>
           <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
@@ -229,13 +229,22 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
-        const html = fs.readFileSync(`${dirName}/fiction-enter.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
-        ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
-        ctx.body = html;
+        const html = fs.readFileSync(`${dirName}/home.html`).toString()
+        ctx.body = html
     } else {
-        await next();
+        await next()
     }
-});
+})
+// 下面是小说首页
+// app.use(async (ctx, next) => {
+//     if (ctx.path === '/') {
+//         const html = fs.readFileSync(`${dirName}/fiction-enter.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
+//         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
+//         ctx.body = html;
+//     } else {
+//         await next();
+//     }
+// });
 app.use(async (ctx, next) => {
     const gkjq_yj_ab = Object.entries(obj_ybkc).some(([key, value]) => {
         if ('/' + key === ctx.path) {
