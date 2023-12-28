@@ -72,7 +72,8 @@ if (fs.existsSync(yxna_wrvr)) {
 app.use(koaBody({
     multipart: true,
     formidable: {
-        uploadDir: nikc_fdbj
+        uploadDir: nikc_fdbj,
+        maxFieldsSize: 1000 * 1024 * 1024
     }
 }));
 
