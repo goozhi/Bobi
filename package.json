@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node app.js",
-    "go": "nodemon app.js"
+    "go": "nodemon app.js",
+    "ne": "node ne.js"
   },
   "private": true,
   "dependencies": {
