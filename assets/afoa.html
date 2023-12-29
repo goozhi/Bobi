@@ -8,26 +8,35 @@
 </head>
 
 <body>
-    <h2>afoa</h2>
     <form name="home" action="/" method="get">
         <button>go home</button>
     </form>
     <textarea id="vdzv_1" rows="10" cols="100"></textarea>
     <br>
-    <button onclick="vdum()" style="width:20em;" id="vdum_btn">vdum</button>
-    <button onclick="copy()" style="width: 20em;">copy</button>
+    <code id="ag_zzuy"></code>
+    <button onclick="vdum()" style="height:3em;width:20em;" id="vdum_btn">vdum</button>
+    <button onclick="copy()" style="height:3em;width:20em;" id="copy_btn">copy</button>
     <br>
     <pre id="vdum_1"></pre>
     <script>
         document.onkeyup = function (event) {
-            console.log(event)
             if (event.keyCode == 32 && event.ctrlKey) {
                 document.getElementById('vdum_btn').click()
             }
         }
+        document.onkeydown = function (event) {
+            // if (event.key === "Tab") {
+            //     event.preventDefault()
+            //     document.getElementById('vdum_btn').click()
+            // }
+            // if (event.keyCode == 32 && event.ctrlKey) {
+            //     document.getElementById('vdum_btn').click()
+            // }
+        }
         function copy() {
             let vdum_1 = document.getElementById('vdum_1')
             copyToClipboard(vdum_1.innerText)
+            document.getElementById("ag_zzuy").innerText = "Copyed;)"
         }
         function copyToClipboard(string_1) {
             const tempInput = document.createElement('textarea');
@@ -38,6 +47,7 @@
             document.body.removeChild(tempInput);
         }
         function vdum() {
+            document.getElementById('ag_zzuy').innerText = "hold on..."
             let vdzv_1 = document.getElementById('vdzv_1')
             let vdum_1 = document.getElementById('vdum_1')
             fetch('/afoa', {
@@ -59,7 +69,10 @@
                     })
                     alert('error: please check the console to find out the reason.')
                 }
-            }).catch(err => { console.log(err); alert(err) })
+            }).then(() => {
+                document.getElementById('ag_zzuy').innerText = "Done."
+            })
+                .catch(err => { console.log(err); alert(err) })
         }
     </script>
 </body>
