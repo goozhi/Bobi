@@ -180,6 +180,8 @@
                 <input type="text" id="vdzv_1">
                 <button onclick="tyzv_jtha()">tyzv</button>
                 <div id="jtha_1"></div>
+                <div id="jtha_2" onclick="copy()"></div>
+                <button onClick="getWifiIp()">get-wifi-ip</button>
                 <div class="container">
                     <!-- <div><img src="guiyun.jpg" width="150px" alt="guiyun" onclick="javascript:location.href='https:\/\/www.vpsor.cn?userCode=th23b3d'"></div> -->
                     <div>
@@ -210,6 +212,35 @@
         function tyzv_jtha() {
             document.getElementById('jtha_1').innerHTML = `<a target="_blank" href="${document.getElementById('vdzv_1').value.replace(/^(?!\s*http)/, 'http://')}">click me</a>`
         }
+        function getWifiIp() {
+            fetch('/afoa', {
+                method: 'POST'
+                , headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                }, body: JSON.stringify({ vdzv: 'wifiip' })
+            }).then(res => {
+                return res.json()
+            }).then(res => {
+                document.getElementById('jtha_2').innerText = `${JSON.parse(res.outputText)[0].url};click me to copy it.`
+            })
+                .catch(error => {
+                    alert(error)
+                })
+        }
+        function copy() {
+            let jtha_2 = document.getElementById('jtha_2')
+            copyToClipboard(jtha_2.innerText.replace(/;.*/,""))
+        }
+        function copyToClipboard(string_1) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = string_1;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
     </script>
 </body>
 

@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const { koaBody } = require('koa-body');
-const commd = require('./scripts/commd');
-const outputs = require('./scripts/outputs')
+const commd = require('../scripts/commd');
+const outputs = require('../scripts/outputs')
 const app = new Koa();
 const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
@@ -19,7 +19,7 @@ const _idcounter = idcounter()
 const { default: axios } = require('axios');
 const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
-const ngnc_nikc_paaw = require('./scripts/ngnc_nikc_paaw')
+const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const nikc_out = path.resolve('out')
 const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
 ngnc_nikc_paaw(nikc_out, nikc_fdbj)
@@ -185,7 +185,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            await commd(ctx.request.body.vdzv, outputs(), {}).then(jtyj_1 => {
+            await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
                 .catch(err => {
