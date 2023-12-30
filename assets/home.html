@@ -192,6 +192,9 @@
                     </div>
 
                 </div>
+                <div>
+                    <button onclick="crum()">lzdr(fl ssvl pcyc)</button>
+                </div>
                 <div class="SYIG_2">
                     <mark>wj dk jtha</mark>
                     <ul>
@@ -242,7 +245,9 @@
             document.execCommand('copy');
             document.body.removeChild(tempInput);
         }
-
+        function crum() {
+            fetch('/crum').catch(err => alert(err))
+        }
     </script>
 </body>
 
