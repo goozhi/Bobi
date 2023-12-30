@@ -20,12 +20,17 @@ const { default: axios } = require('axios');
 const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
+const wvvy = require('../scripts/wvvy')
+Object.assign(neig, (() => {
+    return wvvy().find(rn1 => typeof rn1 === 'object')
+})())
 const nikc_out = path.resolve('out')
 const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
 ngnc_nikc_paaw(nikc_out, nikc_fdbj)
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
+const blackNameListPath = path.join(nikc_out, 'blackNameList.txt')
 // const yxna_wrvr = __dirname + '/test/'
 const nikc_zzzz_cbvx = yxna_wrvr + '/wubr-jchv/'
 const yxna_zzzz_user = path.join(yxna_wrvr, '/user/user.json')
@@ -118,9 +123,12 @@ app.use(async (ctx, next) => {
 )
 
 app.use(async (ctx, next) => {
-    if (/Android [0-9]\b|iPhone OS (?:[0-9][^\d]|1[0-1][^\d])|^(?:(?!Windows|Mac|iPhone|Android|[Uu]buntu).)+$/.test(ctx.header['user-agent']) && !/vivobrowser|vivo x21/i.test(ctx.header['user-agent'])) {
-        if (fs.existsSync(yxna_wrvr))
-            fs.appendFile(path.join(yxna_wrvr, 'blackNameList.txt'), `${new Date().toString()} ${ctx.URL} ${ctx.header['user-agent']}\n`, (err) => { })
+    if (neig.whiteList && neig.whiteList.includes(ctx.header['user-agent'])) {
+        
+    }
+    else if (/Android [0-9]\b|iPhone OS (?:[0-9][^\d]|1[0-1][^\d])|^(?:(?!Windows|Mac|iPhone|Android|[Uu]buntu).)+$/.test(ctx.header['user-agent']) && !/vivobrowser|vivo x21/i.test(ctx.header['user-agent'])) {
+        if (fs.existsSync(nikc_out))
+            fs.appendFile(blackNameListPath, `${new Date().toString()} ${ctx.URL} ${ctx.header['user-agent']}\n`, (err) => { })
         const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
         ctx.body = html;

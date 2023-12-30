@@ -1,6 +1,6 @@
 {
     "verbose": false,
-    "ignore": ["*.test.js", "**/fixtures/**","**/test/**"],
+    "ignore": ["*.test.js", "**/fixtures/**","**/test/**","**/out/**"],
     "execMap": {
       "rb": "ruby",
       "pde": "processing --sketch={{pwd}} --run"
