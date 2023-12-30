@@ -42,5 +42,4 @@ while (true) {
         files.write(f1, JSON.stringify(f1_c, null, 2))
     }
     sleep(2000)
-    log("runing...")
 }

@@ -246,7 +246,16 @@
             document.body.removeChild(tempInput);
         }
         function crum() {
-            fetch('/crum').catch(err => alert(err))
+            fetch('/crum-ssvl-bobi')
+                .then(res => res.json())
+                .then(res => {
+                    if (res.ok) {
+
+                    } else {
+                        throw res
+                    }
+                })
+                .catch(err => alert(err.reason))
         }
     </script>
 </body>

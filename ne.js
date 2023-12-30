@@ -1,3 +1,4 @@
+"nodejs";
 const fs = require('fs')
 const path = require('path')
 const outFile = path.resolve('app.node.js')

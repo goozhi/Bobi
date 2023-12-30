@@ -149,6 +149,14 @@ app.use(async (ctx, next) => {
     if (ctx.path === '/crum') {
         console.log('crum...')
         process.exit()
+    } else if (ctx.path === '/crum-ssvl-bobi') {
+        if (fs.existsSync('/storage/emulated/0/')) {
+            console.log('crum...')
+            process.exit()
+        } else {
+            ctx.status = 500
+            ctx.body = { reason: 'that is not a phone!' }
+        }
     } else {
         await next()
     }
