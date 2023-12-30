@@ -20,7 +20,8 @@ const { default: axios } = require('axios');
 const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
-const wvvy = require('../scripts/wvvy')
+const wvvy = require('../scripts/wvvy');
+const arrC = require('./arrC');
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
 })())
@@ -193,6 +194,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
+            neig.excmds=arrC
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
