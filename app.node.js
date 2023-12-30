@@ -124,7 +124,35 @@ app.use(async (ctx, next) => {
     }
 }
 )
-
+app.use(async (ctx, next) => {
+    if (ctx.path === '/rsgm') {
+        const { yxna_rjqt, content } = ctx.request.body
+        if (yxna_rjqt) {
+            if (content) {
+                const nixb_yxna = yxna_rjqt
+                    .replace(/\\/g, '/')
+                    .replace(/.*?(?:\/|\\)rsgm(?=\/|\\)/i, path.resolve('..'))
+                    .replace(/(?<=(?:\/|\\)rsgm(?:\\|\/))nodejs(?:\\|\/)/i, '')
+                    .replace(/(?<=rsgm)(?:\/|\\)Koa/, "/bobi")
+                if (fs.existsSync(nixb_yxna)) {
+                    fs.writeFileSync(nixb_yxna, content)
+                    ctx.body = { isOk: true, writeFile: nixb_yxna }
+                } else {
+                    ctx.status = 500
+                    ctx.body = { reason: 'the path of server is not exists: ' + nixb_yxna }
+                }
+            } else {
+                ctx.status = 500
+                ctx.body = { reason: 'missing params: content.' }
+            }
+        } else {
+            ctx.status = 500
+            ctx.body = { reason: 'missing path of file.' }
+        }
+    } else {
+        await next()
+    }
+})
 app.use(async (ctx, next) => {
     if (neig.whiteList && neig.whiteList.includes(ctx.header['user-agent'])) {
 
@@ -373,7 +401,7 @@ app.use(async (ctx, next) => {
                 }
             }
             const vnwm_2 = fs.readdirSync(yxna_hsoy_esqt, { recursive: true })
-            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqtwu))
+            vnwm_1 = vnwm_2.filter(rn1 => rn1.includes(ctx.request.body.esqt_wu))
             if (vnwm_1.length) {
                 if (vnwm_1.length > 1) {
                     ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
