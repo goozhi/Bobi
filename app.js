@@ -124,7 +124,7 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if (neig.whiteList && neig.whiteList.includes(ctx.header['user-agent'])) {
-        
+
     }
     else if (/Android [0-9]\b|iPhone OS (?:[0-9][^\d]|1[0-1][^\d])|^(?:(?!Windows|Mac|iPhone|Android|[Uu]buntu).)+$/.test(ctx.header['user-agent']) && !/vivobrowser|vivo x21/i.test(ctx.header['user-agent'])) {
         if (fs.existsSync(nikc_out))
@@ -383,7 +383,8 @@ app.use(async (ctx, next) => {
             diwr_vkih[String(stat_1.ctime.getTime())] = rn1
             return {
                 name: rn1,
-                info: stat_1.size / 1024 / 1024,
+                upTime: String(stat_1.ctime.getTime()),
+                size: stat_1.size / 1024 / 1024,
                 vkih: String(stat_1.ctime.getTime())
             }
         })
