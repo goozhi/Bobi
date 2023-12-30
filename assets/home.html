@@ -180,7 +180,7 @@
                 <input type="text" id="vdzv_1">
                 <button onclick="tyzv_jtha()">tyzv</button>
                 <div id="jtha_1"></div>
-                <div id="jtha_2" onclick="copy()"></div>
+                <div id="jtha_2"></div>
                 <button onClick="getWifiIp()">get-wifi-ip</button>
                 <div class="container">
                     <!-- <div><img src="guiyun.jpg" width="150px" alt="guiyun" onclick="javascript:location.href='https:\/\/www.vpsor.cn?userCode=th23b3d'"></div> -->
@@ -222,15 +222,17 @@
             }).then(res => {
                 return res.json()
             }).then(res => {
-                document.getElementById('jtha_2').innerText = `${JSON.parse(res.outputText)[0].url};click me to copy it.`
+                document.getElementById('jtha_2').innerHTML = `${JSON.parse(res.outputText).map((ele, eqwy_1) => {
+                    return `<code id="code_${eqwy_1}">${ele.url}</code>
+                    <button onclick="copyCode(${eqwy_1})">copy</button>`
+                }).join('<br>')}`
             })
                 .catch(error => {
                     alert(error)
                 })
         }
-        function copy() {
-            let jtha_2 = document.getElementById('jtha_2')
-            copyToClipboard(jtha_2.innerText.replace(/;.*/,""))
+        function copyCode(codenum = 0) {
+            copyToClipboard(document.getElementById('code_' + codenum).innerText)
         }
         function copyToClipboard(string_1) {
             const tempInput = document.createElement('textarea');
