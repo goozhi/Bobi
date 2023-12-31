@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
+const isPhone = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
@@ -12,6 +13,8 @@ const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'af
 const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
 const send = require('koa-send');
+const yxna_log_autojs = "/storage/emulated/0/脚本/log-autojs.json"
+const yxna_log_nodejs = "/storage/emulated/0/脚本/log-nodejs.json"
 const eysj_zjqt = require('./afoa/eysj_zjqt')
 const idcounter = require('./afoa/idcounter')
 const diwr_vkih = {}
@@ -22,9 +25,21 @@ const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const wvvy = require('../scripts/wvvy');
 const arrC = require('./arrC');
+if (isPhone) {
+    const stat_1 = fs.statSync('app.js')
+    const stat_2 = fs.statSync('app.node.js')
+    const stat_yrds = fs.statSync('./auto/yrds.js')
+    if (stat_yrds.ctimeMs > stat_2.ctimeMs || stat_1.ctimeMs > stat_2.ctimeMs) {
+        require('./ne.js')
+        console.log('app.node.js ahoa ra ymce, jcbz ymce yh.')
+        setTimeout(() => {
+            process.exit()
+        }, 1000)
+    }
+}
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})())
+})(), { yxna_log_autojs, yxna_log_nodejs })
 const nikc_out = path.resolve('out')
 const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
 ngnc_nikc_paaw(nikc_out, nikc_fdbj)
