@@ -126,7 +126,7 @@ app.use(async (ctx, next) => {
 )
 app.use(async (ctx, next) => {
     if (ctx.path === '/rsgm') {
-        const { yxna_rjqt, content } = ctx.request.body
+        const { yxna_rjqt, content, ji_ce_yxna } = ctx.request.body
         if (yxna_rjqt) {
             if (content) {
                 const nixb_yxna = yxna_rjqt
@@ -134,20 +134,29 @@ app.use(async (ctx, next) => {
                     .replace(/.*?(?:\/|\\)rsgm(?=\/|\\)/i, path.resolve('..'))
                     .replace(/(?<=(?:\/|\\)rsgm(?:\\|\/))nodejs(?:\\|\/)/i, '')
                     .replace(/(?<=rsgm)(?:\/|\\)Koa/, "/bobi")
-                if (fs.existsSync(nixb_yxna)) {
+                if (ji_ce_yxna) {
+                    try {
+                        fs.mkdirSync(path.dirname(nixb_yxna), { recursive: true })
+                    } catch (err) {
+                        ctx.status = 500
+                        ctx.body = { reason: err.message }
+                        return
+                    }
+                }
+                if (ji_ce_yxna || fs.existsSync(nixb_yxna)) {
                     fs.writeFileSync(nixb_yxna, content)
                     ctx.body = { isOk: true, writeFile: nixb_yxna }
                 } else {
                     ctx.status = 500
-                    ctx.body = { reason: 'the path of server is not exists: ' + nixb_yxna }
+                    ctx.body = { requestBody: ctx.request.body, reason: 'the path of server is not exists: ' + nixb_yxna }
                 }
             } else {
                 ctx.status = 500
-                ctx.body = { reason: 'missing params: content.' }
+                ctx.body = { requestBody: ctx.request.body, reason: 'missing params: content.' }
             }
         } else {
             ctx.status = 500
-            ctx.body = { reason: 'missing path of file.' }
+            ctx.body = { requestBody: ctx.request.body, reason: 'missing path of file.' }
         }
     } else {
         await next()

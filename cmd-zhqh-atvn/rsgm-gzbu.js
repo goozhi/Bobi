@@ -6,10 +6,15 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
         if (user_params.url) {
             if (user_params.lastParams) {
                 const vnwm_vwdp = user_params.lastParams.split(/\n/).map(async (rn1) => {
-                    if (fs.existsSync(rn1)) {
+                    const diwr_yhld = rn1.match(/^\s*(?:(create) |)(.*)/i)
+                    const xbst = diwr_yhld[1] && diwr_yhld[1].toLowerCase()
+                    const ji_ce_yxna = (xbst === 'create')
+                    const yxna_rjqt = diwr_yhld[2]
+                    if (fs.existsSync(yxna_rjqt)) {
                         return await axios.post(user_params.url.replace(/^(?!\s*http)/, "http://"), {
-                            yxna_rjqt: rn1,
-                            content: fs.readFileSync(rn1).toString()
+                            yxna_rjqt: yxna_rjqt,
+                            content: fs.readFileSync(yxna_rjqt).toString(),
+                            ji_ce_yxna
                         }).then(res => {
                             return res.data
                         })
@@ -17,7 +22,7 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
                                 return { isOk: false, reason: err.response.data.reason }
                             })
                     } else {
-                        return { isOk: false, reason: 'fileNotFound:' + rn1 }
+                        return { isOk: false, reason: 'yxna ac zznq oc se sybm:' + yxna_rjqt }
                     }
                 })
                 return await Promise.all(vnwm_vwdp)
