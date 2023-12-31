@@ -1,5 +1,27 @@
-const f1 = "/storage/emulated/0/脚本/log-autojs.json"
-const f2 = "/storage/emulated/0/脚本/log-nodejs.json"
+// 打印引擎启动参数
+console.log($engines.myEngine().execArgv);
+
+let args = $engines.myEngine().execArgv;
+// 从参数中取出Rhino引擎的ID
+let serverEngineId = args.serverEngineId;
+// 根据ID找出父引擎
+let serverEngine = engines.all().find(e => {
+    return e.id === serverEngineId
+});
+
+if (!serverEngine) {
+    console.error('请运行文件"main.js"，而不是直接启动本代码');
+    exit();
+}
+$events.on('vxn-aoao-crum', (args) => {
+    let rj_1 = 'vxn cd hs ab crum tsjq, crum yh ...'
+    log(rj_1)
+    toast(rj_1)
+    exit();
+});
+
+let f1 = "/storage/emulated/0/脚本/log-autojs.json"
+let f2 = "/storage/emulated/0/脚本/log-nodejs.json"
 
 if (!files.exists(f1)) {
     files.createWithDirs(f1);
@@ -7,7 +29,7 @@ if (!files.exists(f1)) {
     files.write(f1, "{}")
     files.write(f2, "{}")
 }
-const f1_c = JSON.parse(files.read(f1));
+let f1_c = JSON.parse(files.read(f1));
 
 toast(JSON.stringify(f1_c));
 var f2_c;

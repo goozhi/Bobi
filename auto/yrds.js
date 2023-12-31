@@ -15,8 +15,13 @@ execution.on('start', () => {
 }).on('exception', (execution, error) => {
     console.log('auto qwse error: ', error);
 });
+let engine
+execution.engine().then(res => {
+    engine = res
+}).catch(err => { console.error(err) })
 
 process.on('exit', () => {
+    engine.emit('vxn-aoao-crum')
     execution.engineOrNull?.forceStop()
     engines.execScriptFile('./auto/start-app.js', {
         arguments: {
