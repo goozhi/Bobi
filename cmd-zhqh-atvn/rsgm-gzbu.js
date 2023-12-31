@@ -19,7 +19,7 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
                             return res.data
                         })
                             .catch(err => {
-                                return { isOk: false, reason: err.response.data.reason }
+                                return { isOk: false, reason: err.response && err.response.data.reason || err }
                             })
                     } else {
                         return { isOk: false, reason: 'yxna ac zznq oc se sybm:' + yxna_rjqt }
