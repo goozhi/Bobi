@@ -1,6 +1,6 @@
 const fs = require('fs')
 const path = require('path')
-const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
+const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
 const nikc_out = path.resolve('out')
 ngnc_nikc_paaw(nikc_out)
 const blackNameListPath = path.join(nikc_out, 'blackNameList.txt')
