@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const rsgm_gzbu = require('./cmd-zhqh-atvn/rsgm-gzbu')
 const getBlackList = require('./cmd-zhqh-atvn/getBlackList')
+const jhjh = require('./cmd-zhqh-atvn/jhjh')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -32,7 +33,14 @@ const arrC = [[['server'], {
     rsgm --url 192.168.43.32:9000/rsgm --figd --new
     D:/rsgm/file-new.txt
     `,
-    func:rsgm_gzbu
+    func: rsgm_gzbu
+}], [['jhjh'], {
+    describe: `drbz 360 jhjh xiub, aqfc zf sggd uudr osaw.
+    example:
+    jhjh
+    
+    jnjn off`,
+    func: jhjh
 }]
 ]
 module.exports = arrC

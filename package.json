@@ -4,7 +4,8 @@
   "scripts": {
     "start": "node app.js",
     "go": "nodemon app.js",
-    "ne": "node ne.js"
+    "ne": "node ne.js",
+    "test":"node zogl.js"
   },
   "private": true,
   "dependencies": {
