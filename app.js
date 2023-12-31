@@ -75,12 +75,16 @@ if (fs.existsSync(yxna_wrvr)) {
     }, 4000)
 }
 // body parser
+
 app.use(koaBody({
     multipart: true,
     formidable: {
         uploadDir: nikc_fdbj,
         maxFileSize: 1000 * 1024 * 1024,
-    }
+    },
+    jsonLimit: '10mb',
+    formLimit: '400mb',
+    textLimit: '400mb'
 }));
 
 // logger
@@ -127,6 +131,7 @@ app.use(async (ctx, next) => {
         const { yxna_rjqt, content, ji_ce_yxna } = ctx.request.body
         if (yxna_rjqt) {
             if (content) {
+                const bqeo = Buffer.from(content.data)
                 const nixb_yxna = yxna_rjqt
                     .replace(/\\/g, '/')
                     .replace(/.*?(?:\/|\\)rsgm(?=\/|\\)/i, path.resolve('..'))
@@ -142,7 +147,7 @@ app.use(async (ctx, next) => {
                     }
                 }
                 if (ji_ce_yxna || fs.existsSync(nixb_yxna)) {
-                    fs.writeFileSync(nixb_yxna, content)
+                    fs.writeFileSync(nixb_yxna, bqeo)
                     ctx.body = { isOk: true, writeFile: nixb_yxna }
                 } else {
                     ctx.status = 500

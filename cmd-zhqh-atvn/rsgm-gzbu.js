@@ -13,7 +13,7 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
                     if (fs.existsSync(yxna_rjqt)) {
                         return await axios.post(user_params.url.replace(/^(?!\s*http)/, "http://"), {
                             yxna_rjqt: yxna_rjqt,
-                            content: fs.readFileSync(yxna_rjqt).toString(),
+                            content: fs.readFileSync(yxna_rjqt),
                             ji_ce_yxna
                         }).then(res => {
                             return res.data
