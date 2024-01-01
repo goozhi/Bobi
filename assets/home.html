@@ -181,6 +181,7 @@
                 <button onclick="tyzv_jtha()">tyzv</button>
                 <div id="jtha_1"></div>
                 <div id="jtha_2"></div>
+                <div id="jtha_3"></div>
                 <button onClick="getWifiIp()">get-wifi-ip</button>
                 <div class="container">
                     <!-- <div><img src="guiyun.jpg" width="150px" alt="guiyun" onclick="javascript:location.href='https:\/\/www.vpsor.cn?userCode=th23b3d'"></div> -->
@@ -216,6 +217,21 @@
             document.getElementById('jtha_1').innerHTML = `<a target="_blank" href="${document.getElementById('vdzv_1').value.replace(/^(?!\s*http)/, 'http://')}">click me</a>`
         }
         function getWifiIp() {
+            fetch('/afoa', {
+                method: 'POST'
+                , headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                }, body: JSON.stringify({ vdzv: 'getip' })
+            }).then(res => {
+                return res.json()
+            }).then(res => {
+                document.getElementById('jtha_3').innerHTML = `<a id="code_${99}" href="${res}">my ip: ${(res.outputText)}</a>`
+            })
+                .catch(error => {
+                    alert(error)
+                })
+
             fetch('/afoa', {
                 method: 'POST'
                 , headers: {
