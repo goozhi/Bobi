@@ -12,8 +12,8 @@ let serverEngine = engines.all().find(e => {
 let ji_cd_zhqh_jhjh_xiub
 $events.on('command', zhqh_jhjh);
 
-let f1 = "/storage/emulated/0/脚本/log-autojs.json"
-let f2 = "/storage/emulated/0/脚本/log-nodejs.json"
+let f1 = "/storage/emulated/0/rsgm/bobi/out/logs/log-autojs.json"
+let f2 = "/storage/emulated/0/rsgm/bobi/out/logs/log-nodejs.json"
 
 if (!files.exists(f1)) {
     files.createWithDirs(f1);
@@ -88,6 +88,7 @@ while (true) {
 let execution_360_jhjh_xiub
 function gnwn_jhjh() {
     execution_360_jhjh_xiub.getEngine().forceStop()
+    launch('com.wrvr.uuvo_ouss')
     return 'cd gnwn.'
 }
 function zhqh_jhjh(args) {

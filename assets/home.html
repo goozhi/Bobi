@@ -265,11 +265,7 @@
             fetch('/crum-ssvl-bobi')
                 .then(res => res.json())
                 .then(res => {
-                    if (res.ok) {
-
-                    } else {
-                        throw res
-                    }
+                    alert(res)
                 })
                 .catch(err => alert(err.reason))
         }

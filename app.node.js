@@ -15,8 +15,6 @@ const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'af
 const neig = require('./neig')
 const uzms = require('./afoa/uz_ms')
 const send = require('koa-send');
-const yxna_log_autojs = "/storage/emulated/0/脚本/log-autojs.json"
-const yxna_log_nodejs = "/storage/emulated/0/脚本/log-nodejs.json"
 const eysj_zjqt = require('./afoa/eysj_zjqt')
 const idcounter = require('./afoa/idcounter')
 const diwr_vkih = {}
@@ -27,11 +25,19 @@ const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const wvvy = require('../scripts/wvvy');
 const arrC = require('./arrC');
+const nikc_out = path.resolve('out')
+const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
+const nikc_logs = path.join(nikc_out, 'logs')
+
+const yxna_log_autojs = path.join(nikc_logs, "log-autojs.json")
+const yxna_log_nodejs = path.join(nikc_logs, "log-nodejs.json")
+const nikc_jhjh_tbys = path.join(nikc_out, "gmtb")
+ngnc_nikc_paaw(nikc_out, nikc_fdbj, nikc_jhjh_tbys, nikc_logs)
 if (isPhone) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')
     const stat_yrds = fs.statSync('./auto/yrds.js')
-    if (stat_yrds.ctimeMs < stat_2.ctimeMs || stat_1.ctimeMs < stat_2.ctimeMs) {
+    if (stat_yrds.ctimeMs > stat_2.ctimeMs || stat_1.ctimeMs > stat_2.ctimeMs) {
         require('./ne.js')
         console.log('app.node.js ahoa ra ymce, jcbz ymce yh.')
         setTimeout(() => {
@@ -41,10 +47,7 @@ if (isPhone) {
 }
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { yxna_log_autojs, yxna_log_nodejs })
-const nikc_out = path.resolve('out')
-const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
-ngnc_nikc_paaw(nikc_out, nikc_fdbj)
+})(), { yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -696,8 +699,9 @@ app.use(async (ctx, next) => {
 app.listen(neig.izlp, () => {
     console.log(`app listening at http://localhost:${neig.izlp}`)
 });
+// yrds, hv rsgm hfbc
 const engines = require('engines');
-
+neig.engines = engines
 // 启动Rhino引擎
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
@@ -714,20 +718,21 @@ execution.on('start', () => {
     console.log('auto qwse error: ', error);
 });
 
-execution.engine().then(res => {
-    neig.qwse_engine = res
-}).catch(err => { console.error(err) })
+neig.diwr_slm_crum_om_crum_dk_qwse = { "auto-work": execution }
 
-process.on('exit', () => {
-    neig.qwse_engine.emit('vxn-aoao-crum')
-    execution.engineOrNull?.forceStop()
-    engines.execScriptFile('./auto/start-app.js', {
-        arguments: {
-            serverEngineId: engines.myEngine().id,
-            title: 'auto-reset-for-node',
-            content: 'lzdr yh...',
-            yxna: path.resolve('app.node.js')
-        }
-    });
+process.on('exit', (code) => {
+    Object.values(neig.diwr_slm_crum_om_crum_dk_qwse).forEach(rn1 => {
+        rn1.engineOrNull?.forceStop()
+    })
+    if (code === 0) {
+        engines.execScriptFile('./auto/start-app.js', {
+            arguments: {
+                serverEngineId: engines.myEngine().id,
+                title: 'auto-reset-for-node',
+                content: 'lzdr yh...',
+                yxna: path.resolve('app.node.js')
+            }
+        });
+    }
 });
 

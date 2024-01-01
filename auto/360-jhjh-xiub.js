@@ -1,32 +1,22 @@
-console.log(engines.myEngine().execArgv);
-
-let args = engines.myEngine().execArgv;
-// 从参数中取出Rhino引擎的ID
-let serverEngineId = args.serverEngineId;
-// 根据ID找出父引擎
-let serverEngine = engines.all().find(e => {
-    return e.id === serverEngineId
-});
-if (!serverEngine) {
-    console.error('Please jyqh wjdk slm rjqt.');
+if (!/1711/.test(device.model)) {
+    let rj_1 = 'Bi qwse (jhjh-xiub) aoao jyqh nq 30 ssvl mb.'
+    console.error(rj_1)
+    toast(rj_1)
     exit();
 }
-let gotSlmMessageTime = new Date().getTime()
+device.wakeUp();
+sleep(1000)
+swipe(500, 1800, 10, 500, 700)
 
-events.on('alive-signal', (args) => {
-    toastLog('hs ab alive zzih.')
-    if (args.message === 'auto-work-for-node-is-alive') {
-        gotSlmMessageTime = new Date().getTime()
+setTimeout(() => {
+    while (true) {
+        shot()
+        sleep(3 * 1000)
     }
-})
+}, 100)
 
-events.on('command', (args) => {
-    if (args.message === 'gnwn-jhjh-xiub') {
-        toastLog('jhjh-cd-crum.')
-        exit();
-    }
-})
-while (1) {
-    log('hello ')
-    sleep(1000);
+function shot() {
+    launch("com.android.camera")
+    packageName("com.android.camera").className("android.widget.ImageView").desc("快门按钮").untilFind()
+    click(544, 1753)
 }
