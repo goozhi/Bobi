@@ -4,6 +4,7 @@ const rsgm_gzbu = require('./cmd-zhqh-atvn/rsgm-gzbu')
 const getBlackList = require('./cmd-zhqh-atvn/getBlackList')
 const jhjh = require('./cmd-zhqh-atvn/jhjh')
 const light = require('./cmd-zhqh-atvn/light')
+const audio = require('./cmd-zhqh-atvn/audio')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -43,12 +44,22 @@ const arrC = [[['server'], {
     jnjn off`,
     func: jhjh
 }], [['light'], {
-    describe:` light up the screen of the device.
+    describe: ` light up the screen of the device.
     example:
     light up
     light down
     `,
     func: light
+}], [['audio'], {
+    describe:`dhfh fdbj nikc yh dk yfkt.
+    example:
+    audio
+    
+    audio off
+    
+    set the volume of media:
+    audio 10`,
+    func:audio
 }]
 ]
 module.exports = arrC

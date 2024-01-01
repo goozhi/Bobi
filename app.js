@@ -45,7 +45,7 @@ if (isPhone) {
 }
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys })
+})(), { yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -212,7 +212,7 @@ app.use(async (ctx, next) => {
             ctx.body = 'crum...'
             console.log('crum...')
             setTimeout(() => {
-                process.exit()                
+                process.exit()
             }, 500);
         } else {
             ctx.status = 500
