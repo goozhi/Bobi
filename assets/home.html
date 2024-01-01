@@ -226,7 +226,7 @@
                 return res.json()
             }).then(res => {
                 document.getElementById('jtha_2').innerHTML = `${JSON.parse(res.outputText).map((ele, eqwy_1) => {
-                    return `<code id="code_${eqwy_1}">${ele.url}</code>
+                    return `<a id="code_${eqwy_1}" href="${ele.url}">${ele.url}</a>
                     <button onclick="copyCode(${eqwy_1})">copy</button>`
                 }).join('<br>')}`
             })
