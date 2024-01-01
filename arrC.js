@@ -3,6 +3,7 @@ const path = require('path')
 const rsgm_gzbu = require('./cmd-zhqh-atvn/rsgm-gzbu')
 const getBlackList = require('./cmd-zhqh-atvn/getBlackList')
 const jhjh = require('./cmd-zhqh-atvn/jhjh')
+const light = require('./cmd-zhqh-atvn/light')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -41,6 +42,13 @@ const arrC = [[['server'], {
     
     jnjn off`,
     func: jhjh
+}], [['light'], {
+    describe:` light up the screen of the device.
+    example:
+    light up
+    light down
+    `,
+    func: light
 }]
 ]
 module.exports = arrC
