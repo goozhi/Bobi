@@ -38,10 +38,11 @@ while (true) {
             files.write(f2, JSON.stringify(f2_c, null, 2))
             f1_c.result = (() => {
                 if (autojs_todo === 'drbz-360-jhjh-xiub') {
-                    zhqh_jhjh({ message: 'drbz-360-jhjh-xiub' })
+                    return zhqh_jhjh({ message: 'drbz-360-jhjh-xiub' })
                 } else if (autojs_todo === 'gnwn-360-jhjh-xiub') {
-                    gnwn_jhjh()
+                    let msg = gnwn_jhjh()
                     ji_cd_zhqh_jhjh_xiub = false
+                    return msg
                 } else {
                     try {
                         return eval(autojs_todo)()
@@ -87,13 +88,16 @@ while (true) {
 let execution_360_jhjh_xiub
 function gnwn_jhjh() {
     execution_360_jhjh_xiub.getEngine().forceStop()
+    return 'cd gnwn.'
 }
 function zhqh_jhjh(args) {
     toastLog('auto-work recieved command')
     log(args)
     if (args.message === 'drbz-360-jhjh-xiub') {
         if (ji_cd_zhqh_jhjh_xiub) {
-            log('zvll cd zhqh jhjh xiub, acoa jd zhqh.')
+            let rj_4 = 'zvll cd zhqh jhjh xiub, acoa jd zhqh.'
+            console.error(rj_4)
+            return rj_4
         } else {
             ji_cd_zhqh_jhjh_xiub = true
             let rj_1 = 'vxn cd hs ab 360-jhjh-xiub tsjq, ja drbz jhjh-xiub qwse'
@@ -105,6 +109,7 @@ function zhqh_jhjh(args) {
                     log: 'uufb zhqh 360 jhjh xiub...'
                 }
             });
+            return rj_1
         }
     } else {
         log('auto-work hs ab ravc dk command: ')
