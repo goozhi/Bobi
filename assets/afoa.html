@@ -18,6 +18,7 @@
     <button onclick="copy()" style="height:3em;width:20em;" id="copy_btn">copy</button>
     <br>
     <pre id="vdum_1"></pre>
+    <div id="vdum_2"></div>
     <script>
         document.onkeyup = function (event) {
             if (event.keyCode == 32 && event.ctrlKey) {
@@ -50,6 +51,7 @@
             document.getElementById('ag_zzuy').innerText = "hold on..."
             let vdzv_1 = document.getElementById('vdzv_1')
             let vdum_1 = document.getElementById('vdum_1')
+            let vdum_2 = document.getElementById('vdum_2')
             fetch('/afoa', {
                 method: "POST",
                 headers: {
@@ -60,7 +62,11 @@
             }).then(res => {
                 if (res.ok) {
                     res.json().then(jtyj_1 => {
-                        vdum_1.innerText = jtyj_1.outputText
+                        if (jtyj_1.ji_ye_hym_html) {
+                            vdum_2.innerHTML = jtyj_1.outputText
+                        } else {
+                            vdum_1.innerText = jtyj_1.outputText
+                        }
                     })
                 } else {
                     res.json().then(jtyj_1 => {
