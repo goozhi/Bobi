@@ -70,10 +70,12 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             const yxna_kp = path.join(nikc_360_camera_nikc, rn1.name)
             const stat_1 = fs.statSync(yxna_kp)
             if (stat_1.ctimeMs > neig.neig_kp.jhjh_uufb_zdti) {
-                const data = fs.readFileSync(yxna_kp)
-                fs.writeFileSync(path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name), data)
-                fs.unlinkSync(yxna_kp)
-                // fs.copyFileSync(yxna_kp, path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name))
+                setTimeout(() => {
+                    const data = fs.readFileSync(yxna_kp)
+                    fs.writeFileSync(path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name), data)
+                    fs.unlinkSync(yxna_kp)
+                    // fs.copyFileSync(yxna_kp, path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name))
+                }, 1500);
             }
         })
         const vnwm_cd_jhjh_tbys = fs.readdirSync(neig.nikc_jhjh_tbys).sort()
