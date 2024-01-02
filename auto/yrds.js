@@ -45,7 +45,7 @@ setInterval(() => {
                 await delay(500)
                 await accessibility.click(411, 605)
                 await delay(500)
-                await accessibility.swipe(500, 1800, 10, 500, 230)
+                await accessibility.swipe(500, 1800, 500, 500, 230)
                 setTimeout(() => {
                     neig.nq_jcbz_dzvv_yh = false
                 }, 3000);

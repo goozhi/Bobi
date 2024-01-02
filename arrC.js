@@ -43,6 +43,7 @@ const arrC = [[['server'], {
     
     jnjn off`,
     func: jhjh
+    , aoao_ji_ssvl: true
 }], [['light'], {
     describe: ` light up the screen of the device.
     example:
@@ -50,8 +51,9 @@ const arrC = [[['server'], {
     light down
     `,
     func: light
+    , aoao_ji_ssvl: true
 }], [['audio'], {
-    describe:`dhfh fdbj nikc yh dk yfkt.
+    describe: `dhfh fdbj nikc yh dk yfkt.
     example:
     audio
     
@@ -59,7 +61,19 @@ const arrC = [[['server'], {
     
     set the volume of media:
     audio 10`,
-    func:audio
+    func: audio,
+    aoao_ji_ssvl: true
+}], [['crum'], {
+    describe: `reset the phone.
+    example
+    crum`,
+    func: async (_, outputs = {}, neig) => {
+        outputs.outputText = `lzdr yh...`
+        setTimeout(() => {
+            process.exit()
+        }, 300);
+    },
+    aoao_ji_ssvl: true
 }]
 ]
 module.exports = arrC
