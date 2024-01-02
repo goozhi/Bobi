@@ -1,6 +1,20 @@
 // yrds, hv rsgm hfbc
 const engines = require('engines');
-neig.engines = engines
+const power_manager = require('power_manager')
+const device = require('device')
+const accessibility = require('accessibility')
+const { delay } = require('lang');
+const { showToast } = require('toast')
+const getMyIp = require('../scripts/getMyIp.js');
+Object.assign(neig, {
+    nq_jcbz_dzvv_yh: false
+    , engines
+    , power_manager
+    , device
+    , accessibility
+    , delay
+    , showToast
+})
 // 启动Rhino引擎
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
@@ -9,6 +23,36 @@ const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
         content: 'imfb fs yh...'
     }
 });
+setInterval(() => {
+    (async () => {
+        if (await getMyIp().catch(err => { throw err })) {
+            // jtww cd ytjp
+        } else {
+            // jtww ra ytjp
+            if (!neig.nq_jcbz_dzvv_yh && /QK1711/.test(device.device.fingerprint)) {
+                // ji 360 ssvl
+                neig.nq_jcbz_dzvv_yh = true
+                if (power_manager.isScreenOn()) {
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                    await delay(700)
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                } else {
+                    power_manager.wakeUp()
+                    await delay(1500)
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                }
+                showToast('Tring to open the Hot service...')
+                await delay(500)
+                await accessibility.click(411, 605)
+                await delay(500)
+                await accessibility.swipe(500, 1800, 10, 500, 230)
+                setTimeout(() => {
+                    neig.nq_jcbz_dzvv_yh = false
+                }, 3000);
+            }
+        }
+    })()
+}, 100);
 execution.on('start', () => {
     console.log('auto qwse cd drbz');
 }).on('success', () => {
