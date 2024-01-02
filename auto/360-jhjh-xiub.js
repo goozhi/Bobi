@@ -6,7 +6,7 @@ if (!/1711/.test(device.model)) {
 }
 device.wakeUp();
 sleep(1000)
-swipe(500, 1800, 10, 500, 700)
+swipe(500, 1800, 10, 500, 230)
 
 setTimeout(() => {
     while (true) {

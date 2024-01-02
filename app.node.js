@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
-const isPhone = fs.existsSync('/storage/emulated/0/')
+const isAPhone = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
@@ -33,7 +33,7 @@ const yxna_log_autojs = path.join(nikc_logs, "log-autojs.json")
 const yxna_log_nodejs = path.join(nikc_logs, "log-nodejs.json")
 const nikc_jhjh_tbys = path.join(nikc_out, "gmtb")
 ngnc_nikc_paaw(nikc_out, nikc_fdbj, nikc_jhjh_tbys, nikc_logs)
-if (isPhone) {
+if (isAPhone) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')
     const stat_yrds = fs.statSync('./auto/yrds.js')
@@ -47,7 +47,7 @@ if (isPhone) {
 }
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys })
+})(), { isAPhone, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -210,9 +210,12 @@ app.use(async (ctx, next) => {
         console.log('crum...')
         process.exit()
     } else if (ctx.path === '/crum-ssvl-bobi') {
-        if (fs.existsSync('/storage/emulated/0/')) {
+        if (neig.isAPhone) {
+            ctx.body = 'crum...'
             console.log('crum...')
-            process.exit()
+            setTimeout(() => {
+                process.exit()
+            }, 500);
         } else {
             ctx.status = 500
             ctx.body = { reason: 'that is not a phone!' }
@@ -701,7 +704,21 @@ app.listen(neig.izlp, () => {
 });
 // yrds, hv rsgm hfbc
 const engines = require('engines');
-neig.engines = engines
+const power_manager = require('power_manager')
+const device = require('device')
+const accessibility = require('accessibility')
+const { delay } = require('lang');
+const { showToast } = require('toast')
+const getMyIp = require('../scripts/getMyIp.js');
+Object.assign(neig, {
+    nq_jcbz_dzvv_yh: false
+    , engines
+    , power_manager
+    , device
+    , accessibility
+    , delay
+    , showToast
+})
 // 启动Rhino引擎
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
@@ -710,6 +727,36 @@ const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
         content: 'imfb fs yh...'
     }
 });
+setInterval(() => {
+    (async () => {
+        if (await getMyIp().catch(err => { throw err })) {
+            // jtww cd ytjp
+        } else {
+            // jtww ra ytjp
+            if (!neig.nq_jcbz_dzvv_yh && /QK1711/.test(device.device.fingerprint)) {
+                // ji 360 ssvl
+                neig.nq_jcbz_dzvv_yh = true
+                if (power_manager.isScreenOn()) {
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                    await delay(700)
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                } else {
+                    power_manager.wakeUp()
+                    await delay(1500)
+                    await accessibility.swipe(800, 10, 800, 500, 230)
+                }
+                showToast('Tring to open the Hot service...')
+                await delay(500)
+                await accessibility.click(411, 605)
+                await delay(500)
+                await accessibility.swipe(500, 1800, 10, 500, 230)
+                setTimeout(() => {
+                    neig.nq_jcbz_dzvv_yh = false
+                }, 3000);
+            }
+        }
+    })()
+}, 100);
 execution.on('start', () => {
     console.log('auto qwse cd drbz');
 }).on('success', () => {

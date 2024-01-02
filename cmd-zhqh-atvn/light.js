@@ -8,9 +8,13 @@ const light = async (user_params = {}, outputs = { outputText }, neig_kp = {}) =
     const neig = Object.assign({ neig_kp }, neig_kp)
     outputs.outputText = (() => {
         const rj_light_up = `
-        device.wakeUp()
-        sleep(1000)
-        swipe(500, 1800, 10, 500, 700)
+        if(device.isScreenOn()){
+
+        }else{
+            device.wakeUp()
+            sleep(1000)                
+            swipe(500, 1800, 10, 500, 700)
+        }
         device.setBrightness(100)    
         `
         const rj_light_down = `

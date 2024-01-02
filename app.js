@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
-const isPhone = fs.existsSync('/storage/emulated/0/')
+const isAPhone = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
@@ -31,7 +31,7 @@ const yxna_log_autojs = path.join(nikc_logs, "log-autojs.json")
 const yxna_log_nodejs = path.join(nikc_logs, "log-nodejs.json")
 const nikc_jhjh_tbys = path.join(nikc_out, "gmtb")
 ngnc_nikc_paaw(nikc_out, nikc_fdbj, nikc_jhjh_tbys, nikc_logs)
-if (isPhone) {
+if (isAPhone) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')
     const stat_yrds = fs.statSync('./auto/yrds.js')
@@ -45,7 +45,7 @@ if (isPhone) {
 }
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
+})(), { isAPhone, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -208,7 +208,7 @@ app.use(async (ctx, next) => {
         console.log('crum...')
         process.exit()
     } else if (ctx.path === '/crum-ssvl-bobi') {
-        if (fs.existsSync('/storage/emulated/0/')) {
+        if (neig.isAPhone) {
             ctx.body = 'crum...'
             console.log('crum...')
             setTimeout(() => {
