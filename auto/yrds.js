@@ -1,5 +1,6 @@
 // yrds, hv rsgm hfbc
 const engines = require('engines');
+const auto = require('app')
 const power_manager = require('power_manager')
 const device = require('device')
 const accessibility = require('accessibility')
@@ -14,6 +15,7 @@ Object.assign(neig, {
     , accessibility
     , delay
     , showToast
+    , auto
 })
 
 if (/QK1711/.test(device.device.fingerprint)) {
