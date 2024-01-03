@@ -17,7 +17,7 @@ Object.assign(neig, {
 })
 
 if (/QK1711/.test(device.device.fingerprint)) {
-    if(!power_manager.isScreenOn){
+    if (!power_manager.isScreenOn) {
         power_manager.wakeUp()
     }
     engines.execScriptFile('./auto/drbz-so-crmh.js')
@@ -80,6 +80,15 @@ process.on('exit', (code) => {
                 title: 'auto-reset-for-node',
                 content: 'lzdr yh...',
                 yxna: path.resolve('app.node.js')
+            }
+        });
+    } else {
+        engines.execScriptFile('./auto/start-app.js', {
+            arguments: {
+                serverEngineId: engines.myEngine().id,
+                title: 'auto-reset-for-node',
+                content: 'lzdr bmdb qwse yh...',
+                yxna: path.resolve('app-2.node.js')
             }
         });
     }

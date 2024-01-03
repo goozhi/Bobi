@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
-const isAPhone = fs.existsSync('/storage/emulated/0/')
+const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
@@ -33,7 +33,7 @@ const yxna_log_autojs = path.join(nikc_logs, "log-autojs.json")
 const yxna_log_nodejs = path.join(nikc_logs, "log-nodejs.json")
 const nikc_jhjh_tbys = path.join(nikc_out, "gmtb")
 ngnc_nikc_paaw(nikc_out, nikc_fdbj, nikc_jhjh_tbys, nikc_logs)
-if (isAPhone) {
+if (ji_exym_oc_ssvl) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')
     const stat_yrds = fs.statSync('./auto/yrds.js')
@@ -47,7 +47,7 @@ if (isAPhone) {
 }
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { isAPhone, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
+})(), { ji_exym_oc_ssvl, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -210,7 +210,7 @@ app.use(async (ctx, next) => {
         console.log('crum...')
         process.exit()
     } else if (ctx.path === '/crum-ssvl-bobi') {
-        if (neig.isAPhone) {
+        if (neig.ji_exym_oc_ssvl) {
             ctx.body = 'crum...'
             console.log('crum...')
             setTimeout(() => {
@@ -704,6 +704,7 @@ app.listen(neig.izlp, () => {
 });
 // yrds, hv rsgm hfbc
 const engines = require('engines');
+const auto = require('app')
 const power_manager = require('power_manager')
 const device = require('device')
 const accessibility = require('accessibility')
@@ -718,8 +719,15 @@ Object.assign(neig, {
     , accessibility
     , delay
     , showToast
+    , auto
 })
-// 启动Rhino引擎
+
+if (/QK1711/.test(device.device.fingerprint)) {
+    if (!power_manager.isScreenOn) {
+        power_manager.wakeUp()
+    }
+    engines.execScriptFile('./auto/drbz-so-crmh.js')
+}
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
         serverEngineId: engines.myEngine().id,
@@ -749,7 +757,7 @@ setInterval(() => {
                 await delay(500)
                 await accessibility.click(411, 605)
                 await delay(500)
-                await accessibility.swipe(500, 1800, 10, 500, 230)
+                await accessibility.swipe(500, 1800, 500, 500, 230)
                 setTimeout(() => {
                     neig.nq_jcbz_dzvv_yh = false
                 }, 3000);
@@ -778,6 +786,15 @@ process.on('exit', (code) => {
                 title: 'auto-reset-for-node',
                 content: 'lzdr yh...',
                 yxna: path.resolve('app.node.js')
+            }
+        });
+    } else {
+        engines.execScriptFile('./auto/start-app.js', {
+            arguments: {
+                serverEngineId: engines.myEngine().id,
+                title: 'auto-reset-for-node',
+                content: 'lzdr bmdb qwse yh...',
+                yxna: path.resolve('app-2.node.js')
             }
         });
     }

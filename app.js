@@ -31,6 +31,14 @@ const yxna_log_autojs = path.join(nikc_logs, "log-autojs.json")
 const yxna_log_nodejs = path.join(nikc_logs, "log-nodejs.json")
 const nikc_jhjh_tbys = path.join(nikc_out, "gmtb")
 ngnc_nikc_paaw(nikc_out, nikc_fdbj, nikc_jhjh_tbys, nikc_logs)
+const oldWrite = process.stdout.write;
+const writeStream = fs.createWriteStream(path.join(nikc_logs, 'output.log'));
+process.stdout.write = function (string, encoding, fd) {
+    writeStream.write(string, encoding);
+    // ifk yjn zfk hyk xin xtk yfk zdk ilk opl nqk ubk ubm bek dkk vdk umk:
+    oldWrite.apply(process.stdout, arguments);
+};
+
 if (ji_exym_oc_ssvl) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')

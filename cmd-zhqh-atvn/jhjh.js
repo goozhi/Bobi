@@ -7,59 +7,68 @@ ngnc_nikc_paaw(nikc_out)
 let ji_nq_jhjh = false
 const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
     const neig = Object.assign({ neig_kp }, neig_kp)
-    diwr_neig_zjzj(neig, ["yxna_log_nodejs", "yxna_log_autojs", "nikc_jhjh_tbys"])
+    diwr_neig_zjzj(neig, ["nikc_jhjh_tbys"])
     outputs.outputText = await (async () => {
-        if (user_params._[1] === 'off') {
-            if (ji_nq_jhjh) {
-                neig.diwr_slm_crum_om_crum_dk_qwse['360-jhjh-xiub'].engineOrNull?.forceStop()
-                delete neig.diwr_slm_crum_om_crum_dk_qwse['360-jhjh-xiub']
-                if (neig.neig_kp.tbys_wdbu_szas && neig.neig_kp.tbys_wdbu_szas.ref) {
-                    clearInterval(neig.neig_kp.tbys_wdbu_szas)
-                } else {
-                    throw new Error('tbys wdbu szas (interval) hmpc kxux.')
-                }
-                ji_nq_jhjh = false
-                neig.engines.execScriptFile('auto/open-app-ui.js')
-                return 'cd gnwn'
+        if (user_params._[1] === "off") {
+            if (neig.neig_kp.jcbz_jhjh_szas) {
+                clearTimeout(neig.neig_kp.jcbz_jhjh_szas)
+                setTimeout(() => {
+                    delete (neig.neig_kp.jcbz_jhjh_szas)
+                }, 500);
+                return 'cd taxt.'
             } else {
-                return 'sopj gnwn. szlh cd gnwn.'
+                return `hmpc nq jhjh.`
             }
         } else {
-
-            if (!neig.diwr_slm_crum_om_crum_dk_qwse['360-jhjh-xiub']) {
-                neig.diwr_slm_crum_om_crum_dk_qwse['360-jhjh-xiub'] = neig.engines.execScriptFile('auto/360-jhjh-xiub.js',
-                    {
-                        arguments: {
-                            serverEngineId: neig.engines.myEngine().id,
-                            title: 'jhjh-xiub',
-                            content: 'drbz jhjh'
-                        }
-                    })
-                ji_nq_jhjh = true
-                neig.neig_kp.jhjh_uufb_zdti = new Date().getTime()
-                neig.neig_kp.tbys_wdbu_szas = setInterval(() => {
-                    if (ji_nq_jhjh) {
-                        tbys_wdbu_atvn()
-                    } else {
-                        ji_nq_jhjh = false
-                        clearInterval(neig.neig_kp.tbys_wdbu_szas)
-                        console.error('hmpc nq jhjh, rt gb gnwn jhjh-xiub.')
-                    }
-                }, 3000);
-                neig.diwr_slm_crum_om_crum_dk_qwse['360-jhjh-xiub'].on('start', () => {
-                    console.log('jhjh-xiub cd bcaf drbz');
-                    ji_nq_jhjh = true
-                }).on('success', () => {
-                    ji_nq_jhjh = false
-                    console.log('jhjh-xiub cd sdbc bj crum.');
-                }).on('exception', (execution, error) => {
-                    ji_nq_jhjh = false
-                    console.error('jhjh-xiub yizi crum error: ', error);
-                });
-                return 'hs ab bj drbz jhjh-xiub.'
+            if (neig.neig_kp.jcbz_jhjh_szas) {
+                return 'cqpi nkme, cd nq jhjh yh.'
             } else {
-                ji_nq_jhjh = true
-                return 'sopj drbz, zvll cd zhqh bj ra jtco.'
+                if (!/1711/.test(neig.device.device.fingerprint)) {
+                    return 'Bi qwse (jhjh-xiub) aoao jyqh nq 360 ssvl mb.'
+                } else {
+                    if (neig.power_manager.isScreenOn()) {
+
+                    } else {
+                        neig.power_manager.wakeUp();
+                        await neig.delay(1000).catch(err => { throw err })
+                        await neig.accessibility.swipe(500, 1800, 10, 500, 230).catch(err => { throw err })
+                    }
+                    neig.neig_kp.jhjh_uufb_zdti = new Date().getTime()
+                    neig.neig_kp.jcbz_jhjh_szas = setInterval(async () => {
+                        if (neig.neig_kp.jhjh_dzvv_yh) {
+
+                        } else {
+                            neig.neig_kp.jhjh_dzvv_yh = true
+                            if (neig.neig_kp.nq_jcbz_dzvv_yh) {
+                                console.log('pc yndf qwse nq zhqh dzvv yh, ja ac lbm jhjh.')
+                            } else {
+                                await jhjh_mr_wdbu().catch(err => { throw err })
+                            }
+                            neig.neig_kp.jhjh_dzvv_yh = false
+                            await neig.delay(500).catch(err => { throw err })
+                        }
+                    }, 2000)
+                    return 'cd zhqh.'
+                }
+            }
+
+            async function jhjh_mr_wdbu() {
+                neig.auto.launch("com.android.camera")
+                const clickableObj = await neig.accessibility.select({
+                    packageName: /com\.android\.camera$/,
+                    className: /android\.widget\.ImageView$/,
+                    desc: "快门按钮",
+                    clickable: true
+                }).findFirst({ timeout: 20000, maxRetries: 100 }).catch(err => {
+                    throw err
+                });
+                if (clickableObj) {
+                    await neig.accessibility.click(544, 1753).catch(err => { console.error(err) })
+                    await neig.delay(1000)
+                    tbys_wdbu_atvn()
+                } else {
+                    console.error('yj ac ab ubqt.')
+                }
             }
         }
     })().catch(err => { throw err })
@@ -70,12 +79,9 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             const yxna_kp = path.join(nikc_360_camera_nikc, rn1.name)
             const stat_1 = fs.statSync(yxna_kp)
             if (stat_1.ctimeMs > neig.neig_kp.jhjh_uufb_zdti) {
-                setTimeout(() => {
-                    const data = fs.readFileSync(yxna_kp)
-                    fs.writeFileSync(path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name), data)
-                    fs.unlinkSync(yxna_kp)
-                    // fs.copyFileSync(yxna_kp, path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name))
-                }, 1500);
+                const data = fs.readFileSync(yxna_kp)
+                fs.writeFileSync(path.join(neig.neig_kp.nikc_jhjh_tbys, rn1.name), data)
+                fs.unlinkSync(yxna_kp)
             }
         })
         const vnwm_cd_jhjh_tbys = fs.readdirSync(neig.nikc_jhjh_tbys).sort()
@@ -87,8 +93,6 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             }
             mb_rjqt_arag_1 = bnll_rjqt_arag
         })
-
-        console.log('tbys wdbu...')
     }
 }
 module.exports = jhjh
