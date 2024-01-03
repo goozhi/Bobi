@@ -15,7 +15,13 @@ Object.assign(neig, {
     , delay
     , showToast
 })
-// 启动Rhino引擎
+
+if (/QK1711/.test(device.device.fingerprint)) {
+    if(!power_manager.isScreenOn){
+        power_manager.wakeUp()
+    }
+    engines.execScriptFile('./auto/drbz-so-crmh.js')
+}
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
         serverEngineId: engines.myEngine().id,
