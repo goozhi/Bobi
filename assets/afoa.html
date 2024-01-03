@@ -19,6 +19,7 @@
     <br>
     <pre id="vdum_1"></pre>
     <div id="vdum_2"></div>
+    <div id="copy_2"></div>
     <script>
         document.onkeyup = function (event) {
             if (event.keyCode == 32 && event.ctrlKey) {
@@ -39,6 +40,11 @@
             copyToClipboard(vdum_1.innerText)
             document.getElementById("ag_zzuy").innerText = "Copyed;)"
         }
+        function copy_2() {
+            let vdum_2 = document.getElementById('vdum_2')
+            copyToClipboard(vdum_2.innerHTML)
+            document.getElementById("ag_zzuy").innerText = "Copyed;)"
+        }
         function copyToClipboard(string_1) {
             const tempInput = document.createElement('textarea');
             tempInput.value = string_1;
@@ -52,6 +58,7 @@
             let vdzv_1 = document.getElementById('vdzv_1')
             let vdum_1 = document.getElementById('vdum_1')
             let vdum_2 = document.getElementById('vdum_2')
+            let copy_2 = document.getElementById('copy_2')
             fetch('/afoa', {
                 method: "POST",
                 headers: {
@@ -64,6 +71,7 @@
                     res.json().then(jtyj_1 => {
                         if (jtyj_1.ji_ye_hym_html) {
                             vdum_2.innerHTML = jtyj_1.outputText
+                            copy_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
                         } else {
                             vdum_1.innerText = jtyj_1.outputText
                         }
