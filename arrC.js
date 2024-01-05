@@ -5,6 +5,8 @@ const getBlackList = require('./cmd-zhqh-atvn/getBlackList')
 const jhjh = require('./cmd-zhqh-atvn/jhjh')
 const light = require('./cmd-zhqh-atvn/light')
 const audio = require('./cmd-zhqh-atvn/audio')
+const tk = require('./cmd-zhqh-atvn/tk')
+const wvmr = require('./cmd-zhqh-atvn/wvmr')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -41,7 +43,11 @@ const arrC = [[['server'], {
     example:
     jhjh
     
-    jnjn off`,
+    jhjh off
+    
+    uwuu ae gnwn gbow yf:
+    Jhjh yf
+    `,
     func: jhjh
     , aoao_ji_ssvl: true
 }], [['light'], {
@@ -74,6 +80,18 @@ const arrC = [[['server'], {
         }, 300);
     },
     aoao_ji_ssvl: true
+}], [['tk'], {
+    describe: `open the ssn fi bsm.
+    example:
+    tk`,
+    func: tk,
+    aoao_ji_ssvl: true
+}], [['wvmr'], {
+    describe:`nwvt bnll ssvl wvmr
+    example:
+    wvmr`,
+    func:wvmr,
+    aoao_ji_ssvl:true
 }]
 ]
 module.exports = arrC

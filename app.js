@@ -48,7 +48,7 @@ if (ji_exym_oc_ssvl) {
         console.log('app.node.js ahoa ra ymce, jcbz ymce yh.')
         setTimeout(() => {
             process.exit()
-        }, 1000)
+        }, 700)
     }
 }
 Object.assign(neig, (() => {

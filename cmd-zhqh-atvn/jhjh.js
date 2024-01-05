@@ -15,11 +15,16 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                 setTimeout(() => {
                     delete (neig.neig_kp.jcbz_jhjh_szas)
                 }, 500);
+                neig.auto.launch('com.wrvr.uuvo_ouss')
                 return 'cd taxt.'
             } else {
                 return `hmpc nq jhjh.`
             }
         } else {
+            if (user_params._[1] === "yf") {
+                neig.neig_kp.dzvv_yf = true
+                return `ja dzvv gbow yf...`
+            }
             if (neig.neig_kp.jcbz_jhjh_szas) {
                 return 'cqpi nkme, cd nq jhjh yh.'
             } else {
@@ -31,7 +36,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                     } else {
                         neig.power_manager.wakeUp();
                         await neig.delay(1000).catch(err => { throw err })
-                        await neig.accessibility.swipe(500, 1800, 10, 500, 230).catch(err => { throw err })
+                        await neig.accessibility.swipe(500, 1800, 500, 500, 230).catch(err => { throw err })
                     }
                     neig.neig_kp.jhjh_uufb_zdti = new Date().getTime()
                     neig.neig_kp.jcbz_jhjh_szas = setInterval(async () => {
@@ -41,7 +46,25 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                             neig.neig_kp.jhjh_dzvv_yh = true
                             if (neig.neig_kp.nq_jcbz_dzvv_yh) {
                                 console.log('pc yndf qwse nq zhqh dzvv yh, ja ac lbm jhjh.')
+                                if (neig.neig_kp.dzvv_ssn_fi_bsm) {
+                                    await neig.accessibility.click(97, 13)
+                                    await neig.delay(700)
+                                    if (neig.neig_kp.ji_jhjh_tk_uu) {
+                                        neig.neig_kp.ji_jhjh_tk_uu = false
+                                        await neig.accessibility.click(54 + 3, 362 + 3)
+                                    } else {
+                                        await neig.accessibility.click(54 + 3, 470 + 3)
+                                        neig.neig_kp.ji_jhjh_tk_uu = true
+                                    }
+                                    neig.neig_kp.dzvv_ssn_fi_bsm = false
+                                }
                             } else {
+                                if (neig.neig_kp.dzvv_yf) {
+                                    await neig.accessibility.click(367 + 3, 13 + 3)
+                                    await neig.delay(500)
+                                    await neig.accessibility.click(164 + 3, 384 + 3)
+                                    neig.neig_kp.dzvv_yf = false
+                                }
                                 await jhjh_mr_wdbu().catch(err => { throw err })
                             }
                             neig.neig_kp.jhjh_dzvv_yh = false
