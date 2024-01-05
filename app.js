@@ -6,7 +6,6 @@ const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
 const app = new Koa();
-const fictions = require('./my-fictions/main')
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
 const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'afoa', 'about', 'dqab-esqt', 'fdbj-rjqt', 'wubr-jchv', 'likeyou', 'wjfc-vocb']
@@ -133,15 +132,9 @@ app.use(async (ctx, next) => {
     ctx.set('X-Response-Time', `${ms}ms`);
 });
 
-// response
-// index page
-const obj_ybkc = {}
-const href_fictions = [...fictions].map(([key, value]) => {
-    const path_fiction = key.bookName.split('').map(ele => ele.charCodeAt(0)).join('-')
-    obj_ybkc[path_fiction] = key
-    return `<a href="/${path_fiction}" target="_blank" class="button--grey">${key.bookName}</a>`
-})
-// first page match
+
+
+
 app.use(async (ctx, next) => {
     if (/\/eysj-zjqt\//.test(ctx.path)) {
         const eysj = ctx.path.replace(/.*\//, "")
@@ -198,13 +191,13 @@ app.use(async (ctx, next) => {
     else if (/Android [0-9]\b|iPhone OS (?:[0-9][^\d]|1[0-1][^\d])|^(?:(?!Windows|Mac|iPhone|Android|[Uu]buntu).)+$/.test(ctx.header['user-agent']) && !/vivobrowser|vivo x21/i.test(ctx.header['user-agent'])) {
         if (fs.existsSync(nikc_out))
             fs.appendFile(blackNameListPath, `${new Date().toString()} ${ctx.URL} ${ctx.header['user-agent']}\n`, (err) => { })
-        const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
+        const html = fs.readFileSync(`${dirName}/index.html`).toString()
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
         ctx.body = html;
         return
     }
     if (ctx.path === '/mamamia') {
-        const html = fs.readFileSync(`${dirName}/index.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
+        const html = fs.readFileSync(`${dirName}/index.html`).toString()
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
         ctx.body = html;
     } else {
@@ -343,31 +336,7 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-// 下面是小说首页
-// app.use(async (ctx, next) => {
-//     if (ctx.path === '/') {
-//         const html = fs.readFileSync(`${dirName}/fiction-enter.html`).toString().replace(/.*\/gusi.*/, href_fictions.join('\n'));
-//         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
-//         ctx.body = html;
-//     } else {
-//         await next();
-//     }
-// });
-app.use(async (ctx, next) => {
-    const gkjq_yj_ab = Object.entries(obj_ybkc).some(([key, value]) => {
-        if ('/' + key === ctx.path) {
-            const html = fs.readFileSync(`${dirName}/fiction.html`).toString().replace(/fiction-content/, [...fictions.get(value)].map(([key, value], index_1) => `第${index_1 + 1}章<h2>${value.title}</h2>` + value.content).join('\n\n')).replace(/\n/g, '<br>').replace(/fiction-title/, value.bookName);
-            ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
-            ctx.body = html;
-            return true
-        }
-    })
-    if (gkjq_yj_ab) {
 
-    } else {
-        await next()
-    }
-})
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = JSON.stringify(ctx, null, 2)
