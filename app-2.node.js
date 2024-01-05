@@ -340,21 +340,6 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
-    const gkjq_yj_ab = Object.entries(obj_ybkc).some(([key, value]) => {
-        if ('/' + key === ctx.path) {
-            const html = fs.readFileSync(`${dirName}/fiction.html`).toString().replace(/fiction-content/, [...fictions.get(value)].map(([key, value], index_1) => `第${index_1 + 1}章<h2>${value.title}</h2>` + value.content).join('\n\n')).replace(/\n/g, '<br>').replace(/fiction-title/, value.bookName);
-            ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8');
-            ctx.body = html;
-            return true
-        }
-    })
-    if (gkjq_yj_ab) {
-
-    } else {
-        await next()
-    }
-})
-app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = JSON.stringify(ctx, null, 2)
     } else {
