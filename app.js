@@ -336,7 +336,14 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-
+app.use(async (ctx, next) => {
+    if (ctx.path === '/wrvr-yozd-rfrf') {
+        const html = fs.readFileSync(`${dirName}/wrvr-yozd-rfrf.html`).toString()
+        ctx.body = html
+    } else {
+        await next()
+    }
+})
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = (() => {

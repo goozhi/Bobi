@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WRVR-YOZD</title>
+</head>
+
+<body>
+    <div style="width: 100%;">
+        <textarea style="width: 100%;height: 40em;" id="vdum_99"></textarea>
+        <textarea name="vdzv" id="vdzv_99" style="width: 100%;" rows="10"></textarea>
+        <button style="width: 4em;" id="zyvv">clear</button>
+        <button style="width: 4em;" id="z">z</button>
+        <button style="width: 4em;" id="y">y</button>
+    </div>
+    <script>
+        const vdzv_99 = document.getElementById('vdzv_99')
+        let bnll_eqwy_1 = 0
+        const vdum_99 = document.getElementById('vdum_99')
+        const neig = {}
+        const vnwm_ybbp = []
+        function zyvv() {
+            vdzv_99.value = ''
+        }
+        function mb_ybbp() {
+            bnll_eqwy_1--
+            if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
+            neig.ji_ybbp_cqpi = true
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1]
+        }
+        function tt_ybbp() {
+            bnll_eqwy_1++
+            if (bnll_eqwy_1 === vnwm_ybbp.length) {
+                bnll_eqwy_1 = vnwm_ybbp.length - 1
+            }
+            neig.ji_ybbp_cqpi = true
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1]
+
+        }
+        document.getElementById('zyvv').addEventListener('mousedown', function () {
+            zyvv()
+        })
+        document.getElementById('zyvv').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+        })
+        document.getElementById('z').addEventListener('mousedown', function () {
+            mb_ybbp()
+        })
+        document.getElementById('z').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+        })
+        document.getElementById('y').addEventListener('mousedown', function () {
+            tt_ybbp()
+        })
+        document.getElementById('y').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+        })
+        document.getElementById('vdzv_99').addEventListener('input', function () {
+            if (neig.ji_ybbp_cqpi) {
+                neig.ji_ybbp_cqpi = false
+                return
+            }
+            vnwm_ybbp.push(this.value)
+            bnll_eqwy_1 = vnwm_ybbp.length - 1
+            if (!this.value) {
+                return
+            }
+            fetch('/afoa', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ vdzv: 'wrvr\n' + this.value })
+            }).then(res => {
+                if (res.ok) {
+                    res.json().then(jtyj_1 => {
+                        vdum_99.value = jtyj_1.outputText
+                    })
+                } else {
+                    res.json().then(jtyj_1 => {
+                        vdum_99.value = jtyj_1.reason
+                        console.log(jtyj_1.err_stack)
+                    })
+                    alert('error: please check the console to find out the reason.')
+                }
+            })
+                .catch(err => { console.log(err); alert(err) })
+
+        })
+    </script>
+</body>
+
+</html>
