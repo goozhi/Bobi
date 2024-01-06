@@ -339,7 +339,13 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
-        ctx.body = fs.readFileSync(`${dirName}/test.html`).toString()
+        ctx.body = (() => {
+            try {
+                return fs.readFileSync(`${dirName}/test.html`).toString()
+            } catch (err) {
+                return ''
+            }
+        })()
     } else {
         await next()
     }
