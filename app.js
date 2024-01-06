@@ -339,7 +339,7 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
-        ctx.body = JSON.stringify(ctx, null, 2)
+        ctx.body = fs.readFileSync(`${dirName}/test.html`).toString()
     } else {
         await next()
     }
