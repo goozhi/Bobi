@@ -14,6 +14,7 @@
         <button style="width: 4em;" id="zyvv">clear</button>
         <button style="width: 4em;" id="z">z</button>
         <button style="width: 4em;" id="y">y</button>
+        <button style="width: 4em;" onclick="copy_vdzv_99()">copy</button>
     </div>
     <script>
         const vdzv_99 = document.getElementById('vdzv_99')
@@ -24,6 +25,19 @@
         function zyvv() {
             vdzv_99.value = ''
         }
+        function copy_vdzv_99() {
+            copyToClipboard(vdzv_99.value)
+            vdzv_99.focus()
+        }
+        function copyToClipboard(string_1) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = string_1;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+
         function mb_ybbp() {
             bnll_eqwy_1--
             if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
