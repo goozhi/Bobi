@@ -73,7 +73,13 @@
                             vdum_2.innerHTML = jtyj_1.outputText
                             copy_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
                         } else {
-                            vdum_1.innerText = jtyj_1.outputText
+                        if(jtyj_1.outputText.toString().length>100000){
+                        console.log( jtyj_1.outputText)
+                        alert(jtyj_1.outputText.toString().length+"jtyj cf ar, rt nq console yh zjhq.")
+                        }else{
+                        vdum_1.innerText = jtyj_1.outputText
+                        }
+                            
                         }
                     })
                 } else {
