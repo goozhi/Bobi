@@ -94,7 +94,7 @@
             }).then(res => {
                 if (res.ok) {
                     res.json().then(jtyj_1 => {
-                        vdum_99.value = jtyj_1.outputText
+                        vdum_99.value = jtyj_1.outputText.replace(/(?<!,|\.) (?!\w)/g,"")
                     })
                 } else {
                     res.json().then(jtyj_1 => {
