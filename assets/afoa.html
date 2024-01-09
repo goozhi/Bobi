@@ -15,12 +15,44 @@
     <br>
     <code id="ag_zzuy"></code>
     <button onclick="vdum()" style="height:3em;width:20em;" id="vdum_btn">vdum</button>
+    <button onclick="vdzv_focus()" id="zyvv_1">clear</button>
+    <button onclick="vdzv_focus()" id="ac_zyvv_1">unclear</button>
     <button onclick="copy()" style="height:3em;width:20em;" id="copy_btn">copy</button>
     <br>
     <pre id="vdum_1"></pre>
     <div id="vdum_2"></div>
     <div id="copy_2"></div>
     <script>
+        const zyvv_1 = document.getElementById('zyvv_1')
+        const ac_zyvv_1 = document.getElementById('ac_zyvv_1')
+        const vdzv_1 = document.getElementById('vdzv_1')
+        const neig = { vnwm_vdzv_ybkc: [] }
+        vdzv_1.addEventListener('input', function () {
+            if (/^.*\n$/.test(this.value)) {
+                neig.vnwm_vdzv_ybkc[0] = this.value
+            } else if (/\n.+/.test(this.value)) {
+                neig.vnwm_vdzv_ybkc[1] = this.value
+            } else {
+
+            }
+        })
+        zyvv_1.addEventListener('mousedown', () => {
+            if (!vdzv_1.value) {
+                return
+            }
+            console.log(neig.vnwm_vdzv_ybkc[1])
+            if (neig.vnwm_vdzv_ybkc[1]) {
+                vdzv_1.value = neig.vnwm_vdzv_ybkc[0]
+            }
+        })
+        ac_zyvv_1.addEventListener('mousedown', () => {
+            if (neig.vnwm_vdzv_ybkc[1]) {
+                vdzv_1.value = neig.vnwm_vdzv_ybkc[1]
+            }
+        })
+        function vdzv_focus() {
+            vdzv_1.focus()
+        }
         document.onkeyup = function (event) {
             if (event.keyCode == 32 && event.ctrlKey) {
                 document.getElementById('vdum_btn').click()
@@ -73,13 +105,12 @@
                             vdum_2.innerHTML = jtyj_1.outputText
                             copy_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
                         } else {
-                        if(jtyj_1.outputText.toString().length>100000){
-                        console.log( jtyj_1.outputText)
-                        alert(jtyj_1.outputText.toString().length+"jtyj cf ar, rt nq console yh zjhq.")
-                        }else{
-                        vdum_1.innerText = jtyj_1.outputText
-                        }
-                            
+                            if (jtyj_1.outputText.toString().length > 100000) {
+                                console.log(jtyj_1.outputText)
+                                alert(jtyj_1.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
+                            } else {
+                                vdum_1.innerText = jtyj_1.outputText
+                            }
                         }
                     })
                 } else {
