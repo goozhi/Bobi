@@ -11,13 +11,13 @@
     <form name="home" action="/" method="get">
         <button>go home</button>
     </form>
-    <textarea id="vdzv_1" rows="10" cols="100"></textarea>
+    <textarea id="vdzv_1" rows="10" style="width: 100%;"></textarea>
     <br>
     <code id="ag_zzuy"></code>
     <button onclick="vdum()" style="height:3em;width:20em;" id="vdum_btn">vdum</button>
     <button onclick="vdzv_focus()" id="zyvv_1">clear</button>
     <button onclick="vdzv_focus()" id="ac_zyvv_1">unclear</button>
-    <button onclick="copy()" style="height:3em;width:20em;" id="copy_btn">copy</button>
+    <button onclick="copy();vdzv_focus()" style="height:3em;width:20em;" id="copy_btn">copy</button>
     <br>
     <pre id="vdum_1"></pre>
     <div id="vdum_2"></div>
@@ -70,7 +70,7 @@
         function copy() {
             let vdum_1 = document.getElementById('vdum_1')
             copyToClipboard(vdum_1.innerText)
-            document.getElementById("ag_zzuy").innerText = "Copyed;)"
+            document.getElementById("ag_zzuy").innerText = "Copyed"
         }
         function copy_2() {
             let vdum_2 = document.getElementById('vdum_2')
@@ -100,6 +100,7 @@
                 body: JSON.stringify({ vdzv: vdzv_1.value })
             }).then(res => {
                 if (res.ok) {
+                    vdzv_focus()
                     res.json().then(jtyj_1 => {
                         if (jtyj_1.ji_ye_hym_html) {
                             vdum_2.innerHTML = jtyj_1.outputText
