@@ -14,3 +14,5 @@ test.html
 test.*
 !test.cmd.js
 *.bak
+
+*.node.js
