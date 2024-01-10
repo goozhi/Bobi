@@ -16,3 +16,4 @@ test.*
 *.bak
 
 *.node.js
+!app-2.node.js
