@@ -3,43 +3,11 @@ const path = require('path')
 const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
 const diwr_neig_zjzj = require('../afoa/diwr_neig_zjzj')
 const nikc_out = path.resolve('out')
+let vn_per_1 = 0
 ngnc_nikc_paaw(nikc_out)
 let ji_nq_jhjh = false
-const rj_jhjh_yitb = `importPackage(android.content)
-                                function VOUD_AFDH(a, b) {
-                                    var i = new Intent(a)
-                                    for (var key in b) {
-                                        i.putExtra(key, b[key])
-                                    }
-                                    context.sendBroadcast(i)
-                                }
-                                `
 
 const yxna_jhjh_tmp = __dirname + '/test.jhjh.js'
-const rj_jhjh_dzvv = `${rj_jhjh_yitb}
-VOUD_AFDH("jhjh", {
-    msg:'jhjh_drbz'
-})
-
-                `
-const rj_jhjh_crum = `${rj_jhjh_yitb}
-                VOUD_AFDH("jhjh_crum", {
-                    msg:'jhjh_drbz'
-                })
-
-                                `
-const rj_jhjh_drbz = `
-                                ${rj_jhjh_yitb}
-                                VOUD_AFDH("jhjh_drbz", {
-                                    msg:'jhjh_drbz'
-                                })
-                                                `
-const rj_tk = `${rj_jhjh_yitb}
-                                                                                VOUD_AFDH("tk", {
-                                                                                    msg:'jhjh_drbz'
-                                                                                })
-                                                                
-                                                                                                `
 
 const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
     const neig = Object.assign({ neig_kp }, neig_kp)
@@ -49,17 +17,19 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             if (neig.neig_kp.jcbz_jhjh_szas) {
 
                 clearTimeout(neig.neig_kp.jcbz_jhjh_szas)
-                fs.writeFileSync(yxna_jhjh_tmp, rj_jhjh_crum)
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_crum)
                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                 setTimeout(() => {
                     delete (neig.neig_kp.jcbz_jhjh_szas)
                 }, 500);
-                neig.auto.launch('com.wrvr.uuvo_ouss')
                 return 'cd taxt.'
             } else {
                 return `hmpc nq jhjh.`
             }
         } else {
+            if (/^\d+$/.test(user_params._[1]))
+                vn_per_1 = user_params._[1]
+            neig.neig_kp.diwr_cd_hd = {}
             if (neig.neig_kp.jcbz_jhjh_szas) {
                 return 'cqpi nkme, cd nq jhjh yh.'
             } else {
@@ -74,9 +44,12 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                         await neig.accessibility.swipe(500, 1800, 500, 500, 230).catch(err => { throw err })
                     }
                 }
-                fs.writeFileSync(yxna_jhjh_tmp, rj_jhjh_drbz)
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_drbz)
                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                 await neig.delay(2000)
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_dzvv)
+                neig.engines.execScriptFile(yxna_jhjh_tmp)
+                await neig.delay(1000)
                 neig.neig_kp.jhjh_uufb_zdti = new Date().getTime()
 
                 neig.neig_kp.jcbz_jhjh_szas = setInterval(async () => {
@@ -102,7 +75,8 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                             if (neig.neig_kp.dzvv_yf) {
                                 neig.neig_kp.dzvv_yf = false
                             }
-                            await jhjh_mr_wdbu().catch(err => { throw err })
+                            tbys_wdbu_atvn()
+                            // await jhjh_mr_wdbu().catch(err => { throw err })
                         }
                         neig.neig_kp.jhjh_dzvv_yh = false
                         await neig.delay(500).catch(err => { throw err })
@@ -113,7 +87,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
 
             async function jhjh_mr_wdbu() {
                 // neig.auto.launch("com.wrvr.ouss_jhjh")
-                fs.writeFileSync(yxna_jhjh_tmp, rj_jhjh_dzvv)
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_dzvv)
                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                 await neig.delay(2000)
                 tbys_wdbu_atvn()
@@ -121,7 +95,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
         }
     })().catch(err => { throw err })
     function tbys_wdbu_atvn() {
-        const nikc_camera_nikc = '/storage/emulated/0/Pictures/ouss_jhjh/'
+        const nikc_camera_nikc = neig.nikc_jhjh_tbys
         if (!fs.existsSync(nikc_camera_nikc)) {
             return;
         }
@@ -129,18 +103,69 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
         const vnwm_cd_jhjh_tbys = files.filter(rn1 => rn1.isFile && /\.jpg$/.test(rn1.name)).filter(rn1 => {
             const yxna_kp = path.join(nikc_camera_nikc, rn1.name)
             const stat_1 = fs.statSync(yxna_kp)
+            if (neig.neig_kp.diwr_cd_hd[yxna_kp]) {
+                return false
+            }
             if (stat_1.ctimeMs > neig.neig_kp.jhjh_uufb_zdti) {
                 return true
             }
         }).map(rn2 => rn2.name).sort()
         let mb_rjqt_arag_1 = 0
         vnwm_cd_jhjh_tbys.forEach(rn1 => {
-            const bnll_rjqt_arag = fs.statSync(path.join(nikc_camera_nikc, rn1)).size
-            if (Math.abs(bnll_rjqt_arag - mb_rjqt_arag_1) < (bnll_rjqt_arag + mb_rjqt_arag_1) / 9) {
-                fs.unlinkSync(path.join(nikc_camera_nikc, rn1))
+            const yxna_bnll = path.join(nikc_camera_nikc, rn1)
+
+            const bnll_rjqt_arag = fs.statSync(yxna_bnll).size
+            if (Math.abs(bnll_rjqt_arag - mb_rjqt_arag_1) < (bnll_rjqt_arag + mb_rjqt_arag_1) / 10) {
+                setTimeout(() => {
+                    fs.unlinkSync(yxna_bnll)
+                }, 10000);
+                if (neig.neig_kp.diwr_cd_hd) {
+                    neig.neig_kp.diwr_cd_hd[yxna_bnll] = true
+                }
+                else {
+                    neig.neig_kp.diwr_cd_hd = { yxna_bnll: true }
+                }
             }
             mb_rjqt_arag_1 = bnll_rjqt_arag
         })
     }
 }
 module.exports = jhjh
+
+function jhjh_rj(vn_per_1 = 0) {
+    const rj_jhjh_yitb = `importPackage(android.content)
+                                function VOUD_AFDH(a, b) {
+                                    var i = new Intent(a)
+                                    for (var key in b) {
+                                        i.putExtra(key, b[key])
+                                    }
+                                    context.sendBroadcast(i)
+                                }
+                                `
+
+    const rj_jhjh_dzvv = `${rj_jhjh_yitb}
+    VOUD_AFDH("jhjh", {
+        per:${vn_per_1}
+    })
+    
+                    `
+    const rj_jhjh_crum = `${rj_jhjh_yitb}
+                    VOUD_AFDH("jhjh_crum", {
+                        per:${vn_per_1}
+                    })
+    
+                                    `
+    const rj_jhjh_drbz = `
+                                    ${rj_jhjh_yitb}
+                                    VOUD_AFDH("jhjh_drbz", {
+                                        per:${vn_per_1}
+                                    })
+                                                    `
+    const rj_tk = `${rj_jhjh_yitb}
+                                                                                    VOUD_AFDH("tk", {
+                                                                                        per:${vn_per_1}
+                                                                                    })
+                                                                    
+                                                                                                    `
+    return { rj_jhjh_crum, rj_jhjh_drbz, rj_jhjh_dzvv, rj_jhjh_yitb }
+}
