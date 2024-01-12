@@ -3,7 +3,7 @@ const path = require('path')
 const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
 const diwr_neig_zjzj = require('../afoa/diwr_neig_zjzj')
 const nikc_out = path.resolve('out')
-let vn_per_1 = 0
+let vn_per_1 = 70
 ngnc_nikc_paaw(nikc_out)
 let ji_nq_jhjh = false
 
@@ -132,7 +132,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
 }
 module.exports = jhjh
 
-function jhjh_rj(vn_per_1 = 0) {
+function jhjh_rj(vn_per_1 = 70) {
     const rj_jhjh_yitb = `importPackage(android.content)
                                 function VOUD_AFDH(a, b) {
                                     var i = new Intent(a)
