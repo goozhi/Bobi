@@ -7,6 +7,7 @@ const light = require('./cmd-zhqh-atvn/light')
 const audio = require('./cmd-zhqh-atvn/audio')
 const tk = require('./cmd-zhqh-atvn/tk')
 const wvmr = require('./cmd-zhqh-atvn/wvmr')
+const lzdr_arrC = require('./cmd-zhqh-atvn/lzdr-arrC.js')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -87,11 +88,16 @@ const arrC = [[['server'], {
     func: tk,
     aoao_ji_ssvl: true
 }], [['wvmr'], {
-    describe:`nwvt bnll ssvl wvmr
+    describe: `nwvt bnll ssvl wvmr
     example:
     wvmr`,
-    func:wvmr,
-    aoao_ji_ssvl:true
+    func: wvmr,
+    aoao_ji_ssvl: true
+}], [['lzdr'], {
+    describe: `lzdr arrC in Bobi.
+    example:
+    lzdr`,
+    func:lzdr_arrC
 }]
 ]
 module.exports = arrC

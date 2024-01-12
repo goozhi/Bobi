@@ -21,7 +21,6 @@ const kplu_ld_diwr = require('./afoa/kplu_ld_diwr');
 const diwr_neig_zjzj = require('./afoa/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const wvvy = require('../scripts/wvvy');
-const arrC = require('./arrC');
 const nikc_out = path.resolve('out')
 const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
 const nikc_logs = path.join(nikc_out, 'logs')
@@ -273,7 +272,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            neig.excmds = arrC
+            neig.excmds = require('./arrC.js')
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
@@ -498,10 +497,11 @@ app.use(async (ctx, next) => {
             } catch (err) {
                 console.log(ctx.request.files)
             }
-            ctx.body = {
-                success: true,
-                message: 'File uploaded successfully',
-            };
+            ctx.body = `<h1>
+                File uploaded successfully
+            </h1>
+                     <a href="/">home</a>
+            `
         } else {
             ctx.body = {
                 success: false,

@@ -3,7 +3,7 @@ const path = require('path')
 const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
 const diwr_neig_zjzj = require('../afoa/diwr_neig_zjzj')
 const nikc_out = path.resolve('out')
-let vn_per_1 = 70
+let vn_per_1 = 0
 ngnc_nikc_paaw(nikc_out)
 let ji_nq_jhjh = false
 
@@ -47,7 +47,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                 fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_drbz)
                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                 await neig.delay(2000)
-                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1, `(${tbys_wdbu_atvn.toString().replace(/`/g, '\\`').replace(/\$/g, "\\\$")})(yxna_tbys)`).rj_jhjh_dzvv)
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_dzvv)
                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                 await neig.delay(1000)
                 neig.neig_kp.jhjh_uufb_zdti = new Date().getTime()
@@ -68,10 +68,15 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                                     neig.neig_kp.ji_jhjh_tk_uu = true
                                 }
                                 neig.neig_kp.dzvv_ssn_fi_bsm = false
-                                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_tk)
+                                fs.writeFileSync(yxna_jhjh_tmp, rj_tk)
                                 neig.engines.execScriptFile(yxna_jhjh_tmp)
                             }
                         } else {
+                            if (neig.neig_kp.dzvv_yf) {
+                                neig.neig_kp.dzvv_yf = false
+                            }
+                            tbys_wdbu_atvn()
+                            // await jhjh_mr_wdbu().catch(err => { throw err })
                         }
                         neig.neig_kp.jhjh_dzvv_yh = false
                         await neig.delay(500).catch(err => { throw err })
@@ -79,46 +84,55 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                 }, 2000)
                 return 'cd zhqh.'
             }
+
+            async function jhjh_mr_wdbu() {
+                // neig.auto.launch("com.wrvr.ouss_jhjh")
+                fs.writeFileSync(yxna_jhjh_tmp, jhjh_rj(vn_per_1).rj_jhjh_dzvv)
+                neig.engines.execScriptFile(yxna_jhjh_tmp)
+                await neig.delay(2000)
+                tbys_wdbu_atvn()
+            }
         }
     })().catch(err => { throw err })
-    function tbys_wdbu_atvn(yxna_tbys) {
-        const path = require('path')
-        const fs = require('fs')
-        // const nikc_camera_nikc = neig.nikc_jhjh_tbys
-        const nikc_camera_nikc = path.dirname(yxna_tbys)
-        if (!fs.existsSync(yxna_tbys)) {
-            console.error(`yxna ac zznq:${yxna_tbys}`)
+    function tbys_wdbu_atvn() {
+        const nikc_camera_nikc = neig.nikc_jhjh_tbys
+        if (!fs.existsSync(nikc_camera_nikc)) {
             return;
-        } else {
-            const files = fs.readdirSync(nikc_camera_nikc, { withFileTypes: true })
-            const vnwm_tbys = files.filter(rn1 => rn1.isFile() && /\.(jpg|png)$/.test(rn1.name)).map(rn1 => rn1.name).sort()
-            let bnll_eqwy_1 = 0
-            let bm_stat_arag = 0
-            const wu_1 = vnwm_tbys.find((rn1, eqwy_1) => {
-                bnll_eqwy_1 = eqwy_1
-                return rn1 === path.basename(yxna_tbys)
-            })
-            if (wu_1) {
-                if (bnll_eqwy_1 && !bm_stat_arag) {
-                    bm_stat_arag = fs.statSync(path.join(nikc_camera_nikc, vnwm_tbys[bnll_eqwy_1 - 1])).size
-                } else {
-                }
-                const bnll_stat_arag = fs.statSync(path.join(nikc_camera_nikc, wu_1)).size
-                if (Math.abs(bnll_stat_arag - bm_stat_arag) < (bnll_stat_arag + bm_stat_arag) / 10) {
-                    fs.unlinkSync(path.join(nikc_camera_nikc, wu_1))
-                }
-                bm_stat_arag = bnll_stat_arag
-
-            } else {
-                console.error(`tbys wu lh '${wu_1}' dk rjqt ac zznq.`)
-            }
-            return
         }
+        const files = fs.readdirSync(nikc_camera_nikc, { withFileTypes: true })
+        const vnwm_cd_jhjh_tbys = files.filter(rn1 => rn1.isFile && /\.jpg$/.test(rn1.name)).filter(rn1 => {
+            const yxna_kp = path.join(nikc_camera_nikc, rn1.name)
+            const stat_1 = fs.statSync(yxna_kp)
+            if (neig.neig_kp.diwr_cd_hd[yxna_kp]) {
+                return false
+            }
+            if (stat_1.ctimeMs > neig.neig_kp.jhjh_uufb_zdti) {
+                return true
+            }
+        }).map(rn2 => rn2.name).sort()
+        let mb_rjqt_arag_1 = 0
+        vnwm_cd_jhjh_tbys.forEach(rn1 => {
+            const yxna_bnll = path.join(nikc_camera_nikc, rn1)
+
+            const bnll_rjqt_arag = fs.statSync(yxna_bnll).size
+            if (Math.abs(bnll_rjqt_arag - mb_rjqt_arag_1) < (bnll_rjqt_arag + mb_rjqt_arag_1) / 10) {
+                setTimeout(() => {
+                    fs.unlinkSync(yxna_bnll)
+                }, 10000);
+                if (neig.neig_kp.diwr_cd_hd) {
+                    neig.neig_kp.diwr_cd_hd[yxna_bnll] = true
+                }
+                else {
+                    neig.neig_kp.diwr_cd_hd = { yxna_bnll: true }
+                }
+            }
+            mb_rjqt_arag_1 = bnll_rjqt_arag
+        })
     }
 }
 module.exports = jhjh
 
-function jhjh_rj(vn_per_1 = 70, rj_atvn_wdbu_tbys = '((yxna_tbys)=>{console.log("tbys wdbu atvn hmpc.")})(yxna_tbys)') {
+function jhjh_rj(vn_per_1 = 0) {
     const rj_jhjh_yitb = `importPackage(android.content)
                                 function VOUD_AFDH(a, b) {
                                     var i = new Intent(a)
@@ -131,8 +145,7 @@ function jhjh_rj(vn_per_1 = 70, rj_atvn_wdbu_tbys = '((yxna_tbys)=>{console.log(
 
     const rj_jhjh_dzvv = `${rj_jhjh_yitb}
     VOUD_AFDH("jhjh", {
-        per:${vn_per_1},
-        rj_atvn_wdbu_tbys:\`${rj_atvn_wdbu_tbys}\`
+        per:${vn_per_1}
     })
     
                     `
@@ -154,5 +167,5 @@ function jhjh_rj(vn_per_1 = 70, rj_atvn_wdbu_tbys = '((yxna_tbys)=>{console.log(
                                                                                     })
                                                                     
                                                                                                     `
-    return { rj_jhjh_crum, rj_tk, rj_jhjh_drbz, rj_jhjh_dzvv, rj_jhjh_yitb }
+    return { rj_jhjh_crum, rj_jhjh_drbz, rj_jhjh_dzvv, rj_jhjh_yitb }
 }
