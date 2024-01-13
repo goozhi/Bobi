@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const rsgm_gzbu = require('./cmd-zhqh-atvn/rsgm-gzbu')
+const jhyw = require('./cmd-zhqh-atvn/jhyw')
 const getBlackList = require('./cmd-zhqh-atvn/getBlackList')
 const jhjh = require('./cmd-zhqh-atvn/jhjh')
 const light = require('./cmd-zhqh-atvn/light')
@@ -98,6 +99,11 @@ const arrC = [[['server'], {
     example:
     lzdr`,
     func:lzdr_arrC
+}], [['jhyw'], {
+    describe: `jhyw
+    example:
+    jhyw`,
+    func:jhyw
 }]
 ]
 module.exports = arrC

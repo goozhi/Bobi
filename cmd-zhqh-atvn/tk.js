@@ -14,10 +14,11 @@ const tk = async (user_params = {}, outputs = { outputText }, neig_kp = {}) => {
         neig.neig_kp.nq_jcbz_dzvv_yh = true
         if (!neig.power_manager.isScreenOn()) {
             if (!/1711/.test(neig.device.device.fingerprint)) {
-                return `ssvl cd sh kim. rt gd rssh.`
+                // return `ssvl cd sh kim. rt gd rssh.`
+                                neig.power_manager.wakeUp()
+               await neig.delay(1000)
+
             } else {
-                neig.power_manager.wakeUp()
-                await neig.delay(1000)
             }
         } else {
             if (neig.neig_kp.jcbz_jhjh_szas) {
