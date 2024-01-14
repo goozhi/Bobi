@@ -16,12 +16,13 @@ function afdh_rj(vn_per_1 = 70, rj_atvn_wdbu_tbys = '((yxna_tbys)=>{console.log(
     })
     
                     `
-    const rj_jhjh_szas = `
-    ${rj_jhjh_yitb}
+    const rj_jhjh_szas = `${rj_jhjh_yitb}
     VOUD_AFDH("jhjh_szas", {
-        per:${vn_per_1}
+        per:${vn_per_1},
+        rj_atvn_wdbu_tbys:\`${rj_atvn_wdbu_tbys}\`
     })
-    `
+    
+                    `
     const rj_jhjh_crum = `${rj_jhjh_yitb}
                     VOUD_AFDH("jhjh_crum", {
                         per:${vn_per_1}

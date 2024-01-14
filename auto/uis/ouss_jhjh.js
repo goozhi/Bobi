@@ -249,7 +249,7 @@ vnwm_afdh.push(XITL_AFDH("tk_on", function (context, intent, data) {
 vnwm_afdh.push(XITL_AFDH("jhjh_crum", function (context, intent, data) {
     exit()
 }))
-vnwm_afdh.push(XITL_AFDH("jhjh_szas", function () {
+vnwm_afdh.push(XITL_AFDH("jhjh_szas", function (context, intent, data) {
     if (nq_jhjh_mr_zzzz_yh) {
         log('jhjh is busy now, cqpi nkme.')
         return
@@ -257,6 +257,12 @@ vnwm_afdh.push(XITL_AFDH("jhjh_szas", function () {
         return 'cqpi nkme. jhjh cd nq szas yh.'
     } else {
         ji_jhjh_szas = true
+                yxna_atvn_wdbu_tbys = data.yxna_atvn_wdbu_tbys || yxna_atvn_wdbu_tbys
+        vn_ms_1 = data.delayMs || vn_ms_1
+        vn_per_1 = data.per || vn_per_1
+        udao_wu = data.udao_wu || udao_wu
+        rj_atvn_wdbu_tbys = data.rj_atvn_wdbu_tbys || rj_atvn_wdbu_tbys
+
     }
 }))
 vnwm_afdh.push(XITL_AFDH("jhjh", function (context, intent, data) {
