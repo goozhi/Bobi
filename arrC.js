@@ -11,6 +11,7 @@ const wvmr = require('./cmd-zhqh-atvn/wvmr')
 const lzdr_arrC = require('./cmd-zhqh-atvn/lzdr-arrC.js')
 const uis = require('./cmd-zhqh-atvn/uis.js')
 const zk_aucc = require('./cmd-zhqh-atvn/zk_aucc.js')
+const qwse = require('./cmd-zhqh-atvn/qwse.js')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -122,6 +123,10 @@ const arrC = [[['server'], {
         zk_zucc off
     `
     , func: zk_aucc,
+    aoao_ji_ssvl: true
+}], [["qwse"],{
+    describe:"nwvt eonq jyqh dk qwse\nexample:\nqwse",
+    func:qwse,
     aoao_ji_ssvl: true
 }]
 ]
