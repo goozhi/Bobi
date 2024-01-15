@@ -9,8 +9,8 @@
 
 <body>
     <div style="width: 100%;">
-        <textarea style="width: 100%;height: 40em;" id="vdum_99"></textarea>
-        <textarea name="vdzv" id="vdzv_99" style="width: 100%;" rows="10"></textarea>
+        <textarea style="width: 100%;height: 13em;" id="vdum_99"></textarea>
+        <textarea name="vdzv" id="vdzv_99" style="width: 100%;" rows="11"></textarea>
         <button style="width: 4em;" id="zyvv">clear</button>
         <button style="width: 4em;" id="z">z</button>
         <button style="width: 4em;" id="y">y</button>
@@ -42,7 +42,8 @@
             bnll_eqwy_1--
             if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
             neig.ji_ybbp_cqpi = true
-            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1]
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
+            
         }
         function tt_ybbp() {
             bnll_eqwy_1++
@@ -50,7 +51,7 @@
                 bnll_eqwy_1 = vnwm_ybbp.length - 1
             }
             neig.ji_ybbp_cqpi = true
-            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1]
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
 
         }
         document.getElementById('zyvv').addEventListener('mousedown', function () {
@@ -65,21 +66,28 @@
         })
         document.getElementById('z').addEventListener('mouseup', function () {
             vdzv_99.focus()
-            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+
+vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('y').addEventListener('mousedown', function () {
             tt_ybbp()
         })
         document.getElementById('y').addEventListener('mouseup', function () {
             vdzv_99.focus()
-            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('vdzv_99').addEventListener('input', function () {
             if (neig.ji_ybbp_cqpi) {
                 neig.ji_ybbp_cqpi = false
                 return
             }
-            vnwm_ybbp.push(this.value)
+           vnwm_yhld = []
+            for(var key in this){
+            vnwm_yhld.push(key)
+            }
+            vnwm_ybbp.push({vnwm_ts_trig: [this.selectionStart, this.selectionEnd],
+            value: this.value
+            })
             bnll_eqwy_1 = vnwm_ybbp.length - 1
             if (!this.value) {
                 return
