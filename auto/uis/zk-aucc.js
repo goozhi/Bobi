@@ -50,9 +50,9 @@ ui.layout(
 // 设置底部导航栏的内容
 let menuItems = [];
 let menu = ui.navigation.menu;
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_home_black_48dp));
 menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_notifications_black_48dp));
+menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
 menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
 
 // 当底部按钮被选中时，切换ViewPager页面为相应位置的页面
