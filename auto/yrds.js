@@ -56,7 +56,7 @@ setInterval(() => {
                 await accessibility.swipe(500, 1800, 500, 500, 230)
                 setTimeout(() => {
                     neig.nq_jcbz_dzvv_yh = false
-                }, 3000);
+                }, 4000);
             }
         }
     })()
