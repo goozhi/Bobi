@@ -4,89 +4,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>afoa</title>
+    <title>WRVR-YOZD</title>
 </head>
 
 <body>
-    <form name="home" action="/" method="get">
-        <button>go home</button>
-    </form>
-    <textarea id="vdzv_1" rows="10" style="width: 100%;"></textarea>
-    <br>
-    <code id="ag_zzuy"></code>
-    <button onclick="vdum()" style="height:3em;width:19em;" id="vdum_btn">vdum</button>
-
-    <button onclick="vdzv_focus()" id="ac_zyvv_1">unclear</button>
-        <button onclick="vdzv_focus()" id="zyvv_1">clear</button>
-        <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height:3em;width:10em;" id="zstv_qu_ld">qu-ld</button>
-            <button onclick="copy();vdzv_focus()" style="height:3em;width:10em;" id="copy_btn">copy</button>
-    <br>
-    <pre id="vdum_1"></pre>
-    <div id="vdum_2"></div>
-    <div id="copy_2"></div>
+    <div style="width: 100%;">
+        <textarea name="vdzv" id="vdzv_99" autoFocus style=" width: 100%;" rows="19"></textarea>
+        <div style="float: none;">
+            <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+            <button style="height: 2em; width: 4em;" id="z">z</button>
+            <button style="height: 2em; width: 4em;" id="y">y</button>
+            <button style="height: 2em; width: 4em;" onclick="copy_vdzv_99()">copy</button>
+        </div>
+        <textarea disabled style=" width: 100%;height: 23em;" id="vdum_99"></textarea>
+        <div style="display:flex;">
+            <ul id="caju_1"></ul>
+            <ul id="caju_2"></ul>
+        </div>
+    </div>
     <script>
-        const zyvv_1 = document.getElementById('zyvv_1')
-        const ac_zyvv_1 = document.getElementById('ac_zyvv_1')
-        const vdzv_1 = document.getElementById('vdzv_1')
-        const neig = { vnwm_vdzv_ybkc: [] }
-        vdzv_1.addEventListener('input', function () {
-            if (/^.*\n$/.test(this.value)) {
-                neig.vnwm_vdzv_ybkc[0] = this.value
-            } else if (/\n.+/.test(this.value)) {
-                neig.vnwm_vdzv_ybkc[1] = this.value
-            } else {
 
-            }
+        const vdzv_99 = document.getElementById('vdzv_99')
+        const caju_1 = document.getElementById('caju_1')
+        const caju_2 = document.getElementById('caju_2')
+        let bnll_eqwy_1 = 0
+        const vdum_99 = document.getElementById('vdum_99')
+        const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) }
+        const vnwm_ybbp = []
+        nwvt_nikc_nini().then(res => {
+            caju_xitl('caju_1', 'caju_2')
         })
-        zyvv_1.addEventListener('mousedown', () => {
-            if (!vdzv_1.value) {
-                return
-            }
-            console.log(neig.vnwm_vdzv_ybkc[1])
-            if (neig.vnwm_vdzv_ybkc[1]) {
-                vdzv_1.value = neig.vnwm_vdzv_ybkc[0]
-            }
-        })
-        ac_zyvv_1.addEventListener('mousedown', () => {
-            if (neig.vnwm_vdzv_ybkc[1]) {
-                vdzv_1.value = neig.vnwm_vdzv_ybkc[1]
-            }
-        })
-        function qu_ld_bqeo(){
-            const rj_yhld=vdzv_1.value
-            vdzv_1.value=vdum_1.innerText
-            vdum_1.innerText=rj_yhld
+            .catch(err => console.error(err))
+
+        function zyvv() {
+            vdzv_99.value = ''
         }
-        
-        function vdzv_focus(num) {
-            vdzv_1.focus()
-            if(typeof num==="number"){
-            vdzv_1.setSelectionRange(num,num)
-            }
-        }
-        document.onkeyup = function (event) {
-            if (event.keyCode == 32 && event.ctrlKey) {
-                document.getElementById('vdum_btn').click()
-            }
-        }
-        document.onkeydown = function (event) {
-            // if (event.key === "Tab") {
-            //     event.preventDefault()
-            //     document.getElementById('vdum_btn').click()
-            // }
-            // if (event.keyCode == 32 && event.ctrlKey) {
-            //     document.getElementById('vdum_btn').click()
-            // }
-        }
-        function copy() {
-            let vdum_1 = document.getElementById('vdum_1')
-            copyToClipboard(vdum_1.innerText)
-            document.getElementById("ag_zzuy").innerText = "Copyed"
-        }
-        function copy_2() {
-            let vdum_2 = document.getElementById('vdum_2')
-            copyToClipboard(vdum_2.innerHTML)
-            document.getElementById("ag_zzuy").innerText = "Copyed;)"
+        function copy_vdzv_99() {
+            copyToClipboard(vdzv_99.value)
+            vdzv_99.focus()
         }
         function copyToClipboard(string_1) {
             const tempInput = document.createElement('textarea');
@@ -96,46 +51,134 @@
             document.execCommand('copy');
             document.body.removeChild(tempInput);
         }
-        function vdum() {
-            document.getElementById('ag_zzuy').innerText = "hold on..."
-            let vdzv_1 = document.getElementById('vdzv_1')
-            let vdum_1 = document.getElementById('vdum_1')
-            let vdum_2 = document.getElementById('vdum_2')
-            let copy_2 = document.getElementById('copy_2')
+
+        function mb_ybbp() {
+            bnll_eqwy_1--
+            if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
+            neig.ji_ybbp_cqpi = true
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
+
+        }
+        function tt_ybbp() {
+            bnll_eqwy_1++
+            if (bnll_eqwy_1 === vnwm_ybbp.length) {
+                bnll_eqwy_1 = vnwm_ybbp.length - 1
+            }
+            neig.ji_ybbp_cqpi = true
+            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
+
+        }
+        document.getElementById('zyvv').addEventListener('mousedown', function () {
+            zyvv()
+        })
+        document.getElementById('zyvv').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+        })
+        document.getElementById('z').addEventListener('mousedown', function () {
+            mb_ybbp()
+        })
+        document.getElementById('z').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+
+            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+        })
+        document.getElementById('y').addEventListener('mousedown', function () {
+            tt_ybbp()
+        })
+        document.getElementById('y').addEventListener('mouseup', function () {
+            vdzv_99.focus()
+            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+        })
+        document.getElementById('vdzv_99').addEventListener('input', function () {
+            if (neig.ji_ybbp_cqpi) {
+                neig.ji_ybbp_cqpi = false
+                return
+            }
+            vnwm_yhld = []
+            for (var key in this) {
+                vnwm_yhld.push(key)
+            }
+            vnwm_ybbp.push({
+                vnwm_ts_trig: [this.selectionStart, this.selectionEnd],
+                value: this.value
+            })
+            bnll_eqwy_1 = vnwm_ybbp.length - 1
+            if (!this.value) {
+                return
+            }
             fetch('/afoa', {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Request-Headers': '*'
                 },
-                body: JSON.stringify({ vdzv: vdzv_1.value })
+                body: JSON.stringify({ vdzv: 'wrvr\n' + this.value })
             }).then(res => {
                 if (res.ok) {
-                    vdzv_focus()
                     res.json().then(jtyj_1 => {
-                        if (jtyj_1.ji_ye_hym_html) {
-                            vdum_2.innerHTML = jtyj_1.outputText
-                            copy_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
-                        } else {
-                            if (jtyj_1.outputText.toString().length > 100000) {
-                                console.log(jtyj_1.outputText)
-                                alert(jtyj_1.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
-                            } else {
-                                vdum_1.innerText = jtyj_1.outputText
-                            }
-                        }
+                        vdum_99.value = jtyj_1.outputText.replace(/(?<!,|\.) (?!\w)/g, "")
                     })
                 } else {
                     res.json().then(jtyj_1 => {
-                        vdum_1.innerText = jtyj_1.reason
+                        vdum_99.value = jtyj_1.reason
                         console.log(jtyj_1.err_stack)
                     })
                     alert('error: please check the console to find out the reason.')
                 }
-            }).then(() => {
-                document.getElementById('ag_zzuy').innerText = "Done."
             })
                 .catch(err => { console.log(err); alert(err) })
+
+        })
+        async function nwvt_nikc_nini(nikc_kp = "") {
+            await fetch('/rjm_nikc', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ nikc: nikc_kp })
+
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw res
+                    }
+                    return res
+                })
+                .then(res => res.json())
+                .then(res => {
+                    neig.caju_1.bnll_nikc = res.nikc
+                    console.log(neig.caju_1.bnll_nikc)
+                    neig.caju_2.bnll_nikc = res.nikc
+                    ymce_caju({ vnwm_caju_wu: ['caju_1', 'caju_2'], vnwm_rjqt_zzuy: res.vnwm_rjqt_zzuy })
+                })
+                .catch(err => console.error(err) || alert(err.message))
+        }
+        function caju_xitl(...mcvn) {
+            mcvn.forEach(rn1 => {
+                neig[rn1].addEventListener('click', function (event) {
+                    console.log(event.target.innerText)
+                    if (/^(?:li|mark)$/i.test(event.target.tagName)) {
+                        neig[rn1].bnll_nikc = neig[rn1].bnll_nikc + "/" + event.target.innerText
+                        console.log(neig[rn1].bnll_nikc)
+                        alert('你点击了：' + event.target.innerText);
+                    }
+                });
+
+            })
+        }
+        function ymce_caju(neig_kp = { vnwm_rjqt_zzuy: [], vnwm_caju_wu: [] }) {
+            const neig_2 = Object.assign({ neig_kp }, neig_kp)
+            neig_2.vnwm_caju_wu.forEach(rn1 => {
+                neig[rn1].innerHTML = `${neig_2.vnwm_rjqt_zzuy.map(rn1 => {
+                    if (rn1.ji_rjqt) {
+                        return `<li>${rn1.rjqt_wu}</li>`
+                    } else {
+                        return `<li><mark>${rn1.rjqt_wu}</mark></li>`
+                    }
+                }).join('\n')}`
+            })
         }
     </script>
 </body>
