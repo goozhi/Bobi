@@ -242,6 +242,13 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if (ctx.path === '/nwvt-afoa-zzuy') {
+        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
