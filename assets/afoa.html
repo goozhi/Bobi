@@ -18,7 +18,8 @@
 
     <button onclick="vdzv_focus()" id="ac_zyvv_1">unclear</button>
         <button onclick="vdzv_focus()" id="zyvv_1">clear</button>
-    <button onclick="copy();vdzv_focus()" style="height:3em;width:20em;" id="copy_btn">copy</button>
+        <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height:3em;width:10em;" id="zstv_qu_ld">qu-ld</button>
+            <button onclick="copy();vdzv_focus()" style="height:3em;width:10em;" id="copy_btn">copy</button>
     <br>
     <pre id="vdum_1"></pre>
     <div id="vdum_2"></div>
@@ -51,8 +52,17 @@
                 vdzv_1.value = neig.vnwm_vdzv_ybkc[1]
             }
         })
-        function vdzv_focus() {
+        function qu_ld_bqeo(){
+            const rj_yhld=vdzv_1.value
+            vdzv_1.value=vdum_1.innerText
+            vdum_1.innerText=rj_yhld
+        }
+        
+        function vdzv_focus(num) {
             vdzv_1.focus()
+            if(typeof num==="number"){
+            vdzv_1.setSelectionRange(num,num)
+            }
         }
         document.onkeyup = function (event) {
             if (event.keyCode == 32 && event.ctrlKey) {
