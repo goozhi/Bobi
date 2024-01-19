@@ -10,20 +10,32 @@
 <body>
     <div style="width: 100%;">
         <textarea name="vdzv" id="vdzv_99" autoFocus style=" width: 100%;" rows="19"></textarea>
-       <div style="float: none;">
-        <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
-        <button style="height: 2em; width: 4em;" id="z">z</button>
-        <button style="height: 2em; width: 4em;" id="y">y</button>
-        <button style="height: 2em; width: 4em;" onclick="copy_vdzv_99()">copy</button>
+        <div style="float: none;">
+            <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+            <button style="height: 2em; width: 4em;" id="z">z</button>
+            <button style="height: 2em; width: 4em;" id="y">y</button>
+            <button style="height: 2em; width: 4em;" onclick="copy_vdzv_99()">copy</button>
         </div>
         <textarea disabled style=" width: 100%;height: 23em;" id="vdum_99"></textarea>
+        <div style="display:flex;">
+            <ul id="caju_1"></ul>
+            <ul id="caju_2"></ul>
+        </div>
     </div>
     <script>
+
         const vdzv_99 = document.getElementById('vdzv_99')
+        const caju_1 = document.getElementById('caju_1')
+        const caju_2 = document.getElementById('caju_2')
         let bnll_eqwy_1 = 0
         const vdum_99 = document.getElementById('vdum_99')
-        const neig = {}
+        const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) }
         const vnwm_ybbp = []
+        nwvt_nikc_nini().then(res => {
+            caju_xitl('caju_1', 'caju_2')
+        })
+            .catch(err => console.error(err))
+
         function zyvv() {
             vdzv_99.value = ''
         }
@@ -45,7 +57,7 @@
             if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
             neig.ji_ybbp_cqpi = true
             vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
-            
+
         }
         function tt_ybbp() {
             bnll_eqwy_1++
@@ -69,26 +81,27 @@
         document.getElementById('z').addEventListener('mouseup', function () {
             vdzv_99.focus()
 
-vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('y').addEventListener('mousedown', function () {
             tt_ybbp()
         })
         document.getElementById('y').addEventListener('mouseup', function () {
             vdzv_99.focus()
-vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('vdzv_99').addEventListener('input', function () {
             if (neig.ji_ybbp_cqpi) {
                 neig.ji_ybbp_cqpi = false
                 return
             }
-           vnwm_yhld = []
-            for(var key in this){
-            vnwm_yhld.push(key)
+            vnwm_yhld = []
+            for (var key in this) {
+                vnwm_yhld.push(key)
             }
-            vnwm_ybbp.push({vnwm_ts_trig: [this.selectionStart, this.selectionEnd],
-            value: this.value
+            vnwm_ybbp.push({
+                vnwm_ts_trig: [this.selectionStart, this.selectionEnd],
+                value: this.value
             })
             bnll_eqwy_1 = vnwm_ybbp.length - 1
             if (!this.value) {
@@ -104,7 +117,7 @@ vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
             }).then(res => {
                 if (res.ok) {
                     res.json().then(jtyj_1 => {
-                        vdum_99.value = jtyj_1.outputText.replace(/(?<!,|\.) (?!\w)/g,"")
+                        vdum_99.value = jtyj_1.outputText.replace(/(?<!,|\.) (?!\w)/g, "")
                     })
                 } else {
                     res.json().then(jtyj_1 => {
@@ -117,6 +130,56 @@ vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
                 .catch(err => { console.log(err); alert(err) })
 
         })
+        async function nwvt_nikc_nini(nikc_kp = "") {
+            await fetch('/rjm_nikc', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ nikc: nikc_kp })
+
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw res
+                    }
+                    return res
+                })
+                .then(res => res.json())
+                .then(res => {
+                    neig.caju_1.bnll_nikc = res.nikc
+                    console.log(neig.caju_1.bnll_nikc)
+                    neig.caju_2.bnll_nikc = res.nikc
+                    ymce_caju({ vnwm_caju_wu: ['caju_1', 'caju_2'], vnwm_rjqt_zzuy: res.vnwm_rjqt_zzuy })
+                })
+                .catch(err => console.error(err) || alert(err.message))
+        }
+        function caju_xitl(...mcvn) {
+            mcvn.forEach(rn1 => {
+                neig[rn1].addEventListener('click', function (event) {
+                    console.log(event.target.innerText)
+                    if (/^(?:li|mark)$/i.test(event.target.tagName)) {
+                        neig[rn1].bnll_nikc = neig[rn1].bnll_nikc + "/" + event.target.innerText
+                        console.log(neig[rn1].bnll_nikc)
+                        alert('你点击了：' + event.target.innerText);
+                    }
+                });
+
+            })
+        }
+        function ymce_caju(neig_kp = { vnwm_rjqt_zzuy: [], vnwm_caju_wu: [] }) {
+            const neig_2 = Object.assign({ neig_kp }, neig_kp)
+            neig_2.vnwm_caju_wu.forEach(rn1 => {
+                neig[rn1].innerHTML = `${neig_2.vnwm_rjqt_zzuy.map(rn1 => {
+                    if (rn1.ji_rjqt) {
+                        return `<li>${rn1.rjqt_wu}</li>`
+                    } else {
+                        return `<li><mark>${rn1.rjqt_wu}</mark></li>`
+                    }
+                }).join('\n')}`
+            })
+        }
     </script>
 </body>
 
