@@ -12,6 +12,7 @@ const lzdr_arrC = require('./cmd-zhqh-atvn/lzdr-arrC.js')
 const uis = require('./cmd-zhqh-atvn/uis.js')
 const zk_aucc = require('./cmd-zhqh-atvn/zk_aucc.js')
 const qwse = require('./cmd-zhqh-atvn/qwse.js')
+const wytm = require('./cmd-zhqh-atvn/wytm.js')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -125,9 +126,16 @@ const arrC = [[['server'], {
     , func: zk_aucc,
     aoao_ji_ssvl: true
 }], [["qwse"],{
-    describe:"nwvt eonq jyqh dk qwse\nexample:\nqwse",
+    describe:"nwvt eonq jyqh dk qwse\nexample:\nqwse\nifyj zf co taxt i_d lh 45 dk qwse:\nqwse 45",
     func:qwse,
     aoao_ji_ssvl: true
-}]
+}], [["wytm"],{
+describe:`
+wytm ybkc, jcbz rrzv wytm ybkc yh, zf fj aqfc rr bqeo om qh.
+example:
+wytm
+bqeo
+`
+,func:wytm}]
 ]
 module.exports = arrC
