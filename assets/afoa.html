@@ -10,15 +10,15 @@
 <body>
     <div style="width: 100%;">
         <code id="ag_zzuy"></code>
-        <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="19"></textarea>
+        <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="17"></textarea>
         <div style="float: none;">
             <button onclick="vdum_wdbu()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
-            <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+            
             <button style="height: 2em; width: 4em;" id="z">z</button>
             <button style="height: 2em; width: 4em;" id="y">y</button>
             <button style="height: 2em; width: 4em;" onclick="copy_vdzv_1()">copy</button>
             <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
-
+<button style="height: 2em; width: 4em;" id="zyvv">clear</button>
         </div>
         <div>
             <pre id="vdum_1"></pre>
@@ -54,7 +54,9 @@
         const vnwm_vdum_ybkc = []
         let bnll_eqwy_1 = 0
         // const vdum_99 = document.getElementById('vdum_99')
-        const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) }
+        const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) ,
+        tkxb_trig:0
+        }
         const vnwm_ybbp = []
         // nwvt_nikc_nini().then(res => {
         //     caju_xitl('caju_1', 'caju_2')
@@ -63,9 +65,18 @@
 
         function zyvv() {
             vdzv_1.value = (() => {
-                if (/\n/.test(vdzv_1.value)) {
-                    return vdzv_1.value.match(/.*/)?.[0]
+                if(/^\s/.test(vdzv_1.value)){
+
+                    let rj_1 = vdzv_1.value.replace(/^\s+/,"")
+                    neig.tkxb_trig=rj_1.match(/.*/)?.[0].length
+                    return rj_1
+                }
+                else if (/\n./.test(vdzv_1.value)) {
+                    let rj_1 = vdzv_1.value.match(/.*\n/)?.[0]
+                    neig.tkxb_trig=rj_1.length
+                    return rj_1
                 } else {
+                    neig.tkxb_trig=0
                     return ''
                 }
             })()
@@ -129,7 +140,7 @@
         })
         document.getElementById('zyvv').addEventListener('mouseup', function () {
             vdzv_1.focus()
-            vdzv_1.setSelectionRange(vdzv_1.value.length, vdzv_1.value.length)
+            vdzv_1.setSelectionRange(neig.tkxb_trig, neig.tkxb_trig)
         })
         document.getElementById('z').addEventListener('mousedown', function () {
             mb_ybbp()
@@ -244,7 +255,7 @@
                     'Content-Type': 'application/json',
                     'Access-Control-Request-Headers': '*'
                 },
-                body: JSON.stringify({ vdzv: vdzv_1.value })
+                body: JSON.stringify({ vdzv: vdzv_1.value.trimStart() })
             }).then(res => {
                 if (res.ok) {
                     vdzv_focus()
