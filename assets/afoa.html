@@ -13,12 +13,12 @@
         <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="17"></textarea>
         <div style="float: none;">
             <button onclick="vdum_wdbu()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
-            
+
             <button style="height: 2em; width: 4em;" id="z">z</button>
             <button style="height: 2em; width: 4em;" id="y">y</button>
             <button style="height: 2em; width: 4em;" onclick="copy_vdzv_1()">copy</button>
             <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
-<button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+            <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
         </div>
         <div>
             <pre id="vdum_1"></pre>
@@ -52,10 +52,24 @@
         const caju_2 = document.getElementById('caju_2')
         const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
         const vnwm_vdum_ybkc = []
+        let vnwm_tsjq_wu
+        fetch('/nwvt-afoa-zzuy')
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+                else {
+                    throw res.json()
+                }
+            }).then(res => {
+                vnwm_tsjq_wu = res.flat()
+            })
+            .catch(err => console.log(err) && alert(err))
         let bnll_eqwy_1 = 0
         // const vdum_99 = document.getElementById('vdum_99')
-        const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) ,
-        tkxb_trig:0
+        const neig = {
+            caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }),
+            tkxb_trig: 0
         }
         const vnwm_ybbp = []
         // nwvt_nikc_nini().then(res => {
@@ -65,18 +79,32 @@
 
         function zyvv() {
             vdzv_1.value = (() => {
-                if(/^\s/.test(vdzv_1.value)){
+                if (/^\s/.test(vdzv_1.value)) {
 
-                    let rj_1 = vdzv_1.value.replace(/^\s+/,"")
-                    neig.tkxb_trig=rj_1.match(/.*/)?.[0].length
+                    let rj_1 = vdzv_1.value.replace(/^\s+/, "")
+                    neig.tkxb_trig = rj_1.match(/.*/)?.[0].length
                     return rj_1
                 }
                 else if (/\n./.test(vdzv_1.value)) {
-                    let rj_1 = vdzv_1.value.match(/.*\n/)?.[0]
-                    neig.tkxb_trig=rj_1.length
+                    let vnwm_lines = vdzv_1.value.split(/\n/)
+                    let eqwy_tsjq_wu = 0
+                    vnwm_lines.forEach((rn1, eqwy_1) => {
+                        if (vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0])) {
+                            eqwy_tsjq_wu = eqwy_1
+                        }
+                    })
+                    let rj_1 = (() => {
+                        if (eqwy_tsjq_wu + 1 === vnwm_lines.length) {
+                            return vnwm_lines.slice(0, eqwy_tsjq_wu).join('\n')
+                        } else {
+                            return vnwm_lines.slice(0, eqwy_tsjq_wu + 1).join('\n')
+                        }
+                    })()
+                    neig.tkxb_trig = rj_1.length
                     return rj_1
+
                 } else {
-                    neig.tkxb_trig=0
+                    neig.tkxb_trig = 0
                     return ''
                 }
             })()
