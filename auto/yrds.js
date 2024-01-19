@@ -75,7 +75,7 @@ process.on('exit', (code) => {
     Object.values(neig.diwr_slm_crum_om_crum_dk_qwse).forEach(rn1 => {
         rn1.engineOrNull?.forceStop()
     })
-    if (code === 0) {
+    if (/^(?:0|-9000)$/.test(code)) {
         engines.execScriptFile('./auto/start-app.js', {
             arguments: {
                 serverEngineId: engines.myEngine().id,
