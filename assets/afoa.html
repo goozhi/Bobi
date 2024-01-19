@@ -9,39 +9,87 @@
 
 <body>
     <div style="width: 100%;">
-        <textarea name="vdzv" id="vdzv_99" autoFocus style=" width: 100%;" rows="19"></textarea>
+        <code id="ag_zzuy"></code>
+        <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="19"></textarea>
         <div style="float: none;">
+            <button onclick="vdum_wdbu()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
             <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
             <button style="height: 2em; width: 4em;" id="z">z</button>
             <button style="height: 2em; width: 4em;" id="y">y</button>
-            <button style="height: 2em; width: 4em;" onclick="copy_vdzv_99()">copy</button>
+            <button style="height: 2em; width: 4em;" onclick="copy_vdzv_1()">copy</button>
+            <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
+
         </div>
-        <textarea disabled style=" width: 100%;height: 23em;" id="vdum_99"></textarea>
+        <div>
+            <pre id="vdum_1"></pre>
+            <div id="vdum_2"></div>
+            <div id="copy_btn_2"></div>
+        </div>
+        <!-- <textarea disabled style=" width: 100%;height: 23em;" id="vdum_99"></textarea> -->
         <div style="display:flex;">
             <ul id="caju_1"></ul>
             <ul id="caju_2"></ul>
         </div>
+        <div>
+            <ul id="caju_vdum_ybkc"></ul>
+        </div>
+        <div>
+            <form name="home" action="/" method="get">
+                <button>go home</button>
+            </form>
+        </div>
+
     </div>
     <script>
+        const hf_vkih = hfbc_vkih()
+        const vdzv_1 = document.getElementById('vdzv_1')
+        const vdum_1 = document.getElementById('vdum_1')
+        const vdum_2 = document.getElementById('vdum_2')
+        const copy_btn_2 = document.getElementById('copy_btn_2')
 
-        const vdzv_99 = document.getElementById('vdzv_99')
+
         const caju_1 = document.getElementById('caju_1')
         const caju_2 = document.getElementById('caju_2')
+        const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
+        const vnwm_vdum_ybkc = []
         let bnll_eqwy_1 = 0
-        const vdum_99 = document.getElementById('vdum_99')
+        // const vdum_99 = document.getElementById('vdum_99')
         const neig = { caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }) }
         const vnwm_ybbp = []
-        nwvt_nikc_nini().then(res => {
-            caju_xitl('caju_1', 'caju_2')
-        })
-            .catch(err => console.error(err))
+        // nwvt_nikc_nini().then(res => {
+        //     caju_xitl('caju_1', 'caju_2')
+        // })
+        //     .catch(err => console.error(err))
 
         function zyvv() {
-            vdzv_99.value = ''
+            vdzv_1.value = (() => {
+                if (/\n/.test(vdzv_1.value)) {
+                    return vdzv_1.value.match(/.*/)?.[0]
+                } else {
+                    return ''
+                }
+            })()
         }
-        function copy_vdzv_99() {
-            copyToClipboard(vdzv_99.value)
-            vdzv_99.focus()
+        function* hfbc_vkih() {
+            for (i1 = 0; ; i1++) {
+                yield i1
+            }
+        }
+        function vdzv_focus(num) {
+            vdzv_1.focus()
+            if (typeof num === "number") {
+                vdzv_1.setSelectionRange(num, num)
+            }
+        }
+        function qu_ld_bqeo() {
+            const rj_yhld = vdzv_1.value
+            vdzv_1.value = vdum_1.innerText
+            vdum_1.innerText = rj_yhld
+        }
+
+        function copy_vdzv_1() {
+            copyToClipboard(vdzv_1.value)
+            vdzv_1.focus()
         }
         function copyToClipboard(string_1) {
             const tempInput = document.createElement('textarea');
@@ -56,7 +104,7 @@
             bnll_eqwy_1--
             if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
             neig.ji_ybbp_cqpi = true
-            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
+            vdzv_1.value = vnwm_ybbp[bnll_eqwy_1].value
 
         }
         function tt_ybbp() {
@@ -65,32 +113,40 @@
                 bnll_eqwy_1 = vnwm_ybbp.length - 1
             }
             neig.ji_ybbp_cqpi = true
-            vdzv_99.value = vnwm_ybbp[bnll_eqwy_1].value
+            vdzv_1.value = vnwm_ybbp[bnll_eqwy_1].value
 
         }
+        caju_vdum_ybkc.addEventListener('click', function (event) {
+            const vkih = event.target.innerText.match(/\w+(?=-)/)?.[0]
+            const diwr = {}
+            vnwm_vdum_ybkc.forEach(rn1 => {
+                diwr[rn1.vkih] = rn1
+            })
+            vdum_rscs(diwr[vkih])
+        })
         document.getElementById('zyvv').addEventListener('mousedown', function () {
             zyvv()
         })
         document.getElementById('zyvv').addEventListener('mouseup', function () {
-            vdzv_99.focus()
-            vdzv_99.setSelectionRange(vdzv_99.value.length, vdzv_99.value.length)
+            vdzv_1.focus()
+            vdzv_1.setSelectionRange(vdzv_1.value.length, vdzv_1.value.length)
         })
         document.getElementById('z').addEventListener('mousedown', function () {
             mb_ybbp()
         })
         document.getElementById('z').addEventListener('mouseup', function () {
-            vdzv_99.focus()
+            vdzv_1.focus()
 
-            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+            vdzv_1.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('y').addEventListener('mousedown', function () {
             tt_ybbp()
         })
         document.getElementById('y').addEventListener('mouseup', function () {
-            vdzv_99.focus()
-            vdzv_99.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
+            vdzv_1.focus()
+            vdzv_1.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
-        document.getElementById('vdzv_99').addEventListener('input', function () {
+        document.getElementById('vdzv_1').addEventListener('input', function () {
             if (neig.ji_ybbp_cqpi) {
                 neig.ji_ybbp_cqpi = false
                 return
@@ -107,27 +163,27 @@
             if (!this.value) {
                 return
             }
-            fetch('/afoa', {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Request-Headers': '*'
-                },
-                body: JSON.stringify({ vdzv: 'wrvr\n' + this.value })
-            }).then(res => {
-                if (res.ok) {
-                    res.json().then(jtyj_1 => {
-                        vdum_99.value = jtyj_1.outputText.replace(/(?<!,|\.) (?!\w)/g, "")
-                    })
-                } else {
-                    res.json().then(jtyj_1 => {
-                        vdum_99.value = jtyj_1.reason
-                        console.log(jtyj_1.err_stack)
-                    })
-                    alert('error: please check the console to find out the reason.')
-                }
-            })
-                .catch(err => { console.log(err); alert(err) })
+            // fetch('/afoa', {
+            //     method: "POST",
+            //     headers: {
+            //         'Content-Type': 'application/json',
+            //         'Access-Control-Request-Headers': '*'
+            //     },
+            //     body: JSON.stringify({ vdzv: 'wrvr\n' + this.value })
+            // }).then(res => {
+            //     if (res.ok) {
+            //         res.json().then(jtyj_1 => {
+            //             vdum_99.value = jtyj_1.outputText
+            //         })
+            //     } else {
+            //         res.json().then(jtyj_1 => {
+            //             vdum_99.value = jtyj_1.reason
+            //             console.log(jtyj_1.err_stack)
+            //         })
+            //         alert('error: please check the console to find out the reason.')
+            //     }
+            // })
+            //     .catch(err => { console.log(err); alert(err) })
 
         })
         async function nwvt_nikc_nini(nikc_kp = "") {
@@ -179,6 +235,69 @@
                     }
                 }).join('\n')}`
             })
+        }
+        function vdum_wdbu() {
+            document.getElementById('ag_zzuy').innerText = "hold on..."
+            fetch('/afoa', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ vdzv: vdzv_1.value })
+            }).then(res => {
+                if (res.ok) {
+                    vdzv_focus()
+                    res.json().then(jtyj_1 => {
+                        vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
+                        vdum_rscs(jtyj_1)
+                        uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
+                    })
+                } else {
+                    res.json().then(jtyj_1 => {
+                        vdum_1.innerText = jtyj_1.reason
+                        console.log(jtyj_1.err_stack)
+                    })
+                    alert('error: please check the console to find out the reason.')
+                }
+            }).then(() => {
+                document.getElementById('ag_zzuy').innerText = ""
+            })
+                .catch(err => { console.log(err); alert(err) })
+        }
+        function copy_2() {
+            let vdum_2 = document.getElementById('vdum_2')
+            copyToClipboard(vdum_2.innerHTML)
+            document.getElementById("ag_zzuy").innerText = "Copyed;)"
+        }
+
+        function vdum_rscs(outputs = {}) {
+            if (outputs.ji_ye_hym_html) {
+                vdum_2.innerHTML = outputs.outputText
+                copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+            } else {
+                if (outputs.outputText.toString().length > 100000) {
+                    console.log(outputs.outputText)
+                    alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
+                } else {
+                    vdum_1.innerText = outputs.outputText
+                }
+            }
+
+        }
+        function uace_vdum_ybkc_caju(vnwm_vdum_ybkc = []) {
+            caju_vdum_ybkc.innerHTML =
+                vnwm_vdum_ybkc.map(
+                    rn1 => {
+                        return `<li>${rn1.vkih}-${(() => {
+                            if (rn1.ji_ye_hym_html) {
+                                return "html"
+                            } else {
+                                return rn1.outputText?.replace(/(.{10})([\s\S]+)/, "$1...")
+                            }
+                        })()}</li>`
+                    }
+                ).join('\n')
         }
     </script>
 </body>
