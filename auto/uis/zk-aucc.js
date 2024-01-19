@@ -70,37 +70,42 @@ ui.viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.OnP
 ui.jhjh_1.on("click", () => {
     engines.execScriptFile("ouss_jhjh.js")
 })
+ui.fab3.on("long_click", () => {
+    ui.web3.loadUrl(getHomeUrl())
+});
 ui.fab3.on("click", () => {
-    if (files.exists("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json")) {
-
-        var diwr_zzzz = require("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json");
-        if (diwr_zzzz.port) { config.port = diwr_zzzz.port }
-
-    }
-    ui.web3.loadUrl("http://localhost:" + config.port + "/")
+    clickVdum()
+});
+ui.fab4.on("long_click", () => {
+    ui.web4.loadUrl(getHomeUrl())
 });
 ui.fab4.on("click", () => {
-    if (files.exists("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json")) {
-        var diwr_zzzz = require("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json");
-        if (diwr_zzzz.port) { config.port = diwr_zzzz.port }
-    }
-    ui.web4.loadUrl("http://localhost:" + config.port + "/")
+    clickVdum()
+});
+ui.fab2.on("long_click", () => {
+    ui.web2.loadUrl(getHomeUrl())
 });
 ui.fab2.on("click", () => {
-    if (files.exists("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json")) {
-        var diwr_zzzz = require("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json");
-        if (diwr_zzzz.port) { config.port = diwr_zzzz.port }
-    }
-    ui.web2.loadUrl("http://localhost:" + config.port + "/")
+    clickVdum()
+});
+ui.fab1.on("long_click", () => {
+    ui.web1.loadUrl(getHomeUrl())
 });
 ui.fab1.on("click", () => {
+    clickVdum()
+});
+function clickVdum() {
+threads.start(function(){
+      text("vdum").exists()&&text("vdum").click()
+});
+}
+function getHomeUrl() {
     if (files.exists("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json")) {
         var diwr_zzzz = require("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json");
         if (diwr_zzzz.port) { config.port = diwr_zzzz.port }
     }
-    ui.web1.loadUrl("http://localhost:" + config.port + "/")
-});
-
+    return "http://localhost:" + config.port + "/"
+}
 ui.emitter.on("create_options_menu", menu => {
     menu.add("设置");
     menu.add("日志");
