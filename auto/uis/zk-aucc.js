@@ -27,20 +27,20 @@ ui.layout(
         <viewpager id="viewPager" layout_weight="1">
             <frame id="home">
                 <webview id="web1" h="*" w="auto" />
-                <button id="fab1" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
+                <button id="fab1" w="auto" h="auto" layout_gravity="bottom|right" margin="16" text="$" bg="#77ffffff" />
 
             </frame>
             <frame id="dashboard">
                 <webview id="web2" h="*" w="auto" />
-                <button id="fab2" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
+                <button id="fab2" w="auto" h="auto" layout_gravity="bottom|right" margin="16" text="$" bg="#77ffffff" />
             </frame>
             <frame id="notifications">
                 <webview id="web3" h="*" w="auto" />
-                <button id="fab3" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
+                <button id="fab3" w="auto" h="auto" layout_gravity="bottom|right" margin="16" text="$" bg="#77ffffff" />
             </frame>
             <frame id="notifications">
                 <webview id="web4" h="*" w="auto" />
-                <button id="fab4" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
+                <button id="fab4" w="auto" h="auto" layout_gravity="bottom|right" margin="16" text="$" bg="#77ffffff" />
             </frame>
         </viewpager>
         <bottomnaviagtion id="navigation" bg="#ffffff" />
