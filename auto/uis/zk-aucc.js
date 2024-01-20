@@ -50,10 +50,10 @@ ui.layout(
 // 设置底部导航栏的内容
 let menuItems = [];
 let menu = ui.navigation.menu;
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
 
 // 当底部按钮被选中时，切换ViewPager页面为相应位置的页面
 ui.navigation.setOnNavigationItemSelectedListener(function (item) {
@@ -96,7 +96,7 @@ ui.fab1.on("click", () => {
 });
 function clickVdum() {
 threads.start(function(){
-      text("vdum").exists()&&text("vdum").findOne().click()
+      text("hym").exists()&&text("vdum").exists()&&text("vdum").findOne().click()
 });
 }
 function getHomeUrl() {
