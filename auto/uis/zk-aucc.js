@@ -96,7 +96,7 @@ ui.fab1.on("click", () => {
 });
 function clickVdum() {
 threads.start(function(){
-      text("hym").exists()&&text("vdum").exists()&&text("vdum").findOne().click()
+      text("hym").exists()&&text("vdum").exists()&&text("vdum").click()
 });
 }
 function getHomeUrl() {
