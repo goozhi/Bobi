@@ -9,16 +9,16 @@
 
 <body>
     <div style="width: 100%;">
-                <div>
+        <div>
             <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
         </div>
 
-                    <div style="overflow-y: scroll;overflow-x: hidden;height:7em;">
-                <pre id="vdum_1"></pre>
-            </div>
+        <div style="overflow-y: scroll;height:7em;">
+            <pre id="vdum_1"></pre>
+        </div>
         <code id="ag_zzuy"></code>
         <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="18"></textarea>
-        <div id="frih_bx" style="display: flex;height:1.5em;overflow-x: scroll;overflow-y: auto;">
+        <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
             <button onclick="document.getElementById('vdum_btn').click()" style="width: 1em;">vdum</button>
             <button style="width: 4em;">$</button>
             <button style="width: 4em;">[</button>
@@ -392,6 +392,9 @@
             if (outputs.ji_ye_hym_html) {
                 vdum_2.innerHTML = outputs.outputText
                 copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+            } else if (outputs.ji_caju) {
+                vdum_2.innerHTML = outputs.outputText.split(/\n/)
+                    .map(rn1 => `${rn1}<button onclick="copyToClipboard('${rn1}')">copy</button>`).join('\n')
             } else {
                 if (outputs.outputText.toString().length > 100000) {
                     console.log(outputs.outputText)
