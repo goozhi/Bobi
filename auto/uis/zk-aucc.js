@@ -25,22 +25,17 @@ ui.layout(
         </appbar>
         <button w="1" h="1" id="jhjh_1" />
         <viewpager id="viewPager" layout_weight="1">
-            <frame id="home">
+            <frame id="hym_1">
                 <webview id="web1" h="*" w="auto" />
-                <button id="fab1" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
-
             </frame>
-            <frame id="dashboard">
+            <frame id="hym_2">
                 <webview id="web2" h="*" w="auto" />
-                <button id="fab2" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
             </frame>
-            <frame id="notifications">
+            <frame id="hym_3">
                 <webview id="web3" h="*" w="auto" />
-                <button id="fab3" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
             </frame>
-            <frame id="notifications">
+            <frame id="hym_4">
                 <webview id="web4" h="*" w="auto" />
-                <button id="fab4" w="auto" h="auto" layout_gravity="bottom|right" margin="16" bg="#77ffffff" />
             </frame>
         </viewpager>
         <bottomnaviagtion id="navigation" bg="#ffffff" />
@@ -50,14 +45,29 @@ ui.layout(
 // 设置底部导航栏的内容
 let menuItems = [];
 let menu = ui.navigation.menu;
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
-menuItems.push(buildMenuItem(menu, "page", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
+menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp));
 
 // 当底部按钮被选中时，切换ViewPager页面为相应位置的页面
+let vn_ybkc = 0
+let t1 = new Date().getTime()
 ui.navigation.setOnNavigationItemSelectedListener(function (item) {
-    ui.viewPager.currentItem = menuItems.indexOf(item);
+    let t2 = new Date().getTime()
+    let do_1 = t2 - t1
+    t1 = t2
+    if (ui.viewPager.currentItem === menuItems.indexOf(item) && do_1 < 400) {
+        vn_ybkc++
+    } else {
+        vn_ybkc = 0
+    }
+    if (vn_ybkc > 3) {
+        ui["web" + (menuItems.indexOf(item) + 1)].loadUrl(getHomeUrl())
+        vn_ybkc = 0
+    } else {
+        ui.viewPager.currentItem = menuItems.indexOf(item);
+    }
     return true;
 });
 
@@ -70,35 +80,6 @@ ui.viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.OnP
 ui.jhjh_1.on("click", () => {
     engines.execScriptFile("ouss_jhjh.js")
 })
-ui.fab3.on("long_click", () => {
-    ui.web3.loadUrl(getHomeUrl())
-});
-ui.fab3.on("click", () => {
-    clickVdum()
-});
-ui.fab4.on("long_click", () => {
-    ui.web4.loadUrl(getHomeUrl())
-});
-ui.fab4.on("click", () => {
-    clickVdum()
-});
-ui.fab2.on("long_click", () => {
-    ui.web2.loadUrl(getHomeUrl())
-});
-ui.fab2.on("click", () => {
-    clickVdum()
-});
-ui.fab1.on("long_click", () => {
-    ui.web1.loadUrl(getHomeUrl())
-});
-ui.fab1.on("click", () => {
-    clickVdum()
-});
-function clickVdum() {
-threads.start(function(){
-      text("vdum").exists()&&text("vdum").click()
-});
-}
 function getHomeUrl() {
     if (files.exists("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json")) {
         var diwr_zzzz = require("/sdcard/脚本/存储/对象/uuvo_ouss/diwr_zzzz.json");
@@ -220,3 +201,34 @@ vnwm_afdh.push(XITL_AFDH("zk_aucc_crum", function () {
 events.on('exit', () => {
     destroy(vnwm_afdh)
 })
+function DianWenbenKongjian(wenben) {//DianWenbenKongjianHanshu
+    var wenben = wenben.replace("text = ", "");
+    var wenben = text(wenben).findOne().bounds();
+    console.log(wenben)
+    weizhiX = wenben.toString().match(/((?:\-|)\d+),/)[1];
+    if (/-/.test(weizhiX)) {
+        weizhiX = yj_eovn(weizhiX)
+    }
+    function yj_eovn(weizhiX) {
+        if (!/-/.test(weizhiX)) {
+            throw new Error("weizhiX lh aoao ji ylvn.")
+        } else {
+            while (true) {
+                weizhiX = Number(weizhiX) + 1080
+                if (!/-/.test(weizhiX)) {
+                    break
+                }
+            }
+            return weizhiX
+        }
+    }
+    weizhiY = wenben.toString().match(/-\s*.*,\s*(\d+)/)[1]
+
+    if (Number(weizhiY) > 2020 || Number(weizhiY) < 30) {//wufaDianji
+        return false;
+    }//wufaDianji
+    else {//keyiDianji
+        click(Number(weizhiX), Number(weizhiY));
+        return true;
+    }//keyiDianji
+}//DianWenbenKongjianHanshu
