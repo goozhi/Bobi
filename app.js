@@ -242,6 +242,13 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if (ctx.path === '/get-neig') {
+        ctx.body = Object.assign({}, { ji_exym_oc_ssvl: neig.ji_exym_oc_ssvl })
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-afoa-zzuy') {
         ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
     } else {

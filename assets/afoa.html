@@ -9,10 +9,33 @@
 
 <body>
     <div style="width: 100%;">
+                <div>
+            <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
+        </div>
+
+                    <div style="overflow-y: scroll;overflow-x: hidden;height:7em;">
+                <pre id="vdum_1"></pre>
+            </div>
         <code id="ag_zzuy"></code>
-        <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="17"></textarea>
+        <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="18"></textarea>
+        <div id="frih_bx" style="display: flex;height:1.5em;overflow-x: scroll;overflow-y: auto;">
+            <button onclick="document.getElementById('vdum_btn').click()" style="width: 1em;">vdum</button>
+            <button style="width: 4em;">$</button>
+            <button style="width: 4em;">[</button>
+            <button style="width: 4em;">]</button>
+            <button style="width: 4em;">{</button>
+            <button style="width: 4em;">}</button>
+            <button style="width: 4em;">(</button>
+            <button style="width: 4em;">)</button>
+            <button style="width: 4em;">=</button>
+            <button style="width: 4em;">'</button>
+            <button style="width: 4em;">\</button>
+            <button style="width: 4em;">`</button>
+            <button style="width: 4em;">"</button>
+            <button style="width: 4em;">!</button>
+        </div>
         <div style="float: none;">
-            <button onclick="vdum_wdbu()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
+            <button onclick="vdum_wdbu();vdzv_focus()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
 
             <button style="height: 2em; width: 4em;" id="z">z</button>
             <button style="height: 2em; width: 4em;" id="y">y</button>
@@ -21,7 +44,6 @@
             <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
         </div>
         <div>
-            <pre id="vdum_1"></pre>
             <div id="vdum_2"></div>
             <div id="copy_btn_2"></div>
         </div>
@@ -29,9 +51,6 @@
         <div style="display:flex;">
             <ul id="caju_1"></ul>
             <ul id="caju_2"></ul>
-        </div>
-        <div>
-            <ul id="caju_vdum_ybkc"></ul>
         </div>
         <div>
             <form name="home" action="/" method="get">
@@ -43,6 +62,7 @@
     <script>
         const hf_vkih = hfbc_vkih()
         const vdzv_1 = document.getElementById('vdzv_1')
+        const ag_zzuy = document.getElementById('ag_zzuy')
         const vdum_1 = document.getElementById('vdum_1')
         const vdum_2 = document.getElementById('vdum_2')
         const copy_btn_2 = document.getElementById('copy_btn_2')
@@ -69,8 +89,20 @@
         // const vdum_99 = document.getElementById('vdum_99')
         const neig = {
             caju_1: Object.assign(caju_1, { ybkc: {} }), caju_2: Object.assign(caju_2, { ybkc: {} }),
-            tkxb_trig: 0
+            tkxb_uufb_trig: 0,
+            tkxb_jtco_trig: 0
         }
+        function zhqh_1(neig) {
+            if (neig.ji_exym_oc_ssvl) {
+                document.onkeydown = function (event) {
+                    if (event.key === "Tab") {
+                        event.preventDefault()
+                        document.getElementById('vdum_btn').click()
+                    }
+                }
+            }
+        }
+        getNeig(neig, zhqh_1)
         const vnwm_ybbp = []
         // nwvt_nikc_nini().then(res => {
         //     caju_xitl('caju_1', 'caju_2')
@@ -82,14 +114,14 @@
                 if (/^\s/.test(vdzv_1.value)) {
 
                     let rj_1 = vdzv_1.value.replace(/^\s+/, "")
-                    neig.tkxb_trig = rj_1.match(/.*/)?.[0].length
+                    neig.tkxb_uufb_trig = rj_1.match(/.*/)?.[0].length
                     return rj_1
                 }
                 else if (/\n./.test(vdzv_1.value)) {
-                    let vnwm_lines = vdzv_1.value.split(/\n/)
+                    let vnwm_lines = vdzv_1.value.trim().split(/\n/)
                     let eqwy_tsjq_wu = 0
                     vnwm_lines.forEach((rn1, eqwy_1) => {
-                        if (vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0])) {
+                        if (vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0]) || vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0].toLowerCase())) {
                             eqwy_tsjq_wu = eqwy_1
                         }
                     })
@@ -100,11 +132,11 @@
                             return vnwm_lines.slice(0, eqwy_tsjq_wu + 1).join('\n')
                         }
                     })()
-                    neig.tkxb_trig = rj_1.length
-                    return rj_1
+                    neig.tkxb_uufb_trig = rj_1.length + 1
+                    return rj_1 + "\n"
 
                 } else {
-                    neig.tkxb_trig = 0
+                    neig.tkxb_uufb_trig = 0
                     return ''
                 }
             })()
@@ -155,6 +187,53 @@
             vdzv_1.value = vnwm_ybbp[bnll_eqwy_1].value
 
         }
+
+        document.getElementById("frih_bx").addEventListener("mousedown", function (event) {
+            wdbu_frih_vdzv()
+        })
+        document.getElementById("frih_bx").addEventListener("mouseup", function (event) {
+            frih_up_wdbu()
+        })
+        function frih_up_wdbu() {
+            vdzv_1.focus()
+            vdzv_1.setSelectionRange(neig.tkxb_uufb_trig, neig.tkxb_jtco_trig)
+        }
+        function wdbu_frih_vdzv() {
+            const diwr_frih_di = {
+                '\'': '\'',
+                '"': '"',
+                '(': ')',
+                '[': ']',
+                '{': '}',
+                '`': "`"
+            }
+            neig.tkxb_uufb_trig = vdzv_1.selectionStart
+            neig.tkxb_jtco_trig = vdzv_1.selectionEnd
+            const rj_nixb = event.target.innerText
+            if (/\n.*\n/.test(rj_nixb)) {
+                return
+            } else if (rj_nixb === 'vdum') {
+                return
+            } else {
+                const vnwm_1 = vdzv_1.value.split('')
+                if (neig.tkxb_uufb_trig != neig.tkxb_jtco_trig && Object.keys(diwr_frih_di).includes(rj_nixb)) {
+                    vnwm_1.splice(neig.tkxb_uufb_trig, 0, rj_nixb)
+                    vnwm_1.splice(neig.tkxb_jtco_trig + 1, 0, diwr_frih_di[rj_nixb])
+                    neig.tkxb_jtco_trig++
+                    neig.tkxb_jtco_trig++
+                    neig.tkxb_uufb_trig
+                } else if (neig.tkxb_uufb_trig != neig.tkxb_jtco_trig && !Object.keys(diwr_frih_di).includes(rj_nixb)) {
+                    vnwm_1.splice(neig.tkxb_uufb_trig, neig.tkxb_jtco_trig - neig.tkxb_uufb_trig, rj_nixb)
+                    neig.tkxb_jtco_trig = neig.tkxb_uufb_trig
+                } else {
+                    vnwm_1.splice(neig.tkxb_uufb_trig, 0, rj_nixb)
+                    neig.tkxb_jtco_trig++
+                    neig.tkxb_uufb_trig++
+                }
+                vdzv_1.value = vnwm_1.join('')
+            }
+
+        }
         caju_vdum_ybkc.addEventListener('click', function (event) {
             const vkih = event.target.innerText.match(/\w+(?=-)/)?.[0]
             const diwr = {}
@@ -168,7 +247,7 @@
         })
         document.getElementById('zyvv').addEventListener('mouseup', function () {
             vdzv_1.focus()
-            vdzv_1.setSelectionRange(neig.tkxb_trig, neig.tkxb_trig)
+            vdzv_1.setSelectionRange(neig.tkxb_uufb_trig, neig.tkxb_uufb_trig)
         })
         document.getElementById('z').addEventListener('mousedown', function () {
             mb_ybbp()
@@ -283,10 +362,9 @@
                     'Content-Type': 'application/json',
                     'Access-Control-Request-Headers': '*'
                 },
-                body: JSON.stringify({ vdzv: vdzv_1.value.trimStart() })
+                body: JSON.stringify({ vdzv: trl_wdbu(vdzv_1.value) })
             }).then(res => {
                 if (res.ok) {
-                    vdzv_focus()
                     res.json().then(jtyj_1 => {
                         vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
                         vdum_rscs(jtyj_1)
@@ -296,13 +374,13 @@
                     res.json().then(jtyj_1 => {
                         vdum_1.innerText = jtyj_1.reason
                         console.log(jtyj_1.err_stack)
+                        ag_zzuy.innerText = ('error: \n' + jtyj_1.reason + '\n')
                     })
-                    alert('error: please check the console to find out the reason.')
                 }
             }).then(() => {
                 document.getElementById('ag_zzuy').innerText = ""
             })
-                .catch(err => { console.log(err); alert(err) })
+                .catch(err => { console.log(err); alert(err.message || err) })
         }
         function copy_2() {
             let vdum_2 = document.getElementById('vdum_2')
@@ -328,7 +406,7 @@
             caju_vdum_ybkc.innerHTML =
                 vnwm_vdum_ybkc.map(
                     rn1 => {
-                        return `<li>${rn1.vkih}-${(() => {
+                        return `<li style="margine:1em">${rn1.vkih}-${(() => {
                             if (rn1.ji_ye_hym_html) {
                                 return "html"
                             } else {
@@ -337,6 +415,34 @@
                         })()}</li>`
                     }
                 ).join('\n')
+        }
+        function trl_wdbu(rj_kp) {
+            let rj_1 = rj_kp.trimStart()
+            if (/ -p /.test(rj_1)) {
+                neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
+            } else {
+                if (neig?.wvvy) {
+                    rj_1 = rj_1.replace(/(.)(?=\n|$)/, "$1 -p " + neig.wvvy)
+
+                }
+
+            }
+            return rj_1
+        }
+        async function getNeig(neig = {}, zhqh_1) {
+            fetch('/get-neig')
+                .then(res => {
+                    if (res.ok) return res.json()
+                    else throw res.json()
+                })
+                .then(res => {
+                    Object.assign(neig, res)
+                    zhqh_1(neig)
+                })
+                .catch(err => {
+                    console.log(err)
+                    ag_zzuy.innerText = `Error:${err}Reason: ${err.reason}\nerr_stack: ${err.err_stack}`
+                })
         }
     </script>
 </body>
