@@ -9,13 +9,6 @@
 
 <body>
     <div style="width: 100%;">
-        <div>
-            <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
-        </div>
-
-        <div style="overflow-y: scroll;height:7em;">
-            <pre id="vdum_1"></pre>
-        </div>
         <code id="ag_zzuy"></code>
         <textarea name="vdzv" id="vdzv_1" autoFocus style=" width: 100%;" rows="18"></textarea>
         <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
@@ -39,15 +32,23 @@
 
             <button style="height: 2em; width: 4em;" id="z">z</button>
             <button style="height: 2em; width: 4em;" id="y">y</button>
-            <button style="height: 2em; width: 4em;" onclick="copy_vdzv_1()">copy</button>
+            <button style="height: 2em; width: 4em;" onclick="copyToClipboard(neig?.outputText);vdzv_focus()">copy</button>
             <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
             <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
         </div>
+                <div style="">
+            <pre id="vdum_1"></pre>
+        </div>
+
         <div>
             <div id="vdum_2"></div>
             <div id="copy_btn_2"></div>
         </div>
         <!-- <textarea disabled style=" width: 100%;height: 23em;" id="vdum_99"></textarea> -->
+                <div>
+            <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
+        </div>
+
         <div style="display:flex;">
             <ul id="caju_1"></ul>
             <ul id="caju_2"></ul>
@@ -154,8 +155,9 @@
         }
         function qu_ld_bqeo() {
             const rj_yhld = vdzv_1.value
-            vdzv_1.value = vdum_1.innerText
-            vdum_1.innerText = rj_yhld
+            vdzv_1.value = neig.outputText
+            neig.outputText = rj_yhld
+            vdumRender(neig.outputText)
         }
 
         function copy_vdzv_1() {
@@ -254,7 +256,6 @@
         })
         document.getElementById('z').addEventListener('mouseup', function () {
             vdzv_1.focus()
-
             vdzv_1.setSelectionRange(...vnwm_ybbp[bnll_eqwy_1].vnwm_ts_trig)
         })
         document.getElementById('y').addEventListener('mousedown', function () {
@@ -389,21 +390,27 @@
         }
 
         function vdum_rscs(outputs = {}) {
+        neig.outputText=outputs.outputText
             if (outputs.ji_ye_hym_html) {
                 vdum_2.innerHTML = outputs.outputText
                 copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
             } else if (outputs.ji_caju) {
                 vdum_2.innerHTML = outputs.outputText.split(/\n/)
-                    .map(rn1 => `${rn1}<button onclick="copyToClipboard('${rn1}')">copy</button>`).join('\n')
+                    .map(rn1 => `${rn1}<button onclick="copyToClipboard('${rn1}')">copy</button><br>`).join('\n')
             } else {
-                if (outputs.outputText.toString().length > 100000) {
+                if (outputs.outputText.toString().length > 500000) {
                     console.log(outputs.outputText)
                     alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
                 } else {
-                    vdum_1.innerText = outputs.outputText
+                vdumRender(outputs.outputText)
+                    
                 }
             }
 
+        }
+        function vdumRender(rj_kp){
+        
+        vdum_1.innerHTML = rj_kp.split(/\n/).map((rn1,eqwy_1)=>`<code id="${eqwy_1}">${rn1.replace(/\r/,"").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</code>`).join("\n")
         }
         function uace_vdum_ybkc_caju(vnwm_vdum_ybkc = []) {
             caju_vdum_ybkc.innerHTML =
