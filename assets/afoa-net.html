@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Code Editor</title>
+    <!-- 引入CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.css">
+    <!-- 引入CodeMirror JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.js"></script>
+    <!-- 引入CodeMirror JavaScript语言模式（这里是JavaScript） -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script>
+    <style>
+        body {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            /* display: flex; */
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
+    </div>
+    <code id="ag_zzuy"></code>
+    <textarea id="code-editor"></textarea>
+    <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
+        <button onclick="document.getElementById('vdum_btn').click()" style="width: 1em;">vdum</button>
+        <button style="width: 4em;">$</button>
+        <button style="width: 4em;">[</button>
+        <button style="width: 4em;">]</button>
+        <button style="width: 4em;">{</button>
+        <button style="width: 4em;">}</button>
+        <button style="width: 4em;">(</button>
+        <button style="width: 4em;">)</button>
+        <button style="width: 4em;">=</button>
+        <button style="width: 4em;">'</button>
+        <button style="width: 4em;">\</button>
+        <button style="width: 4em;">`</button>
+        <button style="width: 4em;">"</button>
+        <button style="width: 4em;">!</button>
+    </div>
+
+    <div>
+        <button onclick="vdum_wdbu();vdzv_focus()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
+
+        <button style="height: 2em; width: 4em;" id="z">z</button>
+        <button style="height: 2em; width: 4em;" id="y">y</button>
+        <button style="height: 2em; width: 4em;" onclick="copyToClipboard(neig?.outputText);vdzv_focus()">copy</button>
+        <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
+        <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+    </div>
+    <div>
+        <pre id="vdum_1"></pre>
+    </div>
+    <div>
+        <div id="vdum_2"></div>
+        <div id="copy_btn_2"></div>
+    </div>
+    <div>
+        <a href="/">go home</a>
+    </div>
+
+    <script>
+        let vnwm_tsjq_wu
+        fetch('/nwvt-afoa-zzuy')
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+                else {
+                    throw res.json()
+                }
+            }).then(res => {
+                vnwm_tsjq_wu = res.flat()
+            })
+            .catch(err => console.log(err) && alert(err))
+        let bnll_eqwy_1 = 0
+        const neig = {
+            tkxb_uufb_trig: 0,
+            tkxb_jtco_trig: 0,
+            diwr_selection: [{ line: 0, ch: 0 }, { line: 0, ch: 0 }]
+        }
+        getNeig(neig, zhqh_1)
+        const vnwm_ybbp = []
+        const hf_vkih = hfbc_vkih()
+        var vdzv_1 = document.getElementById('code-editor');
+        const ag_zzuy = document.getElementById('ag_zzuy')
+        const vdum_1 = document.getElementById('vdum_1')
+        const vdum_2 = document.getElementById('vdum_2')
+        const copy_btn_2 = document.getElementById('copy_btn_2')
+        const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
+        const vnwm_vdum_ybkc = []
+
+        let editor
+        document.getElementById('z').addEventListener('mousedown', function () {
+            mb_ybbp()
+        })
+        document.getElementById('z').addEventListener('mouseup', function () {
+            editor.focus()
+            editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+
+        })
+        document.getElementById('y').addEventListener('mousedown', function () {
+            tt_ybbp()
+        })
+        document.getElementById('y').addEventListener('mouseup', function () {
+            editor.focus()
+            editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+
+        })
+        document.getElementById('zyvv').addEventListener('mousedown', function () {
+            zyvv()
+        })
+        document.getElementById('zyvv').addEventListener('mouseup', function () {
+            editor.focus()
+            editor.setCursor(neig.diwr_tkxb_trig)
+        })
+
+        document.getElementById("frih_bx").addEventListener("mousedown", function (event) {
+            wdbu_frih_vdzv(event)
+        })
+        document.getElementById("frih_bx").addEventListener("mouseup", function (event) {
+            frih_up_wdbu()
+        })
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // 初始化CodeMirror实例
+            editor = CodeMirror.fromTextArea(vdzv_1, {
+                lineNumbers: true,
+                lineWrapping: true,
+                mode: 'javascript', // 设置为JavaScript模式以实现代码高亮
+                theme: 'monokai' // 设置主题，根据需要选择其他主题
+            });
+
+            // 调整编辑器大小以填充整个视窗
+            editor.setSize('100%', '50%');
+            CodeMirror.on(editor, 'cursorActivity', function () {
+            })
+            let ji_selection
+            CodeMirror.on(editor, 'beforeChange', function () {
+                // if (editor.somethingSelected()) {
+                //     ji_selection = [editor.getCursor("from"), editor.getCursor("to")]
+                //     if (vnwm_ybbp.length) {
+                //         vnwm_ybbp[vnwm_ybbp.length - 1].diyc_selection = ji_selection
+                //     }
+                // } else {
+                //     ji_selection = false
+
+                // }
+            })
+            CodeMirror.on(editor, 'change', function (event, item) {
+                if (neig.ji_ybbp_cqpi) {
+                    neig.ji_ybbp_cqpi = false
+                    return
+                }
+                vnwm_ybbp.push({
+                    diyc_selection: [editor.getCursor("from"), editor.getCursor("to")],
+                    value: editor.getValue()
+                })
+                bnll_eqwy_1 = vnwm_ybbp.length - 1
+                if (!editor.getValue()) {
+                    return
+                }
+
+            })
+        });
+        function copy_2() {
+            let vdum_2 = document.getElementById('vdum_2')
+            copyToClipboard(vdum_2.innerHTML)
+            document.getElementById("ag_zzuy").innerText = "Copyed;)"
+        }
+        function mb_ybbp() {
+            bnll_eqwy_1--
+            if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
+            neig.ji_ybbp_cqpi = true
+            editor.setValue(vnwm_ybbp[bnll_eqwy_1].value)
+        }
+        function tt_ybbp() {
+            bnll_eqwy_1++
+            if (bnll_eqwy_1 === vnwm_ybbp.length) {
+                bnll_eqwy_1 = vnwm_ybbp.length - 1
+            }
+            neig.ji_ybbp_cqpi = true
+            editor.setValue(vnwm_ybbp[bnll_eqwy_1].value)
+        }
+
+        function copyToClipboard(string_1) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = string_1;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+        function getValue() {
+            alert(editor.getValue())
+        }
+        async function getNeig(neig = {}, zhqh_1) {
+            fetch('/get-neig')
+                .then(res => {
+                    if (res.ok) return res.json()
+                    else throw res.json()
+                })
+                .then(res => {
+                    Object.assign(neig, res)
+                    zhqh_1(neig)
+                })
+                .catch(err => {
+                    console.log(err)
+                    ag_zzuy.innerText = `Error:${err}Reason: ${err.reason}\nerr_stack: ${err.err_stack}`
+                })
+        }
+        function zhqh_1(neig) {
+            if (neig.ji_exym_oc_ssvl) {
+                document.onkeydown = function (event) {
+                    if (event.key === "Tab") {
+                        event.preventDefault()
+                        document.getElementById('vdum_btn').click()
+                    }
+                }
+            }
+        }
+        function test() {
+            editor.focus()
+            console.log(editor.getCursor("from"))
+            // console.log(editor.setCursor({ line: 1, ch: 1 }))
+        }
+        function zyvv() {
+            const value_1 = (() => {
+                if (/^\s/.test(editor.getValue())) {
+                    let rj_1 = editor.getValue().replace(/^\s+/, "")
+                    neig.diwr_tkxb_trig = { line: 0, ch: rj_1.match(/.*/)?.[0].length }
+                    return rj_1
+                }
+                else if (/\n./.test(editor.getValue())) {
+                    let vnwm_lines = editor.getValue().trim().split(/\n/)
+                    let eqwy_tsjq_wu = 0
+                    vnwm_lines.forEach((rn1, eqwy_1) => {
+                        if (vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0]) || vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0].toLowerCase())) {
+                            eqwy_tsjq_wu = eqwy_1
+                        }
+                    })
+                    let rj_1 = (() => {
+                        if (eqwy_tsjq_wu + 1 === vnwm_lines.length) {
+                            return vnwm_lines.slice(0, eqwy_tsjq_wu).join('\n')
+                        } else {
+                            return vnwm_lines.slice(0, eqwy_tsjq_wu + 1).join('\n')
+                        }
+                    })()
+                    const vnwm_rj_qh = rj_1.split(/\n/)
+                    neig.diwr_tkxb_trig = { line: vnwm_rj_qh.length, ch: 0 }
+                    return rj_1 + "\n"
+                } else {
+                    neig.diwr_tkxb_trig = { line: 0, ch: 0 }
+                    return ''
+                }
+            })()
+            editor.setValue(value_1)
+        }
+        function qu_ld_bqeo() {
+            const rj_yhld = editor.getValue()
+            editor.setValue(neig.outputText)
+            neig.outputText = rj_yhld
+            vdumRender("")
+        }
+        function vdumRender(rj_kp) {
+            vnwm_3 = rj_kp.split(/\n/)
+            vdum_1.innerHTML = vnwm_3.map((rn1, eqwy_1) => `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`).join("\n")
+        }
+        function vdzv_focus(line, ch) {
+            editor.focus()
+            if (typeof line === "number" && typeof ch === 'number') {
+                editor.setCursor(line, ch)
+            }
+        }
+        function vdum_wdbu() {
+            document.getElementById('ag_zzuy').innerText = "hold on..."
+            fetch('/afoa', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ vdzv: trl_wdbu(editor.getValue()) })
+            }).then(res => {
+                if (res.ok) {
+                    res.json().then(jtyj_1 => {
+                        vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
+                        vdum_rscs(jtyj_1)
+                        uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
+                    })
+                } else {
+                    res.json().then(jtyj_1 => {
+                        vdum_1.innerText = jtyj_1.reason
+                        console.log(jtyj_1.err_stack)
+                        ag_zzuy.innerText = ('error: \n' + jtyj_1.reason + '\n')
+                    })
+                }
+            }).then(() => {
+                document.getElementById('ag_zzuy').innerText = ""
+            })
+                .catch(err => { console.log(err); alert(err.message || err) })
+        }
+        function vdum_rscs(outputs = {}) {
+            neig.outputText = outputs.outputText
+            if (outputs.ji_ye_hym_html) {
+                vdum_2.innerHTML = outputs.outputText
+                copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+            } else if (outputs.ji_caju) {
+                vdum_2.innerHTML = outputs.outputText.split(/\n/)
+                    .map(rn1 => `${rn1}<button onclick="copyToClipboard('${rn1}')">copy</button><br>`).join('\n')
+            } else {
+                if (outputs.outputText.toString().length > 500000) {
+                    console.log(outputs.outputText)
+                    alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
+                } else {
+                    vdumRender(outputs.outputText)
+
+                }
+            }
+
+        }
+        function trl_wdbu(rj_kp) {
+            let rj_1 = rj_kp.trimStart()
+            if (/ -p /.test(rj_1)) {
+                neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
+            } else {
+                if (neig?.wvvy) {
+                    rj_1 = rj_1.replace(/(.)(?=\n|$)/, "$1 -p " + neig.wvvy)
+
+                }
+
+            }
+            return rj_1
+        }
+        function* hfbc_vkih() {
+            for (i1 = 0; ; i1++) {
+                yield i1
+            }
+        }
+        function uace_vdum_ybkc_caju(vnwm_vdum_ybkc = []) {
+            caju_vdum_ybkc.innerHTML =
+                vnwm_vdum_ybkc.map(
+                    rn1 => {
+                        return `<li style="margine:1em">${rn1.vkih}-${(() => {
+                            if (rn1.ji_ye_hym_html) {
+                                return "html"
+                            } else {
+                                return rn1.outputText?.replace(/(.{10})([\s\S]+)/, "$1...")
+                            }
+                        })()}</li>`
+                    }
+                ).join('\n')
+        }
+        function frih_up_wdbu() {
+            editor.focus()
+            // console.log('ynkc',neig.diwr_tkxb_uufb_trig)//
+            editor.setSelection(neig.diwr_tkxb_uufb_trig, neig.diwr_tkxb_jtco_trig)
+        }
+        function wdbu_frih_vdzv(event) {
+            const diwr_frih_di = {
+                '\'': '\'',
+                '"': '"',
+                '(': ')',
+                '[': ']',
+                '{': '}',
+                '`': "`"
+            }
+            neig.diwr_tkxb_uufb_trig = editor.getCursor("from")
+            neig.diwr_tkxb_jtco_trig = editor.getCursor("to")
+            const ji_rg_qh = !!editor.getSelection().match(/\n/)
+            // const line_1 = neig.diwr_tkxb_uufb_trig.line + editor.getSelection().match(/\n/g)?.length || 0
+            // const ch_1 = (() => {
+            //     if (editor.getSelection().match(/\n/g)) {
+            //         return editor.getSelection().replace(/([\s\S]*)\n(.*)$/, "$2").length
+            //     } else {
+            //         return neig.diwr_tkxb_uufb_trig.ch + editor.getSelection().length - 1
+            //     }
+            // })()
+            // neig.diwr_tkxb_jtco_trig = { line: line_1, ch: ch_1 }
+            const rj_nixb = event.target.innerText
+            if (/\n.*\n/.test(rj_nixb)) {
+                return
+            } else if (rj_nixb === 'vdum') {
+                return
+            } else {
+                if (editor.somethingSelected() && Object.keys(diwr_frih_di).includes(rj_nixb)) {
+                    editor.replaceSelection(rj_nixb + editor.getSelection() + diwr_frih_di[rj_nixb])
+                    neig.diwr_tkxb_jtco_trig.ch++
+                    if (!ji_rg_qh) {
+                        neig.diwr_tkxb_jtco_trig.ch++
+                    }
+                } else if (editor.somethingSelected() && !Object.keys(diwr_frih_di).includes(rj_nixb)) {
+                    editor.replaceSelection(rj_nixb)
+                    neig.diwr_tkxb_uufb_trig.ch++
+                    Object.assign(neig.diwr_tkxb_jtco_trig, neig.diwr_tkxb_uufb_trig)
+                } else {
+                    editor.replaceSelection(rj_nixb)
+                    neig.diwr_tkxb_uufb_trig.ch++
+                    Object.assign(neig.diwr_tkxb_jtco_trig, neig.diwr_tkxb_uufb_trig)
+                }
+            }
+
+        }
+
+    </script>
+</body>
+
+</html>
