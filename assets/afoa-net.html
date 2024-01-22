@@ -279,6 +279,14 @@
                 editor.setCursor(line, ch)
             }
         }
+        caju_vdum_ybkc.addEventListener('click', function (event) {
+            const vkih = event.target.innerText.match(/\w+(?=-)/)?.[0]
+            const diwr = {}
+            vnwm_vdum_ybkc.forEach(rn1 => {
+                diwr[rn1.vkih] = rn1
+            })
+            vdum_rscs(diwr[vkih])
+        })
         function vdum_wdbu() {
             document.getElementById('ag_zzuy').innerText = "hold on..."
             fetch('/afoa', {
