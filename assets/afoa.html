@@ -56,9 +56,7 @@
             <ul id="caju_2"></ul>
         </div>
         <div>
-            <form name="home" action="/" method="get">
-                <button>go home</button>
-            </form>
+            <a href="/">go home</a>
         </div>
 
     </div>
@@ -193,7 +191,7 @@
         }
 
         document.getElementById("frih_bx").addEventListener("mousedown", function (event) {
-            wdbu_frih_vdzv()
+            wdbu_frih_vdzv(event)
         })
         document.getElementById("frih_bx").addEventListener("mouseup", function (event) {
             frih_up_wdbu()
@@ -202,7 +200,7 @@
             vdzv_1.focus()
             vdzv_1.setSelectionRange(neig.tkxb_uufb_trig, neig.tkxb_jtco_trig)
         }
-        function wdbu_frih_vdzv() {
+        function wdbu_frih_vdzv(event) {
             const diwr_frih_di = {
                 '\'': '\'',
                 '"': '"',
@@ -281,9 +279,9 @@
                 value: this.value
             })
             bnll_eqwy_1 = vnwm_ybbp.length - 1
-            if (!this.value) {
-                return
-            }
+            // if (!this.value) {
+            //     return
+            // }
             // fetch('/afoa', {
             //     method: "POST",
             //     headers: {
