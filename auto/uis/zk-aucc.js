@@ -1,6 +1,6 @@
 "ui";
 
-
+let ji_acoa_bz
 ui.statusBarColor("#1E1E1E");
 const workingDirectory = '/sdcard/rsgm/bobi/auto'
 let destroy = require(workingDirectory + "/func/destroy");
@@ -52,6 +52,7 @@ menuItems.push(buildMenuItem(menu, "hym", ui.R.drawable.ic_dashboard_black_48dp)
 
 // 当底部按钮被选中时，切换ViewPager页面为相应位置的页面
 let vn_ybkc = 0
+let position_bnll=0
 let t1 = new Date().getTime()
 ui.navigation.setOnNavigationItemSelectedListener(function (item) {
     let t2 = new Date().getTime()
@@ -67,6 +68,7 @@ ui.navigation.setOnNavigationItemSelectedListener(function (item) {
         vn_ybkc = 0
     } else {
         ui.viewPager.currentItem = menuItems.indexOf(item);
+        position_bnll=menuItems.indexOf(item);
     }
     return true;
 });
@@ -75,6 +77,12 @@ ui.navigation.setOnNavigationItemSelectedListener(function (item) {
 ui.viewPager.addOnPageChangeListener(new androidx.viewpager.widget.ViewPager.OnPageChangeListener({
     onPageSelected: function (position) {
         menuItems[position].setChecked(true);
+    },
+        onPageScrolled: function (position){
+        if(ji_acoa_bz){
+            ui.viewPager.currentItem = position_bnll
+        }
+    
     }
 }));
 ui.jhjh_1.on("click", () => {
@@ -90,6 +98,8 @@ function getHomeUrl() {
 ui.emitter.on("create_options_menu", menu => {
     menu.add("设置");
     menu.add("日志");
+    menu.add("滑动锁定");
+    menu.add("滑动解锁");
     menu.add("Uyzj Ed");
     menu.add("服务器启动")
 });
@@ -98,6 +108,13 @@ ui.emitter.on("options_item_selected", (e, item) => {
         case "设置":
             app.startActivity("settings");
             break;
+        case "滑动解锁":
+        ji_acoa_bz=false
+        break;
+        case "滑动锁定":
+        ji_acoa_bz=true
+        break;
+        
         case "重启main-ui":
             toast('crum bj lzdr...')
             // engines.execScriptFile(workingDirectory + "/uis/main.js")
