@@ -10,13 +10,13 @@
     <!-- 引入CodeMirror JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/codemirror.min.js"></script>
     <!-- 引入CodeMirror JavaScript语言模式（这里是JavaScript） -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script> -->
     <style>
         body {
             width: 100%;
             height: 100vh;
             margin: 0;
-            /* display: flex; */
+            display: list-item;
             justify-content: center;
             align-items: center;
         }
@@ -24,36 +24,38 @@
 </head>
 
 <body>
-    <div>
-        <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
+    <div style="display:flex">
+        <ul style="font-size:smaller;padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
+        <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_1"></ul>
+        <!-- <button onclick="document.getElementById('vdum_btn').click()" style="width: 90%;">vdum</button> -->
     </div>
     <code id="ag_zzuy"></code>
     <textarea id="code-editor"></textarea>
     <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
-        <button onclick="document.getElementById('vdum_btn').click()" style="width: 1em;">vdum</button>
-        <button style="width: 4em;">$</button>
-        <button style="width: 4em;">[</button>
-        <button style="width: 4em;">]</button>
-        <button style="width: 4em;">{</button>
-        <button style="width: 4em;">}</button>
-        <button style="width: 4em;">(</button>
-        <button style="width: 4em;">)</button>
-        <button style="width: 4em;">=</button>
-        <button style="width: 4em;">'</button>
-        <button style="width: 4em;">\</button>
-        <button style="width: 4em;">`</button>
-        <button style="width: 4em;">"</button>
-        <button style="width: 4em;">!</button>
+
+        <button style="width: 5em;">$</button>
+        <button style="width: 5em;">[</button>
+        <button style="width: 5em;">]</button>
+        <button style="width: 5em;">{</button>
+        <button style="width: 5em;">}</button>
+        <button style="width: 5em;">(</button>
+        <button style="width: 5em;">)</button>
+        <button style="width: 5em;">=</button>
+        <button style="width: 5em;">'</button>
+        <button style="width: 5em;">\</button>
+        <button style="width: 5em;">`</button>
+        <button style="width: 5em;">"</button>
+        <button style="width: 5em;">!</button>
     </div>
 
-    <div>
-        <button onclick="vdum_wdbu();vdzv_focus()" style="height: 2em; width: 4em;" id="vdum_btn">vdum</button>
+    <div style="display:flex">
+        <button onclick="vdum_wdbu();vdzv_focus()" style="height: 2em; width: 5em;" id="vdum_btn">vdum</button>
 
-        <button style="height: 2em; width: 4em;" id="z">z</button>
-        <button style="height: 2em; width: 4em;" id="y">y</button>
-        <button style="height: 2em; width: 4em;" onclick="copyToClipboard(neig?.outputText);vdzv_focus()">copy</button>
-        <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 4em;" id="zstv_qu_ld">qu-ld</button>
-        <button style="height: 2em; width: 4em;" id="zyvv">clear</button>
+        <button style="height: 2em; width: 5em;" id="z">z</button>
+        <button style="height: 2em; width: 5em;" id="y">y</button>
+        <button style="height: 2em; width: 5em;" onclick="copyToClipboard(neig?.outputText);vdzv_focus()">copy</button>
+        <button onclick="qu_ld_bqeo();vdzv_focus(0)" style="height: 2em; width: 5em;" id="zstv_qu_ld">qu-ld</button>
+        <button style="height: 2em; width: 5em;" id="zyvv">clear</button>
     </div>
     <div>
         <pre id="vdum_1"></pre>
@@ -93,6 +95,7 @@
         const ag_zzuy = document.getElementById('ag_zzuy')
         const vdum_1 = document.getElementById('vdum_1')
         const vdum_2 = document.getElementById('vdum_2')
+        const caju_1 = document.getElementById('caju_1')
         const copy_btn_2 = document.getElementById('copy_btn_2')
         const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
         const vnwm_vdum_ybkc = []
@@ -133,8 +136,8 @@
             // 初始化CodeMirror实例
             editor = CodeMirror.fromTextArea(vdzv_1, {
                 lineNumbers: true,
+                tabSize: 4,
                 lineWrapping: true,
-                mode: 'javascript', // 设置为JavaScript模式以实现代码高亮
                 theme: 'monokai' // 设置主题，根据需要选择其他主题
             });
 
@@ -269,9 +272,33 @@
             neig.outputText = rj_yhld
             vdumRender("")
         }
-        function vdumRender(rj_kp) {
-            vnwm_3 = rj_kp.split(/\n/)
-            vdum_1.innerHTML = vnwm_3.map((rn1, eqwy_1) => `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`).join("\n")
+        function vdumRender(rj_kp, outputs) {
+            let rj_3 = rj_kp
+            vdum_1.innerHTML = (() => {
+                if (outputs.mark) {
+                    const vnwm_reg_2 = Object.entries(outputs.mark).map(([fo1, yg1]) => {
+                        return new RegExp(fo1, yg1)
+                    })
+                    vnwm_reg_2.forEach(rn1 => {
+                        rj_3 = rj_3.replace(rn1, (m1) => {
+                            return " md-" + m1 + "-md "
+                        })
+                    })
+                    return rj_3.split(/(?<! md-|-md )\n/).map((rn1, eqwy_1) => {
+                        return `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "")
+                            .replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`
+                            .replace(/( md-)((?:(?! md-)[\s\S])*)(-md )/g, "<mark>$2</mark>")
+                    }).join("\n")
+
+                } else {
+                    const vnwm_3 = rj_kp.split(/\n/)
+                    return vnwm_3.map((rn1, eqwy_1) => `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`).join("\n")
+                }
+
+            })()
+        }
+        function wdbuCode() {
+
         }
         function vdzv_focus(line, ch) {
             editor.focus()
@@ -280,7 +307,7 @@
             }
         }
         caju_vdum_ybkc.addEventListener('click', function (event) {
-            const vkih = event.target.innerText.match(/\w+(?=-)/)?.[0]
+            const vkih = event.target.innerText.match(/\w+(?= )/)?.[0]
             const diwr = {}
             vnwm_vdum_ybkc.forEach(rn1 => {
                 diwr[rn1.vkih] = rn1
@@ -321,14 +348,15 @@
                 vdum_2.innerHTML = outputs.outputText
                 copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
             } else if (outputs.ji_caju) {
-                vdum_2.innerHTML = outputs.outputText.split(/\n/)
-                    .map(rn1 => `${rn1}<button onclick="copyToClipboard('${rn1}')">copy</button><br>`).join('\n')
+
+                caju_1.innerHTML = outputs.outputText.split(/\n/)
+                    .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1}');vdzv_focus()">nxzv</button><br>`).join('\n')
             } else {
                 if (outputs.outputText.toString().length > 500000) {
                     console.log(outputs.outputText)
                     alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
                 } else {
-                    vdumRender(outputs.outputText)
+                    vdumRender(outputs.outputText, outputs)
 
                 }
             }
@@ -356,11 +384,12 @@
             caju_vdum_ybkc.innerHTML =
                 vnwm_vdum_ybkc.map(
                     rn1 => {
-                        return `<li style="margine:1em">${rn1.vkih}-${(() => {
+                        return `<li style="margine:1em"><mark style="font-size:smaller">${rn1.vkih}</mark> ${(() => {
                             if (rn1.ji_ye_hym_html) {
                                 return "html"
                             } else {
-                                return rn1.outputText?.replace(/(.{10})([\s\S]+)/, "$1...")
+                                return rn1.outputText?.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                                    .replace(/(.{1,17})([\s\S]+)/, "$1...")
                             }
                         })()}</li>`
                     }
@@ -416,7 +445,13 @@
             }
 
         }
-
+        function nxzv(rj_1) {
+            if (typeof rj_1) {
+                editor.replaceSelection("\n" + rj_1)
+            } else {
+                throw new Error("nxzv dk mcvn aoao ji string")
+            }
+        }
     </script>
 </body>
 
