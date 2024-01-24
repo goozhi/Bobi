@@ -7,7 +7,7 @@ let XITL_AFDH = require(workingDirectory + "/func/XITL_AFDH.js")
 ui.layout(
     <vertical>
         <list id="uis">
-            <text text="{{this.uiname}}" />
+            <text h="30" text="{{this.uiname}}" />
         </list>
         <button text="reflush" id="reflush" />
     </vertical>
