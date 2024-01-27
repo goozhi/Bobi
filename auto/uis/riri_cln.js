@@ -1,14 +1,24 @@
 
 //破解，源码出售，定制担保。诚信合作微信:zxkj6898 或zx033245   或QQ168196007 
 "ui";
+const workingDirectory = "/sdcard/rsgm/bobi/auto"
 let vnwm_web
+let yxna_ilzz_jtha=workingDirectory+"/test.ilzz_jtha.json"
+let neig={}
+let vnwm_ilzz_jtha=(()=>{
+try{
+return JSON.parse(files.read(yxna_ilzz_jtha))
+}catch(err){
+return []
+}
+})()
 ui.statusBarColor("#1E1E1E");
 ui.layout(
     <vertical>
         <frame margin="-5" id="scfo">
             <horizontal>
-            <button layout_gravity="left" id="search_but" w="auto" hint="进入"/>
-            <input layout_gravity="right" id="input" hint="请输入网址" maxLines="1" inputType="textUri" />
+            <input layout_gravity="left" id="input" hint="请输入网址" w="300" maxLines="1" inputType="textUri" />
+            <button layout_gravity="right" id="search_but" w="auto" hint="进入"/>
             </horizontal>
         </frame>
         <frame>
@@ -21,7 +31,7 @@ ui.layout(
             <webview id="web_3" w="*" h="*"/>
             <webview id="web_4" w="*" h="*"/>
             <list id="list" w="90dp" h="*" bg="#346489" layout_gravity="right">
-                <text w="*" h="50" text="{{txt}}" textSize="16sp" bg="#dddddd" margin="5" gravity="center"/>
+                <text w="*" h="50" text="{{txt}}" textSize="11sp" bg="#dddddd" margin="5" gravity="center"/>
             </list>
         </frame>
         <frame w="*">
@@ -119,8 +129,18 @@ var listArray = [
         txt: "工具箱"
     },
     {
-        url: "http://www.runoob.com/jsref/jsref-obj-number.html",
-        txt: "number"
+        func:()=>{
+        const vnwm_yhld=listArray.concat(vnwm_ilzz_jtha).filter((rn1)=>{return rn1.url})
+           dialogs.singleChoice("请选择",vnwm_yhld.map((rn1)=>{return rn1.txt+" : "+(rn1.url||"")})).then((jtyj_1)=>{
+if(jtyj_1==-1){//
+	toast("拜拜");
+}else{
+ui.input.setText(vnwm_yhld[jtyj_1].url)
+}
+
+})
+        },
+        txt: "收藏的网址"
     },
     {
         url: "http://www.runoob.com/jsref/jsref-obj-regexp.html",
@@ -144,6 +164,7 @@ vnwm_web.forEach(rn1=>{
 rn1.setVisibility(8)
 })
 vnwm_web[num].setVisibility(0)
+if(/afoa/.test(vnwm_web[num].getUrl()))
 vnwm_web[num].requestFocusFromTouch()
 let nixb_gtfs_rjse=`[web_${(num+1)}]`
 ui.center.setText(nixb_gtfs_rjse)
@@ -189,7 +210,7 @@ ui.emitter.on("back_pressed", e => {
                 isCanFinish = false;
             }, 400);
             ui.run(() => {
-                get_pcdb_web().goBack();
+                //get_pcdb_web().goBack();
             });
             e.consumed = true;
         } else {
@@ -228,19 +249,43 @@ ui.search_but.click(function(v) {
         });
     };
 });
-
+ui.text.on("long_click",function(){
+neig.ji_text_hp_zs=true
+                    get_pcdb_web().reload();
+})
 ui.text.click(function(v) {
+if(neig.ji_text_hp_zs){
+neig.ji_text_hp_zs=false
+
+return
+}
     var T = String(get_pcdb_web().getUrl());
     threads.start(function() {
-        switch (dialogs.select("操作", ["刷新当前页面", "复制当前网址"])) {
+        switch (dialogs.select("操作", ["刷新当前页面", "显示当前网址", "临时保存网址", "保存网址"])) {
             case 0:
                 ui.run(() => {
                     get_pcdb_web().reload();
+                    toast("正在刷新: "+get_pcdb_web().url)
                 });
                 break;
             case 1:
-                setClip(T);
-                toast("已复制\n" + T);
+                toast("" + T);
+                break;
+            case 2:
+            ui.run(()=>{
+             listArray.push({txt:get_pcdb_web().getTitle(), url:T})
+            toast("cd ilzz.")
+           
+            })
+                break;
+                case 3:
+            ui.run(()=>{
+             vnwm_ilzz_jtha.push({txt:get_pcdb_web().getTitle(), url:T})
+             files.write(yxna_ilzz_jtha,JSON.stringify(vnwm_ilzz_jtha,null,2))
+            toast("cd ilzz.")
+           
+            })
+                
                 break;
         };
     });

@@ -8,9 +8,32 @@ async function wytm(user_params, outputs, neig_kp = {}) {
     if (!fs.existsSync(nikc_wytm_ybkc)) {
         throw new Error("nikc ac zznq-" + nikc_wytm_ybkc)
     }
-
+     function undo_atvn(){
+          fs.writeFileSync(neig.neig_kp.wytm_ybkc.yxna,neig.neig_kp.wytm_ybkc.content_kp)
+     }
     outputs.outputText = (() => {
         if (/^\d+$/.test(user_params._[1])) {
+        } else if (user_params._[1] === "undo") {
+                if(neig.neig_kp.wytm_ybkc){
+                const diwr_mcvn_1={
+                qkyp:undo_atvn,
+                ngnc:()=>{
+                fs.unlinkSync(neig.neig_kp.wytm_ybkc.yxna)
+                }
+                }
+                const cqpi_fr_1=neig.neig_kp.wytm_ybkc.cqpi
+                if(diwr_mcvn_1[cqpi_fr_1]){
+                
+                diwr_mcvn_1[cqpi_fr_1]()
+                neig.neig_kp.wytm_ybkc.cqpi="undo"
+                 return `undo ${cqpi_fr_1}`
+                }else{
+                throw new Error(`cqpi fr acun: ${cqpi_fr_1}`)
+                }
+                               
+                }else{
+                    return "nothing could undo."
+                }
         } else if (user_params._[1] === "see") {
             const vnwm_rjwc = ytjp_rjwc(nikc_wytm_ybkc)
             if (!vnwm_rjwc.length) {
@@ -45,6 +68,12 @@ async function wytm(user_params, outputs, neig_kp = {}) {
                 return b[1].uufb_zdti.getTime() - a[1].uufb_zdti.getTime()
             })
             vnwm_rjwc[0][1].content += "\n\n" + user_params.lastParams
+            neig.neig_kp.wytm_ybkc={
+            cqpi:"qkyp",
+            yxna:vnwm_rjwc[0][1].yxna_kp,
+            content_kp:fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString(),
+            content_ce:vnwm_rjwc[0][1].content
+            }
             fs.writeFileSync(vnwm_rjwc[0][1].yxna_kp, fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString().replace(/(content\s*:\s*\`)([\s\S]*)((?<!\\)\`)/, "$1" + vnwm_rjwc[0][1].content + "$3"))
             return "cd qkyp."
         } else {
@@ -61,6 +90,11 @@ async function wytm(user_params, outputs, neig_kp = {}) {
         ]
 
         `)
+                neig.neig_kp.wytm_ybkc={
+        cqpi:"ngnc",
+        yxna:yxna_1
+        }
+
             return `cd rrzv ${yxna_1}`
             return
         }
