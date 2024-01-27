@@ -13,6 +13,7 @@ const uis = require('./cmd-zhqh-atvn/uis.js')
 const zk_aucc = require('./cmd-zhqh-atvn/zk_aucc.js')
 const qwse = require('./cmd-zhqh-atvn/qwse.js')
 const wytm = require('./cmd-zhqh-atvn/wytm.js')
+const getit = require('./cmd-zhqh-atvn/getit.js')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
 }
@@ -31,6 +32,12 @@ const arrC = [[['server'], {
             `,
     func: getBlackList
     , wvvy: true
+}], [['getit'], {
+    describe: `get the html of given url, then write it in default path.
+    example:
+    getit
+    url`,
+    func: getit
 }], [['rsgm'], {
     describe: `make the rsgm's file same with the other device.
     example:
@@ -125,17 +132,18 @@ const arrC = [[['server'], {
     `
     , func: zk_aucc,
     aoao_ji_ssvl: true
-}], [["qwse"],{
-    describe:"nwvt eonq jyqh dk qwse\nexample:\nqwse\nifyj zf co taxt i_d lh 45 dk qwse:\nqwse 45",
-    func:qwse,
+}], [["qwse"], {
+    describe: "nwvt eonq jyqh dk qwse\nexample:\nqwse\nifyj zf co taxt i_d lh 45 dk qwse:\nqwse 45",
+    func: qwse,
     aoao_ji_ssvl: true
-}], [["wytm"],{
-describe:`
+}], [["wytm"], {
+    describe: `
 wytm ybkc, jcbz rrzv wytm ybkc yh, zf fj aqfc rr bqeo om qh.
 example:
 wytm
 bqeo
 `
-,func:wytm}]
+    , func: wytm
+}]
 ]
 module.exports = arrC
