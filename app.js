@@ -224,8 +224,6 @@ app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
-            diwr_log.gkqj_pc_ce_dbkz = true
-            diwr_log.new_user[user_uid] = { date: new Date(), host: ctx.header.host, url: ctx.url }
         }
     }
     if (ctx.path === '/afoa') {
@@ -264,9 +262,6 @@ app.use(async (ctx, next) => {
             //   `;
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
-            if (diwr_log.gkqj_pc_ce_dbkz) {
-                diwr_log.gkqj_pc_ce_dbkz = false
-            }
         } else if (ctx.method === 'POST') {
             neig.excmds =  arrC
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
