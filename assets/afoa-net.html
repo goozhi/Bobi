@@ -196,15 +196,20 @@
                 kuoe_vdzv_xitl(item.text.join(""))
             })
         });
-        let gg_1={bqeo:"", tkxb_up:[0,0], vnwm_bnll_ybbp:[]}
+        let gg_1={bqeo:"", 
+        tkxb_up:[0,0], 
+        bnll_eqwy_1,
+        vnwm_bnll_ybbp:[]}
         function gtLplp(){
         let diwr_1=Object.assign({},gg_1)
         Object.assign(gg_1,{bqeo:editor.getValue(),
         vnwm_bnll_ybbp: vnwm_ybbp.slice(0),
+        bnll_eqwy_1,
         tkxb_up:[editor.getCursor("from").line,editor.getCursor("from").ch]})
         editor.setValue(diwr_1.bqeo)
         editor.setCursor(...diwr_1.tkxb_up)
         vnwm_ybbp.splice(0,vnwm_ybbp.length,...(diwr_1.vnwm_bnll_ybbp||vnwm_ybbp))
+        bnll_eqwy_1=diwr_1.bnll_eqwy_1||bnll_eqwy_1
         }
         function copy_2() {
             let vdum_2 = document.getElementById('vdum_2')
@@ -225,6 +230,12 @@
      vdum_btn.click()
      },
      leun:"vdum qhzh."
+     },j:{
+     func:()=>{
+     editor.setCursor(0,0)
+     editor.replaceSelection("wrvr\nwytm\n")
+     },
+     leun:"nxzv wrvr mr wytm tsjq."
      },u:{
      func:(mcvn_kp)=>{
      if(!mcvn_kp){
@@ -562,6 +573,8 @@
             if (outputs.ji_ye_hym_html) {
                 vdum_2.innerHTML = outputs.outputText
                 copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+            } else if (outputs.ji_blank_html) {
+                alert("ra sdvu.")
             } else if (outputs.ji_caju) {
 
                 caju_1.innerHTML = outputs.outputText.split(/\n/)
