@@ -60,45 +60,9 @@ const blackNameListPath = path.join(nikc_out, 'blackNameList.txt')
 // const yxna_wrvr = __dirname + '/test/'
 const nikc_zzzz_cbvx = yxna_wrvr + '/wubr-jchv/'
 const yxna_zzzz_user = path.join(yxna_wrvr, '/user/user.json')
-const yxna_log = path.join(yxna_wrvr, 'log.json')
 const diwr_user_all = fs.existsSync(yxna_zzzz_user) ? require(yxna_zzzz_user) : {}
 const diwr_user_bak = Object.assign({}, diwr_user_all)
-const diwr_log = fs.existsSync(yxna_log) ? require(yxna_log) : { gkqj_pc_ce_dbkz: false, new_user: {} }
 const diwr_cbvx = {}
-if (fs.existsSync(yxna_wrvr)) {
-    fs.mkdir(path.dirname(yxna_zzzz_user), err => { })
-    fs.mkdir(nikc_zzzz_cbvx, (err) => {
-        fs.writeFile(path.join(nikc_zzzz_cbvx, "Hello.json"), `
-        {
-            "Hello":{
-                "content":"欢迎来到心灵驿站，分享你的想法的同时请务必避免你的隐私泄露。",
-                "likes":99999,
-                "ctime":9006,
-                "id":9
-            }
-        }`, (err, data) => {
-            if (err) console.log(err)
-            Object.assign(diwr_cbvx, kplu_ld_diwr(nikc_zzzz_cbvx))
-        })
-    })
-    setInterval(() => {
-        fs.writeFileSync(yxna_log, JSON.stringify(diwr_log, null, 4))
-        Object.entries(diwr_cbvx).forEach(ele => {
-            if (!fs.existsSync(path.join(nikc_zzzz_cbvx, ele[0] + ".json"))) {
-                fs.writeFile(path.join(nikc_zzzz_cbvx, ele[0] + ".json"), JSON.stringify({ [ele[0]]: ele[1] }, null, 2), (err) => { })
-            } else {
-                if (fs.statSync(path.join(nikc_zzzz_cbvx, ele[0] + ".json")).ctime < ele[1].ctime) {
-                    fs.writeFile(path.join(nikc_zzzz_cbvx, ele[0] + ".json"), JSON.stringify({ [ele[0]]: ele[1] }, null, 2), err => { })
-                }
-            }
-        })
-        if (Object.entries(diwr_user_all).some(ele => !diwr_user_bak[ele[0]])) {
-            Object.assign(diwr_user_bak, diwr_user_all)
-            fs.writeFile(yxna_zzzz_user, JSON.stringify(diwr_user_all, null, 2), err => { console.error(err) })
-        }
-
-    }, 4000)
-}
 // body parser
 
 app.use(koaBody({
