@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
+const arrC = require("./arrC.js")
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
@@ -303,7 +304,7 @@ app.use(async (ctx, next) => {
                 diwr_log.gkqj_pc_ce_dbkz = false
             }
         } else if (ctx.method === 'POST') {
-            neig.excmds = require('./arrC.js')
+            neig.excmds =  arrC
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
