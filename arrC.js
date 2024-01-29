@@ -36,7 +36,17 @@ const arrC = [[['server'], {
     describe: `get the html of given url, then write it in default path.
     example:
     getit
-    url`,
+    url
+    
+    hsoy test.html ab hsoy tum
+    getit hsoy
+    
+    caum hsoy dk html.
+    getit ls
+    
+    zjhq hsoy caju yh dk html
+    getit see
+    html-source`,
     func: getit
 }], [['rsgm'], {
     describe: `make the rsgm's file same with the other device.
