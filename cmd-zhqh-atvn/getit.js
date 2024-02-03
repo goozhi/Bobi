@@ -27,7 +27,7 @@ const getit = async (user_params = {}, outputs = { outputText }, neig_kp = {}) =
            if(rjqt_wu){
                return (()=>{
                    const rj_html=(fs.readFileSync(path.join(nikc_html_hsoy, rjqt_wu)).toString())
-                   return "see\n"+path.join(nikc_html_hsoy, rjqt_wu)
+                   return "see\nfile://"+path.join(nikc_html_hsoy, rjqt_wu)
                })()
            }else{
             throw new Error("rjqt wu lh vv.")
