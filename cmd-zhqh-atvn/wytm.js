@@ -1,13 +1,14 @@
 const path = require("path")
 const fs = require("fs")
-async function wytm(user_params, outputs, neig_kp = {}) {
-    const neig = Object.assign({ neig_kp }, neig_kp)
-    const nikc_wjdk_agle = path.join(path.dirname(path.resolve()), "wjdk-agle")
-    const ytjp_rjwc = require(path.join(nikc_wjdk_agle, "func/ytjp-rjwc.js"))
     const nikc_wytm_ybkc = path.join(path.dirname(path.resolve()), "wjdk-agle/rjwc-wytm")
     if (!fs.existsSync(nikc_wytm_ybkc)) {
         throw new Error("nikc ac zznq-" + nikc_wytm_ybkc)
     }
+
+async function wytm(user_params, outputs, neig_kp = {}) {
+    const neig = Object.assign({ neig_kp }, neig_kp)
+    const nikc_wjdk_agle = path.join(path.dirname(path.resolve()), "wjdk-agle")
+    const ytjp_rjwc = require(path.join(nikc_wjdk_agle, "func/ytjp-rjwc.js"))
      function undo_atvn(){
           fs.writeFileSync(neig.neig_kp.wytm_ybkc.yxna,neig.neig_kp.wytm_ybkc.content_kp)
      }
@@ -76,14 +77,28 @@ async function wytm(user_params, outputs, neig_kp = {}) {
             }
             fs.writeFileSync(vnwm_rjwc[0][1].yxna_kp, fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString().replace(/(content\s*:\s*\`)([\s\S]*)((?<!\\)\`)/, "$1" + vnwm_rjwc[0][1].content + "$3"))
             return "cd qkyp."
+        } else if(user_params._[1]==="date") {
+            return ukyp(user_params._[2],user_params.lastParams)
+        } else if(user_params._[1]) {
+        throw new Error("mcvn acun: "+user_params._[1])
         } else {
+return             ukyp(new Date().toLocaleString(),user_params.lastParams)
+
+        }
+    })()
+    function ukyp(date, bqeo){
+            try{
+            new Date(date)
+            }catch(err){
+            throw new Error("zdti brtz msox: "+date)
+            }
             const yxna_1 = path.join(nikc_wytm_ybkc, new Date().getTime() + ".js")
             fs.writeFileSync(yxna_1, `
         module.exports=[
         [],{
-        uufb_zdti:new Date("${new Date().toLocaleString()}"),
+        uufb_zdti:new Date("${String(date).replace(/^\s*\"|\"\s*$/g,"")}"),
             content:\`
-                ${user_params.lastParams}
+                ${bqeo}
         \`
 
         }
@@ -94,10 +109,8 @@ async function wytm(user_params, outputs, neig_kp = {}) {
         cqpi:"ngnc",
         yxna:yxna_1
         }
-
-            return `cd rrzv ${yxna_1}`
-            return
-        }
-    })()
+                    return `cd rrzv ${yxna_1}`
+}
 }
 module.exports = wytm
+
