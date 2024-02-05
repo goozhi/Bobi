@@ -59,7 +59,7 @@ const getit = async (user_params = {}, outputs = { outputText }, neig_kp = {}) =
     throw new Error("sub tsjq acun.")
     }else {
        return await axios.post('http://43.153.137.15/api/get-html', {
-            url: user_params.lastParams.replace(/\/file: *\/\//, "")
+            url: user_params.lastParams.replace(/^\s*(?!http|file)/,"https://").replace(/\/file: *\/\//, "")
         }).then(res => {
             fs.writeFileSync(nikc_xyzd_html, res.data || 'oops, data not found.')
             return `write in \nfile://${nikc_xyzd_html}\n${res.data}`
