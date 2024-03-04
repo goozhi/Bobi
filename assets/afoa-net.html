@@ -173,7 +173,7 @@
                 // }
             })
             CodeMirror.on(editor, 'change', function (event, item) {
-                if (neig.ji_yozd_rfrf) {
+                if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
                     (() => {
                         fetch('/afoa', {
                             method: "POST",
@@ -185,7 +185,7 @@
                         }).then(res => {
                             if (res.ok) {
                                 res.json().then(jtyj_1 => {
-                                    vdumRender(jtyj_1.outputText)
+                                    vdumRender(jtyj_1.outputText.replace(/^\s*wrvr\s*/i,""))
                                 })
                             } else {
                                 res.json().then(jtyj_1 => {
@@ -226,7 +226,8 @@
             bqeo: "",
             tkxb_up: [0, 0],
             bnll_eqwy_1,
-            vnwm_bnll_ybbp: []
+            vnwm_bnll_ybbp: [],
+            ji_yozd_rfrf: false
         }
         function gtLplp() {
             let diwr_1 = Object.assign({}, gg_1)
@@ -234,10 +235,12 @@
                 bqeo: editor.getValue(),
                 vnwm_bnll_ybbp: vnwm_ybbp.slice(0),
                 bnll_eqwy_1,
-                tkxb_up: [editor.getCursor("from").line, editor.getCursor("from").ch]
+                tkxb_up: [editor.getCursor("from").line, editor.getCursor("from").ch],
+                ji_yozd_rfrf: neig.ji_yozd_rfrf
             })
             editor.setValue(diwr_1.bqeo)
             editor.setCursor(...diwr_1.tkxb_up)
+            neig.ji_yozd_rfrf = Boolean(diwr_1.ji_yozd_rfrf)
             vnwm_ybbp.splice(0, vnwm_ybbp.length, ...(diwr_1.vnwm_bnll_ybbp || vnwm_ybbp))
             bnll_eqwy_1 = diwr_1.bnll_eqwy_1 || bnll_eqwy_1
         }
