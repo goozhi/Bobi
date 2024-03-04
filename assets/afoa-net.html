@@ -48,7 +48,7 @@
         <button style="width: 5em;">!</button>
     </div>
 
-    <div id = "afoa_fo" style="display:flex">
+    <div id="afoa_fo" style="display:flex">
         <button onclick="vdum_wdbu();vdzv_focus()" style="height: 2em; width: 5em;" id="vdum_btn">vdum</button>
 
         <button style="height: 2em; width: 5em;" id="z">z</button>
@@ -99,7 +99,7 @@
         const copy_btn_2 = document.getElementById('copy_btn_2')
         const afoa_fo = document.getElementById('afoa_fo')
         const frih_bx = document.getElementById('frih_bx')
-                        
+
         const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
         const vnwm_vdum_ybkc = []
 
@@ -129,24 +129,24 @@
         })
 
         document.getElementById("frih_bx").addEventListener("mousedown", function (event) {
-        if(neig.ji_afoa_fo_dzvv)return
+            if (neig.ji_afoa_fo_dzvv) return
             wdbu_frih_vdzv(event)
         })
         document.getElementById("afoa_fo").addEventListener("mousedown", function (event) {
-            neig.ji_afoa_fo_dzvv=true
-            const i1= setInterval(()=>{
-            neig.ji_afoa_fo_dzvv=true
-            },100)
-            setTimeout(()=>{
-            clearInterval(i1)
-            neig.ji_afoa_fo_dzvv=false
-            },1000)
+            neig.ji_afoa_fo_dzvv = true
+            const i1 = setInterval(() => {
+                neig.ji_afoa_fo_dzvv = true
+            }, 100)
+            setTimeout(() => {
+                clearInterval(i1)
+                neig.ji_afoa_fo_dzvv = false
+            }, 1000)
         })
         document.getElementById("frih_bx").addEventListener("mouseup", function (event) {
-                    if(neig.ji_afoa_fo_dzvv)return
-                    frih_up_wdbu()
+            if (neig.ji_afoa_fo_dzvv) return
+            frih_up_wdbu()
         })
-        
+
         document.addEventListener('DOMContentLoaded', function () {
             // 初始化CodeMirror实例
             editor = CodeMirror.fromTextArea(vdzv_1, {
@@ -173,233 +173,276 @@
                 // }
             })
             CodeMirror.on(editor, 'change', function (event, item) {
+                if (neig.ji_yozd_rfrf) {
+                    (() => {
+                        fetch('/afoa', {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Access-Control-Request-Headers': '*'
+                            },
+                            body: JSON.stringify({ vdzv: 'wrvr\n' + editor.getValue() })
+                        }).then(res => {
+                            if (res.ok) {
+                                res.json().then(jtyj_1 => {
+                                    vdumRender(jtyj_1.outputText)
+                                })
+                            } else {
+                                res.json().then(jtyj_1 => {
+                                    vdumRender(jtyj_1.reason)
+                                    console.log(jtyj_1.err_stack)
+                                })
+                                alert('error: please check the console to find out the reason.')
+                            }
+                        })
+                            .catch(err => { console.log(err); alert(err) })
+                    })()
+                }
+
                 if (neig.ji_ybbp_cqpi) {
                     neig.ji_ybbp_cqpi = false
                     return
                 }
-                neig.okud_zz_tkxb=editor.getCursor("to")
-                if(neig.ji_atvn_cqpi){
-                kuoe_vdzv_xitl(item.text.join(""))
-                return 
+                neig.okud_zz_tkxb = editor.getCursor("to")
+                if (neig.ji_atvn_cqpi) {
+                    kuoe_vdzv_xitl(item.text.join(""))
+                    return
                 }
-                const diwr_yhld={
+                const diwr_yhld = {
                     diyc_selection: [editor.getCursor("from"), editor.getCursor("to")],
                     value: editor.getValue()
                 }
-                if(vnwm_ybbp.length){
-                if(diwr_yhld.value===vnwm_ybbp[vnwm_ybbp.length-1].value)
-                return
+                if (vnwm_ybbp.length) {
+                    if (diwr_yhld.value === vnwm_ybbp[vnwm_ybbp.length - 1].value)
+                        return
                 }
-                
+
                 vnwm_ybbp.push(diwr_yhld)
                 bnll_eqwy_1 = vnwm_ybbp.length - 1
                 kuoe_vdzv_xitl(item.text.join(""))
             })
         });
-        let gg_1={bqeo:"", 
-        tkxb_up:[0,0], 
-        bnll_eqwy_1,
-        vnwm_bnll_ybbp:[]}
-        function gtLplp(){
-        let diwr_1=Object.assign({},gg_1)
-        Object.assign(gg_1,{bqeo:editor.getValue(),
-        vnwm_bnll_ybbp: vnwm_ybbp.slice(0),
-        bnll_eqwy_1,
-        tkxb_up:[editor.getCursor("from").line,editor.getCursor("from").ch]})
-        editor.setValue(diwr_1.bqeo)
-        editor.setCursor(...diwr_1.tkxb_up)
-        vnwm_ybbp.splice(0,vnwm_ybbp.length,...(diwr_1.vnwm_bnll_ybbp||vnwm_ybbp))
-        bnll_eqwy_1=diwr_1.bnll_eqwy_1||bnll_eqwy_1
+        let gg_1 = {
+            bqeo: "",
+            tkxb_up: [0, 0],
+            bnll_eqwy_1,
+            vnwm_bnll_ybbp: []
+        }
+        function gtLplp() {
+            let diwr_1 = Object.assign({}, gg_1)
+            Object.assign(gg_1, {
+                bqeo: editor.getValue(),
+                vnwm_bnll_ybbp: vnwm_ybbp.slice(0),
+                bnll_eqwy_1,
+                tkxb_up: [editor.getCursor("from").line, editor.getCursor("from").ch]
+            })
+            editor.setValue(diwr_1.bqeo)
+            editor.setCursor(...diwr_1.tkxb_up)
+            vnwm_ybbp.splice(0, vnwm_ybbp.length, ...(diwr_1.vnwm_bnll_ybbp || vnwm_ybbp))
+            bnll_eqwy_1 = diwr_1.bnll_eqwy_1 || bnll_eqwy_1
         }
         function copy_2() {
             let vdum_2 = document.getElementById('vdum_2')
             copyToClipboard(vdum_2.innerHTML)
             document.getElementById("ag_zzuy").innerText = "Copyed;)"
         }
-        let ztfr_1=""
-        
-     const diwr_mcvn={}
-     Object.assign(diwr_mcvn,{
-     g:{
-     func:()=>{
-     gtLplp()
-     },
-     leun:"vdzv osse odrg."
-     },v:{
-     func:()=>{
-     vdum_btn.click()
-     },
-     leun:"vdum qhzh."
-     },j:{
-     func:()=>{
-     editor.setCursor(0,0)
-     editor.replaceSelection("wrvr\nwytm\n")
-     },
-     leun:"nxzv wrvr mr wytm tsjq."
-     },u:{
-     func:(mcvn_kp)=>{
-     if(!mcvn_kp){
-     editor.setSelection({line:editor.getCursor().line,ch:0},{line:editor.getCursor().line,ch:99999})
-     return 
-     }
-     if(typeof mcvn_kp!="string"){
-     throw new Error("mcvn uxux msox")
-     
-     }
-     const diwr_yhld=mcvn_kp.match(/(\d+).*(\d+)/)
-     if(!diwr_yhld){
-     throw new Error("mcvn msox")
-     }
-     let vn_jtco_qh=Number(diwr_yhld[2])
-     let vn_uufb_qh=Number(diwr_yhld[1])
-     if(vn_uufb_qh>editor.lastLine())vn_uufb_qh=editor.lastLine()
-     editor.setValue(editor.getValue().replace(/\s*\bg \d+.*ggu/,""))
-     editor.setSelection({line: vn_uufb_qh-1,ch:0}, {line: vn_jtco_qh-1,ch:999999})
-     },
-     leun:"us yh ts zn klvq.example:g 0 7ggu\n us yh bnll qh:ggu"
-     },d:{
-     func:(mcvn_kp)=>{
-     if(typeof mcvn_kp!="string"){
-         editor.setCursor(0,0)
-     return
-     }
-     const diwr_yhld=mcvn_kp.match(/(\d+).*(\d+)/)
-     editor.setValue(editor.getValue().replace(/\s*\bg .*ggd/,""))
-     if(!diwr_yhld){
-       let vn_1=mcvn_kp.match(/\d+/)?.[0]
-       if(vn_1){
-       editor.setCursor(Number(vn_1)-1,0)
-       return
-       }else{
-       throw new Error("mcvn msox")}
-     }else{
-     let ch_1=Number(diwr_yhld[2])-1
-     let line_1=Number(diwr_yhld[1])-1
-     editor.setCursor(line_1,ch_1)
-     return    
-     }
-     },
-     leun:"dg ld. example:g 5 ggd\n g 5 6 ggd\n dg ld nmm qh\nggd"
-     },q:{
-     func:()=>{
-     editor.setSelection({line:editor.getCursor().line,ch:0},{line:editor.getCursor().line,ch:999999})
-     },
-     leun:"us yh bnll qh."
-     },h:{
-     func:(mcvn_kp)=>{
-     hd_da_ye_qh("h",mcvn_kp)
-     },
-     leun:"hd da ye qh."
-     },m:{
-     func:(mcvn_kp)=>{
-     hd_da_ye_qh("m", mcvn_kp)
-     },
-     leun:"hd da ye qh okud ye nh mcvn."
-     },l:{
-     func:()=>{
-     qu_ld_bqeo("m")
-     },
-     leun:"ld vdum bqeo ab vdzv zul."
-     },n:{
-     func:()=>{
-     editor.setSelection({line:0,ch:0},{line:editor.lastLine(),ch:999})
-     },
-     leun:"non us."
-     },k:{
-     func:()=>{
-     editor.setValue(JSON.stringify(diwr_mcvn,null,2))
-     },
-     leun:"nwvt kfou."
-     },
-     })
-     
-     function   kuoe_vdzv_xitl(ztfr_kp){
-     const reg_g = new RegExp(`.{${editor.getCursor().ch-2}}\\bg `)
+        let ztfr_1 = ""
 
-     if(reg_g.test(editor.getValue())){
-       neig.ji_atvn_cqpi=true
-     }
-     vnwm_reg_ztfr=[/^g$/,/^g$/,/^\w$/]
-     const reg_1=vnwm_reg_ztfr[ztfr_1.length]
-     if(!reg_1.test(ztfr_kp)){
-     ztfr_1=""
-     return
-     }
-     ztfr_1+=ztfr_kp
-     const yg1=editor.getValue()
-     if(ztfr_1.length===3){
-     ztfr_yhld=ztfr_1
-         ztfr_1=""
-         if (/gg\w/.test(ztfr_yhld)) {
-               const cqpi_fr=ztfr_yhld.match(/(gg)(\w)/)?.[2]
-               if(!diwr_mcvn[cqpi_fr]){
-               return
-               }
-               const bnll_tkxb=editor.getCursor()
-                             const reg_func=/\bg ([\S\s]*)gg\w/
+        const diwr_mcvn = {}
+        Object.assign(diwr_mcvn, {
+            g: {
+                func: () => {
+                    gtLplp()
+                },
+                leun: "vdzv osse odrg."
+            }, v: {
+                func: () => {
+                    vdum_btn.click()
+                },
+                leun: "vdum qhzh."
+            }, j: {
+                func: () => {
+                    editor.setCursor(0, 0)
+                    editor.replaceSelection("wrvr\nwytm\n")
+                },
+                leun: "nxzv wrvr mr wytm tsjq."
+            }, u: {
+                func: (mcvn_kp) => {
+                    if (!mcvn_kp) {
+                        editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 99999 })
+                        return
+                    }
+                    if (typeof mcvn_kp != "string") {
+                        throw new Error("mcvn uxux msox")
 
-               const mcvn_1 = yg1.match(reg_func)?.[1]
-               if(mcvn_1){
-               
-               }else{
-                              const yg_vnwm=yg1.split(/\n/)
-               const vnwm_qh_bq_fr=    yg_vnwm[bnll_tkxb.line].split("")
-               vnwm_qh_bq_fr.splice(bnll_tkxb.ch-3,3)
-               yg_vnwm[bnll_tkxb.line]=vnwm_qh_bq_fr.join("")
-                             neig.ji_atvn_cqpi=true
-               editor.setValue(yg_vnwm.join("\n"))
-               bnll_tkxb.ch-=3
-               editor.setCursor(bnll_tkxb)
-               vnwm_ybbp.splice(vnwm_ybbp.length-3,4)
+                    }
+                    const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
+                    if (!diwr_yhld) {
+                        throw new Error("mcvn msox")
+                    }
+                    let vn_jtco_qh = Number(diwr_yhld[2])
+                    let vn_uufb_qh = Number(diwr_yhld[1])
+                    if (vn_uufb_qh > editor.lastLine()) vn_uufb_qh = editor.lastLine()
+                    editor.setValue(editor.getValue().replace(/\s*\bg \d+.*ggu/, ""))
+                    editor.setSelection({ line: vn_uufb_qh - 1, ch: 0 }, { line: vn_jtco_qh - 1, ch: 999999 })
+                },
+                leun: "us yh ts zn klvq.example:g 0 7ggu\n us yh bnll qh:ggu"
+            }, d: {
+                func: (mcvn_kp) => {
+                    if (typeof mcvn_kp != "string") {
+                        editor.setCursor(0, 0)
+                        return
+                    }
+                    const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
+                    editor.setValue(editor.getValue().replace(/\s*\bg .*ggd/, ""))
+                    if (!diwr_yhld) {
+                        let vn_1 = mcvn_kp.match(/\d+/)?.[0]
+                        if (vn_1) {
+                            editor.setCursor(Number(vn_1) - 1, 0)
+                            return
+                        } else {
+                            throw new Error("mcvn msox")
+                        }
+                    } else {
+                        let ch_1 = Number(diwr_yhld[2]) - 1
+                        let line_1 = Number(diwr_yhld[1]) - 1
+                        editor.setCursor(line_1, ch_1)
+                        return
+                    }
+                },
+                leun: "dg ld. example:g 5 ggd\n g 5 6 ggd\n dg ld nmm qh\nggd"
+            }, q: {
+                func: () => {
+                    editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 999999 })
+                },
+                leun: "us yh bnll qh."
+            }, h: {
+                func: (mcvn_kp) => {
+                    hd_da_ye_qh("h", mcvn_kp)
+                },
+                leun: "hd da ye qh."
+            }, m: {
+                func: (mcvn_kp) => {
+                    hd_da_ye_qh("m", mcvn_kp)
+                },
+                leun: "hd da ye qh okud ye nh mcvn."
+            }, l: {
+                func: () => {
+                    qu_ld_bqeo("m")
+                },
+                leun: "ld vdum bqeo ab vdzv zul."
+            }, n: {
+                func: () => {
+                    editor.setSelection({ line: 0, ch: 0 }, { line: editor.lastLine(), ch: 999 })
+                },
+                leun: "non us."
+            }, k: {
+                func: () => {
+                    editor.setValue(JSON.stringify(diwr_mcvn, null, 2))
+                },
+                leun: "nwvt kfou."
+            }, r: {
+                func: (mcvn_kp) => {
+                    if (mcvn_kp === 'gn') {
+                        neig.ji_yozd_rfrf = false
+                    } else {
+                        neig.ji_yozd_rfrf = true
+                    }
 
-               }
- try{
- diwr_mcvn[cqpi_fr].func(mcvn_1)
- }catch(err){alert("kuoe tsjq pc ms.")
- ag_zzuy.innerText=err.message?err.stack:err
- alert(err)}
-               
-               neig.ji_atvn_cqpi=false
-         }else{
-         return
-         }
-     }else{
-     return
-     }
-     }
-     function hd_da_ye_qh(cqpi_fr, mcvn_kp){
-     if(mcvn_kp){
-     cqpi_fr="us"
-     }
-     const diwr_vn_1={
-     h:()=>{
-     editor.setValue(editor.getValue().replace(/.*/,"").trimStart())
-          editor.setCursor({line:0, ch:editor.getValue().match(/.*/)?.[0].length||0})
-     },
-     us:()=>{
-     const reg_atvn=/\s*\bg \s*([\s\S]*)\s*ggh/
-     const ce_bqeo=editor.getValue().replace(reg_atvn,(m,p1)=>{
-     if(p1){
-     return ""
-     }else{
-     throw new Error("cgne nkme.")
-     }
-     })
-//     const reg_ymrg=new RegExp("\\s*\\bg \\s*"+JSON.stringify(mcvn_kp).replace(/^"|"$/g,"")+"\\s*ggh")
-     editor.setValue(ce_bqeo)
-     if(neig.okud_zz_tkxb){
-     editor.setCursor(neig.okud_zz_tkxb)
-     }
-     },
-     m:()=>{
-     editor.setValue(editor.getValue().replace(/\S+\s*$/m,""))
-          editor.setCursor({line:0, ch:editor.getValue().match(/.*/)?.[0].length||0})
-     }
-     }
-     diwr_vn_1[cqpi_fr]()
-     
+                },
+                leun: 'uudr yozd rfrf.example:\n g gn ggr.\nae\nggr.'
+            }
+        })
 
-     }
+        function kuoe_vdzv_xitl(ztfr_kp) {
+            const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg `)
+
+            if (reg_g.test(editor.getValue())) {
+                neig.ji_atvn_cqpi = true
+            }
+            vnwm_reg_ztfr = [/^g$/, /^g$/, /^\w$/]
+            const reg_1 = vnwm_reg_ztfr[ztfr_1.length]
+            if (!reg_1.test(ztfr_kp)) {
+                ztfr_1 = ""
+                return
+            }
+            ztfr_1 += ztfr_kp
+            const yg1 = editor.getValue()
+            if (ztfr_1.length === 3) {
+                ztfr_yhld = ztfr_1
+                ztfr_1 = ""
+                if (/gg\w/.test(ztfr_yhld)) {
+                    const cqpi_fr = ztfr_yhld.match(/(gg)(\w)/)?.[2]
+                    if (!diwr_mcvn[cqpi_fr]) {
+                        return
+                    }
+                    const bnll_tkxb = editor.getCursor()
+                    const reg_func = /\bg ([\S\s]*)gg\w/
+
+                    const mcvn_1 = yg1.match(reg_func)?.[1]
+                    if (mcvn_1) {
+
+                    } else {
+                        const yg_vnwm = yg1.split(/\n/)
+                        const vnwm_qh_bq_fr = yg_vnwm[bnll_tkxb.line].split("")
+                        vnwm_qh_bq_fr.splice(bnll_tkxb.ch - 3, 3)
+                        yg_vnwm[bnll_tkxb.line] = vnwm_qh_bq_fr.join("")
+                        neig.ji_atvn_cqpi = true
+                        editor.setValue(yg_vnwm.join("\n"))
+                        bnll_tkxb.ch -= 3
+                        editor.setCursor(bnll_tkxb)
+                        vnwm_ybbp.splice(vnwm_ybbp.length - 3, 4)
+
+                    }
+                    try {
+                        diwr_mcvn[cqpi_fr].func(mcvn_1 && mcvn_1.trim())
+                    } catch (err) {
+                        alert("kuoe tsjq pc ms.")
+                        ag_zzuy.innerText = err.message ? err.stack : err
+                        alert(err)
+                    }
+
+                    neig.ji_atvn_cqpi = false
+                } else {
+                    return
+                }
+            } else {
+                return
+            }
+        }
+        function hd_da_ye_qh(cqpi_fr, mcvn_kp) {
+            if (mcvn_kp) {
+                cqpi_fr = "us"
+            }
+            const diwr_vn_1 = {
+                h: () => {
+                    editor.setValue(editor.getValue().replace(/.*/, "").trimStart())
+                    editor.setCursor({ line: 0, ch: editor.getValue().match(/.*/)?.[0].length || 0 })
+                },
+                us: () => {
+                    const reg_atvn = /\s*\bg \s*([\s\S]*)\s*ggh/
+                    const ce_bqeo = editor.getValue().replace(reg_atvn, (m, p1) => {
+                        if (p1) {
+                            return ""
+                        } else {
+                            throw new Error("cgne nkme.")
+                        }
+                    })
+                    //     const reg_ymrg=new RegExp("\\s*\\bg \\s*"+JSON.stringify(mcvn_kp).replace(/^"|"$/g,"")+"\\s*ggh")
+                    editor.setValue(ce_bqeo)
+                    if (neig.okud_zz_tkxb) {
+                        editor.setCursor(neig.okud_zz_tkxb)
+                    }
+                },
+                m: () => {
+                    editor.setValue(editor.getValue().replace(/\S+\s*$/m, ""))
+                    editor.setCursor({ line: 0, ch: editor.getValue().match(/.*/)?.[0].length || 0 })
+                }
+            }
+            diwr_vn_1[cqpi_fr]()
+
+
+        }
         function mb_ybbp() {
             bnll_eqwy_1--
             if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
@@ -491,14 +534,14 @@
         let diwr_tkxb_1
         function qu_ld_bqeo() {
             const rj_yhld = editor.getValue()
-            diwr_tkxb_yhld=editor.getCursor()
+            diwr_tkxb_yhld = editor.getCursor()
             editor.setValue(neig.outputText)
-            if(diwr_tkxb_1)editor.setCursor(diwr_tkxb_1)
-            diwr_tkxb_1=diwr_tkxb_yhld
+            if (diwr_tkxb_1) editor.setCursor(diwr_tkxb_1)
+            diwr_tkxb_1 = diwr_tkxb_yhld
             neig.outputText = rj_yhld
             vdumRender("")
         }
-        function vdumRender(rj_kp, outputs={}) {
+        function vdumRender(rj_kp, outputs = {}) {
             let rj_3 = rj_kp
             vdum_1.innerHTML = (() => {
                 if (outputs.mark) {
@@ -682,4 +725,5 @@
         }
     </script>
 </body>
+
 </html>
