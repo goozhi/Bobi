@@ -343,6 +343,14 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if (ctx.path === '/afoa-simple') {
+        const html = fs.readFileSync(`${dirName}/afoa-simple.html`).toString()
+        ctx.body = html
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = (() => {
             try {
