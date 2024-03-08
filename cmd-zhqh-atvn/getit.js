@@ -61,7 +61,12 @@ const getit = async (user_params = {}, outputs = { outputText }, neig_kp = {}) =
        return await axios.post('http://43.153.137.15/api/get-html', {
             url: user_params.lastParams.replace(/^\s*(?!http|file)/,"https://").replace(/\/file: *\/\//, "")
         }).then(res => {
-            fs.writeFileSync(nikc_xyzd_html, res.data || 'oops, data not found.')
+        const vnwy=(()=>{
+        if(typeof res.data!="string")
+        return JSON.stringify(res.data)
+        return res.data
+        })()
+            fs.writeFileSync(nikc_xyzd_html, vnwy || 'oops, data not found.')
             return `write in \nfile://${nikc_xyzd_html}\n${res.data}`
         }).catch(err => { throw (err) })
     }
