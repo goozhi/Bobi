@@ -261,7 +261,7 @@ return
 }
     var T = String(get_pcdb_web().getUrl());
     threads.start(function() {
-        switch (dialogs.select("操作", ["刷新当前页面", "显示当前网址", "临时保存网址", "保存网址", "复制网址"])) {
+        switch (dialogs.select("操作", ["✨刷新当前页面", "显示当前网址", "❤️临时保存网址", "⬇️保存网址", "复制网址"])) {
             case 0:
                 ui.run(() => {
                     get_pcdb_web().reload();
