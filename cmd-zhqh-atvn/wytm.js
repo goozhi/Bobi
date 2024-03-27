@@ -98,7 +98,8 @@ return             ukyp(new Date().toLocaleString(),user_params.lastParams)
         [],{
         uufb_zdti:new Date("${String(date).replace(/^\s*\"|\"\s*$/g,"")}"),
             content:\`
-                ${bqeo}
+                ${bqeo.replace(/\\/g,"\\\\").replace(/`/g,"\\`")
+                .replace(/(\$\{)\\`([\s\S]*?)\\`(\s*\})/g, "$1`$2`$3")}
         \`
 
         }
@@ -113,4 +114,3 @@ return             ukyp(new Date().toLocaleString(),user_params.lastParams)
 }
 }
 module.exports = wytm
-
