@@ -50,7 +50,7 @@ async function wytm(user_params, outputs, neig_kp = {}) {
                 return vnwm_rjwc.filter(rn1 => {
                     return vnwm_zdti.includes(rn1[1].uufb_zdti.toLocaleString())
                 })
-                    .map(rn1 => rn1[1].uufb_zdti.toLocaleString() + ":\n" + rn1[1].content)
+                    .map(rn1 => rn1[1].uufb_zdti.toLocaleString() + (user_params.yxna?"----" + rn1[1].yxna_kp:"") + ":\n    " + rn1[1].content.trim())
                     .join('\n\n')
             } else {
                 outputs.ji_caju = true
