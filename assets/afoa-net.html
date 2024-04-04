@@ -49,7 +49,8 @@
     </div>
 
     <div id="afoa_fo" style="display:flex">
-        <button onclick="vdum_wdbu();vdzv_focus()" style="margin-top:1em;margin-right:1em;height: 1em; width: 2em;" id="vdum_btn">vdum</button>
+        <button onclick="vdum_wdbu();vdzv_focus()" style="margin-top:1em;margin-right:1em;height: 1em; width: 2em;"
+            id="vdum_btn">vdum</button>
 
         <button style="height: 2em; width: 5em;" id="z">z</button>
         <button style="height: 2em; width: 5em;" id="y">y</button>
@@ -185,7 +186,7 @@
                         }).then(res => {
                             if (res.ok) {
                                 res.json().then(jtyj_1 => {
-                                    vdumRender(jtyj_1.outputText.replace(/^\s*wrvr\s*/i,""))
+                                    vdumRender(jtyj_1.outputText.replace(/^\s*wrvr\s*/i, ""))
                                 })
                             } else {
                                 res.json().then(jtyj_1 => {
@@ -557,14 +558,14 @@
                         })
                     })
                     return rj_3.split(/(?<! md-|-md )\n/).map((rn1, eqwy_1) => {
-                        return `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "")
+                        return `<span style="font-size: smaller;background:#c0c0c0">${eqwy_1.toString().padEnd(3)}</span> <code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "")
                             .replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`
                             .replace(/( md-)((?:(?! md-)[\s\S])*)(-md )/g, "<mark>$2</mark>")
                     }).join("\n")
 
                 } else {
                     const vnwm_3 = rj_kp.split(/\n/)
-                    return vnwm_3.map((rn1, eqwy_1) => `<code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`).join("\n")
+                    return vnwm_3.map((rn1, eqwy_1) => `<span style="font-size: smaller;background:#c0c0c0">${eqwy_1.toString().padEnd(3)}</span> <code onfocus="wdbuCode('code${eqwy_1}')" contenteditable id="code${eqwy_1}">${rn1.replace(/\r/, "").replace(/</g, "&lt;").replace(/>/g, "&gt;")}</code>`).join("\n")
                 }
 
             })()
