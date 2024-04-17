@@ -69,7 +69,7 @@ app.use(koaBody({
     multipart: true,
     formidable: {
         uploadDir: nikc_fdbj,
-        maxFileSize: 1000 * 1024 * 1024,
+        maxFileSize: 10000 * 1024 * 1024,
     },
     jsonLimit: '10mb',
     formLimit: '400mb',
