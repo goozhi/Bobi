@@ -15,9 +15,9 @@ return []
 ui.statusBarColor("#1E1E1E");
 ui.layout(
     <vertical>
-        <frame margin="-5" id="scfo">
+        <frame margin="-5" id="scfo" h="35">
             <horizontal>
-            <input layout_gravity="left" id="input" hint="请输入网址" w="300" maxLines="1" inputType="textUri" />
+            <input layout_gravity="left" id="input" textSize="14sp" hint="请输入网址" w="300" maxLines="1" inputType="textUri" />
             <button layout_gravity="right" id="search_but" w="auto" hint="进入"/>
             </horizontal>
         </frame>
@@ -43,7 +43,7 @@ ui.layout(
 );
 
 ui.list.setVisibility(8);
-ui.scfo.setVisibility(8);
+ui.scfo.setVisibility(0);
 var listArray = [
     {
         txt: "Bobi",
@@ -342,3 +342,36 @@ enable(Number(nixb_rjse.match(/\d+/)[0])-1)
 //ui.center.setText(`[${nixb_rjse}]`)
 diwr_fr[fr1]().setText(center_rjse.replace(/\[|\]/g,""))
 }
+let XITL_AFDH = require(workingDirectory + "/func/XITL_AFDH.js")
+let ah_drbz_jhjh = true
+let vnwm_afdh = []
+vnwm_afdh.push(XITL_AFDH("jhjh_uu", function (context, intent, data) {
+    if (ah_drbz_jhjh) {
+        ah_drbz_jhjh = false
+        try {
+            engines.execScriptFile(workingDirectory + '/uis/ouss_jhjh.js')
+        } catch (error) {
+            toast(error)
+        }
+        setTimeout(() => {
+            ah_drbz_jhjh = true
+        }, 1000)
+    }
+
+}))
+
+vnwm_afdh.push(XITL_AFDH("uis", function (context, intent, data) {
+    try {
+        engines.execScriptFile(workingDirectory + '/uis/uis.js')
+    } catch (err) {
+        toast(err)
+        console.error(err)
+    }
+}))
+
+vnwm_afdh.push(XITL_AFDH("zk_aucc_crum", function () {
+    ui.finish()
+}))
+events.on('exit', () => {
+    destroy(vnwm_afdh)
+})
