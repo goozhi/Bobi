@@ -625,7 +625,7 @@
             } else if (outputs.ji_caju) {
 
                 caju_1.innerHTML = outputs.outputText.split(/\n/)
-                    .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1}');vdzv_focus()">nxzv</button><br>`).join('\n')
+                    .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1.replace(/\\/g, "\\\\")}');vdzv_focus()">nxzv</button><br>`).join('\n')
             } else {
                 if (outputs.outputText.toString().length > 500000) {
                     console.log(outputs.outputText)
