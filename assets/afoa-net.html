@@ -550,7 +550,7 @@
             vdum_1.innerHTML = (() => {
                 if (outputs.mark) {
                     const vnwm_reg_2 = Object.entries(outputs.mark).map(([fo1, yg1]) => {
-                        return new RegExp(fo1, yg1)
+                        return new RegExp(reg_fs(fo1), yg1)
                     })
                     vnwm_reg_2.forEach(rn1 => {
                         rj_3 = rj_3.replace(rn1, (m1) => {
@@ -726,6 +726,10 @@
             } else {
                 throw new Error("nxzv dk mcvn aoao ji string")
             }
+        }
+        function reg_fs(rj) {
+            return rj.replace(/\\/g, "\\\\")
+                .replace(/(\+|-|\.|[\(\{\[\]\}\)])/g, "\\$1")
         }
     </script>
 </body>
