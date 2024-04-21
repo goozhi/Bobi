@@ -263,7 +263,7 @@ app.use(async (ctx, next) => {
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
         } else if (ctx.method === 'POST') {
-            neig.excmds =  arrC
+            neig.excmds = arrC
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
@@ -456,12 +456,13 @@ app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-fdbj-rjqt-wu') {
         ctx.body = fs.readdirSync(nikc_fdbj).map(rn1 => {
             const stat_1 = fs.statSync(path.join(nikc_fdbj, rn1))
-            diwr_vkih[String(stat_1.ctime.getTime())] = rn1
+            const vkih_1 = String(stat_1.atime.getTime()) + "-" + stat_1.size
+            diwr_vkih[vkih_1] = rn1
             return {
                 name: rn1,
                 upTime: String(stat_1.ctime.getTime()),
                 size: stat_1.size / 1024 / 1024,
-                vkih: String(stat_1.ctime.getTime())
+                vkih: vkih_1
             }
         })
     } else {
