@@ -1,4 +1,3 @@
-
 //破解，源码出售，定制担保。诚信合作微信:zxkj6898 或zx033245   或QQ168196007 
 "ui";
 const workingDirectory = "/sdcard/rsgm/bobi/auto"
@@ -15,10 +14,10 @@ return []
 ui.statusBarColor("#1E1E1E");
 ui.layout(
     <vertical>
-        <frame margin="-5" id="scfo" h="35">
+        <frame margin="-5" id="scfo">
             <horizontal>
             <input layout_gravity="left" id="input" textSize="14sp" hint="请输入网址" w="300" maxLines="1" inputType="textUri" />
-            <button layout_gravity="right" id="search_but" w="auto" hint="进入"/>
+            <button layout_gravity="right" id="search_but" hint="进入"/>
             </horizontal>
         </frame>
         <frame>
@@ -30,7 +29,7 @@ ui.layout(
             <webview id="web_2" w="*" h="*"/>
             <webview id="web_3" w="*" h="*"/>
             <webview id="web_4" w="*" h="*"/>
-            <list id="list" w="90dp" h="*" bg="#346489" layout_gravity="right">
+            <list id="list" w="90dp" h="*" bg="#77ffffff" layout_gravity="right">
                 <text w="*" h="50" text="{{txt}}" textSize="11sp" bg="#dddddd" margin="5" gravity="center"/>
             </list>
         </frame>
@@ -43,7 +42,7 @@ ui.layout(
 );
 
 ui.list.setVisibility(8);
-ui.scfo.setVisibility(0);
+ui.scfo.setVisibility(8);
 var listArray = [
     {
         txt: "Bobi",
@@ -64,12 +63,25 @@ var listArray = [
         }
     },
     {
-        txt: "Bobi/afoa",
-        url: "http://localhost:9000/afoa"
+        txt: "♦enter",
+        func:()=>{
+        ui.search_but.click()
+        }
     },
     {
-        txt: "Bobi/afoa-net",
-        url: "http://localhost:9000/afoa-net"
+        func:()=>{
+        const vnwm_yhld=listArray.concat(vnwm_ilzz_jtha).filter((rn1)=>{return rn1.url})
+           dialogs.singleChoice("请选择",vnwm_yhld.map((rn1)=>{return rn1.txt+" : "+(rn1.url||"")})).then((jtyj_1)=>{
+if(jtyj_1==-1){//
+	toast("拜拜");
+}else{
+ui.input.setText(vnwm_yhld[jtyj_1].url)
+}
+
+})
+        },
+        txt: "收藏的网址"
+        , ac_tnoy:true
     },
     {
         txt: "web_1",
@@ -127,20 +139,6 @@ var listArray = [
                 })
                 },
         txt: "工具箱"
-    },
-    {
-        func:()=>{
-        const vnwm_yhld=listArray.concat(vnwm_ilzz_jtha).filter((rn1)=>{return rn1.url})
-           dialogs.singleChoice("请选择",vnwm_yhld.map((rn1)=>{return rn1.txt+" : "+(rn1.url||"")})).then((jtyj_1)=>{
-if(jtyj_1==-1){//
-	toast("拜拜");
-}else{
-ui.input.setText(vnwm_yhld[jtyj_1].url)
-}
-
-})
-        },
-        txt: "收藏的网址"
     },
     {
         url: "http://www.runoob.com/jsref/jsref-obj-regexp.html",
