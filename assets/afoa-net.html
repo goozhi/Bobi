@@ -287,10 +287,10 @@
                     let vn_jtco_qh = Number(diwr_yhld[2])
                     let vn_uufb_qh = Number(diwr_yhld[1])
                     if (vn_uufb_qh > editor.lastLine()) vn_uufb_qh = editor.lastLine()
-                    editor.setValue(editor.getValue().replace(/\s*\bg \d+.*ggu/, ""))
+                    editor.setValue(editor.getValue().replace(/\s*\bg_\s*\d+.*ggu/, ""))
                     editor.setSelection({ line: vn_uufb_qh - 1, ch: 0 }, { line: vn_jtco_qh - 1, ch: 999999 })
                 },
-                leun: "us yh ts zn klvq.example:g 0 7ggu\n us yh bnll qh:ggu"
+                leun: "us yh ts zn klvq.example:g_ 0 7ggu\n us yh bnll qh:ggu"
             }, d: {
                 func: (mcvn_kp) => {
                     if (typeof mcvn_kp != "string") {
@@ -298,7 +298,7 @@
                         return
                     }
                     const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
-                    editor.setValue(editor.getValue().replace(/\s*\bg .*ggd/, ""))
+                    editor.setValue(editor.getValue().replace(/\s*\bg_\s*.*ggd/, ""))
                     if (!diwr_yhld) {
                         let vn_1 = mcvn_kp.match(/\d+/)?.[0]
                         if (vn_1) {
@@ -314,7 +314,7 @@
                         return
                     }
                 },
-                leun: "dg ld. example:g 5 ggd\n g 5 6 ggd\n dg ld nmm qh\nggd"
+                leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd"
             }, q: {
                 func: () => {
                     editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 999999 })
@@ -354,12 +354,12 @@
                     }
 
                 },
-                leun: 'uudr yozd rfrf.example:\n g gn ggr.\nae\nggr.'
+                leun: 'uudr yozd rfrf.example:\n g_ gn ggr.\nae\nggr.'
             }
         })
 
         function kuoe_vdzv_xitl(ztfr_kp) {
-            const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg `)
+            const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg_\s*`)
 
             if (reg_g.test(editor.getValue())) {
                 neig.ji_atvn_cqpi = true
@@ -381,7 +381,7 @@
                         return
                     }
                     const bnll_tkxb = editor.getCursor()
-                    const reg_func = /\bg ([\S\s]*)gg\w/
+                    const reg_func = /\bg_\s*([\S\s]*)gg\w/
 
                     const mcvn_1 = yg1.match(reg_func)?.[1]
                     if (mcvn_1) {
@@ -424,7 +424,7 @@
                     editor.setCursor({ line: 0, ch: editor.getValue().match(/.*/)?.[0].length || 0 })
                 },
                 us: () => {
-                    const reg_atvn = /\s*\bg \s*([\s\S]*)\s*ggh/
+                    const reg_atvn = /\s*\bg_\s*\s*([\s\S]*)\s*ggh/
                     const ce_bqeo = editor.getValue().replace(reg_atvn, (m, p1) => {
                         if (p1) {
                             return ""
@@ -432,7 +432,7 @@
                             throw new Error("cgne nkme.")
                         }
                     })
-                    //     const reg_ymrg=new RegExp("\\s*\\bg \\s*"+JSON.stringify(mcvn_kp).replace(/^"|"$/g,"")+"\\s*ggh")
+                    //     const reg_ymrg=new RegExp("\\s*\\bg_\s*\\s*"+JSON.stringify(mcvn_kp).replace(/^"|"$/g,"")+"\\s*ggh")
                     editor.setValue(ce_bqeo)
                     if (neig.okud_zz_tkxb) {
                         editor.setCursor(neig.okud_zz_tkxb)
