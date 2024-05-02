@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const arrC = require("./arrC.js")
+const arrC_en = require('../dicts-en/arrC.js')
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
@@ -215,7 +216,7 @@ app.use(async (ctx, next) => {
 })
 app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-afoa-zzuy') {
-        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
+        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js'), ...require('../dicts-en/arrC.js')].map(rn1 => rn1[0])
     } else {
         await next()
     }
@@ -263,7 +264,7 @@ app.use(async (ctx, next) => {
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
         } else if (ctx.method === 'POST') {
-            neig.excmds = arrC
+            neig.excmds = [...arrC, ...arrC_en]
             await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
