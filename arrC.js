@@ -12,7 +12,6 @@ const lzdr_arrC = require('./cmd-zhqh-atvn/lzdr-arrC.js')
 const uis = require('./cmd-zhqh-atvn/uis.js')
 const zk_aucc = require('./cmd-zhqh-atvn/zk_aucc.js')
 const qwse = require('./cmd-zhqh-atvn/qwse.js')
-const wytm = require('./cmd-zhqh-atvn/wytm.js')
 const getit = require('./cmd-zhqh-atvn/getit.js')
 String.prototype.fmtLines = function (num = 0) {
     return this.split(/\n/).map(ele => ' '.repeat(num) + ele.trim()).join('\n')
@@ -146,30 +145,6 @@ const arrC = [[['server'], {
     describe: "nwvt eonq jyqh dk qwse\nexample:\nqwse\nifyj zf co taxt i_d lh 45 dk qwse:\nqwse 45",
     func: qwse,
     aoao_ji_ssvl: true
-}], [["wytm"], {
-    describe: `
-wytm ybkc, jcbz rrzv wytm ybkc yh, zf fj aqfc rr bqeo om qh.
-example:
-wytm
-bqeo
-
-wytm see
-
-wytm see
-2/2/2024, 5:37:17 AM
-
-wytm see --yxna
-2/2/2024, 5:37:17 AM
-
-wytm undo
-
-wytm qkyp
-qkyp bqeo
-
-wytm date 2008-1-1,2:0:6
-bqeo
-`
-    , func: wytm
 }]
 ]
-module.exports = arrC
+module.exports = [...arrC, ...require('./tsjq.js')]
