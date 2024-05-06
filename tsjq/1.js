@@ -21,6 +21,10 @@ qkyp bqeo
 
 wytm date 2008-1-1,2:0:6
 bqeo
+
+kn tzrn fr dk wydb gtaw dk afoa pcyc:
+wytm --tzrn
+\${require(yxna)}
 `
     , func: wytm
 }]

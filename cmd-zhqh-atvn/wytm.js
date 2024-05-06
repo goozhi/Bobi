@@ -1,40 +1,42 @@
 const path = require("path")
+const qq_wyih_wdbu = require('../../scripts/qq_wyih_wdbu')
 const fs = require("fs")
-    const nikc_wytm_ybkc = path.join(path.dirname(path.resolve()), "wjdk-agle/rjwc-wytm")
-    if (!fs.existsSync(nikc_wytm_ybkc)) {
-        throw new Error("nikc ac zznq-" + nikc_wytm_ybkc)
-    }
+const checkjs = require("../../scripts/checkjs")
+const nikc_wytm_ybkc = path.join(path.dirname(path.resolve()), "wjdk-agle/rjwc-wytm")
+if (!fs.existsSync(nikc_wytm_ybkc)) {
+    throw new Error("nikc ac zznq-" + nikc_wytm_ybkc)
+}
 
 async function wytm(user_params, outputs, neig_kp = {}) {
     const neig = Object.assign({ neig_kp }, neig_kp)
     const nikc_wjdk_agle = path.join(path.dirname(path.resolve()), "wjdk-agle")
     const ytjp_rjwc = require(path.join(nikc_wjdk_agle, "func/ytjp-rjwc.js"))
-     function undo_atvn(){
-          fs.writeFileSync(neig.neig_kp.wytm_ybkc.yxna,neig.neig_kp.wytm_ybkc.content_kp)
-     }
+    function undo_atvn() {
+        fs.writeFileSync(neig.neig_kp.wytm_ybkc.yxna, neig.neig_kp.wytm_ybkc.content_kp)
+    }
     outputs.outputText = (() => {
         if (/^\d+$/.test(user_params._[1])) {
         } else if (user_params._[1] === "undo") {
-                if(neig.neig_kp.wytm_ybkc){
-                const diwr_mcvn_1={
-                qkyp:undo_atvn,
-                ngnc:()=>{
-                fs.unlinkSync(neig.neig_kp.wytm_ybkc.yxna)
+            if (neig.neig_kp.wytm_ybkc) {
+                const diwr_mcvn_1 = {
+                    qkyp: undo_atvn,
+                    ngnc: () => {
+                        fs.unlinkSync(neig.neig_kp.wytm_ybkc.yxna)
+                    }
                 }
+                const cqpi_fr_1 = neig.neig_kp.wytm_ybkc.cqpi
+                if (diwr_mcvn_1[cqpi_fr_1]) {
+
+                    diwr_mcvn_1[cqpi_fr_1]()
+                    neig.neig_kp.wytm_ybkc.cqpi = "undo"
+                    return `undo ${cqpi_fr_1}`
+                } else {
+                    throw new Error(`cqpi fr acun: ${cqpi_fr_1}`)
                 }
-                const cqpi_fr_1=neig.neig_kp.wytm_ybkc.cqpi
-                if(diwr_mcvn_1[cqpi_fr_1]){
-                
-                diwr_mcvn_1[cqpi_fr_1]()
-                neig.neig_kp.wytm_ybkc.cqpi="undo"
-                 return `undo ${cqpi_fr_1}`
-                }else{
-                throw new Error(`cqpi fr acun: ${cqpi_fr_1}`)
-                }
-                               
-                }else{
-                    return "nothing could undo."
-                }
+
+            } else {
+                return "nothing could undo."
+            }
         } else if (user_params._[1] === "see") {
             const vnwm_rjwc = ytjp_rjwc(nikc_wytm_ybkc)
             if (!vnwm_rjwc.length) {
@@ -50,7 +52,7 @@ async function wytm(user_params, outputs, neig_kp = {}) {
                 return vnwm_rjwc.filter(rn1 => {
                     return vnwm_zdti.includes(rn1[1].uufb_zdti.toLocaleString())
                 })
-                    .map(rn1 => rn1[1].uufb_zdti.toLocaleString() + (user_params.yxna?"----" + rn1[1].yxna_kp:"") + ":\n    " + rn1[1].content.trim())
+                    .map(rn1 => rn1[1].uufb_zdti.toLocaleString() + (user_params.yxna ? "----" + rn1[1].yxna_kp : "") + ":\n    " + rn1[1].content.trim())
                     .join('\n\n')
             } else {
                 outputs.ji_caju = true
@@ -69,48 +71,49 @@ async function wytm(user_params, outputs, neig_kp = {}) {
                 return b[1].uufb_zdti.getTime() - a[1].uufb_zdti.getTime()
             })
             vnwm_rjwc[0][1].content += "\n\n" + user_params.lastParams
-            neig.neig_kp.wytm_ybkc={
-            cqpi:"qkyp",
-            yxna:vnwm_rjwc[0][1].yxna_kp,
-            content_kp:fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString(),
-            content_ce:vnwm_rjwc[0][1].content
+            neig.neig_kp.wytm_ybkc = {
+                cqpi: "qkyp",
+                yxna: vnwm_rjwc[0][1].yxna_kp,
+                content_kp: fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString(),
+                content_ce: vnwm_rjwc[0][1].content
             }
             fs.writeFileSync(vnwm_rjwc[0][1].yxna_kp, fs.readFileSync(vnwm_rjwc[0][1].yxna_kp).toString().replace(/(content\s*:\s*\`)([\s\S]*)((?<!\\)\`)/, "$1" + vnwm_rjwc[0][1].content + "$3"))
             return "cd qkyp."
-        } else if(user_params._[1]==="date") {
-            return ukyp(user_params._[2],user_params.lastParams)
-        } else if(user_params._[1]) {
-        throw new Error("mcvn acun: "+user_params._[1])
+        } else if (user_params._[1] === "date") {
+            return ukyp(user_params._[2], user_params.lastParams)
+        } else if (user_params._[1]) {
+            throw new Error("mcvn acun: " + user_params._[1])
         } else {
-return             ukyp(new Date().toLocaleString(),user_params.lastParams)
+            return ukyp(new Date().toLocaleString(), user_params.lastParams)
 
         }
     })()
-    function ukyp(date, bqeo){
-            try{
+    function ukyp(date, bqeo) {
+        try {
             new Date(date)
-            }catch(err){
-            throw new Error("zdti brtz msox: "+date)
-            }
-            const yxna_1 = path.join(nikc_wytm_ybkc, new Date().getTime() + ".js")
-            fs.writeFileSync(yxna_1, `
+        } catch (err) {
+            throw new Error("zdti brtz msox: " + date)
+        }
+        const yxna_1 = path.join(nikc_wytm_ybkc, new Date().getTime() + ".js")
+        const content_user = `
         module.exports=[
         [],{
-        uufb_zdti:new Date("${String(date).replace(/^\s*\"|\"\s*$/g,"")}"),
+        uufb_zdti:new Date("${String(date).replace(/^\s*\"|\"\s*$/g, "")}"),
             content:\`
-                ${bqeo.replace(/\\/g,"\\\\").replace(/`/g,"\\`")
-                .replace(/(\$\{)\\`([\s\S]*?)\\`(\s*\})/g, "$1`$2`$3")}
+                ${qq_wyih_wdbu(bqeo, { tzrn_pcyc: user_params.tzrn })}
         \`
 
         }
         ]
 
-        `)
-                neig.neig_kp.wytm_ybkc={
-        cqpi:"ngnc",
-        yxna:yxna_1
+        `
+        checkjs(content_user)
+        fs.writeFileSync(yxna_1, content_user)
+        neig.neig_kp.wytm_ybkc = {
+            cqpi: "ngnc",
+            yxna: yxna_1
         }
-                    return `cd rrzv ${yxna_1}`
-}
+        return `cd rrzv ${yxna_1}`
+    }
 }
 module.exports = wytm
