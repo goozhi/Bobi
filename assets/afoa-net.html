@@ -173,41 +173,50 @@
 
                 // }
             })
+            let vn_ybkc = 2
             CodeMirror.on(editor, 'change', function (event, item) {
                 if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
-                    (() => {
-                        fetch('/afoa', {
-                            method: "POST",
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Access-Control-Request-Headers': '*'
-                            },
-                            body: JSON.stringify({
-                                vdzv: 'wrvr\n' +
-                                    editor.getValue()
-                                        .split(/\n/)
-                                        .slice(...(() => {
-                                            const diwr_1 = editor.getCursor('from')
-
-                                            return [diwr_1.line ? diwr_1.line - 1 : 0, diwr_1.line + 5]
-                                        })())
-                                        .join('\n')
-                            })
-                        }).then(res => {
-                            if (res.ok) {
-                                res.json().then(jtyj_1 => {
-                                    vdumRender(jtyj_1.outputText.replace(/^\s*wrvr\s*/i, ""))
-                                })
-                            } else {
-                                res.json().then(jtyj_1 => {
-                                    vdumRender(jtyj_1.reason)
-                                    console.log(jtyj_1.err_stack)
-                                })
-                                alert('error: please check the console to find out the reason.')
-                            }
-                        })
-                            .catch(err => { console.log(err); alert(err) })
+                    vn_ybkc++
+                    console.log(vn_ybkc)
+                    let reg_rfrf_xbst = /(【[^【]*】)+$/
+                    const diwr_1 = editor.getCursor('from')
+                    const bnll_zt = (() => {
+                        return editor.getValue()
+                            .split(/\n/)[(diwr_1.line)]
+                            .match(/[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/)?.[0] || ""
                     })()
+                    console.log(bnll_zt)
+                    rf_wrvr(bnll_zt).then(wlyc => {
+                        if (/\S/.test(wlyc))
+                            ag_zzuy.innerText = wlyc
+                    }).catch(err => { console.error(err) })
+                    const rj_vdzv = editor.getValue()
+                        .split(/\n/)
+                        .slice(...(() => {
+                            return [diwr_1.line ? diwr_1.line - 1 : 0, diwr_1.line + 50]
+                        })())
+                        .join('\n')
+                    const reg_rfrf_fdmj = /-f-d-m-j-((?:(?!-f-d-m-j-).)*)$/
+
+                    rf_wrvr(rj_vdzv).then(wlyc => {
+                        const rj1 = wlyc
+                            .replace(/^\s*wrvr\s*/i, "")
+                        // editor.replaceSelection(`【${rj1.match(reg_rfrf_fdmj)?.[1] || ''}】`)
+                        // editor.setCursor(diwr_1)
+                        const rj2 = (rj1.match(reg_rfrf_fdmj)?.[1] || "")
+                        if (/\S/.test(rj2))
+                            ag_zzuy.innerText = rj2
+                        vdumRender(
+                            rj1.replace(reg_rfrf_fdmj, "")
+                        )
+                    }
+                    ).catch(err => { console.error(err) })
+                    if (vn_ybkc % 2) {
+                        // editor.setValue(editor.getValue().replace(reg_rfrf_xbst, ""))
+                    } else {
+
+                    }
+
                 }
 
                 if (neig.ji_ybbp_cqpi) {
@@ -742,6 +751,46 @@
         function reg_fs(rj) {
             return rj.replace(/\\/g, "\\\\")
                 .replace(/(\+|-|\.|[\(\{\[\]\}\)])/g, "\\$1")
+        }
+        async function rf_wrvr(rj_kp = "") {
+            return await fetch('/afoa', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({
+                    vdzv: 'wrvr\n' + rj_kp
+                    // + "-f-d-m-j-" + (() => {
+                    //     return editor.getValue()
+                    //         .split(/\n/)[(diwr_1.line)]
+                    //         .match(/[\u4E00-\u9FA5\w]+\W*$/)?.[0] || ""
+                    // })()
+                })
+            }).then(res => {
+                if (!res.ok) {
+                    throw res
+                } else {
+                    return res.json()
+                }
+            }).then(jtyj_1 => {
+                return jtyj_1.outputText
+            })
+                .catch(err => {
+                    if (!err) {
+                        console.error('csrf- hsab ra znzk wlyc -' + err)
+                        return
+                    }
+                    if (err.json) {
+                        err.json().then(jtyj_1 => {
+                            vdumRender(jtyj_1.reason)
+                            console.error(jtyj_1.err_stack)
+                        })
+                    } else {
+                        console.error(err);
+                    }
+                })
+
         }
     </script>
 </body>
