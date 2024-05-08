@@ -182,7 +182,17 @@
                                 'Content-Type': 'application/json',
                                 'Access-Control-Request-Headers': '*'
                             },
-                            body: JSON.stringify({ vdzv: 'wrvr\n' + editor.getValue() })
+                            body: JSON.stringify({
+                                vdzv: 'wrvr\n' +
+                                    editor.getValue()
+                                        .split(/\n/)
+                                        .slice(...(() => {
+                                            const diwr_1 = editor.getCursor('from')
+
+                                            return [diwr_1.line ? diwr_1.line - 1 : 0, diwr_1.line + 5]
+                                        })())
+                                        .join('\n')
+                            })
                         }).then(res => {
                             if (res.ok) {
                                 res.json().then(jtyj_1 => {
