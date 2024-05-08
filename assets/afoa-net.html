@@ -183,6 +183,7 @@
                     const bnll_zt = (() => {
                         return editor.getValue()
                             .split(/\n/)[(diwr_1.line)]
+                            .slice(0, diwr_1.ch)
                             .match(/[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/)?.[0] || ""
                     })()
                     console.log(bnll_zt)
@@ -339,6 +340,17 @@
                     editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 999999 })
                 },
                 leun: "us yh bnll qh."
+            }, b: {
+                func: () => {
+                    const diwr_1 = editor.getCursor('from')
+                    const yhrj_eysj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/[\u4E00-\u9FA5]+\s*$/)?.[0] || ''
+                    const vn_1 = yhrj_eysj.length
+                    editor.setSelection({ line: diwr_1.line, ch: diwr_1.ch - vn_1 }, { line: diwr_1.line, ch: diwr_1.ch })
+                    rf_wrvr(yhrj_eysj).then(wlyc => {
+                        editor.replaceSelection(String(wlyc).trim())
+                    }).catch(err => console.error(err))
+                },
+                leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
             }, h: {
                 func: (mcvn_kp) => {
                     hd_da_ye_qh("h", mcvn_kp)
