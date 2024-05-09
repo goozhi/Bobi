@@ -29,7 +29,7 @@
         <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_1"></ul>
         <!-- <button onclick="document.getElementById('vdum_btn').click()" style="width: 90%;">vdum</button> -->
     </div>
-    <code id="ag_zzuy"></code>
+    <code style="margin-left:10%;" id="ag_zzuy"></code>
     <textarea id="code-editor"></textarea>
     <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
 
@@ -70,6 +70,7 @@
     </div>
 
     <script>
+        const rj4 = 'received a no string: '
         let vnwm_tsjq_wu
         fetch('/nwvt-afoa-zzuy')
             .then(res => {
@@ -577,6 +578,16 @@
             vdumRender("")
         }
         function vdumRender(rj_kp, outputs = {}) {
+            if (rj_kp === undefined) {
+                const rj5 = 'received an undefined'
+                alert(rj5)
+                throw rj5
+            }
+            if (typeof rj_kp != "string") {
+                alert(rj4 + typeof rj_kp)
+                console.error('not a String:', rj_kp)
+                throw rj4
+            }
             let rj_3 = rj_kp
             vdum_1.innerHTML = (() => {
                 if (outputs.mark) {
@@ -629,24 +640,36 @@
                 body: JSON.stringify({ vdzv: trl_wdbu(editor.getValue()) })
             }).then(res => {
                 if (res.ok) {
-                    res.json().then(jtyj_1 => {
-                        vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
-                        vdum_rscs(jtyj_1)
-                        uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
-                    })
+                    return res.json()
                 } else {
-                    res.json().then(jtyj_1 => {
+                    throw res
+                }
+            }).then(jtyj_1 => {
+                if (typeof jtyj_1.outputText != "string") {
+                    throw rj4
+                }
+                vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
+                vdum_rscs(jtyj_1)
+                uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
+            }).then(() => {
+                document.getElementById('ag_zzuy').innerText = ""
+            }).catch(err => {
+                if (err.json) {
+                    err.json().then(jtyj_1 => {
                         vdum_1.innerText = jtyj_1.reason
                         console.log(jtyj_1.err_stack)
                         ag_zzuy.innerText = ('error: \n' + jtyj_1.reason + '\n')
-                    })
+                    }).catch(err => console.error(err))
+
+                } else {
+                    console.error(err); alert(err.message || err)
                 }
-            }).then(() => {
-                document.getElementById('ag_zzuy').innerText = ""
             })
-                .catch(err => { console.log(err); alert(err.message || err) })
         }
         function vdum_rscs(outputs = {}) {
+            if (typeof outputs.outputText != "string") {
+                throw rj4
+            }
             neig.outputText = outputs.outputText
             if (outputs.ji_ye_hym_html) {
                 vdum_2.innerHTML = outputs.outputText
