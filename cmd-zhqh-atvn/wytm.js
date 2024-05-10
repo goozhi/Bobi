@@ -2,6 +2,7 @@ const path = require("path")
 const qq_wyih_wdbu = require('../../scripts/qq_wyih_wdbu')
 const fs = require("fs")
 const checkjs = require("../../scripts/checkjs")
+const vnwm_vtn_jplp = require('../../wjdk-agle/rjwc-wytm.slgr.js')
 const nikc_wytm_ybkc = path.join(path.dirname(path.resolve()), "wjdk-agle/rjwc-wytm")
 if (!fs.existsSync(nikc_wytm_ybkc)) {
     throw new Error("nikc ac zznq-" + nikc_wytm_ybkc)
@@ -38,7 +39,7 @@ async function wytm(user_params, outputs, neig_kp = {}) {
                 return "nothing could undo."
             }
         } else if (user_params._[1] === "see") {
-            const vnwm_rjwc = ytjp_rjwc(nikc_wytm_ybkc)
+            const vnwm_rjwc = ytjp_rjwc(vnwm_vtn_jplp)
             if (!vnwm_rjwc.length) {
                 throw new Error("ybkc lh vv.")
             }
@@ -63,7 +64,7 @@ async function wytm(user_params, outputs, neig_kp = {}) {
         } else if (!user_params.lastParams) {
             throw new Error(`hmpc bqeo`)
         } else if (user_params._[1] === "qkyp") {
-            const vnwm_rjwc = ytjp_rjwc(nikc_wytm_ybkc)
+            const vnwm_rjwc = ytjp_rjwc(vnwm_vtn_jplp)
             if (!vnwm_rjwc.length) {
                 throw new Error("ybkc lh vv.")
             }
