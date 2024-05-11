@@ -343,15 +343,23 @@
                 leun: "us yh bnll qh."
             }, b: {
                 func: () => {
-                    const diwr_1 = editor.getCursor('from')
-                    const yhrj_eysj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/[\u4E00-\u9FA5]+\s*$/)?.[0] || ''
-                    const vn_1 = yhrj_eysj.length
-                    editor.setSelection({ line: diwr_1.line, ch: diwr_1.ch - vn_1 }, { line: diwr_1.line, ch: diwr_1.ch })
-                    rf_wrvr(yhrj_eysj).then(wlyc => {
-                        editor.replaceSelection(String(wlyc).trim())
-                    }).catch(err => console.error(err))
+                    qi_bnll_vdzv((yhrj_eysj) => {
+                        rf_wrvr(yhrj_eysj).then(wlyc => {
+                            editor.replaceSelection(String(wlyc).trim())
+                        }).catch(err => console.error(err))
+                    })
                 },
                 leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
+            }, e: {
+                func: () => {
+                    qi_bnll_vdzv((rdeb_eysj) => {
+                        rf_rdeb(rdeb_eysj).then(wlyc => {
+                            editor.replaceSelection('')
+                            ag_zzuy.innerText = String(wlyc).trim()
+                        }).catch(err => console.error(err))
+                    })
+                },
+                leun: "Fywy bnll vdzv dk yhrj eysj vdum styc dk rdeb eysj."
             }, h: {
                 func: (mcvn_kp) => {
                     hd_da_ye_qh("h", mcvn_kp)
@@ -787,7 +795,14 @@
             return rj.replace(/\\/g, "\\\\")
                 .replace(/(\+|-|\.|[\(\{\[\]\}\)])/g, "\\$1")
         }
+        async function rf_rdeb(rj_kp = "") {
+            return await prvd_afoa(`en en\n${rj_kp}`).catch(err => { throw err })
+        }
         async function rf_wrvr(rj_kp = "") {
+            return await prvd_afoa('wrvr\n' + rj_kp).catch(err => { throw err })
+
+        }
+        async function prvd_afoa(vdzv_kp) {
             return await fetch('/afoa', {
                 method: "POST",
                 headers: {
@@ -795,7 +810,7 @@
                     'Access-Control-Request-Headers': '*'
                 },
                 body: JSON.stringify({
-                    vdzv: 'wrvr\n' + rj_kp
+                    vdzv: vdzv_kp
                     // + "-f-d-m-j-" + (() => {
                     //     return editor.getValue()
                     //         .split(/\n/)[(diwr_1.line)]
@@ -825,8 +840,15 @@
                         console.error(err);
                     }
                 })
-
         }
+        function qi_bnll_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
+            const diwr_1 = editor.getCursor('from')
+            const rj_eysj_yhrj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/[\u4E00-\u9FA5]+\s*$/)?.[0] || ''
+            const vn_1 = rj_eysj_yhrj.length
+            editor.setSelection({ line: diwr_1.line, ch: diwr_1.ch - vn_1 }, { line: diwr_1.line, ch: diwr_1.ch })
+            wlba_ymrg_zl_eysj(rj_eysj_yhrj)
+        }
+
     </script>
 </body>
 
