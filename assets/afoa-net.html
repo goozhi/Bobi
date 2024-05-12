@@ -181,43 +181,50 @@
                     console.log(vn_ybkc)
                     let reg_rfrf_xbst = /(【[^【]*】)+$/
                     const diwr_1 = editor.getCursor('from')
+                    const reg_bnll_zt = /[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/
                     const bnll_zt = (() => {
                         return editor.getValue()
                             .split(/\n/)[(diwr_1.line)]
                             .slice(0, diwr_1.ch)
-                            .match(/[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/)?.[0] || ""
+                            .match(reg_bnll_zt)?.[0] || ""
                     })()
-                    console.log(bnll_zt)
-                    rf_wrvr(bnll_zt).then(wlyc => {
-                        if (/\S/.test(wlyc))
-                            ag_zzuy.innerText = wlyc
-                    }).catch(err => { console.error(err) })
+                    if (bnll_zt) {
+
+                        console.log(bnll_zt)//
+                        rf_wrvr(bnll_zt).then(wlyc => {
+                            if (/\S/.test(wlyc)) {
+                                ag_zzuy.innerText = wlyc
+                                const diwr_tkxb_1 = editor.getCursor()
+                                if (/ $/.test(bnll_zt) && /RA ZNZK/.test(wlyc) && reg_bnll_zt.test(bnll_zt) && !/^gg|_/.test(bnll_zt)) {
+                                    neig.ji_yozd_rfrf = false
+                                    editor.replaceSelection('RA_ZNZK')
+                                    editor.setCursor(diwr_tkxb_1)
+                                    neig.ji_yozd_rfrf = true
+                                } else {
+                                    neig.ji_yozd_rfrf = false
+                                    editor.setSelection(diwr_tkxb_1, Object.assign({}, diwr_tkxb_1, { ch: 9999 }))
+                                    editor.replaceSelection('')
+                                    neig.ji_yozd_rfrf = true
+                                }
+                            }
+                        }).catch(err => { console.error(err) })
+                    }
+
                     const rj_vdzv = editor.getValue()
                         .split(/\n/)
                         .slice(...(() => {
                             return [diwr_1.line ? diwr_1.line - 1 : 0, diwr_1.line + 50]
                         })())
                         .join('\n')
-                    const reg_rfrf_fdmj = /-f-d-m-j-((?:(?!-f-d-m-j-).)*)$/
 
                     rf_wrvr(rj_vdzv).then(wlyc => {
                         const rj1 = wlyc
                             .replace(/^\s*wrvr\s*/i, "")
-                        // editor.replaceSelection(`【${rj1.match(reg_rfrf_fdmj)?.[1] || ''}】`)
-                        // editor.setCursor(diwr_1)
-                        const rj2 = (rj1.match(reg_rfrf_fdmj)?.[1] || "")
-                        if (/\S/.test(rj2))
-                            ag_zzuy.innerText = rj2
                         vdumRender(
-                            rj1.replace(reg_rfrf_fdmj, "")
+                            rj1
                         )
                     }
                     ).catch(err => { console.error(err) })
-                    if (vn_ybkc % 2) {
-                        // editor.setValue(editor.getValue().replace(reg_rfrf_xbst, ""))
-                    } else {
-
-                    }
 
                 }
 
@@ -399,6 +406,7 @@
         })
 
         function kuoe_vdzv_xitl(ztfr_kp) {
+            console.log(ztfr_kp)//
             const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg_\s*`)
 
             if (reg_g.test(editor.getValue())) {
@@ -623,9 +631,9 @@
             })()
         }
         function vbyt_bj_ypzv_gmih(eqwy_1) {
-            if(eqwy_1>10000){
+            if (eqwy_1 > 10000) {
                 return ''
-            }else{
+            } else {
                 return `<span style="font-size: smaller;background:#c0c0c0">${eqwy_1.toString().padEnd(3)}</span> `
             }
         }
