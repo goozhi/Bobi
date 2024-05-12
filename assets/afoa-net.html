@@ -191,11 +191,11 @@
                     if (bnll_zt) {
 
                         console.log(bnll_zt)//
-                        rf_wrvr(bnll_zt).then(wlyc => {
+                        rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g,"")).then(wlyc => {
                             if (/\S/.test(wlyc)) {
                                 ag_zzuy.innerText = wlyc
                                 const diwr_tkxb_1 = editor.getCursor()
-                                if (/( |[,"']|[?!;:])$/.test(bnll_zt) && /RA ZNZK/.test(wlyc) && reg_bnll_zt.test(bnll_zt) && !/^gg|_/.test(bnll_zt)) {
+                                if (/( |[,\."']|[?!;:])$/.test(bnll_zt) && /RA ZNZK/.test(wlyc) && reg_bnll_zt.test(bnll_zt) && !/^gg|_/.test(bnll_zt)) {
                                     neig.ji_yozd_rfrf = false
                                     editor.replaceSelection('RA_ZNZK')
                                     editor.setCursor(diwr_tkxb_1)
@@ -354,7 +354,7 @@
                 leun: "us yh bnll qh."
             }, b: {
                 func: () => {
-                    qi_bnll_vdzv((yhrj_eysj) => {
+                    qi_bnll_yhrj_vdzv((yhrj_eysj) => {
                         rf_wrvr(yhrj_eysj).then(wlyc => {
                             editor.replaceSelection(String(wlyc).trim())
                         }).catch(err => console.error(err))
@@ -363,7 +363,7 @@
                 leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
             }, e: {
                 func: () => {
-                    qi_bnll_vdzv((rdeb_eysj) => {
+                    qi_bnll_yhrj_vdzv((rdeb_eysj) => {
                         rf_rdeb(rdeb_eysj).then(wlyc => {
                             editor.replaceSelection('')
                             ag_zzuy.innerText = String(wlyc).trim()
@@ -862,7 +862,7 @@
                     }
                 })
         }
-        function qi_bnll_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
+        function qi_bnll_yhrj_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
             const diwr_1 = editor.getCursor('from')
             const rj_eysj_yhrj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/[\u4E00-\u9FA5]+\s*$/)?.[0] || ''
             const vn_1 = rj_eysj_yhrj.length
