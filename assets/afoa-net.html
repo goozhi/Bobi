@@ -195,16 +195,20 @@
                             if (/\S/.test(wlyc)) {
                                 ag_zzuy.innerText = wlyc
                                 const diwr_tkxb_1 = editor.getCursor()
-                                if (/ $/.test(bnll_zt) && /RA ZNZK/.test(wlyc) && reg_bnll_zt.test(bnll_zt) && !/^gg|_/.test(bnll_zt)) {
+                                if (/( |[,"']|[?!;:])$/.test(bnll_zt) && /RA ZNZK/.test(wlyc) && reg_bnll_zt.test(bnll_zt) && !/^gg|_/.test(bnll_zt)) {
                                     neig.ji_yozd_rfrf = false
                                     editor.replaceSelection('RA_ZNZK')
                                     editor.setCursor(diwr_tkxb_1)
                                     neig.ji_yozd_rfrf = true
                                 } else {
-                                    neig.ji_yozd_rfrf = false
-                                    editor.setSelection(diwr_tkxb_1, Object.assign({}, diwr_tkxb_1, { ch: 9999 }))
-                                    editor.replaceSelection('')
-                                    neig.ji_yozd_rfrf = true
+                                    const rj_vdzv_udcc = editor.getValue().split(/\n/)[diwr_tkxb_1.line].slice(diwr_tkxb_1.ch)
+                                    if (/^RA.ZNZK/.test(rj_vdzv_udcc)) {
+                                        const vn_1 = rj_vdzv_udcc.match(/^RA.*ZNZK/)[0].length + diwr_tkxb_1.ch
+                                        neig.ji_yozd_rfrf = false
+                                        editor.setSelection(diwr_tkxb_1, Object.assign({}, diwr_tkxb_1, { ch: vn_1 }))
+                                        editor.replaceSelection('')
+                                        neig.ji_yozd_rfrf = true
+                                    }
                                 }
                             }
                         }).catch(err => { console.error(err) })

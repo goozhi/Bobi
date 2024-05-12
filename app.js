@@ -3,14 +3,14 @@ const path = require('path');
 const Koa = require('koa');
 const wdbu_err = require('../scripts/wdbu_err.js')
 const arrC = require("./arrC.js")
-const arrC_office = require('../office/arrC.js')
+// const arrC_office = require('../office/arrC.js')
 const arrC_agle = require('../wjdk-agle/arrC.js')
 const arrC_en = require('../dicts-en/arrC.js')
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
-const outputs_office = require('../office/outputs')
+// const outputs_office = require('../office/outputs')
 const app = new Koa();
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
@@ -268,8 +268,8 @@ app.use(async (ctx, next) => {
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
         } else if (ctx.method === 'POST') {
-            neig.excmds = [...arrC, ...arrC_en, ...arrC_office, ...arrC_agle]
-            await commd(ctx.request.body.vdzv, outputs(outputs_office()), neig).then(jtyj_1 => {
+            neig.excmds = [...arrC, ...arrC_en, ...arrC_agle]
+            await commd(ctx.request.body.vdzv, outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
                 .catch(err => {
