@@ -45,10 +45,6 @@ ui.list.setVisibility(8);
 ui.scfo.setVisibility(8);
 var listArray = [
     {
-        txt: "Bobi",
-        url: "http://localhost:9000"
-    },
-    {
         txt: "mb",
         ac_tnoy: "http://localhost:9000",
         func:()=>{
@@ -144,6 +140,11 @@ ui.input.setText(vnwm_yhld[jtyj_1].url)
         url: "http://www.runoob.com/jsref/jsref-obj-regexp.html",
         txt: "regexp"
     },
+    {
+        txt: "Bobi",
+        url: "http://localhost:9000"
+    },
+
     {
         url: "http://www.runoob.com/jsref/jsref-obj-string.html",
         txt: "string"
