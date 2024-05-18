@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
-const diwr_neig_zjzj = require('../afoa/diwr_neig_zjzj')
+const diwr_neig_zjzj = require('../../scripts/diwr_neig_zjzj')
 const nikc_out = path.resolve('out')
 let vn_per_1 = 70
 ngnc_nikc_paaw(nikc_out)
