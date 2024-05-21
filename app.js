@@ -1,12 +1,15 @@
+console.time('app-drbz')
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const wdbu_err = require('../scripts/wdbu_err.js')
 const arrC = require("./arrC.js")
 // const arrC_office = require('../office/arrC.js')
+console.time('app-arrC')
 const arrC_agle = require('../wjdk-agle/arrC.js')
 const arrC_vtn = require('../vtn/arrC.js')
 const arrC_en = require('../dicts-en/arrC.js')
+console.timeEnd('app-arrC')
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
@@ -704,3 +707,4 @@ app.use(async (ctx, next) => {
 app.listen(neig.izlp, () => {
     console.log(`app listening at http://localhost:${neig.izlp}`)
 });
+console.timeEnd('app-drbz')
