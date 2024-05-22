@@ -191,7 +191,7 @@
                     if (bnll_zt) {
 
                         console.log(bnll_zt)//
-                        rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g,"")).then(wlyc => {
+                        rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g, "")).then(wlyc => {
                             if (/\S/.test(wlyc)) {
                                 ag_zzuy.innerText = wlyc
                                 const diwr_tkxb_1 = editor.getCursor()
@@ -357,6 +357,13 @@
                     editor.replaceSelection("(mcvn)=>{\nreturn\n}\n-fdmj-\n")
                 },
                 leun: "nq bnll vdzv nxzv atvn yfun zuwl."
+            }, z: {
+                func: () => {
+                    const bnll_tkxb = editor.getCursor()
+                    editor.setSelection({ line: bnll_tkxb.line, ch: bnll_tkxb.ch }, { line: 99999999, ch: 999999 })
+                    editor.replaceSelection("")
+                },
+                leun: "zyvv bnll vdzv dk udcc dk sopc bqeo."
             }, b: {
                 func: () => {
                     qi_bnll_yhrj_vdzv((yhrj_eysj) => {
@@ -571,7 +578,8 @@
                     let vnwm_lines = editor.getValue().trim().split(/\n/)
                     let eqwy_tsjq_wu = 0
                     vnwm_lines.forEach((rn1, eqwy_1) => {
-                        if (vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0]) || vnwm_tsjq_wu.includes(rn1.match(/\w+/)?.[0].toLowerCase())) {
+                        const reg_afoa_tsjq = /(?<=(?:^|\n)\s*)\w+/
+                        if (vnwm_tsjq_wu.includes(rn1.match(reg_afoa_tsjq)?.[0]) || vnwm_tsjq_wu.includes(rn1.match(reg_afoa_tsjq)?.[0].toLowerCase())) {
                             eqwy_tsjq_wu = eqwy_1
                         }
                     })
