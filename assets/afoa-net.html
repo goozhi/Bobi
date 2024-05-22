@@ -174,11 +174,8 @@
 
                 // }
             })
-            let vn_ybkc = 2
             CodeMirror.on(editor, 'change', function (event, item) {
                 if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
-                    vn_ybkc++
-                    console.log(vn_ybkc)
                     let reg_rfrf_xbst = /(【[^【]*】)+$/
                     const diwr_1 = editor.getCursor('from')
                     const reg_bnll_zt = /[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/
@@ -190,7 +187,7 @@
                     })()
                     if (bnll_zt) {
 
-                        console.log(bnll_zt)//
+                        //
                         rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g, "")).then(wlyc => {
                             if (/\S/.test(wlyc)) {
                                 ag_zzuy.innerText = wlyc
@@ -282,9 +279,9 @@
             copyToClipboard(vdum_2.innerHTML)
             document.getElementById("ag_zzuy").innerText = "Copyed;)"
         }
-        let ztfr_1 = ""
 
         const diwr_mcvn = {}
+        const diwr_ybkc_kuoe_vdzv = {}
         Object.assign(diwr_mcvn, {
             g: {
                 func: () => {
@@ -364,6 +361,23 @@
                     editor.replaceSelection("")
                 },
                 leun: "zyvv bnll vdzv dk udcc dk sopc bqeo."
+            }, x: {
+                func: () => {
+                    const bnll_tkxb = editor.getCursor()
+                    editor.setSelection({ line: bnll_tkxb.line, ch: 0 }, { line: bnll_tkxb.line, ch: 999999 })
+                    const bnll_qh = editor.getSelection()
+                    const rj_rfrf_ud = rf_wrvr(bnll_qh).then(wlyc => {
+                        if (diwr_ybkc_kuoe_vdzv[bnll_qh]) {
+                            editor.replaceSelection(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_qh)
+                            editor.setCursor(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_tkxb)
+                            delete diwr_ybkc_kuoe_vdzv[bnll_qh]
+                        } else {
+                            editor.replaceSelection(String(wlyc))
+                            diwr_ybkc_kuoe_vdzv[String(wlyc)] = { bnll_tkxb, bnll_qh }
+                        }
+                    })
+                },
+                leun: "rfrf bnll qh."
             }, b: {
                 func: () => {
                     qi_bnll_yhrj_vdzv((yhrj_eysj) => {
@@ -421,59 +435,51 @@
             }
         })
 
+        function get_bnll_vdzv_eysj() {
+            const diwr_1 = editor.getCursor('to')
+            return editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/\w+$/)?.[0]
+        }
         function kuoe_vdzv_xitl(ztfr_kp) {
-            console.log(ztfr_kp)//
+            //
             const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg_\s*`)
 
             if (reg_g.test(editor.getValue())) {
                 neig.ji_atvn_cqpi = true
             }
-            vnwm_reg_ztfr = [/^g$/, /^g$/, /^\w$/]
-            const reg_1 = vnwm_reg_ztfr[ztfr_1.length]
-            if (!reg_1.test(ztfr_kp)) {
-                ztfr_1 = ""
-                return
-            }
-            ztfr_1 += ztfr_kp
             const yg1 = editor.getValue()
-            if (ztfr_1.length === 3) {
-                ztfr_yhld = ztfr_1
-                ztfr_1 = ""
-                if (/gg\w/.test(ztfr_yhld)) {
-                    const cqpi_fr = ztfr_yhld.match(/(gg)(\w)/)?.[2]
-                    if (!diwr_mcvn[cqpi_fr]) {
-                        return
-                    }
-                    const bnll_tkxb = editor.getCursor()
-                    const reg_func = /\bg_\s*([\S\s]*)gg\w/
-
-                    const mcvn_1 = yg1.match(reg_func)?.[1]
-                    if (mcvn_1) {
-
-                    } else {
-                        const yg_vnwm = yg1.split(/\n/)
-                        const vnwm_qh_bq_fr = yg_vnwm[bnll_tkxb.line].split("")
-                        vnwm_qh_bq_fr.splice(bnll_tkxb.ch - 3, 3)
-                        yg_vnwm[bnll_tkxb.line] = vnwm_qh_bq_fr.join("")
-                        neig.ji_atvn_cqpi = true
-                        editor.setValue(yg_vnwm.join("\n"))
-                        bnll_tkxb.ch -= 3
-                        editor.setCursor(bnll_tkxb)
-                        vnwm_ybbp.splice(vnwm_ybbp.length - 3, 4)
-
-                    }
-                    try {
-                        diwr_mcvn[cqpi_fr].func(mcvn_1 && mcvn_1.trim())
-                    } catch (err) {
-                        alert("kuoe tsjq pc ms.")
-                        ag_zzuy.innerText = err.message ? err.stack : err
-                        alert(err)
-                    }
-
-                    neig.ji_atvn_cqpi = false
-                } else {
+            const rj_bnll_kuoe_vdzv = get_bnll_vdzv_eysj()?.match(/gg\w$/)?.[0]
+            if (rj_bnll_kuoe_vdzv) {
+                const cqpi_fr = rj_bnll_kuoe_vdzv.match(/(gg)(\w)/)?.[2]
+                if (!diwr_mcvn[cqpi_fr]) {
                     return
                 }
+                const bnll_tkxb = editor.getCursor()
+                const reg_func = /\bg_\s*([\S\s]*)gg\w/
+
+                const mcvn_1 = yg1.match(reg_func)?.[1]
+                if (mcvn_1) {
+
+                } else {
+                    const yg_vnwm = yg1.split(/\n/)
+                    const vnwm_qh_bq_fr = yg_vnwm[bnll_tkxb.line].split("")
+                    vnwm_qh_bq_fr.splice(bnll_tkxb.ch - 3, 3)
+                    yg_vnwm[bnll_tkxb.line] = vnwm_qh_bq_fr.join("")
+                    neig.ji_atvn_cqpi = true
+                    editor.setValue(yg_vnwm.join("\n"))
+                    bnll_tkxb.ch -= 3
+                    editor.setCursor(bnll_tkxb)
+                    vnwm_ybbp.splice(vnwm_ybbp.length - 3, 4)
+
+                }
+                try {
+                    diwr_mcvn[cqpi_fr].func(mcvn_1 && mcvn_1.trim())
+                } catch (err) {
+                    alert("kuoe tsjq pc ms.")
+                    ag_zzuy.innerText = err.message ? err.stack : err
+                    alert(err)
+                }
+
+                neig.ji_atvn_cqpi = false
             } else {
                 return
             }
@@ -770,7 +776,6 @@
         }
         function frih_up_wdbu() {
             editor.focus()
-            // console.log('ynkc',neig.diwr_tkxb_uufb_trig)//
             editor.setSelection(neig.diwr_tkxb_uufb_trig, neig.diwr_tkxb_jtco_trig)
         }
         function wdbu_frih_vdzv(event) {
