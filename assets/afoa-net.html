@@ -606,13 +606,21 @@
             })()
             editor.setValue(value_1)
         }
-        let diwr_tkxb_1
         function qu_ld_bqeo() {
             const rj_yhld = editor.getValue()
-            diwr_tkxb_yhld = editor.getCursor()
+            const diwr_tkxb_yhld = editor.getCursor()
             editor.setValue(neig.outputText)
-            if (diwr_tkxb_1) editor.setCursor(diwr_tkxb_1)
-            diwr_tkxb_1 = diwr_tkxb_yhld
+            if (/^\s*wrvr/i.test(rj_yhld)) {
+                if (diwr_tkxb_yhld.line) {
+                    diwr_tkxb_yhld.line = diwr_tkxb_yhld.line - 1
+                }
+                editor.setCursor(diwr_tkxb_yhld)
+            } else if (/^\s*wrvr/i.test(neig.outputText)) {
+                diwr_tkxb_yhld.line = diwr_tkxb_yhld.line + 1
+                editor.setCursor(diwr_tkxb_yhld)
+            } else {
+                editor.setCursor(0, 0)
+            }
             neig.outputText = rj_yhld
             vdumRender("")
         }
