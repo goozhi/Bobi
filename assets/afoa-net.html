@@ -72,6 +72,7 @@
     <script>
         const rj4 = 'received a no string: '
         let vnwm_tsjq_wu
+        const diwr_kuoe_vdzv_ybkc = {}
         fetch('/nwvt-afoa-zzuy')
             .then(res => {
                 if (res.ok) {
@@ -178,7 +179,7 @@
                 if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
                     let reg_rfrf_xbst = /(【[^【]*】)+$/
                     const diwr_1 = editor.getCursor('from')
-                    const reg_bnll_zt = /[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,3}$/
+                    const reg_bnll_zt = /[\u4E00-\u9FA5\w]+[^\u4E00-\u9FA5\w]{0,1}$/
                     const bnll_zt = (() => {
                         return editor.getValue()
                             .split(/\n/)[(diwr_1.line)]
@@ -205,6 +206,9 @@
                                         editor.setSelection(diwr_tkxb_1, Object.assign({}, diwr_tkxb_1, { ch: vn_1 }))
                                         editor.replaceSelection('')
                                         neig.ji_yozd_rfrf = true
+                                    }
+                                    if (!/RA ZNZK/.test(wlyc) && new Date().getTime() - (diwr_kuoe_vdzv_ybkc.b?.getTime() || 0) > 800) {
+                                        qi_bnll_yhrj_vdzv(rfrf_cd_us_eysj)
                                     }
                                 }
                             }
@@ -380,11 +384,7 @@
                 leun: "rfrf bnll qh."
             }, b: {
                 func: () => {
-                    qi_bnll_yhrj_vdzv((yhrj_eysj) => {
-                        rf_wrvr(yhrj_eysj).then(wlyc => {
-                            editor.replaceSelection(String(wlyc).trim())
-                        }).catch(err => console.error(err))
-                    })
+                    qi_bnll_eysj_vdzv(rfrf_cd_us_eysj)
                 },
                 leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
             }, e: {
@@ -441,6 +441,26 @@
         }
         function kuoe_vdzv_xitl(ztfr_kp) {
             //
+            let ji_vdzv_g
+            let ji_vdzv_kuoe_lg_xbst
+            function get_kuoe_lg_xbst() {
+                return ji_vdzv_kuoe_lg_xbst
+            }
+            function set_kuoe_lg_xbst(gkyj) {
+                if (gkyj) {
+                    ji_vdzv_kuoe_lg_xbst = true
+                } else {
+                    ji_vdzv_g = false
+                    ji_vdzv_kuoe_lg_xbst = false
+                }
+            }
+            if (/g/.test(ztfr_kp)) {
+                ji_vdzv_g = true
+            }
+            if (/_/.test(ztfr_kp)) {
+                if (ji_vdzv_g)
+                    ji_vdzv_kuoe_lg_xbst = true
+            }
             const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg_\s*`)
 
             if (reg_g.test(editor.getValue())) {
@@ -454,25 +474,19 @@
                     return
                 }
                 const bnll_tkxb = editor.getCursor()
-                const reg_func = /\bg_\s*([\S\s]*)gg\w/
-
+                const reg_func = new RegExp(/\bg_\s*([\S\s]*)gg\w/.toString().replace(/^\/|\/$/g, "").replace(/\\w$/, cqpi_fr))
                 const mcvn_1 = yg1.match(reg_func)?.[1]
-                if (mcvn_1) {
-
+                if (mcvn_1 && get_kuoe_lg_xbst()) {
+                    set_kuoe_lg_xbst(false)
                 } else {
-                    const yg_vnwm = yg1.split(/\n/)
-                    const vnwm_qh_bq_fr = yg_vnwm[bnll_tkxb.line].split("")
-                    vnwm_qh_bq_fr.splice(bnll_tkxb.ch - 3, 3)
-                    yg_vnwm[bnll_tkxb.line] = vnwm_qh_bq_fr.join("")
                     neig.ji_atvn_cqpi = true
-                    editor.setValue(yg_vnwm.join("\n"))
-                    bnll_tkxb.ch -= 3
-                    editor.setCursor(bnll_tkxb)
+                    editor.setSelection({ line: bnll_tkxb.line, ch: bnll_tkxb.ch - 3 }, bnll_tkxb)
+                    editor.replaceSelection("")
                     vnwm_ybbp.splice(vnwm_ybbp.length - 3, 4)
 
                 }
                 try {
-                    diwr_mcvn[cqpi_fr].func(mcvn_1 && mcvn_1.trim())
+                    diwr_mcvn[cqpi_fr].func(get_kuoe_lg_xbst() && mcvn_1 && mcvn_1.trim())
                 } catch (err) {
                     alert("kuoe tsjq pc ms.")
                     ag_zzuy.innerText = err.message ? err.stack : err
@@ -480,6 +494,7 @@
                 }
 
                 neig.ji_atvn_cqpi = false
+                diwr_kuoe_vdzv_ybkc[cqpi_fr] = new Date()
             } else {
                 return
             }
@@ -888,12 +903,25 @@
                     }
                 })
         }
+        function rfrf_cd_us_eysj(yhrj_eysj) {
+            rf_wrvr(yhrj_eysj).then(wlyc => {
+                editor.replaceSelection(String(wlyc).trim())
+            }).catch(err => console.error(err))
+        }
         function qi_bnll_yhrj_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
+            qi_bnll_vdzv(wlba_ymrg_zl_eysj, /[\u4E00-\u9FA5]+\s*$/)
+        }
+        function qi_bnll_eysj_vdzv(wlba_ymrg_zl_eysj) {
+            qi_bnll_vdzv(wlba_ymrg_zl_eysj, /[\u4E00-\u9FA5a-zA-z]+\s*$/)
+        }
+        function qi_bnll_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }, reg_eysj) {
             const diwr_1 = editor.getCursor('from')
-            const rj_eysj_yhrj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/[\u4E00-\u9FA5]+\s*$/)?.[0] || ''
-            const vn_1 = rj_eysj_yhrj.length
-            editor.setSelection({ line: diwr_1.line, ch: diwr_1.ch - vn_1 }, { line: diwr_1.line, ch: diwr_1.ch })
-            wlba_ymrg_zl_eysj(rj_eysj_yhrj)
+            const rj_eysj_yhrj = editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(reg_eysj)?.[0] || ''
+            if (rj_eysj_yhrj) {
+                const vn_1 = rj_eysj_yhrj.length
+                editor.setSelection({ line: diwr_1.line, ch: diwr_1.ch - vn_1 }, { line: diwr_1.line, ch: diwr_1.ch })
+                wlba_ymrg_zl_eysj(rj_eysj_yhrj)
+            }
         }
 
     </script>
