@@ -327,7 +327,11 @@
             }, d: {
                 func: (mcvn_kp) => {
                     if (typeof mcvn_kp != "string") {
-                        editor.setCursor(0, 0)
+                        if(editor.getCursor().line===0&&editor.getCursor().ch===0){
+                            editor.setCursor(99999,99999)
+                        }else{
+                            editor.setCursor(0, 0)
+                        }
                         return
                     }
                     const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
@@ -347,7 +351,7 @@
                         return
                     }
                 },
-                leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd"
+                leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd\n nq da ye qh zd jyqh ggd lbm dg ab ok ds ye qh."
             }, q: {
                 func: () => {
                     editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 999999 })
