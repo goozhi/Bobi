@@ -432,7 +432,7 @@
                             editor.setValue("wrvr\n" + editor.getValue())
                             editor.setCursor(Object.assign(diwr_bnll_tkxb, { line: diwr_bnll_tkxb.line + 1 }))
                             neig.ji_yozd_rfrf = true
-                        }else{
+                        } else {
                             neig.ji_yozd_rfrf = false
                         }
                     }
@@ -754,6 +754,8 @@
                 copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
             } else if (outputs.ji_blank_html) {
                 alert("ra sdvu.")
+            } else if (outputs.up) {
+                editor.setValue(outputs.outputText)
             } else if (outputs.na_ld_html) {
                 vdum_2.innerHTML = outputs.na_ld_html
             } else if (outputs.ji_caju) {
