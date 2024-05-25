@@ -427,7 +427,14 @@
                     if (mcvn_kp === 'gn') {
                         neig.ji_yozd_rfrf = false
                     } else {
-                        neig.ji_yozd_rfrf = true
+                        if (!/^\s*wrvr/i.test(editor.getValue())) {
+                            const diwr_bnll_tkxb = editor.getCursor()
+                            editor.setValue("wrvr\n" + editor.getValue())
+                            editor.setCursor(Object.assign(diwr_bnll_tkxb, { line: diwr_bnll_tkxb.line + 1 }))
+                            neig.ji_yozd_rfrf = true
+                        }else{
+                            neig.ji_yozd_rfrf = false
+                        }
                     }
 
                 },
