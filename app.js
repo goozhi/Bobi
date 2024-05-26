@@ -344,6 +344,16 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if (/^\/wrvr_imgs\//.test(ctx.path)) {
+        const filepath = path.join(__dirname, "..", ctx.path)
+        const nikc_root = path.dirname(filepath)
+        const filename = path.basename(filepath)
+        await send(ctx, filename, { root: nikc_root })
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-net') {
         const html = fs.readFileSync(`${dirName}/afoa-net.html`).toString()
         ctx.body = html
