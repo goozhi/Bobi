@@ -455,10 +455,9 @@
             const diwr_1 = editor.getCursor('to')
             return editor.getValue().split(/\n/)[diwr_1.line].slice(0, diwr_1.ch).match(/\w+$/)?.[0]
         }
+        let ji_vdzv_g
+        let ji_vdzv_kuoe_lg_xbst
         function kuoe_vdzv_xitl(ztfr_kp) {
-            //
-            let ji_vdzv_g
-            let ji_vdzv_kuoe_lg_xbst
             function get_kuoe_lg_xbst() {
                 return ji_vdzv_kuoe_lg_xbst
             }
@@ -474,8 +473,9 @@
                 ji_vdzv_g = true
             }
             if (/_/.test(ztfr_kp)) {
-                if (ji_vdzv_g)
-                    ji_vdzv_kuoe_lg_xbst = true
+                if (ji_vdzv_g) {
+                    set_kuoe_lg_xbst(true)
+                }
             }
             const reg_g = new RegExp(`.{${editor.getCursor().ch - 2}}\\bg_\s*`)
 
@@ -493,7 +493,6 @@
                 const reg_func = new RegExp(/\bg_\s*([\S\s]*)gg\w/.toString().replace(/^\/|\/$/g, "").replace(/\\w$/, cqpi_fr))
                 const mcvn_1 = yg1.match(reg_func)?.[1]
                 if (mcvn_1 && get_kuoe_lg_xbst()) {
-                    set_kuoe_lg_xbst(false)
                 } else {
                     neig.ji_atvn_cqpi = true
                     editor.setSelection({ line: bnll_tkxb.line, ch: bnll_tkxb.ch - 3 }, bnll_tkxb)
@@ -508,7 +507,7 @@
                     ag_zzuy.innerText = err.message ? err.stack : err
                     alert(err)
                 }
-
+                set_kuoe_lg_xbst(false)
                 neig.ji_atvn_cqpi = false
                 diwr_kuoe_vdzv_ybkc[cqpi_fr] = new Date()
             } else {
