@@ -194,7 +194,15 @@
                     if (bnll_zt) {
 
                         //
-                        rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g, "")).then(wlyc => {
+                        const rj_cqpi_fr = (() => {
+                            if (/^[a-zA-Z]{2}$/.test(bnll_zt)) {
+                                return '--ztwm'
+                            } else {
+                                return ''
+                            }
+
+                        })()
+                        rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g, ""), rj_cqpi_fr).then(wlyc => {
                             if (/\S/.test(wlyc)) {
                                 ag_zzuy.innerText = wlyc
                                 const diwr_tkxb_1 = editor.getCursor()
@@ -877,8 +885,8 @@
         async function rf_rdeb(rj_kp = "") {
             return await prvd_afoa(`en en\n${rj_kp}`).catch(err => { throw err })
         }
-        async function rf_wrvr(rj_kp = "") {
-            return await prvd_afoa('wrvr\n' + rj_kp).catch(err => { throw err })
+        async function rf_wrvr(rj_kp = "", rj_cqpi_fr = "") {
+            return await prvd_afoa('wrvr ' + rj_cqpi_fr + '\n' + rj_kp).catch(err => { throw err })
 
         }
         async function prvd_afoa(vdzv_kp) {
