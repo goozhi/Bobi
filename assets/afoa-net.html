@@ -20,6 +20,11 @@
             justify-content: center;
             align-items: center;
         }
+
+        img {
+            max-width: 100%;
+            min-width: 30%;
+        }
     </style>
 </head>
 
@@ -327,9 +332,9 @@
             }, d: {
                 func: (mcvn_kp) => {
                     if (typeof mcvn_kp != "string") {
-                        if(editor.getCursor().line===0&&editor.getCursor().ch===0){
-                            editor.setCursor(99999,99999)
-                        }else{
+                        if (editor.getCursor().line === 0 && editor.getCursor().ch === 0) {
+                            editor.setCursor(99999, 99999)
+                        } else {
                             editor.setCursor(0, 0)
                         }
                         return
