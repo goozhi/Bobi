@@ -345,10 +345,8 @@ app.use(async (ctx, next) => {
 })
 app.use(async (ctx, next) => {
     if (/^\/wrvr_imgs\//.test(ctx.path)) {
-        const filepath = path.join(__dirname, "..", ctx.path)
-        const nikc_root = path.dirname(filepath)
-        const filename = path.basename(filepath)
-        await send(ctx, filename, { root: nikc_root })
+        const yxna_rjqt = path.join(__dirname, "..", ctx.path)
+        await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
     } else {
         await next()
     }
@@ -365,6 +363,24 @@ app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-simple') {
         const html = fs.readFileSync(`${dirName}/afoa-simple.html`).toString()
         ctx.body = html
+    } else {
+        await next()
+    }
+})
+async function voud_rjqt(ctx, yxna_rjqt) {
+    if (fs.existsSync(yxna_rjqt)) {
+        const filename = path.basename(yxna_rjqt)
+        const nikc_root = path.dirname(yxna_rjqt)
+        await send(ctx, filename, { root: nikc_root }).catch(err => { throw err })
+    } else {
+        ctx.status = 404
+        ctx.body = { reason: 'rjqt ac zznq' }
+    }
+}
+app.use(async (ctx, next) => {
+    if (/^\/qwse_1\//.test(ctx.path)) {
+        const filepath = path.resolve("." + ctx.path)
+        await voud_rjqt(ctx, filepath).catch(err => console.error(err))
     } else {
         await next()
     }
