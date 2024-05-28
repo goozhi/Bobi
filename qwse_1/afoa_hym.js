@@ -494,14 +494,6 @@ function tt_ybbp() {
     editor.setValue(vnwm_ybbp[bnll_eqwy_1].value)
 }
 
-function copyToClipboard(string_1) {
-    const tempInput = document.createElement('textarea');
-    tempInput.value = string_1;
-    document.body.appendChild(tempInput);
-    tempInput.select();
-    document.execCommand('copy');
-    document.body.removeChild(tempInput);
-}
 function getValue() {
     alert(editor.getValue())
 }

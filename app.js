@@ -343,22 +343,30 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-app.use(async (ctx, next) => {
-    if (/^\/wrvr_imgs\//.test(ctx.path)) {
-        const yxna_rjqt = path.join(__dirname, "..", ctx.path)
-        await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
-    } else {
-        await next()
-    }
-})
+// app.use(async (ctx, next) => {
+//     if (/^\/wrvr_imgs\//.test(ctx.path)) {
+//         const yxna_rjqt = path.join(__dirname, "..", ctx.path)
+//         await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
+//     } else {
+//         await next()
+//     }
+// })
 jplp_rjqt('qwse_1')
+jplp_rjqt('scripts', { nikc_kp: path.resolve('../scripts') })
+jplp_rjqt('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
 jplp_rjqt('node_modules')
 
-function jplp_rjqt(nikc_wu) {
+function jplp_rjqt(nikc_wu, neig_kp = {}) {
     const reg_1 = new RegExp("^/" + nikc_wu + "/")
     app.use(async (ctx, next) => {
         if (reg_1.test(ctx.path)) {
-            const yxna_rjqt = path.resolve("." + ctx.path)
+            const yxna_rjqt = (() => {
+                if (neig_kp.nikc_kp) {
+                    return path.join(neig_kp.nikc_kp, ctx.path.replace(/^\/.*?\//, ""))
+                } else {
+                    return path.resolve("." + ctx.path)
+                }
+            })()
             await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
         } else {
             await next()
