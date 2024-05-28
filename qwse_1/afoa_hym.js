@@ -144,7 +144,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                 editor.replaceSelection('')
                                 neig.ji_yozd_rfrf = true
                             }
-                            if (!/RA ZNZK/.test(wlyc) && new Date().getTime() - (diwr_kuoe_vdzv_ybkc.b?.getTime() || 0) > 800) {
+
+                            if (!/RA ZNZK/.test(wlyc) && new Date().getTime() - (() => {
+                                return ['x', 'b'].filter(rn1 => diwr_kuoe_vdzv_ybkc[rn1])
+                                    .map(rn1 => diwr_kuoe_vdzv_ybkc[rn1])
+                                    .sort((a, b) => {
+                                        return b.getTime() - a.getTime()
+                                    })[0] || 0
+                            })() > 800) {
                                 qi_bnll_yhrj_vdzv(rfrf_cd_us_eysj)
                             }
                         }

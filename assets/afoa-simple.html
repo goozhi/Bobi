@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/scripts/exym.qwse.js"></script>
     <title>afoa</title>
 </head>
 
@@ -28,14 +29,6 @@
         function copy() {
             let vdum_1 = document.getElementById('vdum_1')
             copyToClipboard(vdum_1.innerText)
-        }
-        function copyToClipboard(string_1) {
-            const tempInput = document.createElement('textarea');
-            tempInput.value = string_1;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempInput);
         }
         function vdum() {
             let vdzv_1 = document.getElementById('vdzv_1')
