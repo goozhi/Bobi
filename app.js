@@ -351,6 +351,21 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+jplp_rjqt('qwse_1')
+jplp_rjqt('node_modules')
+
+function jplp_rjqt(nikc_wu) {
+    const reg_1 = new RegExp("^/" + nikc_wu + "/")
+    app.use(async (ctx, next) => {
+        if (reg_1.test(ctx.path)) {
+            const yxna_rjqt = path.resolve("." + ctx.path)
+            await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
+        } else {
+            await next()
+        }
+    })
+
+}
 app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-net') {
         const html = fs.readFileSync(`${dirName}/afoa-net.html`).toString()
@@ -377,14 +392,6 @@ async function voud_rjqt(ctx, yxna_rjqt) {
         ctx.body = { reason: 'rjqt ac zznq' }
     }
 }
-app.use(async (ctx, next) => {
-    if (/^\/qwse_1\//.test(ctx.path)) {
-        const filepath = path.resolve("." + ctx.path)
-        await voud_rjqt(ctx, filepath).catch(err => console.error(err))
-    } else {
-        await next()
-    }
-})
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = (() => {
