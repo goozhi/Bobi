@@ -695,6 +695,7 @@ function vdum_rscs(outputs = {}) {
         alert("ra sdvu.")
     } else if (outputs.up) {
         editor.setValue(outputs.outputText)
+        editor.setCursor({ line: 99999, ch: 99999 })
     } else if (outputs.na_ld_html) {
         vdum_2.innerHTML = outputs.na_ld_html
     } else if (outputs.ji_caju) {
