@@ -2,6 +2,7 @@ console.time('app-drbz')
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
+const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
 const arrC = require("./arrC.js")
 // const arrC_office = require('../office/arrC.js')
@@ -46,6 +47,7 @@ process.stdout.write = function (string, encoding, fd) {
     // ifk yjn zfk hyk xin xtk yfk zdk ilk opl nqk ubk ubm bek dkk vdk umk:
     oldWrite.apply(process.stdout, arguments);
 };
+const jplp_rjqt = new Jplp_rjqt(app, send)
 
 if (ji_exym_oc_ssvl) {
     const stat_1 = fs.statSync('app.js')
@@ -351,29 +353,11 @@ app.use(async (ctx, next) => {
 //         await next()
 //     }
 // })
-jplp_rjqt('qwse_1')
-jplp_rjqt('scripts', { nikc_kp: path.resolve('../scripts') })
-jplp_rjqt('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
-jplp_rjqt('node_modules')
+jplp_rjqt.jplp('qwse_1')
+jplp_rjqt.jplp('scripts', { nikc_kp: path.resolve('../scripts') })
+jplp_rjqt.jplp('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
+jplp_rjqt.jplp('node_modules')
 
-function jplp_rjqt(nikc_wu, neig_kp = {}) {
-    const reg_1 = new RegExp("^/" + nikc_wu + "/")
-    app.use(async (ctx, next) => {
-        if (reg_1.test(ctx.path)) {
-            const yxna_rjqt = (() => {
-                if (neig_kp.nikc_kp) {
-                    return path.join(neig_kp.nikc_kp, ctx.path.replace(/^\/.*?\//, ""))
-                } else {
-                    return path.resolve("." + ctx.path)
-                }
-            })()
-            await voud_rjqt(ctx, yxna_rjqt).catch(err => console.error(err))
-        } else {
-            await next()
-        }
-    })
-
-}
 app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-net') {
         const html = fs.readFileSync(`${dirName}/afoa-net.html`).toString()
@@ -390,16 +374,6 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
-async function voud_rjqt(ctx, yxna_rjqt) {
-    if (fs.existsSync(yxna_rjqt)) {
-        const filename = path.basename(yxna_rjqt)
-        const nikc_root = path.dirname(yxna_rjqt)
-        await send(ctx, filename, { root: nikc_root }).catch(err => { throw err })
-    } else {
-        ctx.status = 404
-        ctx.body = { reason: 'rjqt ac zznq' }
-    }
-}
 app.use(async (ctx, next) => {
     if ('/test' === ctx.path) {
         ctx.body = (() => {
