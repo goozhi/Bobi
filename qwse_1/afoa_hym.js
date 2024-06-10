@@ -1,5 +1,4 @@
 
-const rj4 = 'received a no string: '
 let vnwm_tsjq_wu
 const diwr_kuoe_vdzv_ybkc = {}
 fetch('/nwvt-afoa-zzuy')
@@ -592,9 +591,7 @@ function vdumRender(rj_kp, outputs = {}) {
         throw rj5
     }
     if (typeof rj_kp != "string") {
-        alert(rj4 + typeof rj_kp)
-        console.error('not a String:', rj_kp)
-        throw rj4
+        rj_kp = String(rj_kp)
     }
     let rj_3 = rj_kp
     vdum_1.innerHTML = (() => {
@@ -646,6 +643,12 @@ caju_vdum_ybkc.addEventListener('click', function (event) {
     })
     vdum_rscs(diwr[vkih])
 })
+function zjzj_outputTextUxux(outputs) {
+    if (!/number|boolean|string/.test(typeof outputs.outputText)) {
+        throw new Error('csrf-outputText must be a String, Number or Boolean-' + typeof outputs.outputText)
+    }
+
+}
 function vdum_wdbu() {
     document.getElementById('ag_zzuy').innerText = "hold on..."
     fetch('/afoa', {
@@ -662,9 +665,7 @@ function vdum_wdbu() {
             throw res
         }
     }).then(jtyj_1 => {
-        if (typeof jtyj_1.outputText != "string") {
-            throw rj4
-        }
+        zjzj_outputTextUxux(jtyj_1)
         vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
         vdum_rscs(jtyj_1)
         uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
@@ -684,9 +685,7 @@ function vdum_wdbu() {
     })
 }
 function vdum_rscs(outputs = {}) {
-    if (typeof outputs.outputText != "string") {
-        throw rj4
-    }
+    zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
     if (outputs.ji_ye_hym_html) {
         vdum_2.innerHTML = outputs.outputText
@@ -739,7 +738,7 @@ function uace_vdum_ybkc_caju(vnwm_vdum_ybkc = []) {
                     if (rn1.ji_ye_hym_html) {
                         return "html"
                     } else {
-                        return rn1.outputText?.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                        return String(rn1.outputText)?.replace(/</g, "&lt;").replace(/>/g, "&gt;")
                             .replace(/(.{1,17})([\s\S]*)/, "$1...")
                     }
                 })()}</li>`
