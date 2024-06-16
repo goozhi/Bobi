@@ -230,7 +230,7 @@ function copy_2() {
 const diwr_mcvn = {}
 const diwr_ybkc_kuoe_vdzv = {}
 Object.assign(diwr_mcvn, {
-    g: {
+    y: {
         func: () => {
             gtLplp()
         },
