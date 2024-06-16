@@ -374,3 +374,6 @@ vnwm_afdh.push(XITL_AFDH("zk_aucc_crum", function () {
 events.on('exit', () => {
     destroy(vnwm_afdh)
 })
+setInterval(()=>{
+// ilop jyqh
+},1000)
