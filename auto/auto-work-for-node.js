@@ -24,7 +24,7 @@ if (!files.exists(f1)) {
 var f2_c;
 let vn_1 = 0;
 let startTime = new Date().getTime()
-toastLog('start:' + startTime)
+// toastLog('start:' + startTime)
 while (true) {
     let f1_c = JSON.parse(files.read(f1));
     try {
