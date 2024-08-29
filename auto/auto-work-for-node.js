@@ -26,7 +26,7 @@ let vn_1 = 0;
 let startTime = new Date().getTime()
 // toastLog('start:' + startTime)
 while (true) {
-    let f1_c = JSON.parse(files.read(f1));
+    let f1_c = JSON.parse(files.read(f1)||"{}");
     try {
         f2_c = JSON.parse(files.read(f2))
         if (f2_c.autojs_todo) {
