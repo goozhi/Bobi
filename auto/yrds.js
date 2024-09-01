@@ -3,6 +3,7 @@ const engines = require('engines');
 const auto = require('app')
 const power_manager = require('power_manager')
 const device = require('device')
+const image = require('image')
 const accessibility = require('accessibility')
 const { delay } = require('lang');
 const { showToast } = require('toast')
@@ -16,6 +17,7 @@ Object.assign(neig, {
     , delay
     , showToast
     , auto
+    , image
 })
 
 if (/QK1711/.test(device.device.fingerprint)) {
