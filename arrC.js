@@ -55,9 +55,9 @@ const arrC = [[['server'], {
     // if the path of other device's file includes 'rsgm',
     // than the target file in rsgm  will be override with the parameter.
 
-    // If the path is new, you should type the param "new"
-    rsgm --url 192.168.43.32:9000/rsgm --figd --new
-    D:/rsgm/file-new.txt
+    // If the path is new, you should type the param "create"
+    rsgm --url 192.168.43.32:9000/rsgm
+    create D:/rsgm/file-new.txt
     `,
     func: rsgm_gzbu
 }], [['jhjh'], {
