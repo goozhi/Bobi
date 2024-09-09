@@ -58,12 +58,23 @@ module.exports = [["tbys"], {
         yxna1
 
         ## tszn tbys rjqt tum paaw eahn 50% (fl eahn 1m nomb 10m nott n .png .jpg .wv_ jtds n rjqt)
-        tbys nikc --eahn_jmaw 50
+        tbys nikc
         zzzz-tbys-dk-nikc
         
         ## eahn ud ja yb tbys yp udao .bak_; ja ce tbys yxna sy lh yb tbys yxna
         tbys nikc --bak
-        tbys-nikc`
+        tbys-nikc
+        
+        ## nikc hqtz mr yxna hqtz n mcvn w xf ww n
+        tbys nikc --ok_ag 222
+        tbys yxna --bak
+        tbys nikc --ce_udao .png
+        
+        ## nmky mcvn n yg
+        ok_ag 1024*1000
+        ok_ar 1024*1000*10
+        ce_udao .enhn.jpg
+        eahn_jmaw 50`
 
     , func: async (user_params, outputs, neig_kp = {}) => {
         if (!user_params.lastParams) {
