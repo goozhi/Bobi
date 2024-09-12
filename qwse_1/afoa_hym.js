@@ -125,7 +125,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
 
                 })()
-                rf_wrvr(bnll_zt.replace(/[,\.'";:?!]/g, ""), rj_cqpi_fr).then(wlyc => {
+                cqpi_wrvr_tsjq(bnll_zt.replace(/[,\.'";:?!]/g, ""), rj_cqpi_fr).then(wlyc => {
                     if (/\S/.test(wlyc)) {
                         ag_zzuy.innerText = wlyc
                         const diwr_tkxb_1 = editor.getCursor()
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 })())
                 .join('\n')
 
-            rf_wrvr(rj_vdzv).then(wlyc => {
+            cqpi_wrvr_tsjq(rj_vdzv).then(wlyc => {
                 const rj1 = wlyc
                     .replace(/^\s*wrvr\s*/i, "")
                 vdumRender(
@@ -229,6 +229,26 @@ function copy_2() {
 
 const diwr_mcvn = {}
 const diwr_ybkc_kuoe_vdzv = {}
+function eowl_bnll_tkxb_bj_usyh_bnll_qh() {
+    const bnll_tkxb = editor.getCursor()
+    editor.setSelection({ line: bnll_tkxb.line, ch: 0 }, { line: bnll_tkxb.line, ch: 999999 })
+    return bnll_tkxb
+}
+function bnll_qh_wrvr_cqpi_mr_jqwl(cqpi_fr) {
+    const bnll_tkxb = eowl_bnll_tkxb_bj_usyh_bnll_qh()
+    const bnll_qh = editor.getSelection()
+    cqpi_wrvr_tsjq(bnll_qh, cqpi_fr).then(wlyc => {
+        if (diwr_ybkc_kuoe_vdzv[bnll_qh]) {
+            editor.replaceSelection(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_qh)
+            editor.setCursor(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_tkxb)
+            delete diwr_ybkc_kuoe_vdzv[bnll_qh]
+        } else {
+            editor.replaceSelection(String(wlyc))
+            diwr_ybkc_kuoe_vdzv[String(wlyc)] = { bnll_tkxb, bnll_qh }
+        }
+    })
+}
+
 Object.assign(diwr_mcvn, {
     y: {
         func: () => {
@@ -297,9 +317,9 @@ Object.assign(diwr_mcvn, {
         leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd\n nq da ye qh zd jyqh ggd lbm dg ab ok ds ye qh."
     }, q: {
         func: () => {
-            editor.setSelection({ line: editor.getCursor().line, ch: 0 }, { line: editor.getCursor().line, ch: 999999 })
+            bnll_qh_wrvr_cqpi_mr_jqwl('wrvr')
         },
-        leun: "us yh bnll qh."
+        leun: "rfrf bnll qh n yhrj xjvx qh lh wrvr."
     }, a: {
         func: () => {
             editor.replaceSelection("(mcvn)=>{\nreturn\n}\n-fdmj-\n")
@@ -314,19 +334,7 @@ Object.assign(diwr_mcvn, {
         leun: "zyvv bnll vdzv dk udcc dk sopc bqeo."
     }, x: {
         func: () => {
-            const bnll_tkxb = editor.getCursor()
-            editor.setSelection({ line: bnll_tkxb.line, ch: 0 }, { line: bnll_tkxb.line, ch: 999999 })
-            const bnll_qh = editor.getSelection()
-            const rj_rfrf_ud = rf_wrvr(bnll_qh).then(wlyc => {
-                if (diwr_ybkc_kuoe_vdzv[bnll_qh]) {
-                    editor.replaceSelection(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_qh)
-                    editor.setCursor(diwr_ybkc_kuoe_vdzv[bnll_qh].bnll_tkxb)
-                    delete diwr_ybkc_kuoe_vdzv[bnll_qh]
-                } else {
-                    editor.replaceSelection(String(wlyc))
-                    diwr_ybkc_kuoe_vdzv[String(wlyc)] = { bnll_tkxb, bnll_qh }
-                }
-            })
+            bnll_qh_wrvr_cqpi_mr_jqwl()
         },
         leun: "rfrf bnll qh."
     }, b: {
@@ -808,7 +816,7 @@ function reg_fs(rj) {
 async function rf_rdeb(rj_kp = "") {
     return await prvd_afoa(`en en\n${rj_kp}`).catch(err => { throw err })
 }
-async function rf_wrvr(rj_kp = "", rj_cqpi_fr = "") {
+async function cqpi_wrvr_tsjq(rj_kp = "", rj_cqpi_fr = "") {
     return await prvd_afoa('wrvr ' + rj_cqpi_fr + '\n' + rj_kp).catch(err => { throw err })
 
 }
@@ -852,7 +860,7 @@ async function prvd_afoa(vdzv_kp) {
         })
 }
 function rfrf_cd_us_eysj(yhrj_eysj) {
-    rf_wrvr(yhrj_eysj).then(wlyc => {
+    cqpi_wrvr_tsjq(yhrj_eysj).then(wlyc => {
         editor.replaceSelection(String(wlyc).trim())
     }).catch(err => console.error(err))
 }
