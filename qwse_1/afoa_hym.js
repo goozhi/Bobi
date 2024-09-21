@@ -228,13 +228,14 @@ function copy_2() {
 }
 
 const diwr_mcvn = {}
-const diwr_ybkc_kuoe_vdzv = {}
+const diwr_ybkc_ggx_ymrg = {}
+const diwr_ybkc_ymrg_vdzv = {}
 function eowl_bnll_tkxb_bj_usyh_bnll_qh() {
     const bnll_tkxb = editor.getCursor()
     editor.setSelection({ line: bnll_tkxb.line, ch: 0 }, { line: bnll_tkxb.line, ch: 999999 })
     return bnll_tkxb
 }
-function bnll_qh_wrvr_cqpi_mr_jqwl(cqpi_fr) {
+function bnll_qh_wrvr_cqpi_mr_jqwl(cqpi_fr, diwr_ybkc_kuoe_vdzv = diwr_ybkc_ggx_ymrg) {
     const bnll_tkxb = eowl_bnll_tkxb_bj_usyh_bnll_qh()
     const bnll_qh = editor.getSelection()
     cqpi_wrvr_tsjq(bnll_qh, cqpi_fr).then(wlyc => {
@@ -317,7 +318,7 @@ Object.assign(diwr_mcvn, {
         leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd\n nq da ye qh zd jyqh ggd lbm dg ab ok ds ye qh."
     }, q: {
         func: () => {
-            bnll_qh_wrvr_cqpi_mr_jqwl('wrvr')
+            bnll_qh_wrvr_cqpi_mr_jqwl('xjvx',diwr_ybkc_ymrg_vdzv)
         },
         leun: "rfrf bnll qh n yhrj xjvx qh lh wrvr."
     }, a: {
