@@ -1,4 +1,6 @@
-
+const vn_smaller = 20000
+const vn_larger = 40000
+let vn_rjqt_arag_syzn = vn_smaller || vn_larger
 let vnwm_tsjq_wu
 const diwr_kuoe_vdzv_ybkc = {}
 fetch('/nwvt-afoa-zzuy')
@@ -318,7 +320,7 @@ Object.assign(diwr_mcvn, {
         leun: "dg ld. example:g_ 5 ggd\n g_ 5 6 ggd\n dg ld nmm qh\nggd\n nq da ye qh zd jyqh ggd lbm dg ab ok ds ye qh."
     }, q: {
         func: () => {
-            bnll_qh_wrvr_cqpi_mr_jqwl('xjvx',diwr_ybkc_ymrg_vdzv)
+            bnll_qh_wrvr_cqpi_mr_jqwl('xjvx', diwr_ybkc_ymrg_vdzv)
         },
         leun: "rfrf bnll qh n yhrj xjvx qh lh wrvr."
     }, a: {
@@ -338,7 +340,32 @@ Object.assign(diwr_mcvn, {
             bnll_qh_wrvr_cqpi_mr_jqwl()
         },
         leun: "rfrf bnll qh."
-    }, b: {
+    }, s: {
+        func: (mcvn) => {
+            if (/smaller/i.test(mcvn)) {
+                vn_rjqt_arag_syzn = vn_smaller
+            } else if (/^\s*ca\s*$/i.test(mcvn)) {
+                vdumRender(JSON.stringify({
+                    vn_rjqt_arag_syzn: vn_rjqt_arag_syzn
+                }))
+            } else if (/larger/i.test(mcvn)) {
+                vn_rjqt_arag_syzn = vn_larger
+            } else {
+                throw new Error('csrf-mcvn acun-' + mcvn)
+            }
+            editor.setValue(editor.getValue().replace(/\s*\bg_\s*.*ggs/, ""))
+
+        },
+        leun: 'di bnll exym hym tyqh syzn.\n## tszn bnll hym cc ah ypfz ar vnwy:\
+        \ng_ larger ggs\
+        \n## tszn bnll hym fj oan ypfz ag vnwy:\
+        \ng_ smaller ggs\
+        \n## caum bnll ah syzn n mcvn:\
+        \ng_ ca ggs \
+        \n## gnoc nmky yg:\
+        \nah ypfz vnwy n aw: smaller'
+    },
+    b: {
         func: () => {
             qi_bnll_eysj_vdzv(rfrf_cd_us_eysj)
         },
@@ -452,7 +479,14 @@ function kuoe_vdzv_xitl(ztfr_kp) {
         } catch (err) {
             alert("kuoe tsjq pc ms.")
             ag_zzuy.innerText = err.message ? err.stack : err
-            alert(err)
+            if (/^\s*csrf-/.test(err.message)) {
+                prvd_afoa('csrf\n' + (err.message || err || 'p ms'))
+                    .then(res => {
+                        alert(res)
+                    }).catch(err => {
+                        alert(err)
+                    })
+            }
         }
         set_kuoe_lg_xbst(false)
         neig.ji_atvn_cqpi = false
@@ -711,7 +745,7 @@ function vdum_rscs(outputs = {}) {
         caju_1.innerHTML = outputs.outputText.split(/\n/)
             .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1.replace(/\\/g, "\\\\")}');vdzv_focus()">nxzv</button><br>`).join('\n')
     } else {
-        if (outputs.outputText.toString().length > 400000) {
+        if (outputs.outputText.toString().length > vn_rjqt_arag_syzn) {
             console.log(outputs.outputText)
             alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
         } else {
