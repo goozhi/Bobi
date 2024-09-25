@@ -757,7 +757,7 @@ function vdum_rscs(outputs = {}) {
 }
 function trl_wdbu(rj_kp) {
     let rj_1 = rj_kp.trimStart()
-    if (/ -p /.test(rj_1)) {
+    if (/-p /.test(rj_1)) {
         neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
     } else {
         if (neig?.wvvy) {
