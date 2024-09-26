@@ -1,5 +1,5 @@
-const vn_smaller = 20000
-const vn_larger = 40000
+const vn_smaller = 200000
+const vn_larger = 400000
 let vn_rjqt_arag_syzn = vn_smaller || vn_larger
 let vnwm_tsjq_wu
 const diwr_kuoe_vdzv_ybkc = {}
@@ -747,7 +747,7 @@ function vdum_rscs(outputs = {}) {
     } else {
         if (outputs.outputText.toString().length > vn_rjqt_arag_syzn) {
             console.log(outputs.outputText)
-            alert(outputs.outputText.toString().length + "jtyj cf ar, rt nq console yh zjhq.")
+            alert(outputs.outputText.toString().length + ">"+vn_rjqt_arag_syzn+";jtyj cf ar, rt nq console yh zjhq.")
         } else {
             vdumRender(outputs.outputText, outputs)
 
