@@ -730,6 +730,9 @@ function vdum_wdbu() {
 function vdum_rscs(outputs = {}) {
     zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
+    if (outputs.w_zhqh_mh_lil || outputs.mb_lil_zhqh) {
+        ag_zzuy.innerText = "tsjq dw zhqh mh lil, mb lil tsjq:\n" + outputs.mb_lil_zhqh
+    }
     if (outputs.ji_ye_hym_html) {
         vdum_2.innerHTML = outputs.outputText
         copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
