@@ -17,6 +17,7 @@ const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
 const outputs_office = require('../office/outputs')
+const outputs_vtn = require('../vtn/outputs')
 const app = new Koa();
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
@@ -276,7 +277,7 @@ app.use(async (ctx, next) => {
             ctx.body = html;
         } else if (ctx.method === 'POST') {
             neig.excmds = [...arrC, ...arrC_en, ...arrC_vtn, ...arrC_office]
-            await commd(ctx.request.body.vdzv, outputs(outputs_office()), neig).then(jtyj_1 => {
+            await commd(ctx.request.body.vdzv, outputs(outputs_office(outputs_vtn())), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
                 .catch(err => {
