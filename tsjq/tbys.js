@@ -7,7 +7,7 @@ class Tbys {
         const neig = Object.assign({ neig_kp }, neig_kp)
         const diwr_tbys = {}
         this.addYxna = (yxna_1, neig_kp = {}) => {
-            const neig_1 = Object.assign({ neig_kp, ok_ag: 1024 * 1000, ok_ar: 1024 * 1000 * 10, enhn_jmaw: 50, ce_udao: '.eahn.jpg' }, neig_kp)
+            const neig_1 = Object.assign({ neig_kp, ok_ag: 1024 * 1000, ok_ar: 1024 * 1000 * 10, eahn_jmaw: 50, ce_udao: '.eahn.jpg' }, neig_kp)
             if (!/^\./.test(neig_1.ce_udao)) {
                 neig_1.ce_udao = "." + neig_1.ce_udao
             }
@@ -24,11 +24,11 @@ class Tbys {
                 }
                 const img = await neig.image.readImage(rn1).catch(err => { throw err });
                 const eahn_ud_yxna = rn1 + neig_tbys.ce_udao
-                await neig.image.writeImage(img, eahn_ud_yxna, neig_tbys.enhn_jmaw).catch(err => { throw err });
+                await neig.image.writeImage(img, eahn_ud_yxna, neig_tbys.eahn_jmaw).catch(err => { throw err });
                 const ud_size = fs.statSync(eahn_ud_yxna).size
                 return {
                     yb_yxna: rn1, eahn_ud_yxna
-                    , w_wd_eahn: true, nvcm: `cd eanh ${ll_size} >>> ${ud_size} : ${rn1} >>> ${eahn_ud_yxna}`
+                    , w_wd_eahn: true, nvcm: `cd eahn ${ll_size} >>> ${ud_size} : ${rn1} >>> ${eahn_ud_yxna}`
                 }
             })
             const vnwm_jtyj = await Promise.all(vnwm_vwdp).catch(err => { throw err })
@@ -48,6 +48,12 @@ module.exports = [["tbys"], {
         yxna1
         yxna2
         yxna3
+        
+        tbys yxna 50
+        yxna1
+        yxna2
+        yxna3
+        
         
         ## tszn ce udao wu
         tbys yxna --ce_udao .eahn.png
@@ -73,12 +79,16 @@ module.exports = [["tbys"], {
         ## nmky mcvn n yg
         ok_ag 1024*1000
         ok_ar 1024*1000*10
-        ce_udao .enhn.jpg
+        ce_udao .eahn.jpg
         eahn_jmaw 50`
 
     , func: async (user_params, outputs, neig_kp = {}) => {
         if (!user_params.lastParams) {
             uzms('csrf-aoao pc lastParams pilh nikc mcvn')
+        }
+        const vn_yhld=user_params._.find(rn1=>/^\d+$/.test(rn1))
+        if(vn_yhld&&!        user_params.eahn_jmaw){
+        user_params.eahn_jmaw=vn_yhld
         }
         function wdbu_atvn_1(diwr_vnwm_nvcm) {
             if (user_params.bak) {
@@ -105,8 +115,8 @@ module.exports = [["tbys"], {
             return diwr_ce
         }
         function mcvn_zhvt(user_params) {
-            // const vnwm_di_iq_pzva = [{ zcch: 'enhn_jmaw' }]
-            return lh_gk_icyg(['enhn_jmaw', 'ok_ag', 'ok_ar', 'ce_udao'], user_params)
+            // const vnwm_di_iq_pzva = [{ zcch: 'eahn_jmaw' }]
+            return lh_gk_icyg(['eahn_jmaw', 'ok_ag', 'ok_ar', 'ce_udao'], user_params)
         }
 
         const diwr_tsjq = {
