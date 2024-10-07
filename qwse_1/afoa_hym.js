@@ -2,6 +2,7 @@ const vn_smaller = 200000
 const vn_larger = 400000
 let vn_rjqt_arag_syzn = vn_smaller || vn_larger
 let vnwm_tsjq_wu
+let theme_zkrs = 'light'
 const diwr_kuoe_vdzv_ybkc = {}
 fetch('/nwvt-afoa-zzuy')
     .then(res => {
@@ -86,11 +87,13 @@ document.addEventListener('DOMContentLoaded', function () {
         lineNumbers: true,
         tabSize: 4,
         lineWrapping: true,
+        // backgroundColor:"#f0f0f0",
         theme: 'monokai' // 设置主题，根据需要选择其他主题
     });
 
     // 调整编辑器大小以填充整个视窗
     editor.setSize('100%', '55%');
+    // editor.setBackgroundColor("#f0f0f0") // soyc
     CodeMirror.on(editor, 'cursorActivity', function () {
     })
     let ji_selection
@@ -346,8 +349,18 @@ Object.assign(diwr_mcvn, {
                 vn_rjqt_arag_syzn = vn_smaller
             } else if (/^\s*ca\s*$/i.test(mcvn)) {
                 vdumRender(JSON.stringify({
-                    vn_rjqt_arag_syzn: vn_rjqt_arag_syzn
+                    vn_rjqt_arag_syzn: vn_rjqt_arag_syzn,
+                    theme: theme_zkrs
                 }))
+            } else if (/t_l_d/i.test(mcvn)) {
+                theme_zkrs = 'little-dark'
+                changeTheme(theme_zkrs)
+            } else if (/t_l/i.test(mcvn)) {
+                theme_zkrs = 'light'
+                changeTheme(theme_zkrs)
+            } else if (/t_d/i.test(mcvn)) {
+                theme_zkrs = 'dark'
+                changeTheme(theme_zkrs)
             } else if (/larger/i.test(mcvn)) {
                 vn_rjqt_arag_syzn = vn_larger
             } else {
@@ -362,8 +375,15 @@ Object.assign(diwr_mcvn, {
         \ng_ smaller ggs\
         \n## caum bnll ah syzn n mcvn:\
         \ng_ ca ggs \
+        \n## light theme syig\
+        \ng_ t_l ggs\
+        \n## dark theme syig\
+        \ng_ t_d ggs\
+        \n## little-dark theme syig\
+        \ng_ t_ld ggs\
         \n## gnoc nmky yg:\
-        \nah ypfz vnwy n aw: smaller'
+        \nah ypfz vnwy n aw: smaller\
+        \n'
     },
     b: {
         func: () => {
@@ -750,7 +770,7 @@ function vdum_rscs(outputs = {}) {
     } else {
         if (outputs.outputText.toString().length > vn_rjqt_arag_syzn) {
             console.log(outputs.outputText)
-            alert(outputs.outputText.toString().length + ">"+vn_rjqt_arag_syzn+";jtyj cf ar, rt nq console yh zjhq.")
+            alert(outputs.outputText.toString().length + ">" + vn_rjqt_arag_syzn + ";jtyj cf ar, rt nq console yh zjhq.")
         } else {
             vdumRender(outputs.outputText, outputs)
 
