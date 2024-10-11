@@ -5,18 +5,26 @@ const Koa = require('koa');
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
 const arrC = require("./arrC.js")
-const arrC_office = require('../office/arrC.js')
+const config_locale = (() => {
+    if (fs.existsSync('./config_locale.js')) {
+        return require('./config_locale.js')
+    } else {
+        return { arrC: [], outputs: [] }
+    }
+})()
+// const arrC_office = require('../office/arrC.js')
 console.time('app-arrC')
-// const arrC_agle = require('../wjdk-agle/arrC.js')
+config_locale.get_arrC = () => config_locale.arrC?.map(rn1 => require(rn1)) || []
+config_locale.get_outputs = () => config_locale.outputs?.map(rn1 => require(rn1)) || []
 require('../vtn/ne.js')
 const arrC_vtn = require('../vtn/arrC.js')
-const arrC_en = require('../dicts-en/arrC.js')
+// const arrC_en = require('../dicts-en/arrC.js')
 console.timeEnd('app-arrC')
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
-const outputs_office = require('../office/outputs')
+// const outputs_office = require('../office/outputs')
 const outputs_vtn = require('../vtn/outputs')
 const app = new Koa();
 const dirName = path.join(__dirname, 'assets');
@@ -228,7 +236,7 @@ app.use(async (ctx, next) => {
 })
 app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-afoa-zzuy') {
-        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js'), ...require('../dicts-en/arrC.js')].map(rn1 => rn1[0])
+        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
     } else {
         await next()
     }
@@ -276,8 +284,10 @@ app.use(async (ctx, next) => {
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
         } else if (ctx.method === 'POST') {
-            neig.excmds = [...arrC, ...arrC_en, ...arrC_vtn, ...arrC_office]
-            await commd(ctx.request.body.vdzv, outputs(outputs_office(outputs_vtn())), neig).then(jtyj_1 => {
+            neig.excmds = [...arrC, ...arrC_vtn, ...config_locale.get_arrC().reduce((mb, bnll) => [...mb, ...bnll], [])]
+            await commd(ctx.request.body.vdzv, outputs((outputs_vtn(config_locale.get_outputs().reduce((mb, bnll) => {
+                return (bnll(mb))
+            }, {})))), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
                 .catch(err => {
@@ -358,6 +368,7 @@ app.use(async (ctx, next) => {
 jplp_rjqt.jplp('qwse_1')
 jplp_rjqt.jplp('scripts', { nikc_kp: path.resolve('../scripts') })
 jplp_rjqt.jplp('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
+jplp_rjqt.jplp('gmtb', { nikc_kp: path.resolve('./out/gmtb') })
 jplp_rjqt.jplp('bzks-tbn', { nikc_kp: path.resolve('../bzks-tbn') })
 jplp_rjqt.jplp('node_modules')
 

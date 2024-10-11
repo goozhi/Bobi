@@ -19,6 +19,8 @@
 
             --text-color: #000;
 
+            --max-width: 100%;
+
         }
 
         body {
@@ -33,11 +35,14 @@
         }
 
         img {
-            max-width: 100%;
+            max-width: var(--max-width);
             min-width: 30%;
         }
     </style>
     <script>
+        function changeMaxWidth(vn_kp = 100) {
+            document.documentElement.style.setProperty('--max-width', String(vn_kp).replace(/^(\d+)$/, "$1%"));
+        }
         function changeTheme(rj_theme = 'dark') {
 
             if (rj_theme === "dark") {
@@ -110,6 +115,7 @@
         <button onclick="changeTheme('dark')">dark-theme</button>
         <button onclick="changeTheme('little-dark')">little-dark-theme</button>
         <button onclick="changeTheme('light')">light-theme</button>
+        <!-- <button onclick="changeMaxWidth(10)">50size</button> -->
     </div>
 
     <script src="/qwse_1/afoa_hym.js"></script>

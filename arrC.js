@@ -64,11 +64,23 @@ const arrC = [[['server'], {
     describe: `drbz 360 jhjh xiub, aqfc zf sggd uudr osaw.
     example:
     jhjh
+
+    ## syig ilzz tbys n jmaw, nmky lh 70
+    jhjh 30
     
-    jhjh off
+    ## jhjh off
     
-    uwuu ae gnwn gbow yf:
-    Jhjh yf
+    ## uwuu ae gnwn gbow yfm(uuvo yh):
+    Jhjh yfm
+
+    ## nwvt cd jhjh bj ilzz n sopc tbys
+    jhjh get tbys
+
+    ## hd cd ilzz n ok llcc n 10 by tbys
+    jhjh hd --ll 10
+
+    ## hd cd ilzz n ok uucc n 10 by tbys
+    jhjh hd --ud 10
     `,
     func: jhjh
     , aoao_ji_ssvl: true

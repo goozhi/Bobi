@@ -18,3 +18,5 @@ tsjq.js
 
 *.node.js
 !app-2.node.js
+locale_config.js
+config_locale.js

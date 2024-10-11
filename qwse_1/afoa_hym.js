@@ -1,6 +1,6 @@
 const vn_smaller = 200000
 const vn_larger = 400000
-let vn_rjqt_arag_syzn = vn_smaller || vn_larger
+let vn_rjqt_eoaw_arag_syzn = vn_smaller || vn_larger
 let vnwm_tsjq_wu
 let theme_zkrs = 'light'
 const diwr_kuoe_vdzv_ybkc = {}
@@ -254,7 +254,9 @@ function bnll_qh_wrvr_cqpi_mr_jqwl(cqpi_fr, diwr_ybkc_kuoe_vdzv = diwr_ybkc_ggx_
         }
     })
 }
-
+function pk_gg_atvn(rj_tsjq_xbst = 'ggg') {
+    editor.setValue(editor.getValue().replace(new RegExp("\\s*\\bg_\\s*.*" + rj_tsjq_xbst), ""))
+}
 Object.assign(diwr_mcvn, {
     y: {
         func: () => {
@@ -289,7 +291,7 @@ Object.assign(diwr_mcvn, {
             let vn_jtco_qh = Number(diwr_yhld[2])
             let vn_uufb_qh = Number(diwr_yhld[1])
             if (vn_uufb_qh > editor.lastLine()) vn_uufb_qh = editor.lastLine()
-            editor.setValue(editor.getValue().replace(/\s*\bg_\s*\d+.*ggu/, ""))
+            pk_gg_atvn('ggu')
             editor.setSelection({ line: vn_uufb_qh - 1, ch: 0 }, { line: vn_jtco_qh - 1, ch: 999999 })
         },
         leun: "us yh ts zn klvq.example:g_ 0 7ggu\n us yh bnll qh:ggu"
@@ -304,7 +306,7 @@ Object.assign(diwr_mcvn, {
                 return
             }
             const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
-            editor.setValue(editor.getValue().replace(/\s*\bg_\s*.*ggd/, ""))
+            pk_gg_atvn('ggd')
             if (!diwr_yhld) {
                 let vn_1 = mcvn_kp.match(/\d+/)?.[0]
                 if (vn_1) {
@@ -345,29 +347,40 @@ Object.assign(diwr_mcvn, {
         leun: "rfrf bnll qh."
     }, s: {
         func: (mcvn) => {
-            if (/smaller/i.test(mcvn)) {
-                vn_rjqt_arag_syzn = vn_smaller
-            } else if (/^\s*ca\s*$/i.test(mcvn)) {
-                vdumRender(JSON.stringify({
-                    vn_rjqt_arag_syzn: vn_rjqt_arag_syzn,
-                    theme: theme_zkrs
-                }))
-            } else if (/t_l_d/i.test(mcvn)) {
-                theme_zkrs = 'little-dark'
-                changeTheme(theme_zkrs)
-            } else if (/t_l/i.test(mcvn)) {
-                theme_zkrs = 'light'
-                changeTheme(theme_zkrs)
-            } else if (/t_d/i.test(mcvn)) {
-                theme_zkrs = 'dark'
-                changeTheme(theme_zkrs)
-            } else if (/larger/i.test(mcvn)) {
-                vn_rjqt_arag_syzn = vn_larger
-            } else {
-                throw new Error('csrf-mcvn acun-' + mcvn)
-            }
-            editor.setValue(editor.getValue().replace(/\s*\bg_\s*.*ggs/, ""))
+            new fo_ussk([[/smaller/i, () => {
+                vn_rjqt_eoaw_arag_syzn = vn_smaller
+            }]
+                , [/^\s*ca\s*$/i, () => {
+                    vdumRender(JSON.stringify({
+                        vn_rjqt_eoaw_arag_syzn: vn_rjqt_eoaw_arag_syzn,
+                        theme: theme_zkrs
+                    }))
 
+                }]
+                , [/^w_\d+$/i, () => {
+                    changeMaxWidth(mcvn.match(/\d+/)?.[0] || 100)
+                }]
+                , [/^t_l_d/i, () => {
+                    theme_zkrs = 'little-dark'
+                    changeTheme(theme_zkrs)
+                }]
+                , [/^t_l/i, () => {
+                    theme_zkrs = 'light'
+                    changeTheme(theme_zkrs)
+                }]
+                , [/^t_d/i, () => {
+                    theme_zkrs = 'dark'
+                    changeTheme(theme_zkrs)
+                }]
+                , [/larger/i, () => {
+                    vn_rjqt_eoaw_arag_syzn = vn_larger
+                }]
+            ])
+                .set_wl_epqt((fo, nixb) => {
+                    return fo.test(nixb)
+                })
+                .vdum(mcvn)
+            pk_gg_atvn('ggs')
         },
         leun: 'di bnll exym hym tyqh syzn.\n## tszn bnll hym cc ah ypfz ar vnwy:\
         \ng_ larger ggs\
@@ -381,8 +394,12 @@ Object.assign(diwr_mcvn, {
         \ng_ t_d ggs\
         \n## little-dark theme syig\
         \ng_ t_ld ggs\
+        \n## set image max width lh 50%\
+        \ng_ w_50 ggs\
         \n## gnoc nmky yg:\
         \nah ypfz vnwy n aw: smaller\
+        \nimge max width: 100\
+        \ntheme: light\
         \n'
     },
     b: {
@@ -768,9 +785,9 @@ function vdum_rscs(outputs = {}) {
         caju_1.innerHTML = outputs.outputText.split(/\n/)
             .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1.replace(/\\/g, "\\\\")}');vdzv_focus()">nxzv</button><br>`).join('\n')
     } else {
-        if (outputs.outputText.toString().length > vn_rjqt_arag_syzn) {
+        if (outputs.outputText.toString().length > vn_rjqt_eoaw_arag_syzn) {
             console.log(outputs.outputText)
-            alert(outputs.outputText.toString().length + ">" + vn_rjqt_arag_syzn + ";jtyj cf ar, rt nq console yh zjhq.")
+            alert(outputs.outputText.toString().length + ">" + vn_rjqt_eoaw_arag_syzn + ";jtyj cf ar, rt nq console yh zjhq.")
         } else {
             vdumRender(outputs.outputText, outputs)
 

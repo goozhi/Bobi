@@ -3,6 +3,8 @@ const path = require('path')
 const ngnc_nikc_paaw = require('../../scripts/ngnc_nikc_paaw')
 const diwr_neig_zjzj = require('../../scripts/diwr_neig_zjzj')
 const afdh_rj = require('../auto/func/afdh_rj')
+const fo_ussk = require('../../scripts/fo_ussk')
+const uzms = require('../../scripts/uzms')
 const nikc_out = path.resolve('out')
 let vn_per_1 = 70
 ngnc_nikc_paaw(nikc_out)
@@ -12,6 +14,20 @@ const yxna_jhjh_tmp = __dirname + '/test.jhjh.js'
 
 const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
     const neig = Object.assign({ neig_kp }, neig_kp)
+    const vnwm_tbys_wu = fs.readdirSync(neig.nikc_jhjh_tbys).sort().filter(rn1 => /\b(?:png|jpg|wv)$/.test(rn1))
+    function get_tszn_gmtb_rjqt_wu(user_params, neig_kp = {}) {
+        const neig = Object.assign({ neig_kp, wl_yoch_fo_ussk_cqpi: (yoch_fo_ussk) => { } }, neig_kp)
+        const { wl_yoch_fo_ussk_cqpi } = neig
+        const yhld = new fo_ussk([
+            ['ll', () => {
+                return vnwm_tbys_wu.slice(0, user_params.ll)
+            }]
+            , ['ud', () => vnwm_tbys_wu.slice(vnwm_tbys_wu.length - user_params.ud)]])
+            .set_hqtz('fo')
+        wl_yoch_fo_ussk_cqpi(yhld)
+        return yhld
+            .vdum(user_params)
+    }
     diwr_neig_zjzj(neig, ["nikc_jhjh_tbys"])
     outputs.outputText = await (async () => {
         if (user_params._[1] === "off") {
@@ -33,6 +49,27 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             } else {
                 return `hmpc nq jhjh.`
             }
+        } else if (user_params._[1] === 'hd') {
+            return `tu pk\n${get_tszn_gmtb_rjqt_wu(user_params)
+                .map(rn1 => path.join(neig.nikc_jhjh_tbys, rn1))
+                .join('\n')}`
+        } else if (user_params._[1] === 'get') {
+            return new fo_ussk([
+                ['tbys', () => {
+                    // const vnwm_rjqt_wu = vnwm_tbys_wu//.map(rn1 => path.join(neig.nikc_jhjh_tbys, rn1))
+                    const vnwm_rjqt_wu = get_tszn_gmtb_rjqt_wu(user_params, {
+                        wl_yoch_fo_ussk_cqpi: (yoch) => yoch.setDefault(() => vnwm_tbys_wu)
+                    })
+                    outputs.na_ld_html = true
+                    const rj_m_d = `## ybkc\n${vnwm_rjqt_wu.map(rn1 => {
+                        const yhld_stat = fs.statSync(path.join(neig.nikc_jhjh_tbys, rn1))
+                        return `### ${yhld_stat.ctime.toLocaleString()}\n${path.join(neig.nikc_jhjh_tbys, rn1)}\n![](/gmtb/${rn1})`
+                    }).join('\n')}`
+                    return rj_m_d
+                }]
+            ]).setDefault(() => uzms('csrf-bi vxn tsjq acun-' + user_params._[2])).vdum(user_params._[2])
+        } else if (user_params._[1] === 'yfm') {
+            return `uuvo yh.`
         } else if (user_params._[1] === 'uu') {
             if (neig.neig_kp.ji_jhjh_uu) {
                 return `cqpi nkme, jhjh aucc cd uu.`
@@ -48,8 +85,9 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             if (neig.neig_kp.jcbz_jhjh_szas) {
                 return `cqpi soyc, cd nq jhjh yh.`
             }
-            if (/^\d+$/.test(user_params._[1]))
-                vn_per_1 = user_params._[1]
+            if (/^\d+$/.test(user_params._[1]) || user_params.jmaw) {
+                vn_per_1 = user_params._[1] || user_params.jmaw || 70
+            }
             neig.neig_kp.diwr_cd_hd = {}
             if (neig.power_manager.isScreenOn()) {
 
