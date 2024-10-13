@@ -404,7 +404,7 @@ Object.assign(diwr_mcvn, {
     },
     b: {
         func: () => {
-            qi_bnll_eysj_vdzv(rfrf_cd_us_eysj)
+            qi_bnll_eysj_vdzv((eysj) => rfrf_cd_us_eysj(eysj, { wl_ra_znzk_wdbu: (eysj) => eysj }), { reg: /(?:[\u4E00-\u9FA5]+|[a-zA-z]+)\s*$/ })
         },
         leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
     }, e: {
@@ -934,16 +934,27 @@ async function prvd_afoa(vdzv_kp) {
             }
         })
 }
-function rfrf_cd_us_eysj(yhrj_eysj) {
-    cqpi_wrvr_tsjq(yhrj_eysj).then(wlyc => {
-        editor.replaceSelection(String(wlyc).trim())
+function rfrf_cd_us_eysj(eysj, neig_kp = { wl_ra_znzk_wdbu: (eysj, ra_znzk_zzuy) => 'ra-znzk' }) {
+    const { wl_ra_znzk_wdbu } = neig_kp
+    cqpi_wrvr_tsjq(eysj).then(wlyc => {
+        const rj = (() => {
+            const yhld = String(wlyc).trim()
+            if (/RA ZNZK/.test(yhld)) {
+                return wl_ra_znzk_wdbu(eysj, yhld)
+            } else {
+                return yhld
+            }
+
+        })()
+        editor.replaceSelection(rj)
     }).catch(err => console.error(err))
 }
 function qi_bnll_yhrj_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
     qi_bnll_vdzv(wlba_ymrg_zl_eysj, /[\u4E00-\u9FA5]+\s*$/)
 }
-function qi_bnll_eysj_vdzv(wlba_ymrg_zl_eysj) {
-    qi_bnll_vdzv(wlba_ymrg_zl_eysj, /[\u4E00-\u9FA5a-zA-z]+\s*$/)
+function qi_bnll_eysj_vdzv(wlba_ymrg_zl_eysj, neig_kp = {}) {
+    const neig = Object.assign({ neig_kp, reg: /[\u4E00-\u9FA5a-zA-z]+\s*$/ }, neig_kp)
+    qi_bnll_vdzv(wlba_ymrg_zl_eysj, neig.reg)
 }
 function qi_bnll_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }, reg_eysj) {
     const diwr_1 = editor.getCursor('from')
