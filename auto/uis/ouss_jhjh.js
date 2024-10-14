@@ -1,7 +1,8 @@
 
 "ui";
 let vn_ms_1 = 0
-let vn_per_1 = 70
+let vn_per_1 = 50
+let vwke_mi = 1
 let workingDirectory = "/sdcard/rsgm/bobi/auto"
 let XITL_AFDH = require(workingDirectory + "/func/XITL_AFDH")
 let destroy = require(workingDirectory + "/func/destroy")
@@ -9,7 +10,7 @@ let nikc_zzzz = "/sdcard/rsgm/bobi/out/gmtb/"
 files.createWithDirs(nikc_zzzz);
 let udao_wu = "jpg"
 let ji_jhjh_szas
-let yxna_atvn_wdbu_tbys = "/sdcard/rsgm/bobi/out/tmp.ouss_jhjh.node.js"
+let yxna_atvn_wdbu_tbys = workingDirectory + "/func/tbys_wdbu.js"
 let nq_jhjh_mr_zzzz_yh
 let rj_atvn_wdbu_tbys = "(function(yxna_tbys){console.log(\"hmpc hsab rj_atvn_wdbu_tbys.\")})(yxna_tbys)"
 var FGH = {
@@ -32,9 +33,9 @@ var FGH = {
 
 
 ui.layout(
-    <vertical>
+    <vertical bg="#333333">
         <frame>
-            <android.view.SurfaceView id="surface" />
+            <android.view.SurfaceView layout_gravity="bottom" id="surface" h="10" />
             <button id="pz" w="auto" h="auto" text="拍照" layout_gravity="bottom|center_horizontal" />
             <button w="auto" h="auto" id="tk" text="tk" layout_gravity="bottom" />
             <progressbar id="search" w="auto" h="auto" layout_gravity="center" />
@@ -49,9 +50,11 @@ ui.run(() => {
 });
 setInterval(() => {
     if (ji_jhjh_szas && !nq_jhjh_mr_zzzz_yh) {
-        ui.pz.click()
+        setTimeout(() => {
+            ui.pz.click()
+        }, vn_ms_1)
     }
-}, 2000);
+}, 1500);
 
 /** Check if this device has a camera */
 function checkCameraHardware(context) {
@@ -144,8 +147,8 @@ mCamera.setOneShotPreviewCallback(new FGH.Camera.PreviewCallback({
 }));
 
 
-
-
+let map_ybkc_img = new Map()
+let vn_yhld
 var mPictureCallback = new FGH.Camera.PictureCallback({
     onPictureTaken: function (data, camera) {
         camera.startPreview();
@@ -161,19 +164,72 @@ var mPictureCallback = new FGH.Camera.PictureCallback({
         //resource.recycle();
         nq_jhjh_mr_zzzz_yh = true
         let img = images.fromBytes(data);
-
         //保存图片用的时间太长了。
         let yxna_tbys = nikc_zzzz + (new Date().getTime()) + "." + udao_wu
-        images.save(img, yxna_tbys, udao_wu, vn_per_1);
-        img.recycle();
+        if (vwke_mi === undefined) {
+            console.error('vwke mi lh undefined')
+            vwke_mi = 0
+        }
+        const vnwm_map_yhld = []
+        map_ybkc_img.forEach(rn1 => vnwm_map_yhld.push(rn1))
+        const vnwm_yhld = vnwm_map_yhld.map(rn1 => rn1.hpmi)
+        function checkLast(vnwm_hpmi) {
+            vnwm_hpmi.sort()
+            const last_vn = vnwm_hpmi[vnwm_hpmi.length - 1]
+            const uufb_vn = vnwm_hpmi[0]
+            return Math.abs(last_vn - uufb_vn) > (uufb_vn + last_vn) / (30 + (40 * vwke_mi))
+        }
+        const vbyt_1 = checkSequence(vnwm_yhld)
+        new Map()
+            .set('increasing-or-decreasing', (vnwm_hpmi) => {
+                if (checkLast(vnwm_hpmi)) {
+                    map_ybkc_img.forEach((rn1, key) => {
+                        images.save(rn1.img, key, udao_wu, 100)
+                    })
+                } else {
+                    // stable vnwy
+                }
+                console.log("inc or dec size", map_ybkc_img.size, vnwm_map_yhld.length)
+
+                map_ybkc_img.forEach(rn1 => rn1.img.recycle())
+                map_ybkc_img.clear()
+            })
+            .set('stable', () => {
+                console.log("stable size", map_ybkc_img.size)
+
+                map_ybkc_img.forEach(rn1 => rn1.img.recycle())
+                map_ybkc_img.clear()
+            })
+            .set('too-short', () => {
+                console.log("too short size", map_ybkc_img.size)
+            })
+
+            .forEach((rn1, key) => {
+                if (vbyt_1.rj_xbst === key) {
+                    rn1(vbyt_1.data)
+                }
+            })
+        map_ybkc_img.set(yxna_tbys, { img: img, hpmi: data.length })
+
+        // if (Math.abs(vn_yhld - data.length) > (vn_yhld + data.length) / (10 + (30 * vwke_mi))) {
+        //     setTimeout(() => {
+        //         images.save(img, yxna_tbys, udao_wu, 100);
+        //         img.recycle();
+        //     }, 1000)
+        // } else {
+        //     // console.log(vn_yhld, data.length, [Math.abs(vn_yhld - data.length), (vn_yhld + data.length) / 10])//
+        // }
+        // vn_yhld = data.length
         //mCamera.stopPreview();
-        toastLog("图片保存成功");
-        files.write(yxna_atvn_wdbu_tbys, rj_atvn_wdbu_tbys.replace(/\)\s*\(yxna_tbys\)/, ")(\"" + yxna_tbys + "\")"))
-        engines.execScriptFile(yxna_atvn_wdbu_tbys)
+        // toastLog("图片保存成功");
+        // files.write(yxna_atvn_wdbu_tbys, rj_atvn_wdbu_tbys.replace(/\)\s*\(yxna_tbys\)/, ")(\"" + yxna_tbys + "\")"))
+        // toastLog(rj_atvn_wdbu_tbys)
+
+        // engines.execScriptFile(yxna_atvn_wdbu_tbys, { arguments: { vwke_mi: vwke_mi || 0, yxna_tbys: yxna_tbys } })
         setTimeout(
             function () {
                 nq_jhjh_mr_zzzz_yh = false
-            }, 1000)
+            }, 500 + vn_ms_1)
         //camera.startPreview();          
         ui.run(() => {
             ui.search.setVisibility(8);
@@ -240,6 +296,9 @@ Camera = FGH.Camera
 //let camera=Camera.open()
 let camera = mCamera
 parameters = camera.getParameters()
+// parameters.setPictureSize(400, 400)
+parameters.setJpegQuality(vn_per_1)
+camera.setParameters(parameters)
 
 importPackage(android.content)
 let vnwm_afdh = []
@@ -257,9 +316,14 @@ vnwm_afdh.push(XITL_AFDH("jhjh_szas", function (context, intent, data) {
         return 'cqpi nkme. jhjh cd nq szas yh.'
     } else {
         ji_jhjh_szas = true
-                yxna_atvn_wdbu_tbys = data.yxna_atvn_wdbu_tbys || yxna_atvn_wdbu_tbys
+        yxna_atvn_wdbu_tbys = data.yxna_atvn_wdbu_tbys || yxna_atvn_wdbu_tbys
         vn_ms_1 = data.delayMs || vn_ms_1
-        vn_per_1 = data.per || vn_per_1
+        if (data.ac_eahn) {
+            vn_per_1 = 100
+        } else {
+            vn_per_1 = data.per || vn_per_1
+        }
+        vwke_mi = data.vwke_mi || vwke_mi
         udao_wu = data.udao_wu || udao_wu
         rj_atvn_wdbu_tbys = data.rj_atvn_wdbu_tbys || rj_atvn_wdbu_tbys
 
@@ -293,4 +357,35 @@ function tk(mode) {
     if (mode != "tk_off") parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH)
     else parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
     camera.setParameters(parameters);
+}
+
+
+function checkSequence(data) {
+    const rj_xbst = (() => {
+        if (!Array.isArray(data) || data.length < 3) {
+            return 'too-short';
+        }
+        let increasing = true;
+        let decreasing = true;
+
+        for (let i = 1; i < data.length; i++) {
+            if (data[i] > data[i - 1]) {
+                decreasing = false;
+            } else if (data[i] < data[i - 1]) {
+                increasing = false;
+            }
+            if (!increasing && !decreasing) {
+                return 'stable';
+            }
+        }
+
+        if (increasing || decreasing) {
+            return 'increasing-or-decreasing';
+            // } else if (decreasing) {
+            //     return 'decreasing';
+        } else {
+            return 'stable';
+        }
+    })()
+    return { rj_xbst: rj_xbst, data: data }
 }
