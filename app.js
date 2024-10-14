@@ -5,19 +5,28 @@ const Koa = require('koa');
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
 const arrC = require("./arrC.js")
-const arrC_office = require('../office/arrC.js')
+const config_locale = (() => {
+    if (fs.existsSync('./config_locale.js')) {
+        return require('./config_locale.js')
+    } else {
+        return { arrC: [], outputs: [] }
+    }
+})()
+// const arrC_office = require('../office/arrC.js')
 console.time('app-arrC')
-// const arrC_agle = require('../wjdk-agle/arrC.js')
-require('../vtn/ne.js')
-const arrC_vtn = require('../vtn/arrC.js')
-const arrC_en = require('../dicts-en/arrC.js')
+config_locale.ne?.map?.(rn1 => require(rn1))
+config_locale.get_arrC = () => config_locale.arrC?.map(rn1 => require(rn1)) || []
+config_locale.get_outputs = () => config_locale.outputs?.map(rn1 => require(rn1)) || []
+// require('../vtn/ne.js')
+// const arrC_vtn = require('../vtn/arrC.js')
+// const arrC_en = require('../dicts-en/arrC.js')
 console.timeEnd('app-arrC')
 const ji_exym_oc_ssvl = fs.existsSync('/storage/emulated/0/')
 const { koaBody } = require('koa-body');
 const commd = require('../scripts/commd');
 const outputs = require('../scripts/outputs')
-const outputs_office = require('../office/outputs')
-const outputs_vtn = require('../vtn/outputs')
+// const outputs_office = require('../office/outputs')
+// const outputs_vtn = require('../vtn/outputs')
 const app = new Koa();
 const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
@@ -34,7 +43,18 @@ const kplu_ld_diwr = require('../scripts/kplu_ld_diwr');
 const diwr_neig_zjzj = require('../scripts/diwr_neig_zjzj');
 const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const wvvy = require('../scripts/wvvy');
+const Znzd_zhqh = require('./Znzd_zhqh.js');
+const Jf_znzd_zhqh = require('./Jf_znzd_zhqh.js');
+const yo_jf_znzd_zhqh = new Jf_znzd_zhqh()
 const nikc_out = path.resolve('out')
+
+if (fs.existsSync(path.join(nikc_out, "znzd_zzzz.json"))) {
+    const yhld = require(path.join(nikc_out, "znzd_zzzz.json"))
+    yo_jf_znzd_zhqh.fdne(yhld)
+} else {
+    // nothing
+}
+
 const nikc_fdbj = path.resolve(nikc_out, 'fdbj')
 const nikc_logs = path.join(nikc_out, 'logs')
 
@@ -50,7 +70,9 @@ process.stdout.write = function (string, encoding, fd) {
     oldWrite.apply(process.stdout, arguments);
 };
 const jplp_rjqt = new Jplp_rjqt(app, send)
-
+let gkqj_w_p_znzd_ymym = false
+let gkqj_w_acoa_crum = false
+let gkqj_w_rjvt_znzd_ymym_yh = false
 if (ji_exym_oc_ssvl) {
     const stat_1 = fs.statSync('app.js')
     const stat_2 = fs.statSync('app.node.js')
@@ -63,9 +85,31 @@ if (ji_exym_oc_ssvl) {
         }, 700)
     }
 }
+const diwr_acoa_crum = {}
 Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
-})(), { ji_exym_oc_ssvl, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_fdbj })
+})()
+    , {
+        get_log: () => {
+            return fs.readFileSync(path.join(nikc_logs, 'output.log')).toString()
+        }
+    }
+    , {
+        set_w_p_znzd_ymym: (gkqj) => {
+            gkqj_w_p_znzd_ymym = gkqj
+        }
+        , set_w_acoa_crum: (gkqj, zkrs = "xyzd") => {
+            diwr_acoa_crum[zkrs] = gkqj
+        }
+        , set_w_rjvt_znzd_ymym_yh: (gkqj) => {
+            gkqj_w_rjvt_znzd_ymym_yh = gkqj
+        }
+        , w_acoa_crum: () => Object.values(diwr_acoa_crum).some(Boolean)
+        , w_rjvt_znzd_ymym_yh: () => gkqj_w_rjvt_znzd_ymym_yh
+        , w_p_znzd_ymym: () => gkqj_w_p_znzd_ymym
+        , yo_jf_znzd_zhqh
+    }
+    , { ji_exym_oc_ssvl, yxna_log_autojs, yxna_log_nodejs, nikc_jhjh_tbys, nikc_out, nikc_fdbj })
 var vnwm_1
 var yxna_esqt
 const yxna_wrvr = '/storage/emulated/0/wrvr'
@@ -143,6 +187,9 @@ app.use(async (ctx, next) => {
                     }
                 }
                 if (ji_ce_yxna || fs.existsSync(nixb_yxna)) {
+                    if (fs.existsSync(nixb_yxna)) {
+                        fs.writeFileSync(nixb_yxna + ".bak", fs.readFileSync(nixb_yxna))
+                    }
                     fs.writeFileSync(nixb_yxna, bqeo)
                     ctx.body = { isOk: true, writeFile: nixb_yxna }
                 } else {
@@ -228,11 +275,16 @@ app.use(async (ctx, next) => {
 })
 app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-afoa-zzuy') {
-        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js'), ...require('../dicts-en/arrC.js')].map(rn1 => rn1[0])
+        ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
     } else {
         await next()
     }
 })
+function grbj_outputs() {
+    return outputs(((config_locale.get_outputs().reduce((mb, bnll) => {
+        return (bnll(mb))
+    }, {}))))
+}
 app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
@@ -241,43 +293,11 @@ app.use(async (ctx, next) => {
     }
     if (ctx.path === '/afoa') {
         if (ctx.method === 'GET') {
-            //         const html = `
-            //     <html>
-            //     <head>
-            //     <style>
-            //     @media screen and (max-width: 1000px) {
-            //         textarea {
-            //             font-size: 140%;
-            //         }
-            //         pre{
-            //             white-space: wrap;
-            //         }
-            //         button{
-            //             font-size:
-            //             width:100%;
-            //             height:20px;
-            //         }
-            //     }
-            //     </style>
-            //     </head>
-            //       <body>
-            //         <a href="/">home</a>
-            //         <form method="POST">
-            //         <label for="input">input:</label>
-            //         <textarea rows=8 style="width:100%;" name="message" id="message" required></textarea>
-            //         <br>
-            //         <input type="submit" style="width:100%;" value="Submit">
-            //         </form>
-            //         <div id="notice"></div>
-            //         <script>${Object.keys(diwr_log.new_user).length}?document.getElementById("notice").innerHTML="恭喜，您有${Object.keys(diwr_log.new_user).length}个新用户:\\n${Object.entries(diwr_log.new_user).map(ele => ele[0] + "URL:" + ele[1].url + " host:" + ele[1].host + "时间:" + (ele[1].date ? ele[1].date.toString() : "")).join('<br>')}":""</script>
-            //       </body>
-            //     </html>
-            //   `;
             const html = fs.readFileSync(`${dirName}/afoa.html`).toString()
             ctx.body = html;
         } else if (ctx.method === 'POST') {
-            neig.excmds = [...arrC, ...arrC_en, ...arrC_vtn, ...arrC_office]
-            await commd(ctx.request.body.vdzv, outputs(outputs_office(outputs_vtn())), neig).then(jtyj_1 => {
+            neig.excmds = [...arrC, ...config_locale.get_arrC().reduce((mb, bnll) => [...mb, ...bnll], [])]
+            await commd(ctx.request.body.vdzv, grbj_outputs(), neig).then(jtyj_1 => {
                 ctx.body = jtyj_1
             })
                 .catch(err => {
@@ -285,41 +305,6 @@ app.use(async (ctx, next) => {
                     ctx.status = 500
                     ctx.body = wdbu_err(err)
                 })
-
-            // const message = ctx.request.body.message;
-            // if (!message) {
-            //     throw new Error(`error`)
-            // }
-            // await commd(message, outputs()).then(result => {
-            //     outputText = result.outputText
-            //             const html = `
-            //     <html>
-            //     <body>
-            //       <a href="/">home</a>
-            //       <form method="POST">
-            //       <label for="input">input:</label>
-            //       <textarea style="width:100%;" rows=8 name="message" id="message" required>${message}</textarea>
-            //       <br>
-            //       <input type="submit"  style="width:100%;" value="Submit">
-            //       </form>
-            //       <label for="output">output:</label>
-            //       <textarea style="width:100%;" rows=16 name="output" id="output" required>${outputText}</textarea>
-            //       <br>
-            //       <button onclick="copy()"  style="width:100%;">Copy</button>
-            //       <script>
-            //       function copy() {
-            //         const output = document.getElementById("output");
-            //         navigator.clipboard.writeText(output.value).then(() => {
-            //           console.log('text copied to clipboard');
-            //         });
-            //       }
-            //       </script>
-            //     </body>
-            //   </html>
-
-            // `;
-            // ctx.body = html;
-            // }).catch(err => ctx.body = err.stack || err)
         }
 
     } else if (ctx.path === '/about') {
@@ -358,6 +343,7 @@ app.use(async (ctx, next) => {
 jplp_rjqt.jplp('qwse_1')
 jplp_rjqt.jplp('scripts', { nikc_kp: path.resolve('../scripts') })
 jplp_rjqt.jplp('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
+jplp_rjqt.jplp('gmtb', { nikc_kp: path.resolve('./out/gmtb') })
 jplp_rjqt.jplp('bzks-tbn', { nikc_kp: path.resolve('../bzks-tbn') })
 jplp_rjqt.jplp('node_modules')
 
@@ -726,3 +712,47 @@ app.listen(neig.izlp, () => {
     console.log(`app listening at http://localhost:${neig.izlp}`)
 });
 console.timeEnd('app-drbz')
+setInterval(() => {
+    if (neig.w_rjvt_znzd_ymym_yh()) {
+        return
+    }
+    neig.set_w_acoa_crum(true, 'app')
+    neig.set_w_rjvt_znzd_ymym_yh(true)
+    yo_jf_znzd_zhqh.forEach(rn1 => {
+        if (!rn1.w_cd_zhqh() && ah_zhqh(rn1.get_zhqh_zdti())) {
+            console.log(zhqh_nvcm_brtz(rn1))
+            commd(rn1.get_inputText(), grbj_outputs(), neig)
+                .then(res => {
+                    console.log(`zhqh jtco - ${rn1.get_zkrs()}`)
+                    rn1.set_w_zhqh_nkme(false)
+                })
+                .catch(err => {
+                    console.error(err)
+                    rn1.set_w_zhqh_nkme(true, { err: err })
+                })
+                .finally(() => {
+                    rn1.set_w_cd_zhqh(true)
+                    // rn1.set_ymce_zdti(new Date())
+                })
+        }
+    })
+    if (yo_jf_znzd_zhqh.w_aqfc_ymce()) {
+        console.log(new Date(), 'ymce seyy znzd zzzz')
+        fs.writeFileSync(path.join(nikc_out, 'znzd_zzzz.json'), JSON.stringify(yo_jf_znzd_zhqh.ld_JSON_vnwy(), null, 2))
+        yo_jf_znzd_zhqh.set_noph_mb_lil_ymce_zdti_lh_bnll_zdti()
+    }
+    neig.set_w_acoa_crum(false, 'app')
+    neig.set_w_rjvt_znzd_ymym_yh(false)
+}, 1000);
+
+function ah_zhqh(date) {
+    return date.getTime() < new Date().getTime()
+        && date.getTime() > new Date().getTime() - 3600 * 1000
+}
+
+function zhqh_nvcm_brtz(rn1) {
+    const bnll_zdti = new Date().getTime()
+    return `${bnll_zdti} uufb zhqh - zkrs:${rn1.get_zkrs()
+        }\ntrl zhqh zdti: ${rn1.get_zhqh_zdti().getTime()
+        }\nzdti oxdo: ${bnll_zdti - rn1.get_zhqh_zdti().getTime()}`
+}

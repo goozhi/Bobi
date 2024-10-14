@@ -50,6 +50,7 @@ const arrC = [[['server'], {
 }], [['rsgm'], {
     describe: `make the rsgm's file same with the other device.
     example:
+    ## before override the path, rsgm will backup it.
     rsgm --url 192.168.43.32:9000/rsgm
     D:/rsgm/file.txt
     // if the path of other device's file includes 'rsgm',
@@ -64,11 +65,37 @@ const arrC = [[['server'], {
     describe: `drbz 360 jhjh xiub, aqfc zf sggd uudr osaw.
     example:
     jhjh
+
+    ## syig ilzz tbys n jmaw, nmky lh 70
+    jhjh 30
+    ae
+    jhjh --jmaw 30
+
+    ## syig vwke mi (vbyt tbys gtfs n vwke mi)
+    jhjh --vwke_me 0.7 --lclc nmky-0.5
+
+    ## jhjh bj cmfa rsgm ac eahn tbys
+    jhjh --ac_eahn
+
+    ## jhjh tiqe zdti
+    jhjh --delayMs 100 --lclc nmky-0ms
+
+    ## get tbys vnaw
+    jhjh get tbys_vnaw
     
-    jhjh off
+    ## jhjh off
     
-    uwuu ae gnwn gbow yf:
-    Jhjh yf
+    ## uwuu ae gnwn gbow yfm(uuvo yh):
+    Jhjh yfm
+
+    ## nwvt cd jhjh bj ilzz n sopc tbys
+    jhjh get tbys
+
+    ## hd cd ilzz n ok llcc n 10 by tbys
+    jhjh hd --ll 10
+
+    ## hd cd ilzz n ok uucc n 10 by tbys
+    jhjh hd --ud 10
     `,
     func: jhjh
     , aoao_ji_ssvl: true
@@ -94,8 +121,13 @@ const arrC = [[['server'], {
 }], [['crum'], {
     describe: `reset the phone.
     example
-    crum`,
+    crum
+    crum --force`,
     func: async (_, outputs = {}, neig) => {
+        if (!_.force && neig.w_acoa_crum()) {
+            outputs.outputText = 'can not crum now.'
+            return
+        }
         outputs.outputText = `lzdr yh...`
         setTimeout(() => {
             process.exit()

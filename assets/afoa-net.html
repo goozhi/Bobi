@@ -13,7 +13,19 @@
     <!-- 引入CodeMirror JavaScript语言模式（这里是JavaScript） -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.9/mode/javascript/javascript.min.js"></script> -->
     <style>
+        :root {
+
+            --bg-color: #f0f0f2;
+
+            --text-color: #000;
+
+            --max-width: 100%;
+
+        }
+
         body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
             width: 100%;
             height: 100vh;
             margin: 0;
@@ -23,10 +35,37 @@
         }
 
         img {
-            max-width: 100%;
+            max-width: var(--max-width);
             min-width: 30%;
         }
     </style>
+    <script>
+        function changeMaxWidth(vn_kp = 100) {
+            document.documentElement.style.setProperty('--max-width', String(vn_kp).replace(/^(\d+)$/, "$1%"));
+        }
+        function changeTheme(rj_theme = 'dark') {
+
+            if (rj_theme === "dark") {
+
+                document.documentElement.style.setProperty('--bg-color', '#333');
+
+                document.documentElement.style.setProperty('--text-color', '#fff');
+
+            } else if (rj_theme === 'little-dark') {
+                document.documentElement.style.setProperty('--bg-color', '#aaaaaa');
+
+                document.documentElement.style.setProperty('--text-color', '#fff');
+
+            } else {
+
+                document.documentElement.style.setProperty('--bg-color', '#f0f0f2');
+                // document['code-editor'].style.setProperty('background-color', "#f0f0f2")
+                document.documentElement.style.setProperty('--text-color', '#000');
+
+            }
+
+        }
+    </script>
 </head>
 
 <body>
@@ -36,7 +75,7 @@
         <!-- <button onclick="document.getElementById('vdum_btn').click()" style="width: 90%;">vdum</button> -->
     </div>
     <code style="margin-left:10%;" id="ag_zzuy"></code>
-    <textarea id="code-editor"></textarea>
+    <textarea style="background-color: #f0f0f2;" id="code-editor"></textarea>
     <div id="frih_bx" style="display: flex;height:1.5em;overflow-y: auto;">
 
         <button style="width: 5em;">$</button>
@@ -74,6 +113,10 @@
     </div>
     <div>
         <a href="/">go home</a>
+        <button onclick="changeTheme('dark')">dark-theme</button>
+        <button onclick="changeTheme('little-dark')">little-dark-theme</button>
+        <button onclick="changeTheme('light')">light-theme</button>
+        <!-- <button onclick="changeMaxWidth(10)">50size</button> -->
     </div>
 
     <script src="/qwse_1/afoa_hym.js"></script>

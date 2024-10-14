@@ -86,9 +86,9 @@ module.exports = [["tbys"], {
         if (!user_params.lastParams) {
             uzms('csrf-aoao pc lastParams pilh nikc mcvn')
         }
-        const vn_yhld=user_params._.find(rn1=>/^\d+$/.test(rn1))
-        if(vn_yhld&&!        user_params.eahn_jmaw){
-        user_params.eahn_jmaw=vn_yhld
+        const vn_yhld = user_params._.find(rn1 => /^\d+$/.test(rn1))
+        if (vn_yhld && !user_params.eahn_jmaw) {
+            user_params.eahn_jmaw = vn_yhld
         }
         function wdbu_atvn_1(diwr_vnwm_nvcm) {
             if (user_params.bak) {
@@ -148,7 +148,7 @@ module.exports = [["tbys"], {
             uzms('csrf-tsjq acun-' + user_params._[1])
         }
     }
-
+    // , aoao_ji_ssvl: true
 }]
 
 function eahn_tbys(yxna) {
