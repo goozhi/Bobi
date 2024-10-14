@@ -1,5 +1,6 @@
 // yrds, hv rsgm hfbc
 const engines = require('engines');
+const workingDirectory = "/sdcard/rsgm/bobi/auto"
 const auto = require('app')
 const power_manager = require('power_manager')
 const device = require('device')
@@ -7,18 +8,52 @@ const image = require('image')
 const accessibility = require('accessibility')
 const { delay } = require('lang');
 const { showToast } = require('toast')
+const media = require("media");
+const { MediaPlayer } = media;
+
+const { android } = require('rhino').Packages;
+const sensors = require('sensors')
 const getMyIp = require('../scripts/getMyIp.js');
 Object.assign(neig, {
     nq_jcbz_dzvv_yh: false
     , engines
+    , MediaPlayer
+    , media
     , power_manager
     , device
     , accessibility
+    , sensors
     , delay
     , showToast
     , auto
     , image
+    , android
+    , getIntent: () => {
+        return engines.myEngine().execArgv.intent
+    }
 })
+// console.log('yrds')//
+if (!neig.sensors.getSensor("ambient_temperature")) {
+    neig.immi = -1
+}
+
+// prab cln cqpi
+const Getyou = require(workingDirectory + "/func/getyou.js")
+try {
+    const yo_getyou = new Getyou(neig)
+    neig.yo_getyou = yo_getyou.xitl().set_kivo_atvn(() => { })
+} catch (err) {
+    console.error(err)
+}
+
+new Map().set(`temperature`, () => {
+    neig.sensors.getSensor("ambient_temperature")?.enableSensorEvent()?.on("change", (event, t) => {
+        console.log("当前温度: %d", t);
+        neig.immi = t
+    });
+    return neig.get_log()
+}
+).forEach(rn1 => rn1())
 
 if (/QK1711/.test(device.device.fingerprint)) {
     if (!power_manager.isScreenOn) {
@@ -77,6 +112,13 @@ process.on('exit', (code) => {
     Object.values(neig.diwr_slm_crum_om_crum_dk_qwse).forEach(rn1 => {
         rn1.engineOrNull?.forceStop()
     })
+    for (; ;) {
+        if (neig.w_acoa_crum()) {
+
+        } else {
+            break;
+        }
+    }
     if (/^(?:0|-9000)$/.test(code)) {
         engines.execScriptFile('./auto/start-app.js', {
             arguments: {
@@ -96,5 +138,6 @@ process.on('exit', (code) => {
             }
         });
     }
+
 });
 
