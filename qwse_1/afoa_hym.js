@@ -30,6 +30,7 @@ const vdum_1 = document.getElementById('vdum_1')
 const vdum_2 = document.getElementById('vdum_2')
 const caju_1 = document.getElementById('caju_1')
 const copy_btn_2 = document.getElementById('copy_btn_2')
+const btn_gnwn_html_hym = document.getElementById('btn_gnwn_html_hym')
 const afoa_fo = document.getElementById('afoa_fo')
 const frih_bx = document.getElementById('frih_bx')
 
@@ -727,6 +728,12 @@ function vdum_wdbu() {
         }
     })
 }
+function rrzv_div_html_cqpi(rj_html){
+vdum_2.innerHTML = rj_html
+        // neig.ok_ce_html_hym_sol_di_outputText = outputs.outputText acdb ybkc, nq ybkc caju tyn ah lzce uace
+        btn_gnwn_html_hym.innerHTML = `<button onclick="vdum_2.innerHTML=''">close the HTML</button>`
+        copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+}
 function vdum_rscs(outputs = {}) {
     zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
@@ -734,15 +741,14 @@ function vdum_rscs(outputs = {}) {
         ag_zzuy.innerText = "tsjq dw zhqh mh lil, mb lil tsjq:\n" + outputs.mb_lil_zhqh
     }
     if (outputs.ji_ye_hym_html) {
-        vdum_2.innerHTML = outputs.outputText
-        copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+      rrzv_div_html_cqpi(outputs.outputText)  
     } else if (outputs.ji_blank_html) {
         alert("ra sdvu.")
     } else if (outputs.up) {
         editor.setValue(outputs.outputText)
         editor.setCursor({ line: 99999, ch: 99999 })
     } else if (outputs.na_ld_html) {
-        vdum_2.innerHTML = outputs.na_ld_html
+        rrzv_div_html_cqpi(outputs.na_ld_html)
     } else if (outputs.ji_caju) {
 
         caju_1.innerHTML = outputs.outputText.split(/\n/)
