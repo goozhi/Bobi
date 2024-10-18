@@ -1,4 +1,3 @@
-// yrds, hv rsgm hfbc
 const engines = require('engines');
 const workingDirectory = "/sdcard/rsgm/bobi/auto"
 const auto = require('app')
@@ -16,6 +15,7 @@ const sensors = require('sensors')
 const getMyIp = require('../scripts/getMyIp.js');
 Object.assign(neig, {
     nq_jcbz_dzvv_yh: false
+    , set_running_ids: new Set()
     , engines
     , MediaPlayer
     , media
@@ -55,12 +55,13 @@ new Map().set(`temperature`, () => {
 }
 ).forEach(rn1 => rn1())
 
-if (/QK1711/.test(device.device.fingerprint)) {
+if (true || /QK1711|Xiao[Mm]i/.test(device.device.fingerprint)) {
     if (!power_manager.isScreenOn) {
         power_manager.wakeUp()
     }
     engines.execScriptFile('./auto/drbz-so-crmh.js')
 }
+neig.set_running_ids.add($autojs.keepRunning())
 const execution = engines.execScriptFile('./auto/auto-work-for-node.js', {
     arguments: {
         serverEngineId: engines.myEngine().id,
@@ -112,6 +113,7 @@ process.on('exit', (code) => {
     Object.values(neig.diwr_slm_crum_om_crum_dk_qwse).forEach(rn1 => {
         rn1.engineOrNull?.forceStop()
     })
+    neig.set_running_ids.forEach(rn1 => $autojs.cancelKeepRunning(rn1))
     for (; ;) {
         if (neig.w_acoa_crum()) {
 
