@@ -67,12 +67,13 @@ const arrC = [[['server'], {
     jhjh
 
     ## syig ilzz tbys n jmaw, nmky lh 70
-    jhjh 30
-    ae
-    jhjh --jmaw 30
+    jhjh --jmaw 70
 
     ## syig vwke mi (vbyt tbys gtfs n vwke mi)
-    jhjh --vwke_me 0.7 --lclc nmky-0.5
+    jhjh --vwke_mi 0.7
+
+    ## syig jhsf zc(0-100)
+    jhjh --jhsf_zc 70
 
     ## jhjh bj cmfa rsgm ac eahn tbys
     jhjh --ac_eahn
@@ -82,7 +83,12 @@ const arrC = [[['server'], {
 
     ## get tbys vnaw
     jhjh get tbys_vnaw
-    
+
+    ## get yeaq mcvn
+    jhjh get vwke_mi
+    jhjh get jmaw
+    jhjh get mcvn
+
     ## jhjh off
     
     ## uwuu ae gnwn gbow yfm(uuvo yh):
