@@ -8,9 +8,8 @@ const yo_afdh_cqpi = new Afdh_cqpi()
 const fo_ussk = require('../../scripts/fo_ussk')
 const uzms = require('../../scripts/uzms')
 const ussk_cqpi = require('../../scripts/ussk_cqpi')
+const diwr_pzva_ussk_ss_zhvt = require('../../scripts/diwr_pzva_ussk_ss_zhvt')
 const nikc_out = path.resolve('out')
-let vn_per_1 = 70
-let vwke_mi = 0.5
 ngnc_nikc_paaw(nikc_out)
 let ji_nq_jhjh = false
 
@@ -35,6 +34,31 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
     }
     diwr_neig_zjzj(neig, ["nikc_jhjh_tbys"])
     outputs.outputText = await (async () => {
+        const rssh = async () => {
+            if (neig.power_manager.isScreenOn() && !$autojs.androidContext.getSystemService("keyguard").isKeyguardLocked()) {
+                // do nothing
+            } else {
+                neig.power_manager.wakeUp();
+                // if (!/1711/.test(neig.device.device.fingerprint)) {
+                if (!neig.accessibility.accessibility.enabled) {
+                    return { isOk: false, reason: `Hmpc so crmh osaw. Ssvl cd sh kim. Rt gd rssh.` }
+                } else {
+                    await neig.delay(1000).catch(err => { throw err })
+                    // await neig.accessibility.longClick(500, 1800, 1000)
+                    await neig.accessibility.swipe(500, 1800, 500, 500, 230).catch(err => { throw err })
+                    await neig.delay(1000)
+                    if ($autojs.androidContext.getSystemService("keyguard").isKeyguardLocked()) {
+                        await neig.accessibility.swipe(500, 1800, 500, 500, 230).catch(err => { throw err })
+                    }
+                    await neig.delay(1000)
+                }
+            }
+            if ($autojs.androidContext.getSystemService("keyguard").isKeyguardLocked()) {
+                return { isOk: falsse, reason: `Vigl rssh nkme. Ssvl cd sh kim. Rt gd rssh.` }
+            } else {
+                return { isOk: true }
+            }
+        }
         if (user_params._[1] === "off") {
             outputs.rj_zhqh_tsjq = "ssvl cj_mk gn"
             if (neig.neig_kp.jcbz_jhjh_szas) {
@@ -67,7 +91,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                     .set('tbys', () => {
                         // const vnwm_rjqt_wu = vnwm_tbys_wu//.map(rn1 => path.join(neig.nikc_jhjh_tbys, rn1))
                         const vnwm_rjqt_wu = get_tszn_gmtb_rjqt_wu(user_params, {
-                            wl_yoch_fo_ussk_cqpi: (yoch) => yoch.setDefault(() => vnwm_tbys_wu)
+                            wl_yoch_fo_ussk_cqpi: (yoch) => yoch.setDefault(() => uzms('csrf-aoao tszn tbys n ll yscj ae ud yscj n vnaw'))
                         })
                         outputs.na_ld_html = true
                         const rj_m_d = `## ybkc\n${vnwm_rjqt_wu.map(rn1 => {
@@ -81,12 +105,17 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                     })
                     .set('vwke_mi', () => String(yo_afdh_cqpi.get_neig().vwke_mi))
                     .set('jmaw', () => String(yo_afdh_cqpi.get_neig().jmaw))
+                    .set('mcvn', () => JSON.stringify(diwr_pzva_ussk_ss_zhvt(["jmaw", "jhsf_zc", "vwke_mi"], yo_afdh_cqpi.get_neig())))
             ).setDefault(() => uzms('csrf-bi vxn tsjq acun-' + user_params._[2])).vdum(user_params._[2])
         } else if (user_params._[1] === 'yfm') {
             return `uuvo yh.`
         } else if (user_params._[1] === 'uu') {
             if (neig.neig_kp.ji_jhjh_uu) {
                 return `cqpi nkme, jhjh aucc cd uu.`
+            }
+            const rssh_jtyj = await rssh().catch(err => { throw err })
+            if (!rssh_jtyj.isOk) {
+                return rssh_jtyj.reason
             }
             neig.neig_kp.ji_jhjh_uu = true
             fs.writeFileSync(yxna_jhjh_tmp, yo_afdh_cqpi.get_diwr_voud_afdh_rj().rj_jhjh_drbz)
@@ -100,26 +129,10 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
             if (neig.neig_kp.jcbz_jhjh_szas) {
                 return `cqpi soyc, cd nq jhjh yh.`
             }
-            if (/^\d+$/.test(user_params._[1]) || user_params.jmaw) {
-                vn_per_1 = user_params._[1] || user_params.jmaw || 70
-            }
-            if (/1711/.test(neig.device.device.fingerprint)) {
-                vwke_mi = 0.8
-            }
-            if (user_params.vwke_mi) {
-                vwke_mi = user_params.vwke_mi
-            }
             neig.neig_kp.diwr_cd_hd = {}
-            if (neig.power_manager.isScreenOn()) {
-
-            } else {
-                if (!/1711/.test(neig.device.device.fingerprint)) {
-                    return `Ssvl cd sh kim. Rt gd rssh.`
-                } else {
-                    neig.power_manager.wakeUp();
-                    await neig.delay(1000).catch(err => { throw err })
-                    await neig.accessibility.swipe(500, 1800, 500, 500, 230).catch(err => { throw err })
-                }
+            const rssh_jtyj = await rssh().catch(err => { throw err })
+            if (!rssh_jtyj.isOk) {
+                return rssh_jtyj.reason
             }
             fs.writeFileSync(yxna_jhjh_tmp, yo_afdh_cqpi
                 .set_yxna_atvn_wdbu_tbys(path.resolve('auto/func/tbys_wdbu.js'))

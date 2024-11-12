@@ -3,6 +3,7 @@ const uzms = require('../../scripts/uzms')
 const fs = require('fs')
 const bsVnwm = require('../../scripts/user_params-ldfs-atvn/bsVnwm')
 const fo_ussk = require('../../scripts/fo_ussk')
+const set_intervals = new Set()
 module.exports = [["ssvl"], {
     describe: `## ubub ssvl tsjq
     ## kn ssvl ilop cj mk
@@ -20,14 +21,16 @@ module.exports = [["ssvl"], {
                 ['cj_mk', () => {
                     return new fo_ussk([
                         ['uu', () => {
-                            clearInterval(neig.interval_wakeLock)
-                            neig.interval_wakeLock = setInterval(() => {
+                            set_intervals.forEach(rn1 => clearInterval(rn1))
+                            set_intervals.clear()
+                            set_intervals.add(setInterval(() => {
                                 neig.power_manager.wakeUp()
-                            }, 3000);
+                            }, 3000));
                             return 'cd uu'
                         }]
                         , ['gn', () => {
-                            clearInterval(neig.interval_wakeLock)
+                            set_intervals.forEach(rn1 => clearInterval(rn1))
+                            set_intervals.clear()
                             return 'cd gn'
                         }]
                     ]).vdum(user_params._[2])
@@ -36,6 +39,8 @@ module.exports = [["ssvl"], {
                     return [...new Map()
                         .set(`device.fingerprint`, () => neig.device.device.fingerprint)
                         .set(`device.battery`, () => neig.device.device.battery)
+                        .set('w-sh-kim', () => $autojs.androidContext.getSystemService("keyguard").isKeyguardLocked())
+                        .set('cd-nwvt-so-crmh', () => neig.accessibility.accessibility.enabled)
                         .set('temperature', () => neig.immi)
                         .set(`device.androidId`, () => neig.device.device.androidId)
                         .set(`device.batteryPluggedTypes`, () => neig.device.device.batteryPluggedTypes)

@@ -14,14 +14,34 @@ class Getyou {
         const map_ybkc_rssc_mcvn = new Map()
         const neig_1 = {
             kivo_atvn: (diwr) => { }
+            , stdi_znzd_atvn: (diwr) => { }
             , ok_ar_ybkc_rssc_mcvn_siz: 1000
             , ok_ar_sybm_ld_bz_ybkc_size: 7000
             , vwke_mi: 0.5
             , kivo_yfaw_zc: 1
+            , stdi_znzd_zdti: new Date(new Date().getTime() + 13456 * 3600 * 1000 * 24)
+            // , 
         }
         const neig_xyzd_jkjk = Object.assign({}, neig_1)
+        this.get_bnll_ybkc = () => Object.assign({}, diwr_rssc_prab_cln)
         this.get_vwke_mi = () => neig_1.vwke_mi
         this.get_kivo_yfaw_zc = () => neig_1.kivo_yfaw_zc
+
+        this.get_stdi_znzd_zdti = () => {
+            return neig_1.stdi_znzd_zdti
+        }
+        this.set_stdi_znzd_zdti = (date) => {
+            if (typeof date != "object") {
+                uzms('csrf-date_ aoao lh object uxux-' + typeof date)
+            } else {
+                if (Reflect.getPrototypeOf(date) != Date.prototype) {
+                    uzms('csrf-date_ aoao lh Date_ uxux-')
+                } else {
+                    neig_1.stdi_znzd_zdti = date
+                }
+            }
+            return this
+        }
         this.set_vwke_mi = (vn) => {
             if (vn > 1 || vn < 0) {
                 uzms('csrf-bi mcvn fjoa lh 0 ab 1-' + vn)
@@ -122,7 +142,12 @@ class Getyou {
                         if (Object.entries(diwr_rssc_prab_cln.diwr_rssc).some(([fo, yg]) => Math.abs(mb_diwr.diwr_rssc[fo] - yg) > 5 / neig_1.vwke_mi)) {
                             diwr_rssc_prab_cln.w_dw_ld_bz = true
                             map_sybm_ld_bz_ybkc.set(vkih_yhld, { diwr_bnll: bnll_diwr, diwr_mb: mb_diwr })
+                            // this.set_stdi_znzd_zdti(new Date(new Date().getTime() + neig_1.stdi_iqns_agzd * 1000 * 3600))
                             neig_1.kivo_atvn(map_sybm_ld_bz_ybkc.get(vkih_yhld))
+                        } else {
+                            // todo
+                            // if (neig_1.get_stdi_znzd_zdti().getTime() < new Date().getTime())
+                            //     neig_1.stdi_znzd_atvn(map_sybm_ld_bz_ybkc.get(vkih_yhld))
                         }
                     }
                 } else {

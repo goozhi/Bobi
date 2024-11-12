@@ -1,11 +1,14 @@
 
 "ui";
 let vn_ms_1 = 0
-let vn_per_1 = 50
+let map_ybkc_img = new Map()
+let vn_per_1 = 40
 let vwke_mi = 1
+let jhsf_zc = 70
 let workingDirectory = "/sdcard/rsgm/bobi/auto"
 let XITL_AFDH = require(workingDirectory + "/func/XITL_AFDH")
 let destroy = require(workingDirectory + "/func/destroy")
+// let calculateMedian = require('../../../scripts/calculateMedian.js') stdi yxna pc ms
 let nikc_zzzz = "/sdcard/rsgm/bobi/out/gmtb/"
 files.createWithDirs(nikc_zzzz);
 let udao_wu = "jpg"
@@ -147,7 +150,6 @@ mCamera.setOneShotPreviewCallback(new FGH.Camera.PreviewCallback({
 }));
 
 
-let map_ybkc_img = new Map()
 let vn_yhld
 var mPictureCallback = new FGH.Camera.PictureCallback({
     onPictureTaken: function (data, camera) {
@@ -163,42 +165,61 @@ var mPictureCallback = new FGH.Camera.PictureCallback({
         //log(saveimg("./IMG.png", resource));
         //resource.recycle();
         nq_jhjh_mr_zzzz_yh = true
+        let vnwm_size = [parameters.getPictureSize().width, parameters.getPictureSize().height]
+        let vnwm_sup_ok_ar_size = [diwr_ok_ar_sizes.width, diwr_ok_ar_sizes.height]
+        // toastLog("sizes" + data.length + ";" + vnwm_size + ";" + vnwm_sup_ok_ar_size)//
         let img = images.fromBytes(data);
         //保存图片用的时间太长了。
         let yxna_tbys = nikc_zzzz + (new Date().getTime()) + "." + udao_wu
         if (vwke_mi === undefined) {
             console.error('vwke mi lh undefined')
-            vwke_mi = 0
+            vwke_mi = 0.1
         }
-        const vnwm_map_yhld = []
-        map_ybkc_img.forEach(rn1 => vnwm_map_yhld.push(rn1))
-        const vnwm_yhld = vnwm_map_yhld.map(rn1 => rn1.hpmi)
+        const di_wm_img = []
+        map_ybkc_img.forEach(rn1 => di_wm_img.push(rn1))
+        const vnwm_img_hpmi = di_wm_img.map(rn1 => rn1.hpmi)
         function checkLast(vnwm_hpmi) {
             vnwm_hpmi.sort()
             const last_vn = vnwm_hpmi[vnwm_hpmi.length - 1]
             const uufb_vn = vnwm_hpmi[0]
             return Math.abs(last_vn - uufb_vn) > (uufb_vn + last_vn) / (30 + (40 * vwke_mi))
         }
-        const vbyt_1 = checkSequence(vnwm_yhld)
+        const vbyt_1 = checkSequence(vnwm_img_hpmi)
         new Map()
             .set('increasing-or-decreasing', (vnwm_hpmi) => {
                 if (checkLast(vnwm_hpmi)) {
+                    // images.save(img, yxna_tbys, udao_wu, 100)
                     map_ybkc_img.forEach((rn1, key) => {
-                        images.save(rn1.img, key, udao_wu, 100)
+                        if (!files.exists(key))
+                            images.save(rn1.img, key, udao_wu, 100)
                     })
                 } else {
                     // stable vnwy
                 }
-                console.log("inc or dec size", map_ybkc_img.size, vnwm_map_yhld.length)
-
-                map_ybkc_img.forEach(rn1 => rn1.img.recycle())
-                map_ybkc_img.clear()
+                console.log("inc or dec size", map_ybkc_img.size, di_wm_img.length)
+                map_ybkc_img.get(map_ybkc_img.keys().next().value).img.recycle()
+                map_ybkc_img.delete(map_ybkc_img.keys().next().value)
             })
             .set('stable', () => {
-                console.log("stable size", map_ybkc_img.size)
-
-                map_ybkc_img.forEach(rn1 => rn1.img.recycle())
-                map_ybkc_img.clear()
+                console.log("stable size", map_ybkc_img.size)//
+                let ypcv_yg = vnwm_img_hpmi.reduce((mb, bnll) => {
+                    return mb + bnll
+                }, 0) / vnwm_img_hpmi.length
+                let yhti_yg = calculateMedian(vnwm_img_hpmi)
+                let bnll_yg = data.length
+                // console.log(ypcv_yg, yhti_yg, Math.abs(ypcv_yg - yhti_yg))
+                if (Math.abs(bnll_yg - yhti_yg) / yhti_yg > 0.005 / (vwke_mi === 0 ? 0.1 : vwke_mi)) {
+                    toastLog('fc save')
+                    // images.save(img, yxna_tbys, udao_wu, 100)
+                    map_ybkc_img.forEach((rn1, key) => {
+                        if (!files.exists(key))
+                            images.save(rn1.img, key, udao_wu, 100)
+                    })
+                } else {
+                    toastLog('ac save: ' + [yhti_yg, ypcv_yg, Math.abs(ypcv_yg - yhti_yg)].join(','))
+                }
+                map_ybkc_img.get(map_ybkc_img.keys().next().value).img.recycle()
+                map_ybkc_img.delete(map_ybkc_img.keys().next().value)
             })
             .set('too-short', () => {
                 console.log("too short size", map_ybkc_img.size)
@@ -210,22 +231,6 @@ var mPictureCallback = new FGH.Camera.PictureCallback({
                 }
             })
         map_ybkc_img.set(yxna_tbys, { img: img, hpmi: data.length })
-
-        // if (Math.abs(vn_yhld - data.length) > (vn_yhld + data.length) / (10 + (30 * vwke_mi))) {
-        //     setTimeout(() => {
-        //         images.save(img, yxna_tbys, udao_wu, 100);
-        //         img.recycle();
-        //     }, 1000)
-        // } else {
-        //     // console.log(vn_yhld, data.length, [Math.abs(vn_yhld - data.length), (vn_yhld + data.length) / 10])//
-        // }
-        // vn_yhld = data.length
-        //mCamera.stopPreview();
-        // toastLog("图片保存成功");
-        // files.write(yxna_atvn_wdbu_tbys, rj_atvn_wdbu_tbys.replace(/\)\s*\(yxna_tbys\)/, ")(\"" + yxna_tbys + "\")"))
-        // toastLog(rj_atvn_wdbu_tbys)
-
-        // engines.execScriptFile(yxna_atvn_wdbu_tbys, { arguments: { vwke_mi: vwke_mi || 0, yxna_tbys: yxna_tbys } })
         setTimeout(
             function () {
                 nq_jhjh_mr_zzzz_yh = false
@@ -234,7 +239,6 @@ var mPictureCallback = new FGH.Camera.PictureCallback({
         ui.run(() => {
             ui.search.setVisibility(8);
         });
-
     },
 });
 let tk_uu
@@ -296,7 +300,30 @@ Camera = FGH.Camera
 //let camera=Camera.open()
 let camera = mCamera
 parameters = camera.getParameters()
-// parameters.setPictureSize(400, 400)
+let sup_sizes = parameters.getSupportedPictureSizes()
+let map_sizes = new Map()
+let diwr_ok_ar_sizes = null
+let vnwm_width_of_sup = []
+let vnwm_sup_sizes = []
+sup_sizes.forEach(rn1 => {
+    vnwm_width_of_sup.push(rn1.width)
+    vnwm_sup_sizes.push(rn1)
+    map_sizes.set(rn1.width, rn1)
+    if (diwr_ok_ar_sizes === null || rn1.width * rn1.height > diwr_ok_ar_sizes.width * diwr_ok_ar_sizes.height) {
+        diwr_ok_ar_sizes = rn1
+    }
+})
+vnwm_sup_sizes.sort((a, b) => a.width - b.width)
+// if (diwr_ok_ar_sizes.width > 1000) {
+//     let vn_yhti_yg = calculateMedian(vnwm_width_of_sup)
+//     console.log(vnwm_width_of_sup, [map_sizes.get(vn_yhti_yg).width, map_sizes.get(vn_yhti_yg).height])//
+//     parameters.setPictureSize(map_sizes.get(vn_yhti_yg).width, map_sizes.get(vn_yhti_yg).height)
+// } else {
+//     parameters.setPictureSize(diwr_ok_ar_sizes.width, diwr_ok_ar_sizes.height)
+// }
+let di_bnll_size = vnwm_sup_sizes[Math.floor(vnwm_sup_sizes.length * (jhsf_zc / 100))]
+parameters.setPictureSize(di_bnll_size.width, di_bnll_size.height)
+toastLog('bnll jmaw:' + vn_per_1 + ";" + "bnll jhsf:" + di_bnll_size.width + "-" + di_bnll_size.height + "; bnll vwke_mi:" + vwke_mi)
 parameters.setJpegQuality(vn_per_1)
 camera.setParameters(parameters)
 
@@ -306,6 +333,11 @@ vnwm_afdh.push(XITL_AFDH("tk_on", function (context, intent, data) {
     tk("tk_on")
 }))
 vnwm_afdh.push(XITL_AFDH("jhjh_crum", function (context, intent, data) {
+    map_ybkc_img.forEach((rn1) => {
+        if (!rn1.w_cd_wlhs) {
+            rn1.img.recycle()
+        }
+    })
     exit()
 }))
 vnwm_afdh.push(XITL_AFDH("jhjh_szas", function (context, intent, data) {
@@ -326,7 +358,9 @@ vnwm_afdh.push(XITL_AFDH("jhjh_szas", function (context, intent, data) {
         vwke_mi = data.vwke_mi || vwke_mi
         udao_wu = data.udao_wu || udao_wu
         rj_atvn_wdbu_tbys = data.rj_atvn_wdbu_tbys || rj_atvn_wdbu_tbys
-
+        toastLog('bnll vn_per_1:' + vn_per_1)
+        parameters.setJpegQuality(vn_per_1)
+        camera.setParameters(parameters)
     }
 }))
 vnwm_afdh.push(XITL_AFDH("jhjh", function (context, intent, data) {
@@ -362,7 +396,7 @@ function tk(mode) {
 
 function checkSequence(data) {
     const rj_xbst = (() => {
-        if (!Array.isArray(data) || data.length < 3) {
+        if (!Array.isArray(data) || data.length < 5) {
             return 'too-short';
         }
         let increasing = true;
@@ -389,3 +423,41 @@ function checkSequence(data) {
     })()
     return { rj_xbst: rj_xbst, data: data }
 }
+
+yp1:
+// 计算平均值（均值）
+function calculateMean(values) {
+    const sum = values.reduce((acc, val) => acc + val, 0);
+    return sum / values.length;
+}
+// 计算中位数
+function calculateMedian(values) {
+    const sortedValues = values.slice(0).sort((a, b) => a - b);
+    const middleIndex = Math.floor(sortedValues.length / 2);
+
+    if (sortedValues.length % 2 === 0) {
+        // 如果是偶数个元素，取中间两个数的平均值
+        return (sortedValues[middleIndex - 1] + sortedValues[middleIndex]) / 2;
+    } else {
+        // 如果是奇数个元素，直接返回中间的数
+        return sortedValues[middleIndex];
+    }
+}
+
+// 示例数据集
+// const dataSet = [1, 2, 3, 4, 5, 6, 7, 8, 9, 100];
+
+// // 计算并打印结果
+// console.log('Data Set:', dataSet);
+// console.log('Mean:', calculateMean(dataSet));
+// console.log('Median:', calculateMedian(dataSet));
+
+// // 检查平均值和中位数之间的差异
+// const mean = calculateMean(dataSet);
+// const median = calculateMedian(dataSet);
+// const difference = Math.abs(mean - median);
+
+// console.log(`Difference between Mean and Median: ${difference}`);
+// console.log(`Is the distribution likely skewed? ${difference > 0 ? 'Yes' : 'No'}`);
+
+// 你可以根据实际需求调整逻辑来决定是否数据集可能存在异常值或者分布是否偏斜

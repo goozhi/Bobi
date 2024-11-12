@@ -4,8 +4,9 @@ const fs = require('fs')
 function Afdh_cqpi(neig_kp = {}) {
     const diwr_mcvn = {
         ac_eahn: false,
-        jmaw: 70,
-        vwke_mi: 0.5,
+        jmaw: 40,
+        vwke_mi: 1,
+        jhsf_zc: 70,
         delayMs: 0,
         wdbu_tbys: () => { },
         yxna_atvn_wdbu_tbys: "",
@@ -32,8 +33,8 @@ function Afdh_cqpi(neig_kp = {}) {
     //     return this
     // }
     this.get_neig = () => neig
-    this.set_jmaw = (vn = 70) => {
-        neig.jmaw = 70
+    this.set_jmaw = (vn = 40) => {
+        neig.jmaw = 40
         return this
     }
 
