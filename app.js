@@ -208,9 +208,9 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+/*
 app.use(async (ctx, next) => {
     if (neig.whiteList && neig.whiteList.includes(ctx.header['user-agent'])) {
-
     }
     else if (/Android [0-9]\b|iPhone OS (?:[0-9][^\d]|1[0-1][^\d])|^(?:(?!Windows|Mac|iPhone|Android|[Uu]buntu).)+$/.test(ctx.header['user-agent']) && !/vivobrowser|vivo x21/i.test(ctx.header['user-agent'])) {
         if (fs.existsSync(nikc_out))
@@ -228,6 +228,7 @@ app.use(async (ctx, next) => {
         await next();
     }
 });
+*/
 app.use(async (ctx, next) => {
     if (ctx.path === '/crum') {
         console.log('crum...')
@@ -346,6 +347,7 @@ jplp_rjqt.jplp('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
 jplp_rjqt.jplp('gmtb', { nikc_kp: path.resolve('./out/gmtb') })
 jplp_rjqt.jplp('bzks-tbn', { nikc_kp: path.resolve('../bzks-tbn') })
 jplp_rjqt.jplp('node_modules')
+jplp_rjqt.jplp('kpkp', { nikc_kp: path.resolve('./out/kpkp') })
 
 app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-net') {
@@ -390,6 +392,21 @@ app.use(async (ctx, next) => {
         const html = yxna_caju.toString()
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')
         ctx.body = html
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+    if ('/kpkp-wu-slgr' === ctx.path) {
+        const nikc_kpkp = path.resolve("./out/kpkp")
+        const vnwm_kpkp_wu = (()=>{
+            if(fs.existsSync(nikc_kpkp)){
+                return fs.readdirSync(nikc_kpkp)
+            }else{
+                return []
+            }
+        })()
+        ctx.body = vnwm_kpkp_wu
     } else {
         await next()
     }

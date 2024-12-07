@@ -59,6 +59,9 @@ const arrC = [[['server'], {
     // If the path is new, you should type the param "create"
     rsgm --url 192.168.43.32:9000/rsgm
     create D:/rsgm/file-new.txt
+    
+    ## kpkp nikc tt n rjqt nwvt
+    rsgm --kpkp http://localhost:9000/kpkp-wu-slgr
     `,
     func: rsgm_gzbu
 }], [['jhjh'], {

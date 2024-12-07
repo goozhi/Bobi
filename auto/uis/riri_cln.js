@@ -1,4 +1,3 @@
-//破解，源码出售，定制担保。诚信合作微信:zxkj6898 或zx033245   或QQ168196007 
 "ui";
 const workingDirectory = "/sdcard/rsgm/bobi/auto"
 let vnwm_web
@@ -13,27 +12,27 @@ return []
 })()
 ui.statusBarColor("#1E1E1E");
 ui.layout(
-    <vertical>
-        <frame margin="-5" id="scfo">
+    <vertical bg="#a0a0a0">
+        <frame margin="-5" id="scfo" bg="#a0a0a0">
             <horizontal>
             <input layout_gravity="left" id="input" textSize="14sp" hint="请输入网址" w="300" maxLines="1" inputType="textUri" />
             <button layout_gravity="right" id="search_but" hint="进入"/>
             </horizontal>
         </frame>
-        <frame>
+        <frame bg="#a0a0a0">
             <text id="text" w="*" gravity="center" maxLines="1" ellipsize="end"/>
             <progressbar id="progress" w="*" h="auto" indeterminate="true" layout_gravity="top" style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"/>
         </frame>
-        <frame layout_weight="1">
-            <webview id="web_1" w="*" h="*"/>
-            <webview id="web_2" w="*" h="*"/>
-            <webview id="web_3" w="*" h="*"/>
-            <webview id="web_4" w="*" h="*"/>
+        <frame layout_weight="1" bg="#a0a0a0">
+            <webview bg="#a0a0a0" id="web_1" w="*" h="*"/>
+            <webview bg="#a0a0a0" id="web_2" w="*" h="*"/>
+            <webview bg="#a0a0a0" id="web_3" w="*" h="*"/>
+            <webview bg="#a0a0a0" id="web_4" w="*" h="*"/>
             <list id="list" w="90dp" h="*" bg="#77ffffff" layout_gravity="right">
                 <text w="*" h="50" text="{{txt}}" textSize="11sp" bg="#dddddd" margin="5" gravity="center"/>
             </list>
         </frame>
-        <frame w="*">
+        <frame w="*" bg="#a0a0a0">
             <button id="rz_web" w="150" text="web_2" layout_gravity="left"/>
             <button id="center" w="auto" text="[web_1]" layout_gravity="center"/>
             <button id="sb_web" w="auto" text="web_3" layout_gravity="right"/>
@@ -172,10 +171,10 @@ ui.center.setText(nixb_gtfs_rjse)
 
 var url = "http://localhost:9000";
 //var url = "file:///storage/emulated/0/网页/试.html";
-ui.web_1.loadUrl(url);
-ui.web_2.loadUrl(url);
-ui.web_3.loadUrl(url);
-ui.web_4.loadUrl(url);
+ypfz(ui.web_1, url)
+ypfz(ui.web_2, url)
+ypfz(ui.web_3, url)
+ypfz(ui.web_4, url)
 ui.web_2.setVisibility(8)
 ui.web_3.setVisibility(8)
 ui.web_4.setVisibility(8)
@@ -233,18 +232,20 @@ if(item.ac_tnoy){
 }
 }else{
     ui.run(() => {
-    get_pcdb_web().loadUrl(String(item.url));
+    ypfz(get_pcdb_web(), (String(item.url)))
     });
     ui.list.setVisibility(8);
 }
 
 });
-
 ui.search_but.click(function(v) {
     var T = String(ui.input.getText()).trim();
     if (T) {
         ui.run(() => {
-            get_pcdb_web().loadUrl(String(T));
+            ypfz(get_pcdb_web(), T)
+            //const yhld = new android.webkit.WebViewClient()
+            //yhld.onReceivedError = (view, errCode, rj_description, url_nkme)=>{ toastLog(rj_description) }
+            //get_pcdb_web().setWebViewClient(yhld)
         });
     };
 });
@@ -377,3 +378,37 @@ events.on('exit', () => {
 setInterval(()=>{
 // ilop jyqh
 },1000)
+
+function ypfz(web_ubqt, url){
+            web_ubqt.getSettings().setJavaScriptEnabled(true)
+            web_ubqt.loadUrl(String(url));
+            //toastLog(web_ubqt.setOnPageFinishedListener)
+            let atvn_yhld = ()=>{
+                        let vnwm_yhld = []
+                        document.querySelectorAll('*').forEach(rn1=>vnwm_yhld.push(rn1.textContent))
+                        if(vnwm_yhld.filter(rn1=>/网页无法打开/.test(rn1)).length){
+                            return "cannot-open"
+                        }else{
+                            return "opened-normally"
+                        }
+            }            
+            let rj_1 = "(" + atvn_yhld.toString() +")()"
+            //toastLog(web_ubqt.evaluateJavascript.toString())
+            setTimeout(()=>{
+            web_ubqt.evaluateJavascript(rj_1, new android.webkit.ValueCallback({
+            onReceiveValue(value){
+                let atvn_yhld = new Map()
+                .set('"cannot-open"',()=>{
+                    web_ubqt.setBackgroundColor(colors.rgb(0x33,0x33,0x33))
+                })
+                .set('"opened-normally"',()=>{
+                    web_ubqt.setBackgroundColor(colors.rgb(0xf0,0xf0,0xf0))
+                })
+                .get(value)
+                atvn_yhld&&atvn_yhld()
+            }
+            }))            
+            
+            },1000)
+            //toastLog( web_ubqt.loadUrl.toString())
+}

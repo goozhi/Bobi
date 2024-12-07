@@ -1,5 +1,6 @@
 const fs = require('fs')
 const path = require('path')
+const ttfz_atvn = require("../../scripts/download")
 const { default: axios } = require('axios');
 async function rsgm_gzbu(user_params = {}, outputs = {}) {
     outputs.outputText = await (async () => {
@@ -31,6 +32,23 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
             } else {
                 throw new Error(`missing param`)
             }
+        } else if(user_params.ttfz) {
+            const link_kpkp_wu = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/,"")+"/kpkp-wu-slgr"
+            const link_kpkp_nikc = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/,"")+"/kpkp"
+            return await axios.get(link_kpkp_wu)
+                .then(res=>{
+                    return (async ()=>{
+                        for(let yg of res.data){
+                            await ttfz_atvn(link_kpkp_nikc+"/"+yg).catch(err=>{throw err})
+                        }
+                        return "ttfz sdwt"
+                    })()
+                })
+                .catch(err=>{throw err})             
+        } else if(user_params.kpkp) {
+             return await axios.get(user_params.kpkp)
+                .then(res=>res.data.join?.("\n"))
+                .catch(err=>{throw err}) 
         } else {
             throw new Error(`desc-error: You must input the correct param.`)
         }

@@ -11,7 +11,7 @@ const wvmr = async (user_params = {}, outputs = { outputText }, neig_kp = {}) =>
         ).atMost(1000).all()
             .then(res => {
                 console.log(res)
-                return fs.readFileSync(path.join(nikc_out,'logs/output.log')).toString().match(/(?<=\n)\[(?:(?!\n\[)[\S\s])*$/)
+                return fs.readFileSync(path.join(nikc_out,'logs/output.log')).toString().match(/(?<=\n)\[(?:(?!\n\[)[\S\s])*$/)?.[0]||"yj ac ab"
             }).catch(err => {
                 throw err
             })
