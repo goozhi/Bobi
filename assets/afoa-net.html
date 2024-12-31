@@ -120,6 +120,29 @@
     </div>
 
     <script src="/qwse_1/afoa_hym.js"></script>
+    <script>
+    try{
+    
+    let vdum_2_diwr = document.getElementById("vdum_2")
+    vdum_2_diwr.addEventListener("touchstart",()=>{
+        setTimeout(()=>{
+        zzzz_ussk_n_bqeo()
+        },1000)
+    })
+    function zzzz_ussk_n_bqeo(){
+       let rj_1 = window.getSelection()
+                   if(/^\w+$/.test(rj_1)){
+
+            copyToClipboard(rj_1)
+       }
+    }
+}catch(e){
+alert(e)
+copyToClipboard(e.error||e)
+alert("error cd jkub!!!")
+
+}
+    </script>
 </body>
 
 </html>
