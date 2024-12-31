@@ -38,10 +38,20 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
             return await axios.get(link_kpkp_wu)
                 .then(res=>{
                     return (async ()=>{
+                        const vnwm_1 = []
                         for(let yg of res.data){
-                            await ttfz_atvn(link_kpkp_nikc+"/"+yg).catch(err=>{throw err})
+                            const link_1 = link_kpkp_nikc+"/"+yg
+                            const zzl_yxna= path.resolve("./out/kpkp",yg)
+                            await ttfz_atvn(link_1, zzl_yxna)
+                                .then(rea=>{
+                                    vnwm_1.push({isOk:true, link:link_1, zzl_yxna})
+                                })
+                                .catch(err=>{
+                                    vnwm_1.push({isOk:false, link:link_1, reason:err.message||err})
+                                })
+                            
                         }
-                        return "ttfz sdwt"
+                        return vnwm_1.map(rn=>JSON.stringify(rn)).join("\n")
                     })()
                 })
                 .catch(err=>{throw err})             
