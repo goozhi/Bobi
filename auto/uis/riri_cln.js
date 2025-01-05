@@ -81,24 +81,44 @@ ui.input.setText(vnwm_yhld[jtyj_1].url)
     {
         txt: "web_1",
         func:()=>{
+        if(get_bnll_cqpi_web_vkih().includes(0)){
+toast("cd zznq cqpi aucc yh: web"+(0+1))
+return
+}
+
         enable(0)
         }
     },
     {
         txt: "web_2",
         func:()=>{
+        if(get_bnll_cqpi_web_vkih().includes(1)){
+toast("cd zznq cqpi aucc yh: web"+(1+1))
+return
+}
+
         enable(1)
         }
     },
     {
         txt: "web_3",
         func:()=>{
+        if(get_bnll_cqpi_web_vkih().includes(2)){
+toast("cd zznq cqpi aucc yh: web"+(2+1))
+return
+}
+
         enable(2)
         }
     },
     {
         txt: "web_4",
         func:()=>{
+if(get_bnll_cqpi_web_vkih().includes(3)){
+toast("cd zznq cqpi aucc yh: web"+(3+1))
+return
+}
+
         enable(3)
         }
     },
@@ -156,14 +176,20 @@ vnwm_web=[ui.web_1,ui.web_2,ui.web_3, ui.web_4]
 function get_pcdb_web(){
 return vnwm_web.find(rn1=>rn1.getVisibility()===0)
 }
+function get_bnll_cqpi_web_vkih(){
+return [Number(ui.rz_web.text().match(/\d+/)[0])-1
+,Number(ui.center.text().match(/\d+/)[0])-1
+,Number(ui.sb_web.text().match(/\d+/)[0])-1]
+}
 function enable(num){
 num=num||0
 vnwm_web.forEach(rn1=>{
 rn1.setVisibility(8)
 })
 vnwm_web[num].setVisibility(0)
-if(/afoa/.test(vnwm_web[num].getUrl()))
-vnwm_web[num].requestFocusFromTouch()
+if(/afoa/.test(vnwm_web[num].getUrl())){
+//vnwm_web[num].requestFocusFromTouch()
+}
 let nixb_gtfs_rjse=`[web_${(num+1)}]`
 ui.center.setText(nixb_gtfs_rjse)
 
