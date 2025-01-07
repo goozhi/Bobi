@@ -44,7 +44,10 @@ document.getElementById('z').addEventListener('mousedown', function () {
 })
 document.getElementById('z').addEventListener('mouseup', function () {
     editor.focus()
-    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    let diwr_yhld=Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    diwr_yhld.ch--
+    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
+    document.getElementById('z').focus()
 
 })
 document.getElementById('y').addEventListener('mousedown', function () {
@@ -52,8 +55,10 @@ document.getElementById('y').addEventListener('mousedown', function () {
 })
 document.getElementById('y').addEventListener('mouseup', function () {
     editor.focus()
-    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
-
+    let diwr_yhld = Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    diwr_yhld.ch--
+    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
+    document.getElementById('y').focus()
 })
 document.getElementById('zyvv').addEventListener('mousedown', function () {
     zyvv()
@@ -570,7 +575,8 @@ function mb_ybbp() {
     bnll_eqwy_1--
     if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
     neig.ji_ybbp_cqpi = true
-    editor.setValue(vnwm_ybbp[bnll_eqwy_1].value)
+    editor.setSelection({ line: 0, ch: 0 }, { line: 99999999, ch: 999999 })
+    editor.replaceSelection(vnwm_ybbp[bnll_eqwy_1].value)
 }
 function tt_ybbp() {
     bnll_eqwy_1++
