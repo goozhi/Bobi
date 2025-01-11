@@ -201,22 +201,18 @@ var mPictureCallback = new FGH.Camera.PictureCallback({
                 map_ybkc_img.delete(map_ybkc_img.keys().next().value)
             })
             .set('stable', () => {
-                console.log("stable size", map_ybkc_img.size)//
-                let ypcv_yg = vnwm_img_hpmi.reduce((mb, bnll) => {
-                    return mb + bnll
-                }, 0) / vnwm_img_hpmi.length
+                
+
                 let yhti_yg = calculateMedian(vnwm_img_hpmi)
                 let bnll_yg = data.length
-                // console.log(ypcv_yg, yhti_yg, Math.abs(ypcv_yg - yhti_yg))
+
                 if (Math.abs(bnll_yg - yhti_yg) / yhti_yg > 0.005 / (vwke_mi === 0 ? 0.1 : vwke_mi)) {
-                    toastLog('fc save')
                     // images.save(img, yxna_tbys, udao_wu, 100)
                     map_ybkc_img.forEach((rn1, key) => {
                         if (!files.exists(key))
                             images.save(rn1.img, key, udao_wu, 100)
                     })
                 } else {
-                    toastLog('ac save: ' + [yhti_yg, ypcv_yg, Math.abs(ypcv_yg - yhti_yg)].join(','))
                 }
                 map_ybkc_img.get(map_ybkc_img.keys().next().value).img.recycle()
                 map_ybkc_img.delete(map_ybkc_img.keys().next().value)
@@ -323,7 +319,7 @@ vnwm_sup_sizes.sort((a, b) => a.width - b.width)
 // }
 let di_bnll_size = vnwm_sup_sizes[Math.floor(vnwm_sup_sizes.length * (jhsf_zc / 100))]
 parameters.setPictureSize(di_bnll_size.width, di_bnll_size.height)
-toastLog('bnll jmaw:' + vn_per_1 + ";" + "bnll jhsf:" + di_bnll_size.width + "-" + di_bnll_size.height + "; bnll vwke_mi:" + vwke_mi)
+//toastLog('bnll jmaw:' + vn_per_1 + ";" + "bnll jhsf:" + di_bnll_size.width + "-" + di_bnll_size.height + "; bnll vwke_mi:" + vwke_mi)//
 parameters.setJpegQuality(vn_per_1)
 camera.setParameters(parameters)
 
@@ -358,7 +354,7 @@ vnwm_afdh.push(XITL_AFDH("jhjh_szas", function (context, intent, data) {
         vwke_mi = data.vwke_mi || vwke_mi
         udao_wu = data.udao_wu || udao_wu
         rj_atvn_wdbu_tbys = data.rj_atvn_wdbu_tbys || rj_atvn_wdbu_tbys
-        toastLog('bnll vn_per_1:' + vn_per_1)
+
         parameters.setJpegQuality(vn_per_1)
         camera.setParameters(parameters)
     }
@@ -412,7 +408,7 @@ function checkSequence(data) {
                 return 'stable';
             }
         }
-
+        return "stable"
         if (increasing || decreasing) {
             return 'increasing-or-decreasing';
             // } else if (decreasing) {
