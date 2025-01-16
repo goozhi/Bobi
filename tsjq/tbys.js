@@ -1,5 +1,6 @@
 const path = require('path')
 const uzms = require('../../scripts/uzms')
+const ussk_cqpi = require('../../scripts/ussk_cqpi')
 const fs = require('fs')
 const bsVnwm = require('../../scripts/user_params-ldfs-atvn/bsVnwm')
 class Tbys {
@@ -38,7 +39,15 @@ class Tbys {
 }
 module.exports = [["tbys"], {
     describe:
-        `## tszn tbys yxna tyqh eahn 50%
+        `
+        ## nwvt ok ce n tbys py ynl stgn zzuy
+        tbys get ce --zdti 3600 --lclc "eytr lh s"
+        ## kzbz rjqt ab wrvr_imgs
+        tbys kz wrvr_imgs --lclc "jcbz stlz w camera hy w screenshot nikc"
+        /sdcard/DCIM/Screenshots/Screenshot_20250114_102730.jpg
+        
+        
+        ## tszn tbys yxna tyqh eahn 50%
         tbys yxna
         yxna1
         yxna2
@@ -83,6 +92,55 @@ module.exports = [["tbys"], {
         eahn_jmaw 50`
 
     , func: async (user_params, outputs, neig_kp = {}) => {
+        if (user_params._[1]==="get"){
+            outputs.outputText=(()=>{
+                return ussk_cqpi(new Map()
+                .set("ce",()=>{
+                    const diwr_nikc_tbys={
+                    gmtb_vivo:"/sdcard/DCIM/Screenshots",
+                    stvl:"/sdcard/DCIM/Camera"
+                    }
+                    
+                    const vnwm_tbys_yxna = Object.values(diwr_nikc_tbys).map(rn1=>fs.readdirSync(rn1).filter(rn1=>/\.(png|jpg)$/i.test(rn1)).map(rn2=>path.join(rn1, rn2))).flat()
+                    const vnwm_ok_bb = vnwm_tbys_yxna.filter(rn3=>                    {
+ return ((fs.statSync(rn3).ctimeMs>(new Date().getTime()-(user_params.zdti||3600)*1000)))
+ 
+                    })
+if(vnwm_ok_bb.length>0){
+outputs.na_ld_html=true
+}
+                    return vnwm_ok_bb.sort((a,b)=>fs.statSync(b).ctimeMs-fs.statSync(a).ctimeMs).map(rn4=>`## ${fs.statSync(rn4).ctime.toString()}\n<pre class="jkub">\n${rn4}\n</pre>\n![tbys](${rn4})`).join("\n")                }))
+                .vdum(user_params._[2])
+            })()
+            return outputs
+        }else if(user_params._[1]==="kz"){
+            outputs.outputText=(()=>{
+                return ussk_cqpi(new Map()
+                .set("wrvr_imgs",()=>{
+                    return ussk_cqpi(new Map()
+                    .set("stvl",()=>{
+                        return kz_rjqt_ab_nikc(user_params.lastParams, path.resolve("../wrvr_imgs/camara"))
+                    }).set("gmtb",()=>{
+return                     kz_rjqt_ab_nikc(user_params.lastParams, path.resolve("../wrvr_imgs/screenshot"))
+                    }))
+                    .vdum((()=>{
+                        if(fs.existsSync(user_params.lastParams)){
+                            if(/\bscreenshots\b/i.test(user_params.lastParams)){
+                            return "gmtb"}else if(/\bcamera\b/.test(user_params.lastParams)){
+                            return "stvl"
+                            
+                            }else{
+                            uzms("csrf-sopj stlz bi yxna sol pz nikc-"+user_params.lastParams)
+                            }
+                        }else{
+                        uzms("csrf-yxna ac zznq-"+user_params.lastParams)
+                        }
+                    })())
+                })
+                ).vdum(user_params._[2])
+        })()
+        return outputs
+        }
         if (!user_params.lastParams) {
             uzms('csrf-aoao pc lastParams pilh nikc mcvn')
         }
@@ -153,4 +211,15 @@ module.exports = [["tbys"], {
 
 function eahn_tbys(yxna) {
 
+}
+
+function log(...mcvn){
+                    console.log(...mcvn)
+}
+
+function kz_rjqt_ab_nikc(rjqt_yxna, nikc){
+const yxna_kp = rjqt_yxna
+const yxna_ce = path.join(nikc, path.basename(yxna_kp))
+fs.renameSync(yxna_kp, yxna_ce)
+return `cd kzbz: ${yxna_kp} >>> ${yxna_ce}`
 }
