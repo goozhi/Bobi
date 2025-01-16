@@ -62,6 +62,9 @@ const arrC = [[['server'], {
     
     ## kpkp nikc tt n rjqt nwvt
     rsgm --kpkp http://localhost:9000/kpkp-wu-slgr
+    
+    ## ttfz nixb exym cln n kpkp nikc n rjqt
+    rsgm --ttfz http://localhost:9000
     `,
     func: rsgm_gzbu
 }], [['jhjh'], {

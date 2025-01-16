@@ -44,7 +44,10 @@ document.getElementById('z').addEventListener('mousedown', function () {
 })
 document.getElementById('z').addEventListener('mouseup', function () {
     editor.focus()
-    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    let diwr_yhld=Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    diwr_yhld.ch--
+    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
+    document.getElementById('z').focus()
 
 })
 document.getElementById('y').addEventListener('mousedown', function () {
@@ -52,8 +55,10 @@ document.getElementById('y').addEventListener('mousedown', function () {
 })
 document.getElementById('y').addEventListener('mouseup', function () {
     editor.focus()
-    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
-
+    let diwr_yhld = Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    diwr_yhld.ch--
+    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
+    document.getElementById('y').focus()
 })
 document.getElementById('zyvv').addEventListener('mousedown', function () {
     zyvv()
@@ -450,7 +455,7 @@ Object.assign(diwr_mcvn, {
             } else {
                 if (!/^\s*wrvr/i.test(editor.getValue())) {
                     const diwr_bnll_tkxb = editor.getCursor()
-                    editor.setValue("wrvr\n" + editor.getValue())
+                    editor.setValue("wrvr sfxz --uxux md\n" + editor.getValue())
                     editor.setCursor(Object.assign(diwr_bnll_tkxb, { line: diwr_bnll_tkxb.line + 1 }))
                     neig.ji_yozd_rfrf = true
                 } else {
@@ -570,7 +575,8 @@ function mb_ybbp() {
     bnll_eqwy_1--
     if (bnll_eqwy_1 < 0) bnll_eqwy_1 = 0
     neig.ji_ybbp_cqpi = true
-    editor.setValue(vnwm_ybbp[bnll_eqwy_1].value)
+    editor.setSelection({ line: 0, ch: 0 }, { line: 99999999, ch: 999999 })
+    editor.replaceSelection(vnwm_ybbp[bnll_eqwy_1].value)
 }
 function tt_ybbp() {
     bnll_eqwy_1++
@@ -775,7 +781,7 @@ function vdum_rscs(outputs = {}) {
     zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
     if (outputs.w_zhqh_mh_lil || outputs.mb_lil_zhqh) {
-        ag_zzuy.innerText = "tsjq dw zhqh mh lil, mb lil tsjq:\n" + outputs.mb_lil_zhqh
+        ag_zzuy.innerText = "rsgm zhqh lw mh lil tsjq, mb lil tsjq:\n" + outputs.mb_lil_zhqh.slice(0,1000)
     }
     if (outputs.ji_ye_hym_html) {
       rrzv_div_html_cqpi(outputs.outputText)  
@@ -802,7 +808,9 @@ function vdum_rscs(outputs = {}) {
 
 }
 function trl_wdbu(rj_kp) {
-    let rj_1 = rj_kp.trimStart()
+    let rj_1 = rj_kp.trimStart().replace(/.+/,(m1)=>{
+        return m1.replace(/\b(_+)(?=\w)/,(m2,p1)=>p1.replace(/_/g,"-"))
+    })
     if (/-p /.test(rj_1)) {
         neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
     } else {

@@ -2,8 +2,13 @@ console.time('app-drbz')
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
+const vtnJplp = require("../vtn/vtn-jplp.js")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
+const ussk_cqpi = require('../scripts/ussk_cqpi')
+const rfrf = require('../scripts/rfrf')
+const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
+const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
 const arrC = require("./arrC.js")
 const config_locale = (() => {
     if (fs.existsSync('./config_locale.js')) {
@@ -319,8 +324,44 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
-        const html = fs.readFileSync(`${dirName}/home.html`).toString()
+    const html = fs.readFileSync(`${dirName}/home.html`).toString()
+    
         ctx.body = html
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+const reg_1=/^\/vtn(?:\/|$)(.*)/i
+    if (reg_1.test(ctx.path)) {
+        await vtnJplp.allright().catch(err=>{//allright
+        ctx.status = 500
+        ctx.body = wdbu_err(err)
+        console.error(err)})//allright
+       await ( async ()=>{//ph_
+            const diwr_jthy_atvn=vtnJplp.get_jthy_atvn()
+            const rj_xbst = ctx.path.match(reg_1)?.[1]
+            if(rj_xbst===null){
+                throw new Error("csrf-ravc msox vohf nq ngce zd-")
+            }
+            if(diwr_jthy_atvn[rj_xbst]){
+                ctx.body=(diwr_jthy_atvn[rj_xbst])()
+                fs.writeFileSync("test.html",(diwr_jthy_atvn[rj_xbst])())
+            }else{
+                if(rj_xbst){
+                    ctx.body=Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
+                }
+                    
+                else
+                    ctx.body=vtnJplp.get_jthy()
+            }
+        
+        })()//ph_
+        .catch(err=>{
+        ctx.status = 500
+        ctx.body = wdbu_err(err)
+        console.error(err)
+        })
     } else {
         await next()
     }
