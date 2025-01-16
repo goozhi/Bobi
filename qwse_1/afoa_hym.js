@@ -455,7 +455,7 @@ Object.assign(diwr_mcvn, {
             } else {
                 if (!/^\s*wrvr/i.test(editor.getValue())) {
                     const diwr_bnll_tkxb = editor.getCursor()
-                    editor.setValue("wrvr\n" + editor.getValue())
+                    editor.setValue("wrvr sfxz --uxux md\n" + editor.getValue())
                     editor.setCursor(Object.assign(diwr_bnll_tkxb, { line: diwr_bnll_tkxb.line + 1 }))
                     neig.ji_yozd_rfrf = true
                 } else {
@@ -781,7 +781,7 @@ function vdum_rscs(outputs = {}) {
     zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
     if (outputs.w_zhqh_mh_lil || outputs.mb_lil_zhqh) {
-        ag_zzuy.innerText = "tsjq dw zhqh mh lil, mb lil tsjq:\n" + outputs.mb_lil_zhqh
+        ag_zzuy.innerText = "rsgm zhqh lw mh lil tsjq, mb lil tsjq:\n" + outputs.mb_lil_zhqh.slice(0,1000)
     }
     if (outputs.ji_ye_hym_html) {
       rrzv_div_html_cqpi(outputs.outputText)  
@@ -808,7 +808,9 @@ function vdum_rscs(outputs = {}) {
 
 }
 function trl_wdbu(rj_kp) {
-    let rj_1 = rj_kp.trimStart()
+    let rj_1 = rj_kp.trimStart().replace(/.+/,(m1)=>{
+        return m1.replace(/\b(_+)(?=\w)/,(m2,p1)=>p1.replace(/_/g,"-"))
+    })
     if (/-p /.test(rj_1)) {
         neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
     } else {
