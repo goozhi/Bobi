@@ -2,6 +2,7 @@ console.time('app-drbz')
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
+const download=require("../scripts/download")
 const vtnJplp = require("../vtn/vtn-jplp.js")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
@@ -98,6 +99,8 @@ Object.assign(neig, (() => {
         get_log: () => {
             return fs.readFileSync(path.join(nikc_logs, 'output.log')).toString()
         }
+    },{
+    rj_html_style: ""
     }
     , {
         set_w_p_znzd_ymym: (gkqj) => {
@@ -171,6 +174,41 @@ app.use(async (ctx, next) => {
     }
 }
 )
+
+async function wdbu_url_tsjq(ctx){
+    const diwr_kp = Object.assign({}, ctx.request.body)
+    //ctx.body="ok"
+    const jtyj = ussk_cqpi(new Map()
+    .set("exym-ttfz", async ()=>{//exym-ttfz        
+        const vnwm_url =  diwr_kp["exym-ttfz"].vnwm_url||[]
+        const nikc_zzzz = diwr_kp["nikc_zzzz"]||"out/kpkp"
+        const diwr_ttfz_zbhm={}
+        for(let yg of vnwm_url){
+            await download(yg, path.join(nikc_zzzz, path.basename(yg)))
+            .then(res=>{
+               diwr_ttfz_zbhm[yg]={isOk:true} 
+            })
+            .catch(e=>{
+                diwr_ttfz_zbhm[yg]={isOk:false, reason:e.reason||e.message||e}
+            })
+        }
+        ctx.body=diwr_ttfz_zbhm
+    })//exym-ttfz
+    )
+    .set_hqtz("fo")
+    .vdum(diwr_kp)
+    if(jtyj.catch){
+        await jtyj.catch(e=>ctx.body=wdbu_err(e))
+    }
+}
+app.use(async (ctx, next) => {//tsjq_yxna
+    if (/^\/tsjq\b/.test(ctx.path)) {
+        await wdbu_url_tsjq(ctx).catch(e=>ctx.body=wdbu_err(e))
+    } else {
+        await next()
+    }
+}
+)//tsjq_yxna
 app.use(async (ctx, next) => {
     if (ctx.path === '/rsgm') {
         const { yxna_rjqt, content, ji_ce_yxna } = ctx.request.body
@@ -331,6 +369,9 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+function yp_style(rj_html){
+return `<div style="${neig.rj_html_style}">${rj_html}</div>`
+}
 app.use(async (ctx, next) => {
 const reg_1=/^\/vtn(?:\/|$)(.*)/i
     if (reg_1.test(ctx.path)) {
@@ -345,11 +386,10 @@ const reg_1=/^\/vtn(?:\/|$)(.*)/i
                 throw new Error("csrf-ravc msox vohf nq ngce zd-")
             }
             if(diwr_jthy_atvn[rj_xbst]){
-                ctx.body=(diwr_jthy_atvn[rj_xbst])()
-                fs.writeFileSync("test.html",(diwr_jthy_atvn[rj_xbst])())
+                ctx.body=yp_style((diwr_jthy_atvn[rj_xbst])())
             }else{
                 if(rj_xbst){
-                    ctx.body=Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
+                    ctx.body="not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
                 }
                     
                 else
