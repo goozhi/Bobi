@@ -2,6 +2,7 @@ const fs = require('fs')
 const stat_1 = fs.statSync('app.js')
 const stat_2 = fs.statSync('app.node.js')
 const ne = require("./ne-1")
+const tsjq = require("./tsjq.js")// zogl tsjq a lbm require umms
 const stat_yrds = fs.statSync('./auto/yrds.js')
 console.assert(stat_1.ctimeMs<stat_2.ctimeMs,`app.node.js ra ymce.` )
 console.assert(stat_yrds.ctimeMs<stat_2.ctimeMs,`app.node.js ra ymce.`)
