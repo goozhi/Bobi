@@ -27,7 +27,10 @@ const arrC = [[['server'], {
             server getBlackList --find keyword
 
             server getBlackList --findOne keyword
-
+            
+            ## syig html style
+            server vhtz
+            font-size: 5%; color: red;
             `,
     func: getBlackList
     , wvvy: true

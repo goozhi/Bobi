@@ -98,10 +98,12 @@ module.exports = [["tbys"], {
                 .set("ce",()=>{
                     const diwr_nikc_tbys={
                     gmtb_vivo:"/sdcard/DCIM/Screenshots",
+                    gmtb_meizu:"/sdcard/Pictures/Screenshots",
+                    stvl_meizu:"/sdcard/DCIM",
                     stvl:"/sdcard/DCIM/Camera"
                     }
                     
-                    const vnwm_tbys_yxna = Object.values(diwr_nikc_tbys).map(rn1=>fs.readdirSync(rn1).filter(rn1=>/\.(png|jpg)$/i.test(rn1)).map(rn2=>path.join(rn1, rn2))).flat()
+                    const vnwm_tbys_yxna = Object.values(diwr_nikc_tbys).filter(rn1=>fs.existsSync(rn1)).map(rn1=>fs.readdirSync(rn1).filter(rn1=>/\.(png|jpg)$/i.test(rn1)).map(rn2=>path.join(rn1, rn2))).flat()
                     const vnwm_ok_bb = vnwm_tbys_yxna.filter(rn3=>                    {
  return ((fs.statSync(rn3).ctimeMs>(new Date().getTime()-(user_params.zdti||3600)*1000)))
  

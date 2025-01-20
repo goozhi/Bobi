@@ -277,9 +277,9 @@ Object.assign(diwr_mcvn, {
     }, j: {
         func: () => {
             editor.setCursor(0, 0)
-            editor.replaceSelection("wrvr\nwytm\n")
+            editor.replaceSelection("vtn bv wy\n")
         },
-        leun: "nxzv wrvr mr wytm tsjq."
+        leun: "nxzv 'vtn bv wy' tsjq."
     }, u: {
         func: (mcvn_kp) => {
             if (!mcvn_kp) {
@@ -809,7 +809,7 @@ function vdum_rscs(outputs = {}) {
 }
 function trl_wdbu(rj_kp) {
     let rj_1 = rj_kp.trimStart().replace(/.+/,(m1)=>{
-        return m1.replace(/\b(_+)(?=\w)/,(m2,p1)=>p1.replace(/_/g,"-"))
+        return m1.replace(/\b(_+)(?=\w)/g,(m2,p1)=>p1.replace(/_/g,"-"))
     })
     if (/-p /.test(rj_1)) {
         neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]

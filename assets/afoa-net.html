@@ -22,7 +22,15 @@
             --max-width: 100%;
 
         }
-
+        
+        button{
+        background-color: var(--bg-color);
+            color: var(--text-color);
+            }
+        a{
+        background-color: var(--bg-color);
+            color: var(--text-color);
+            }
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
@@ -40,6 +48,9 @@
         }
     </style>
     <script>
+        if(new Date().getHours()>18||new Date().getHours()<8){
+            changeTheme("dark")
+        }
         function changeMaxWidth(vn_kp = 100) {
             document.documentElement.style.setProperty('--max-width', String(vn_kp).replace(/^(\d+)$/, "$1%"));
         }

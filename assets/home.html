@@ -8,6 +8,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="InsCode Koa Demo" />
     <style>
+        :root {
+
+            --bg-color: #f0f0f2;
+
+            --text-color: #000;
+
+            --max-width: 100%;
+
+        }
+        
+        button{
+        background-color: var(--bg-color);
+            color: var(--text-color);
+            }
+        a{
+        background-color: var(--bg-color);
+            color: var(--text-color);
+            }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            display: list-item;
+            justify-content: center;
+            align-items: center;
+        }
+
+
         html {
             font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
                 sans-serif;
@@ -283,6 +313,37 @@
                 .catch(err => alert(err.reason))
         }
     </script>
+    <script>
+        if(new Date().getHours()>18||new Date().getHours()<8){
+            changeTheme("dark")
+        }
+        function changeMaxWidth(vn_kp = 100) {
+            document.documentElement.style.setProperty('--max-width', String(vn_kp).replace(/^(\d+)$/, "$1%"));
+        }
+        function changeTheme(rj_theme = 'dark') {
+
+            if (rj_theme === "dark") {
+
+                document.documentElement.style.setProperty('--bg-color', '#333');
+
+                document.documentElement.style.setProperty('--text-color', '#fff');
+
+            } else if (rj_theme === 'little-dark') {
+                document.documentElement.style.setProperty('--bg-color', '#aaaaaa');
+
+                document.documentElement.style.setProperty('--text-color', '#fff');
+
+            } else {
+
+                document.documentElement.style.setProperty('--bg-color', '#f0f0f2');
+                // document['code-editor'].style.setProperty('background-color', "#f0f0f2")
+                document.documentElement.style.setProperty('--text-color', '#000');
+
+            }
+
+        }
+    </script>
+
 </body>
 
 </html>
