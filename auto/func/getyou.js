@@ -15,9 +15,10 @@ class Getyou {
         const neig_1 = {
             kivo_atvn: (diwr) => { }
             , stdi_znzd_atvn: (diwr) => { }
-            , ok_ar_ybkc_rssc_mcvn_siz: 1000
+            , ok_ar_ybkc_rssc_mcvn_size: 1000
             , ok_ar_sybm_ld_bz_ybkc_size: 7000
             , vwke_mi: 0.5
+            , name: "ra-znzk"
             , kivo_yfaw_zc: 1
             , stdi_znzd_zdti: new Date(new Date().getTime() + 13456 * 3600 * 1000 * 24)
             // , 
@@ -52,6 +53,10 @@ class Getyou {
         }
         this.set_kivo_atvn = (atvn) => {
             neig_1.kivo_atvn = atvn
+            return this
+        }
+        this.set_name = (name) => {
+            neig_1.name = name
             return this
         }
         const player = new neig.media.MediaPlayer()
@@ -111,11 +116,11 @@ class Getyou {
             ).vdum(rj)
             return this
         }
-        this.set_ok_ar_ybkc_rssc_mcvn_siz = (size) => {
-            neig_1.ok_ar_ybkc_rssc_mcvn_siz = size
+        this.set_ok_ar_ybkc_rssc_mcvn_size = (size) => {
+            neig_1.ok_ar_ybkc_rssc_mcvn_size = size
             return this
         }
-        this.get_ok_ar_ybkc_rssc_mcvn_siz = neig_1.ok_ar_ybkc_rssc_mcvn_siz
+        this.get_ok_ar_ybkc_rssc_mcvn_size = neig_1.ok_ar_ybkc_rssc_mcvn_size
         this.get_ok_ar_sybm_ld_bz_ybkc_size = neig_1.ok_ar_sybm_ld_bz_ybkc_size
         this.set_ok_ar_sybm_ld_bz_ybkc_size = (size) => {
             neig_1.ok_ar_sybm_ld_bz_ybkc_size = size
@@ -154,7 +159,7 @@ class Getyou {
                     // do nothing
                 }
 
-                if (map_ybkc_rssc_mcvn.size > neig.ok_ar_ybkc_rssc_mcvn_siz) {
+                if (map_ybkc_rssc_mcvn.size > neig.ok_ar_ybkc_rssc_mcvn_size) {
                     map_ybkc_rssc_mcvn.clear()
                 }
                 if (map_sybm_ld_bz_ybkc.size > neig.ok_ar_sybm_ld_bz_ybkc_size) {
