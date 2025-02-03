@@ -27,7 +27,7 @@ class Getyou {
         this.get_bnll_ybkc = () => Object.assign({}, diwr_rssc_prab_cln)
         this.get_vwke_mi = () => neig_1.vwke_mi
         this.get_kivo_yfaw_zc = () => neig_1.kivo_yfaw_zc
-
+        this.get_kivo_atvn = () => neig_1.kivo_atvn
         this.get_stdi_znzd_zdti = () => {
             return neig_1.stdi_znzd_zdti
         }
@@ -42,6 +42,14 @@ class Getyou {
                 }
             }
             return this
+        }
+
+        this.rzvo = (neig_kp = {}) => {
+            Object.assign(neig_1, neig_kp)
+            return this
+        }
+        this.get_neig = () => {
+            return Object.assign({}, neig_1)
         }
         this.set_vwke_mi = (vn) => {
             if (vn > 1 || vn < 0) {
@@ -59,6 +67,7 @@ class Getyou {
             neig_1.name = name
             return this
         }
+        this.get_name = () => neig_1.name
         const player = new neig.media.MediaPlayer()
         const mcvn_jkjk = () => {
             neig.device.device.setVolume('music', neig_xyzd_jkjk.yfaw_music || 5)

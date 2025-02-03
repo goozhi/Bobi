@@ -41,6 +41,7 @@ module.exports = [["getyou"], {
     , aoao_ji_ssvl: true
     , func: async (user_params, outputs, neig_kp = {}) => {
         const neig = Object.assign({ neig_kp }, neig_kp)
+        console.log(983)
         outputs.outputText = (() => {
             return ussk_cqpi(new Map()
                 .set('log', () => {
@@ -75,7 +76,7 @@ module.exports = [["getyou"], {
                             .set('vwke_mi', () => {
                                 return String(neig.yo_getyou.get_vwke_mi())
                             })
-                            .set('source',()=>{
+                            .set('source', () => {
                                 return String(neig.yo_getyou.get_yfkt_kp())
                             })
                     ).vdum(user_params._[2])

@@ -37,11 +37,31 @@ if (!neig.sensors.getSensor("ambient_temperature")) {
     neig.immi = -1
 }
 
+// map_nomr
+neig.map_nomr = new Map()
+
 // prab cln cqpi
 const Getyou = require(workingDirectory + "/func/getyou.js")
 try {
-    const yo_getyou = new Getyou(neig)
+    const yo_getyou = new Getyou(neig).set_name("getyou")
     neig.yo_getyou = yo_getyou.xitl().set_kivo_atvn(() => { })
+} catch (err) {
+    console.error(err)
+}
+
+// rssc xitl
+const Jf_getyou = require(workingDirectory + "/func/Jf_getyou.js")
+try {
+    neig.jf_getyou = new Jf_getyou(neig)
+} catch (err) {
+    console.error(err)
+}
+// kiki xitl
+const Jf_kiki_xitl = require(workingDirectory + "/func/Jf_kiki_xitl.js")
+
+
+try {
+    neig.jf_kiki_xitl = new Jf_kiki_xitl(neig)
 } catch (err) {
     console.error(err)
 }
