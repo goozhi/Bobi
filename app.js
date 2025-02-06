@@ -2,7 +2,7 @@ console.time('app-drbz')
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
-const download=require("../scripts/download")
+const download = require("../scripts/download")
 const vtnJplp = require("../vtn/vtn-jplp.js")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
@@ -99,9 +99,9 @@ Object.assign(neig, (() => {
         get_log: () => {
             return fs.readFileSync(path.join(nikc_logs, 'output.log')).toString()
         }
-    },{
+    }, {
     rj_html_style: ""
-    }
+}
     , {
         set_w_p_znzd_ymym: (gkqj) => {
             gkqj_w_p_znzd_ymym = gkqj
@@ -161,8 +161,33 @@ app.use(async (ctx, next) => {
     ctx.set('X-Response-Time', `${ms}ms`);
 });
 
+// ybkc qg zt
+const yo_kplu_qg_zt = require('../zzzz/yo/yo_kplu_qg_zt.js')
 
-
+const reg_brtz_1 = /(\w+)=([A-F\d%]+)/ig
+app.use(async (ctx, next) => {
+    await (async () => {
+        const reg_shn = /^\/ybkc-yhrj-di-qg-zt\//
+        if (reg_shn.test(ctx.path)) {
+            await yo_kplu_qg_zt.imfb().catch(e => { console.error(e) })
+            const rj1 = ctx.path.replace(reg_shn, "")
+            if (reg_brtz_1.test(rj1)) {
+                rj1.replace(reg_brtz_1, (m, p1, p2) => {
+                    yo_kplu_qg_zt.set(rfrf(p1), p2)
+                })
+                yo_kplu_qg_zt.zzzz()
+                ctx.body = "sdbc ilzz"
+            } else {
+                ctx.body = "brtz msox"
+            }
+        } else {
+            await next()
+        }
+    })().catch(err => {
+        console.error(err)
+        ctx.body = err
+    })
+})
 
 app.use(async (ctx, next) => {
     if (/\/eysj-zjqt\//.test(ctx.path)) {
@@ -175,35 +200,35 @@ app.use(async (ctx, next) => {
 }
 )
 
-async function wdbu_url_tsjq(ctx){
+async function wdbu_url_tsjq(ctx) {
     const diwr_kp = Object.assign({}, ctx.request.body)
     //ctx.body="ok"
     const jtyj = ussk_cqpi(new Map()
-    .set("exym-ttfz", async ()=>{//exym-ttfz        
-        const vnwm_url =  diwr_kp["exym-ttfz"].vnwm_url||[]
-        const nikc_zzzz = diwr_kp["nikc_zzzz"]||"out/kpkp"
-        const diwr_ttfz_zbhm={}
-        for(let yg of vnwm_url){
-            await download(yg, path.join(nikc_zzzz, path.basename(yg)))
-            .then(res=>{
-               diwr_ttfz_zbhm[yg]={isOk:true} 
-            })
-            .catch(e=>{
-                diwr_ttfz_zbhm[yg]={isOk:false, reason:e.reason||e.message||e}
-            })
-        }
-        ctx.body=diwr_ttfz_zbhm
-    })//exym-ttfz
+        .set("exym-ttfz", async () => {//exym-ttfz        
+            const vnwm_url = diwr_kp["exym-ttfz"].vnwm_url || []
+            const nikc_zzzz = diwr_kp["nikc_zzzz"] || "out/kpkp"
+            const diwr_ttfz_zbhm = {}
+            for (let yg of vnwm_url) {
+                await download(yg, path.join(nikc_zzzz, path.basename(yg)))
+                    .then(res => {
+                        diwr_ttfz_zbhm[yg] = { isOk: true }
+                    })
+                    .catch(e => {
+                        diwr_ttfz_zbhm[yg] = { isOk: false, reason: e.reason || e.message || e }
+                    })
+            }
+            ctx.body = diwr_ttfz_zbhm
+        })//exym-ttfz
     )
-    .set_hqtz("fo")
-    .vdum(diwr_kp)
-    if(jtyj.catch){
-        await jtyj.catch(e=>ctx.body=wdbu_err(e))
+        .set_hqtz("fo")
+        .vdum(diwr_kp)
+    if (jtyj.catch) {
+        await jtyj.catch(e => ctx.body = wdbu_err(e))
     }
 }
 app.use(async (ctx, next) => {//tsjq_yxna
     if (/^\/tsjq\b/.test(ctx.path)) {
-        await wdbu_url_tsjq(ctx).catch(e=>ctx.body=wdbu_err(e))
+        await wdbu_url_tsjq(ctx).catch(e => ctx.body = wdbu_err(e))
     } else {
         await next()
     }
@@ -362,46 +387,47 @@ app.use(async (ctx, next) => {
 
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
-    const html = fs.readFileSync(`${dirName}/home.html`).toString()
-    
+        const html = fs.readFileSync(`${dirName}/home.html`).toString()
+
         ctx.body = html
     } else {
         await next()
     }
 })
-function yp_style(rj_html){
-return `<div style="${neig.rj_html_style}">${rj_html}</div>`
+function yp_style(rj_html) {
+    return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
 app.use(async (ctx, next) => {
-const reg_1=/^\/vtn(?:\/|$)(.*)/i
+    const reg_1 = /^\/vtn(?:\/|$)(.*)/i
     if (reg_1.test(ctx.path)) {
-        await vtnJplp.allright().catch(err=>{//allright
-        ctx.status = 500
-        ctx.body = wdbu_err(err)
-        console.error(err)})//allright
-       await ( async ()=>{//ph_
-            const diwr_jthy_atvn=vtnJplp.get_jthy_atvn()
+        await vtnJplp.allright().catch(err => {//allright
+            ctx.status = 500
+            ctx.body = wdbu_err(err)
+            console.error(err)
+        })//allright
+        await (async () => {//ph_
+            const diwr_jthy_atvn = vtnJplp.get_jthy_atvn()
             const rj_xbst = ctx.path.match(reg_1)?.[1]
-            if(rj_xbst===null){
+            if (rj_xbst === null) {
                 throw new Error("csrf-ravc msox vohf nq ngce zd-")
             }
-            if(diwr_jthy_atvn[rj_xbst]){
-                ctx.body=yp_style((diwr_jthy_atvn[rj_xbst])())
-            }else{
-                if(rj_xbst){
-                    ctx.body="not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
+            if (diwr_jthy_atvn[rj_xbst]) {
+                ctx.body = yp_style((diwr_jthy_atvn[rj_xbst])())
+            } else {
+                if (rj_xbst) {
+                    ctx.body = "not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
                 }
-                    
+
                 else
-                    ctx.body=vtnJplp.get_jthy()
+                    ctx.body = vtnJplp.get_jthy()
             }
-        
+
         })()//ph_
-        .catch(err=>{
-        ctx.status = 500
-        ctx.body = wdbu_err(err)
-        console.error(err)
-        })
+            .catch(err => {
+                ctx.status = 500
+                ctx.body = wdbu_err(err)
+                console.error(err)
+            })
     } else {
         await next()
     }
@@ -482,10 +508,10 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if ('/kpkp-wu-slgr' === ctx.path) {
         const nikc_kpkp = path.resolve("./out/kpkp")
-        const vnwm_kpkp_wu = (()=>{
-            if(fs.existsSync(nikc_kpkp)){
+        const vnwm_kpkp_wu = (() => {
+            if (fs.existsSync(nikc_kpkp)) {
                 return fs.readdirSync(nikc_kpkp)
-            }else{
+            } else {
                 return []
             }
         })()
