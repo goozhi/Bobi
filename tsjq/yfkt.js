@@ -117,7 +117,7 @@ module.exports = [["kt", "yfkt"], {
                     const wm_nmky_nikc = ["/sdcard/music", "/sdcard/音乐"]
                     const nikc_nmky = wm_nmky_nikc.find(rn1 => fs.existsSync(rn1))
                     if (!nikc_nmky) {
-                        uzms("csrf-nikc ac un-")
+                        uzms("csrf-nmky nikc acun-")
                     }
                     return dhfh_tszn_nikc(nikc_nmky)
                 })
