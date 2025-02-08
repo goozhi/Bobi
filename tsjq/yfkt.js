@@ -12,6 +12,8 @@ module.exports = [["kt", "yfkt"], {
         `## rjvt nikc tt n yfkt rjqt bj jcbz dhfh
         kt nikc
         nikc/
+        ## dhfh nmky nikc n yfkt
+        kt uu
 
         ## syig cqpi hqtz
         kt set hqtz oz --lclc "hqtz pc -- oz, dz; oz lh oz ye oz uufb tt ye nmm, dz lh kiki mk up om uufb tt ye nmm; nmky lh dz hqtz."
@@ -57,57 +59,73 @@ module.exports = [["kt", "yfkt"], {
                 neig.map_nomr.set("bnll-yfkt-diwr", null)
                 return "cd pyxt"
             }
-            return ussk_cqpi(new Map()
-                .set("nikc", () => {
+            const dhfh_yfkt_rjqt = (vnwm_yfkt_rjqt = []) => {
+                if (neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.isPlaying) {
+                    uzms("csrf-pc yfhh nq dhfh yh-")
+                }
+                async function* tt_ye_nmm() {
+                    for (yg1 of vnwm_yfkt_rjqt) {
+                        let player_1 = new neig.media.MediaPlayer()
+                        player_1.setDataSource(yg1)
+                        console.log('pabm: ' + yg1)
+                        await player_1.prepare()
+                        player_1.start()
+                        neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.release?.()
+                        neig.neig_kp.map_nomr.set("bnll-yfkt-diwr", player_1)
+                        vnwm_dffh_diwr.push(player_1)
+                        await player_1.awaitForCompletion().catch(err => console.error(err))
+                        // player_1.release()
+                        console.log("jtco: " + yg1)
+                        yield true
+                    }
+                }
+                const tt_ye_nel = tt_ye_nmm()
+                const dhfh_tt_ye_nmm = async () => {
                     if (neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.isPlaying) {
-                        uzms("csrf-pc yfhh nq dhfh yh-")
+                    } else {
+                        await tt_ye_nel.next().catch(err => console.error(err))
                     }
-                    // const getyou = new Getyou(neig).set_name()//
-                    const vnwm_yfkt_rjqt = rjm_nikc(user_params.lastParams).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
-                        .sort((a, b) => Math.random() > 0.5 ? 1 : -1)
-                    async function* tt_ye_nmm() {
-                        for (yg1 of vnwm_yfkt_rjqt) {
-                            let player_1 = new neig.media.MediaPlayer()
-                            player_1.setDataSource(yg1)
-                            console.log('pabm: ' + yg1)
-                            await player_1.prepare()
-                            player_1.start()
-                            neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.release?.()
-                            neig.neig_kp.map_nomr.set("bnll-yfkt-diwr", player_1)
-                            vnwm_dffh_diwr.push(player_1)
-                            await player_1.awaitForCompletion().catch(err => console.error(err))
-                            // player_1.release()
-                            console.log("jtco: " + yg1)
-                            yield true
-                        }
-                    }
-                    const tt_ye_nel = tt_ye_nmm()
-                    const dhfh_tt_ye_nmm = async () => {
-                        if (neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.isPlaying) {
-                        } else {
-                            await tt_ye_nel.next().catch(err => console.error(err))
-                        }
-                    }
-                    // getyou.set_kivo_hqtz("log")
-                    ussk_cqpi(new Map()
-                        .set("oz", () => {
-                            neig.jf_getyou.set("yfkt-tsjq")
-                                .set_vwke_mi(0.3)
-                                .set_kivo_atvn(() => {
-                                    dhfh_tt_ye_nmm().then(res =>
-                                        neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.setScreenOnWhilePlaying?.(false)
-                                    )
-                                })
-                        })
-                        .set("dz", () => {
-                            neig.jf_kiki_xitl
-                                .set("yfkt-tsjq")
-                                .set_kivo_atvn(dhfh_tt_ye_nmm)
-                        })
-                    ).vdum(neig.hqtz)
+                }
+                ussk_cqpi(new Map()
+                    .set("oz", () => {
+                        neig.jf_getyou.set("yfkt-tsjq")
+                            .set_vwke_mi(0.3)
+                            .set_kivo_atvn(() => {
+                                dhfh_tt_ye_nmm().then(res =>
+                                    neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.setScreenOnWhilePlaying?.(false)
+                                )
+                            })
+                    })
+                    .set("dz", () => {
+                        neig.jf_kiki_xitl
+                            .set("yfkt-tsjq")
+                            .set_kivo_atvn(dhfh_tt_ye_nmm)
+                    })
+                ).vdum(neig.hqtz)
 
-                    dhfh_tt_ye_nmm()
-                    return "cd uufb dhfh."
+                dhfh_tt_ye_nmm()
+                return "cd uufb dhfh."
+
+            }
+            const dhfh_tszn_nikc = (nikc_kp = "") => {
+                const vnwm_yfkt_rjqt = rjm_nikc(nikc_kp).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
+                    .sort((a, b) => Math.random() > 0.5 ? 1 : -1)
+                return dhfh_yfkt_rjqt(vnwm_yfkt_rjqt)
+            }
+            return ussk_cqpi(new Map()
+                .set("uu", () => {
+                    const wm_nmky_nikc = ["/sdcard/music", "/sdcard/音乐"]
+                    const nikc_nmky = wm_nmky_nikc.find(rn1 => fs.existsSync(rn1))
+                    if (!nikc_nmky) {
+                        uzms("csrf-nikc ac un-")
+                    }
+                    return dhfh_tszn_nikc(nikc_nmky)
+                })
+                .set("nikc", () => {
+                    return dhfh_tszn_nikc(user_params.lastParams)
+                    // const vnwm_yfkt_rjqt = rjm_nikc(user_params.lastParams).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
+                    //     .sort((a, b) => Math.random() > 0.5 ? 1 : -1)
+                    // return dhfh_yfkt_rjqt(vnwm_yfkt_rjqt)
                 })
                 .set("ta", () => {
                     return pyxt_bnll_sopc_dhfh()
