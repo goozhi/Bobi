@@ -218,8 +218,10 @@
                 <div class="container">
                     <!-- <div><img src="guiyun.jpg" width="150px" alt="guiyun" onclick="javascript:location.href='https:\/\/www.vpsor.cn?userCode=th23b3d'"></div> -->
                     <div>
-                        <div class="links">
-                            <a href="/yfkt" class="button--grey">yfkt</a>
+                        <div>
+                            <button onclick="dhfh_nmky_nikc()">yfkt-dhfh</button>
+                            <button onclick="yfkt_taxt()">yfkt-taxt</button>
+                            <!-- <a href="/yfkt" class="button--grey">yfkt</a> -->
 
                         </div>
                         <div class="links">
@@ -258,6 +260,35 @@
         </div>
     </div>
     <script>
+        async function fetch_afoa_zhqh(rj_vdzv) {
+            return fetch('/afoa', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Request-Headers': '*'
+                },
+                body: JSON.stringify({ vdzv: rj_vdzv })
+            })
+        }
+        function yfkt_taxt() {
+            fetch_afoa_zhqh("kt ta").catch(err => { console.log(err); alert(err) })
+        }
+        function dhfh_nmky_nikc() {
+            fetch_afoa_zhqh("kt uu")
+                .then(res => {
+                    if (!res.ok) {
+                        throw res.json()
+                    } else {
+                        // res.json()
+                    }
+                }).catch(async err => {
+                    res = await err
+                    let rj_err = (res.reason || res.error || res) + (res.err_stack || "")
+                    alert(rj_err)
+                    console.error(rj_err)
+                })
+        }
+
         function tyzv_jtha() {
             document.getElementById('jtha_1').innerHTML = `<a target="_blank" href="${document.getElementById('vdzv_1').value.replace(/^(?!\s*http)/, 'http://')}">click me</a>`
         }
