@@ -38,13 +38,13 @@ class Kiki_xitl {
                         ussk_cqpi(new Map()
                             .set("mk_up_kivo", () => {
                                 if (neig.w_mk_up_cxmi()) {
-                                    neig.kivo_atvn().catch?.(err => {
+                                    neig.kivo_atvn()?.catch?.(err => {
                                         console.error(err)
                                     })
                                 }
                             })
                             .set("mk_om_kivo", () => {
-                                neig.kivo_atvn().catch?.(err => {
+                                neig.kivo_atvn()?.catch?.(err => {
                                     console.error(err)
                                 })
                             })).vdum(neig.hqtz)
