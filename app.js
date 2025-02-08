@@ -161,6 +161,18 @@ app.use(async (ctx, next) => {
     ctx.set('X-Response-Time', `${ms}ms`);
 });
 
+// eowl nfmi jthy
+app.use(async (ctx, next) => {
+    const wm_nfmi_jthy_wu = fs.readdirSync("assets/").filter(rn1 => /\.html$/i.test(rn1))
+    const wu_html = wm_nfmi_jthy_wu.find(rn1 => "/" + rn1.replace(/\.html$/i, "").toLowerCase() === ctx.path.toLowerCase())
+    if (ctx.method === "GET" && wu_html) {
+        ctx.body = fs.readFileSync("assets/" + wu_html).toString()
+    } else {
+        await next();
+    }
+});
+
+
 // ybkc qg zt
 const yo_kplu_qg_zt = require('../zzzz/yo/yo_kplu_qg_zt.js')
 
