@@ -96,6 +96,7 @@ Object.assign(neig, (() => {
     return wvvy().find(rn1 => typeof rn1 === 'object')
 })()
     , {
+        map_ttfz_tymi: new Map(),
         get_log: () => {
             return fs.readFileSync(path.join(nikc_logs, 'output.log')).toString()
         }
@@ -221,7 +222,7 @@ async function wdbu_url_tsjq(ctx) {
             const nikc_zzzz = diwr_kp["nikc_zzzz"] || "out/kpkp"
             const diwr_ttfz_zbhm = {}
             for (let yg of vnwm_url) {
-                await download(yg, path.join(nikc_zzzz, path.basename(yg)))
+                await download(yg, path.join(nikc_zzzz, path.basename(yg)), neig)
                     .then(res => {
                         diwr_ttfz_zbhm[yg] = { isOk: true }
                     })

@@ -22,6 +22,9 @@ module.exports = [["kpkp"], {
     
     ## caum kpkp nikc n rjqt wu
     kpkp caum
+
+    ## nwvt ttfz tymi
+    kpkp tymi
     `
     , aoao_ji_ssvl: false
     , func: async (user_params, outputs, neig_kp = {}) => {
@@ -31,6 +34,11 @@ module.exports = [["kpkp"], {
             const jtyj_1 = ussk_cqpi(new Map()
                 .set('caum', () => {
                     return vnwm_rjqt_wu.join("\n")
+                })
+                .set('tymi', () => {
+                    return [...neig.map_ttfz_tymi].map(([fo1, yg1]) => {
+                        return `${fo1.toString()} -tymi- ${yg1.vn_unm_tymi}`
+                    }).join("\n")
                 })
                 .set('voud', () => {
                     return ussk_cqpi(new Map()
