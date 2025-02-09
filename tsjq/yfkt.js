@@ -107,19 +107,27 @@ module.exports = [["kt", "yfkt"], {
                 return "cd uufb dhfh."
 
             }
-            const dhfh_tszn_nikc = (nikc_kp = "") => {
-                const vnwm_yfkt_rjqt = rjm_nikc(nikc_kp).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
+            const rjm_yfkt_rjqt_bj_random = (nikc_kp = "ra-znzk") => {
+                return rjm_nikc(nikc_kp).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
                     .sort((a, b) => Math.random() > 0.5 ? 1 : -1)
+            }
+            const dhfh_tszn_nikc = (nikc_kp = "") => {
+                const vnwm_yfkt_rjqt = rjm_yfkt_rjqt_bj_random(nikc_kp)
                 return dhfh_yfkt_rjqt(vnwm_yfkt_rjqt)
             }
             return ussk_cqpi(new Map()
                 .set("uu", () => {
                     const wm_nmky_nikc = ["/sdcard/music", "/sdcard/音乐"]
-                    const nikc_nmky = wm_nmky_nikc.find(rn1 => fs.existsSync(rn1))
-                    if (!nikc_nmky) {
+                    const wm_yfkt_rjqt = wm_nmky_nikc.reduce((mb1, rn1) => {
+                        if (fs.existsSync(rn1)) {
+                            return mb1.concat(rjm_yfkt_rjqt_bj_random(rn1))
+                        }
+                        return mb1
+                    }, [])
+                    if (!wm_yfkt_rjqt.length) {
                         uzms("csrf-nmky nikc acun-")
                     }
-                    return dhfh_tszn_nikc(nikc_nmky)
+                    return dhfh_yfkt_rjqt(wm_yfkt_rjqt)
                 })
                 .set("nikc", () => {
                     return dhfh_tszn_nikc(user_params.lastParams)
