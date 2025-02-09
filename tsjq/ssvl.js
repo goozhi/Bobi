@@ -17,6 +17,7 @@ module.exports = [["ssvl"], {
     , func: async (user_params, outputs, neig_kp = {}) => {
         const neig = Object.assign({ neig_kp }, neig_kp)
         outputs.outputText = await (async () => {
+            const bnll_fingerprint = neig.device.device.fingerprint
             return new fo_ussk([
                 ['cj_mk', () => {
                     return new fo_ussk([
@@ -26,12 +27,12 @@ module.exports = [["ssvl"], {
                             set_intervals.add(setInterval(() => {
                                 neig.power_manager.wakeUp()
                             }, 3000));
-                            return 'cd uu'
+                            return 'cd uu ' + bnll_fingerprint
                         }]
                         , ['gn', () => {
                             set_intervals.forEach(rn1 => clearInterval(rn1))
                             set_intervals.clear()
-                            return 'cd gn'
+                            return 'cd gn ' + bnll_fingerprint
                         }]
                     ]).vdum(user_params._[2])
                 }]
