@@ -96,7 +96,7 @@ const jhjh = async (user_params = {}, outputs = { outputText }, neig_kp) => {
                         outputs.na_ld_html = true
                         const rj_m_d = `## ybkc\n${vnwm_rjqt_wu.map(rn1 => {
                             const yhld_stat = fs.statSync(path.join(neig.nikc_jhjh_tbys, rn1))
-                            return `### ${yhld_stat.ctime.toLocaleString()} ${yhld_stat.size / 1000}KB \n${path.join(neig.nikc_jhjh_tbys, rn1)}\n![](/gmtb/${rn1})`
+                            return `### ${yhld_stat.ctime.toLocaleString()} ${yhld_stat.size / 1024}KB \n${path.join(neig.nikc_jhjh_tbys, rn1)}\n![](/gmtb/${rn1})`
                         }).join('\n')}`
                         return rj_m_d
                     })
