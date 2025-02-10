@@ -68,15 +68,24 @@ module.exports = [["kt", "yfkt"], {
                         let player_1 = new neig.media.MediaPlayer()
                         player_1.setDataSource(yg1)
                         console.log('pabm: ' + yg1)
-                        await player_1.prepare()
-                        player_1.start()
-                        neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.release?.()
-                        neig.neig_kp.map_nomr.set("bnll-yfkt-diwr", player_1)
-                        vnwm_dffh_diwr.push(player_1)
-                        await player_1.awaitForCompletion().catch(err => console.error(err))
-                        // player_1.release()
-                        console.log("jtco: " + yg1)
-                        yield true
+                        let w_msox
+                        await player_1.prepare().catch(err => {
+                            console.error(err)
+                            w_msox = true
+                        })
+                        if (w_msox) {
+                            yield false
+                        } else {
+                            player_1.start()
+                            neig.neig_kp.map_nomr.get("bnll-yfkt-diwr")?.release?.()
+                            neig.neig_kp.map_nomr.set("bnll-yfkt-diwr", player_1)
+                            vnwm_dffh_diwr.push(player_1)
+                            await player_1.awaitForCompletion().catch(err => console.error(err))
+                            // player_1.release()
+                            console.log("jtco: " + yg1)
+                            yield true
+
+                        }
                     }
                 }
                 const tt_ye_nel = tt_ye_nmm()
