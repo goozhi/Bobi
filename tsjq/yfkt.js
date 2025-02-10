@@ -69,10 +69,16 @@ module.exports = [["kt", "yfkt"], {
                         player_1.setDataSource(yg1)
                         console.log('pabm: ' + yg1)
                         let w_msox
-                        await player_1.prepare().catch(err => {
-                            console.error(err)
+                        // await player_1.prepare().catch(err => {
+                        //     console.error(err)
+                        //     w_msox = true
+                        // })
+                        try {
+                            player_1.prepareSync(yg1)
+                        } catch (err) {
                             w_msox = true
-                        })
+                            console.error(err)
+                        }
                         if (w_msox) {
                             yield false
                         } else {
@@ -117,7 +123,7 @@ module.exports = [["kt", "yfkt"], {
 
             }
             const rjm_yfkt_rjqt_bj_random = (nikc_kp = "ra-znzk") => {
-                return rjm_nikc(nikc_kp).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1))
+                return rjm_nikc(nikc_kp).filter(rn1 => /\.(?:m4a|mp3|mp4|flac|ogg)$/i.test(rn1) && fs.statSync(rn1).size > 400 * 1024)
                     .sort((a, b) => Math.random() > 0.5 ? 1 : -1)
             }
             const dhfh_tszn_nikc = (nikc_kp = "") => {
