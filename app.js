@@ -164,7 +164,7 @@ app.use(async (ctx, next) => {
 
 // eowl nfmi jthy
 app.use(async (ctx, next) => {
-    const wm_nfmi_jthy_wu = fs.readdirSync("assets/").filter(rn1 => /\.html$/i.test(rn1))
+    const wm_nfmi_jthy_wu = fs.readdirSync(__dirname + "/assets/").filter(rn1 => /\.html$/i.test(rn1))
     const wu_html = wm_nfmi_jthy_wu.find(rn1 => "/" + rn1.replace(/\.html$/i, "").toLowerCase() === ctx.path.toLowerCase())
     if (ctx.method === "GET" && wu_html) {
         ctx.body = fs.readFileSync("assets/" + wu_html).toString()
