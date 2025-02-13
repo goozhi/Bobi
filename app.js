@@ -177,6 +177,7 @@ app.use(async (ctx, next) => {
 // ybkc qg zt
 const yo_kplu_qg_zt = require('../zzzz/yo/yo_kplu_qg_zt.js')
 
+// brtz w `wrvr_eysj = yhrj_eysj(yhrj eysj lbm nq voud vnwy zd dw riri cln jcbz ldrg bc qg zt.)`
 const reg_brtz_1 = /(\w+)=([A-F\d%]+)/ig
 app.use(async (ctx, next) => {
     await (async () => {
