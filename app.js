@@ -429,6 +429,7 @@ app.use(async (ctx, next) => {
                 ctx.body = yp_style((diwr_jthy_atvn[rj_xbst])())
             } else {
                 if (rj_xbst) {
+                    ctx.status = 403
                     ctx.body = "not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
                 }
 
@@ -800,6 +801,7 @@ app.use(async (ctx, next) => {
                 ctx.body = "somethingfualt" + themeid
             }
         } else {
+            ctx.status = 403
             ctx.body = "Not Found"
         }
     } else if (ctx.path === '/wjfc-vocb') {
