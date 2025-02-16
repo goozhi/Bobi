@@ -119,7 +119,7 @@ module.exports = [["kt", "yfkt"], {
                 ).vdum(neig.hqtz)
 
                 dhfh_tt_ye_nmm()
-                return "cd uufb dhfh."
+                return "cd uufb dhfh.\n" + vnwm_yfkt_rjqt.join("\n")
 
             }
             const rjm_yfkt_rjqt_bj_random = (nikc_kp = "ra-znzk") => {
