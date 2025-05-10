@@ -25,6 +25,16 @@ module.exports = [["kpkp"], {
 
     ## nwvt ttfz tymi
     kpkp tymi
+
+    ## hd tszn epni
+    kpkp hd tszn
+    rjqt_wu_1
+    rjqt_wu_2
+    rjqt_wu_3
+
+    ## hd noph epni
+    kpkp hd non
+
     `
     , aoao_ji_ssvl: false
     , func: async (user_params, outputs, neig_kp = {}) => {
@@ -37,7 +47,7 @@ module.exports = [["kpkp"], {
                 })
                 .set('tymi', () => {
                     return [...neig.map_ttfz_tymi].map(([fo1, yg1]) => {
-                        return `${fo1.toString()} -tymi- ${yg1.vn_unm_tymi}`
+                        return `${fo1.toString()} -tymi- ${yg1.vn_unm_tymi}%`
                     }).join("\n")
                 })
                 .set('voud', () => {
@@ -53,6 +63,32 @@ module.exports = [["kpkp"], {
 
                     ).set_hqtz("fo")
                         .vdum(user_params)
+                })
+                .set('hd', () => {
+                    const atvn_hd_epni = (vnwm_epni) => {
+                        const map_epni = new Map()
+                        vnwm_epni.forEach(rn1 => {
+                            try {
+                                fs.unlinkSync(path.join(nikc_kpkp, rn1))
+                                map_epni.set(rn1, { w_cd_hd: true })
+                            } catch (e) {
+                                map_epni.set(rn1, { w_cd_hd: false, reason: e.message || e })
+                            }
+                        })
+                        return map_epni
+                    }
+                    const atvn_cqpi_hd = (vnwm_epni) => {
+                        return [...atvn_hd_epni(vnwm_epni)].map(rn1 => JSON.stringify(rn1)).join("\n")
+                    }
+                    return ussk_cqpi(new Map()
+                        .set("non", () => {
+                            return atvn_cqpi_hd(fs.readdirSync(nikc_kpkp))
+                        })
+                        .set("tszn", () => {
+                            return atvn_cqpi_hd(bsVnwm(user_params))
+                        })
+                    )
+                        .vdum(user_params._[2])
                 })
             )
                 .vdum(user_params._[1])
