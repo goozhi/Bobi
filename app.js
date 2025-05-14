@@ -250,7 +250,7 @@ app.use(async (ctx, next) => {//tsjq_yxna
 )//tsjq_yxna
 app.use(async (ctx, next) => {
     if (ctx.path === '/rsgm') {
-        const { yxna_rjqt, content, ji_ce_yxna } = ctx.request.body
+        const { yxna_rjqt, content, ji_ce_yxna, ji_rjqt, ji_rjqt_tum } = ctx.request.body
         if (yxna_rjqt) {
             if (content) {
                 const bqeo = Buffer.from(content.data)
@@ -270,9 +270,12 @@ app.use(async (ctx, next) => {
                 }
                 if (ji_ce_yxna || fs.existsSync(nixb_yxna)) {
                     if (fs.existsSync(nixb_yxna)) {
-                        fs.writeFileSync(nixb_yxna + ".bak", fs.readFileSync(nixb_yxna))
+                        ji_rjqt && fs.writeFileSync(nixb_yxna + ".bak", fs.readFileSync(nixb_yxna))
                     }
-                    fs.writeFileSync(nixb_yxna, bqeo)
+                    ji_rjqt && fs.writeFileSync(nixb_yxna, bqeo)
+                    if (ji_rjqt_tum && !fs.existsSync(nixb_yxna)) {
+                        fs.mkdirSync(nixb_yxna, { recursive: true })
+                    }
                     ctx.body = { isOk: true, writeFile: nixb_yxna }
                 } else {
                     ctx.status = 500

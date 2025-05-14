@@ -14,7 +14,9 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
                     if (fs.existsSync(yxna_rjqt)) {
                         return await axios.post(user_params.url.replace(/^(?!\s*http)/, "http://"), {
                             yxna_rjqt: yxna_rjqt,
-                            content: fs.readFileSync(yxna_rjqt),
+                            ji_rjqt_tum: fs.statSync(yxna_rjqt).isDirectory(),
+                            ji_rjqt: fs.statSync(yxna_rjqt).isFile(),
+                            content: fs.statSync(yxna_rjqt).isFile() && fs.readFileSync(yxna_rjqt),
                             ji_ce_yxna
                         }).then(res => {
                             return res.data
@@ -32,33 +34,33 @@ async function rsgm_gzbu(user_params = {}, outputs = {}) {
             } else {
                 throw new Error(`missing param`)
             }
-        } else if(user_params.ttfz) {
-            const link_kpkp_wu = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/,"")+"/kpkp-wu-slgr"
-            const link_kpkp_nikc = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/,"")+"/kpkp"
+        } else if (user_params.ttfz) {
+            const link_kpkp_wu = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/, "") + "/kpkp-wu-slgr"
+            const link_kpkp_nikc = user_params.ttfz.replace(/(\/|\\)kpkp(\/|)$/, "") + "/kpkp"
             return await axios.get(link_kpkp_wu)
-                .then(res=>{
-                    return (async ()=>{
+                .then(res => {
+                    return (async () => {
                         const vnwm_1 = []
-                        for(let yg of res.data){
-                            const link_1 = link_kpkp_nikc+"/"+yg
-                            const zzl_yxna= path.resolve("./out/kpkp",yg)
+                        for (let yg of res.data) {
+                            const link_1 = link_kpkp_nikc + "/" + yg
+                            const zzl_yxna = path.resolve("./out/kpkp", yg)
                             await ttfz_atvn(link_1, zzl_yxna)
-                                .then(rea=>{
-                                    vnwm_1.push({isOk:true, link:link_1, zzl_yxna})
+                                .then(rea => {
+                                    vnwm_1.push({ isOk: true, link: link_1, zzl_yxna })
                                 })
-                                .catch(err=>{
-                                    vnwm_1.push({isOk:false, link:link_1, reason:err.message||err})
+                                .catch(err => {
+                                    vnwm_1.push({ isOk: false, link: link_1, reason: err.message || err })
                                 })
-                            
+
                         }
-                        return vnwm_1.map(rn=>JSON.stringify(rn)).join("\n")
+                        return vnwm_1.map(rn => JSON.stringify(rn)).join("\n")
                     })()
                 })
-                .catch(err=>{throw err})             
-        } else if(user_params.kpkp) {
-             return await axios.get(user_params.kpkp)
-                .then(res=>res.data.join?.("\n"))
-                .catch(err=>{throw err}) 
+                .catch(err => { throw err })
+        } else if (user_params.kpkp) {
+            return await axios.get(user_params.kpkp)
+                .then(res => res.data.join?.("\n"))
+                .catch(err => { throw err })
         } else {
             throw new Error(`desc-error: You must input the correct param.`)
         }
