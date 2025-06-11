@@ -21,20 +21,25 @@
 
             --max-width: 100%;
 
+            --font-size: 100%;
+
         }
-        
-        button{
-        background-color: var(--bg-color);
+
+        button {
+            background-color: var(--bg-color);
             color: var(--text-color);
-            }
-        a{
-        background-color: var(--bg-color);
+        }
+
+        a {
+            background-color: var(--bg-color);
             color: var(--text-color);
-            }
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
             width: 100%;
+            font-size: var(--font-size);
             height: 100vh;
             margin: 0;
             display: list-item;
@@ -48,8 +53,11 @@
         }
     </style>
     <script>
-        if(new Date().getHours()>18||new Date().getHours()<8){
+        if (new Date().getHours() > 18 || new Date().getHours() < 8) {
             changeTheme("dark")
+        }
+        function changeFontSize(vn_kp = 100) {
+            document.documentElement.style.setProperty('--font-size', String(vn_kp).replace(/^(\d+)$/, "$1%"));
         }
         function changeMaxWidth(vn_kp = 100) {
             document.documentElement.style.setProperty('--max-width', String(vn_kp).replace(/^(\d+)$/, "$1%"));
@@ -132,27 +140,27 @@
 
     <script src="/qwse_1/afoa_hym.js"></script>
     <script>
-    try{
-    
-    let vdum_2_diwr = document.getElementById("vdum_2")
-    vdum_2_diwr.addEventListener("touchstart",()=>{
-        setTimeout(()=>{
-        zzzz_ussk_n_bqeo()
-        },1000)
-    })
-    function zzzz_ussk_n_bqeo(){
-       let rj_1 = window.getSelection()
-                   if(/^\w+$/.test(rj_1)){
+        try {
 
-            copyToClipboard(rj_1)
-       }
-    }
-}catch(e){
-alert(e)
-copyToClipboard(e.error||e)
-alert("error cd jkub!!!")
+            let vdum_2_diwr = document.getElementById("vdum_2")
+            vdum_2_diwr.addEventListener("touchstart", () => {
+                setTimeout(() => {
+                    zzzz_ussk_n_bqeo()
+                }, 1000)
+            })
+            function zzzz_ussk_n_bqeo() {
+                let rj_1 = window.getSelection()
+                if (/^\w+$/.test(rj_1)) {
 
-}
+                    copyToClipboard(rj_1)
+                }
+            }
+        } catch (e) {
+            alert(e)
+            copyToClipboard(e.error || e)
+            alert("error cd jkub!!!")
+
+        }
     </script>
 </body>
 
