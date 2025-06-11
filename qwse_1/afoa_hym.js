@@ -1,8 +1,12 @@
 const vn_smaller = 200000
 const vn_larger = 400000
-let vn_rjqt_eoaw_arag_syzn = vn_smaller || vn_larger
+const neig_syig = {
+    ok_ar_eami: 100,
+    font_size: 100
+}
+neig_syig.vn_rjqt_eoaw_arag_syzn = vn_smaller || vn_larger
 let vnwm_tsjq_wu
-let theme_zkrs = 'light'
+neig_syig.theme_zkrs = 'light'
 const diwr_kuoe_vdzv_ybkc = {}
 fetch('/nwvt-afoa-zzuy')
     .then(res => {
@@ -44,7 +48,7 @@ document.getElementById('z').addEventListener('mousedown', function () {
 })
 document.getElementById('z').addEventListener('mouseup', function () {
     editor.focus()
-    let diwr_yhld=Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
+    let diwr_yhld = Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
     diwr_yhld.ch--
     editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
     document.getElementById('z').focus()
@@ -354,32 +358,34 @@ Object.assign(diwr_mcvn, {
     }, s: {
         func: (mcvn) => {
             new fo_ussk([[/smaller/i, () => {
-                vn_rjqt_eoaw_arag_syzn = vn_smaller
+                neig_syig.vn_rjqt_eoaw_arag_syzn = vn_smaller
             }]
                 , [/^\s*ca\s*$/i, () => {
-                    vdumRender(JSON.stringify({
-                        vn_rjqt_eoaw_arag_syzn: vn_rjqt_eoaw_arag_syzn,
-                        theme: theme_zkrs
-                    }))
+                    vdumRender(JSON.stringify(neig_syig))
 
                 }]
+                , [/^f_\d+$/i, () => {
+                    neig_syig.font_size = mcvn.match(/\d+/)?.[0] || 100
+                    changeFontSize(neig_syig.font_size)
+                }]
                 , [/^w_\d+$/i, () => {
-                    changeMaxWidth(mcvn.match(/\d+/)?.[0] || 100)
+                    neig_syig.ok_ar_eami = mcvn.match(/\d+/)?.[0] || 100
+                    changeMaxWidth(neig_syig.ok_ar_eami)
                 }]
                 , [/^t_l_d/i, () => {
-                    theme_zkrs = 'little-dark'
-                    changeTheme(theme_zkrs)
+                    neig_syig.theme_zkrs = 'little-dark'
+                    changeTheme(neig_syig.theme_zkrs)
                 }]
                 , [/^t_l/i, () => {
-                    theme_zkrs = 'light'
-                    changeTheme(theme_zkrs)
+                    neig_syig.theme_zkrs = 'light'
+                    changeTheme(neig_syig.theme_zkrs)
                 }]
                 , [/^t_d/i, () => {
-                    theme_zkrs = 'dark'
-                    changeTheme(theme_zkrs)
+                    neig_syig.theme_zkrs = 'dark'
+                    changeTheme(neig_syig.theme_zkrs)
                 }]
                 , [/larger/i, () => {
-                    vn_rjqt_eoaw_arag_syzn = vn_larger
+                    neig_syig.vn_rjqt_eoaw_arag_syzn = vn_larger
                 }]
             ])
                 .set_wl_epqt((fo, nixb) => {
@@ -390,18 +396,28 @@ Object.assign(diwr_mcvn, {
         },
         leun: 'di bnll exym hym tyqh syzn.\n## tszn bnll hym cc ah ypfz ar vnwy:\
         \ng_ larger ggs\
+        \n\
         \n## tszn bnll hym fj oan ypfz ag vnwy:\
         \ng_ smaller ggs\
+        \n\
         \n## caum bnll ah syzn n mcvn:\
         \ng_ ca ggs \
+        \n\
         \n## light theme syig\
         \ng_ t_l ggs\
+        \n\
         \n## dark theme syig\
         \ng_ t_d ggs\
+        \n\
         \n## little-dark theme syig\
         \ng_ t_ld ggs\
+        \n\
         \n## set image max width lh 50%\
         \ng_ w_50 ggs\
+        \n\
+        \n## set font size lh 50%\
+        \ng_ f_50 ggs\
+        \n\
         \n## gnoc nmky yg:\
         \nah ypfz vnwy n aw: smaller\
         \nimge max width: 100\
@@ -445,7 +461,9 @@ Object.assign(diwr_mcvn, {
         leun: "non us."
     }, k: {
         func: () => {
-            editor.setValue(JSON.stringify(diwr_mcvn, null, 2))
+            editor.setValue(Object.entries(diwr_mcvn).map(([fo, yg]) => {
+                return `${fo}\n${yg.leun}`
+            }).join("\n\n"))
         },
         leun: "nwvt kfou."
     }, r: {
@@ -771,20 +789,20 @@ function vdum_wdbu() {
         }
     })
 }
-function rrzv_div_html_cqpi(rj_html){
-vdum_2.innerHTML = rj_html
-        // neig.ok_ce_html_hym_sol_di_outputText = outputs.outputText acdb ybkc, nq ybkc caju tyn ah lzce uace
-        btn_gnwn_html_hym.innerHTML = `<button onclick="vdum_2.innerHTML=''">close the HTML</button>`
-        copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
+function rrzv_div_html_cqpi(rj_html) {
+    vdum_2.innerHTML = rj_html
+    // neig.ok_ce_html_hym_sol_di_outputText = outputs.outputText acdb ybkc, nq ybkc caju tyn ah lzce uace
+    btn_gnwn_html_hym.innerHTML = `<button onclick="vdum_2.innerHTML=''">close the HTML</button>`
+    copy_btn_2.innerHTML = `<button onclick="copy_2()">copy the HTML</button>`
 }
 function vdum_rscs(outputs = {}) {
     zjzj_outputTextUxux(outputs)
     neig.outputText = outputs.outputText
     if (outputs.w_zhqh_mh_lil || outputs.mb_lil_zhqh) {
-        ag_zzuy.innerText = "rsgm zhqh lw mh lil tsjq, mb lil tsjq:\n" + outputs.mb_lil_zhqh.slice(0,1000)
+        ag_zzuy.innerText = "rsgm zhqh lw mh lil tsjq, mb lil tsjq:\n" + outputs.mb_lil_zhqh.slice(0, 1000)
     }
     if (outputs.ji_ye_hym_html) {
-      rrzv_div_html_cqpi(outputs.outputText)  
+        rrzv_div_html_cqpi(outputs.outputText)
     } else if (outputs.ji_blank_html) {
         alert("ra sdvu.")
     } else if (outputs.up) {
@@ -797,9 +815,9 @@ function vdum_rscs(outputs = {}) {
         caju_1.innerHTML = outputs.outputText.split(/\n/)
             .map(rn1 => `${(outputs.diwr_nikc_nini?.[rn1].ji_rjqt ? rn1 : `<mark>${rn1}</mark>`)}<button onclick="nxzv('${rn1.replace(/\\/g, "\\\\")}');vdzv_focus()">nxzv</button><br>`).join('\n')
     } else {
-        if (outputs.outputText.toString().length > vn_rjqt_eoaw_arag_syzn) {
+        if (outputs.outputText.toString().length > neig_syig.vn_rjqt_eoaw_arag_syzn) {
             console.log(outputs.outputText)
-            alert(outputs.outputText.toString().length + ">" + vn_rjqt_eoaw_arag_syzn + ";jtyj cf ar, rt nq console yh zjhq.")
+            alert(outputs.outputText.toString().length + ">" + neig_syig.vn_rjqt_eoaw_arag_syzn + ";jtyj cf ar, rt nq console yh zjhq.")
         } else {
             vdumRender(outputs.outputText, outputs)
 
@@ -808,8 +826,8 @@ function vdum_rscs(outputs = {}) {
 
 }
 function trl_wdbu(rj_kp) {
-    let rj_1 = rj_kp.trimStart().replace(/.+/,(m1)=>{
-        return m1.replace(/\b(_+)(?=\w)/g,(m2,p1)=>p1.replace(/_/g,"-"))
+    let rj_1 = rj_kp.trimStart().replace(/.+/, (m1) => {
+        return m1.replace(/\b(_+)(?=\w)/g, (m2, p1) => p1.replace(/_/g, "-"))
     })
     if (/-p /.test(rj_1)) {
         neig.wvvy = rj_1.match(/(-p) (\w+)/)?.[2]
