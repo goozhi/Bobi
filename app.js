@@ -366,6 +366,21 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+
+app.use(async (ctx, next) => {
+    if (ctx.path === '/xyzd-zzzz') {
+        try {
+            fs.writeFileSync('out/xyzd-1.txt', String(ctx.request.body.rj))
+            ctx.body = 'cd zzl'
+        } catch (err) {
+            console.error(err)
+            ctx.status = 500
+            ctx.body = wdbu_err(err)
+        }
+    } else {
+        await next()
+    }
+})
 function grbj_outputs() {
     return outputs(((config_locale.get_outputs().reduce((mb, bnll) => {
         return (bnll(mb))

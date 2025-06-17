@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // }
     })
     CodeMirror.on(editor, 'change', function (event, item) {
+        voud_xyzd_zzzz_rj(editor.getValue())
         if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
             let reg_rfrf_xbst = /(【[^【]*】)+$/
             const diwr_1 = editor.getCursor('from')
@@ -925,6 +926,38 @@ async function rf_rdeb(rj_kp = "") {
 }
 async function cqpi_wrvr_tsjq(rj_kp = "", rj_cqpi_fr = "") {
     return await prvd_afoa('wrvr ' + rj_cqpi_fr + '\n' + rj_kp).catch(err => { throw err })
+
+}
+async function voud_xyzd_zzzz_rj(rj_kp = "") {
+    return await fetch("/xyzd-zzzz", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Request-Headers': '*'
+        },
+        body: JSON.stringify({
+            rj: rj_kp
+        })
+    }).then(res => {
+        if (!res.ok) {
+            throw res
+        } else {
+            return res.text()
+        }
+    }).catch(err => {
+        if (!err) {
+            console.error('csrf- hsab ra znzk wlyc -' + err)
+            return
+        }
+        if (err.json) {
+            err.json().then(jtyj_1 => {
+                vdumRender(jtyj_1.reason)
+                console.error(jtyj_1.err_stack)
+            })
+        } else {
+            console.error(err);
+        }
+    })
 
 }
 async function prvd_afoa(vdzv_kp) {
