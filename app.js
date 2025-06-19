@@ -1,15 +1,17 @@
 console.time('app-drbz')
+console.time("use-badb-ll")
+console.time("test")
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const download = require("../scripts/download")
-const vtnJplp = require("../vtn/vtn-jplp.js")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
+console.timeEnd("test")
 const ussk_cqpi = require('../scripts/ussk_cqpi')
 const rfrf = require('../scripts/rfrf')
-const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
-const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
+// const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
+// const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
 const arrC = require("./arrC.js")
 const config_locale = (() => {
     if (fs.existsSync('./config_locale.js')) {
@@ -38,6 +40,7 @@ const dirName = path.join(__dirname, 'assets');
 const koaStatic = require('koa-static')
 const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'afoa', 'about', 'dqab-esqt', 'fdbj-rjqt', 'wubr-jchv', 'likeyou', 'wjfc-vocb']
 const neig = require('./neig')
+neig.jyqh_dyvy = Date.now()
 const uzms = require('../scripts/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('../scripts/eysj_zjqt')
@@ -51,6 +54,7 @@ const ngnc_nikc_paaw = require('../scripts/ngnc_nikc_paaw')
 const wvvy = require('../scripts/wvvy');
 const Znzd_zhqh = require('./Znzd_zhqh.js');
 const Jf_znzd_zhqh = require('./Jf_znzd_zhqh.js');
+
 const yo_jf_znzd_zhqh = new Jf_znzd_zhqh()
 const nikc_out = path.resolve('out')
 
@@ -130,7 +134,7 @@ const diwr_user_all = fs.existsSync(yxna_zzzz_user) ? require(yxna_zzzz_user) : 
 const diwr_user_bak = Object.assign({}, diwr_user_all)
 const diwr_cbvx = {}
 // body parser
-
+console.timeEnd("use-badb-ll")
 app.use(koaBody({
     multipart: true,
     formidable: {
@@ -149,7 +153,8 @@ app.use(koaStatic(__dirname + '/assets/img'));
 app.use(async (ctx, next) => {
     await next();
     const rt = ctx.response.get('X-Response-Time');
-    console.log(`${ctx.method} ${ctx.url} - ${rt}`);
+    if (!/xyzd-zzzz/.test(ctx.path))
+        console.log(`${ctx.method} ${ctx.url} - ${rt}`);
 });
 
 
@@ -175,7 +180,8 @@ app.use(async (ctx, next) => {
 
 
 // ybkc qg zt
-const yo_kplu_qg_zt = require('../zzzz/yo/yo_kplu_qg_zt.js')
+const yo_kplu_qg_zt = require('../zzzz/yo/yo_kplu_qg_zt.js');
+const Jplp_kplu_sdbu = require('../scripts/ux/jplp_kplu_sdbu.js');
 
 // brtz w `wrvr_eysj = yhrj_eysj(yhrj eysj lbm nq voud vnwy zd dw riri cln jcbz ldrg bc qg zt.)`
 const reg_brtz_1 = /(\w+)=([A-F\d%]+)/ig
@@ -366,11 +372,53 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+// const yxna_xyzd_zzzz = 'out/xyzd-zzzz.json'
+app.use(async (ctx, next) => {
+    if (ctx.path === '/get_jyqh_dyvy') {
+        ctx.body = neig.jyqh_dyvy
+    } else {
+        await next()
+    }
+})
+
+app.use(async (ctx, next) => {
+    if (ctx.path === '/get_xyzd-zzzz') {
+        try {
+            await yo_kplu_xyzd_zzzz.imfb({
+                nikc_kplu: "./out/xyzd-zzzz",
+                udao: "json",
+                w_jcbz_ngrw_nikc: true,
+                w_zqjp_parse: true,
+                uxux: "diwr",// diwr, vnwm
+            }).catch(err => { throw err })
+            ctx.body = yo_kplu_xyzd_zzzz.get_kplu()
+        } catch (err) {
+            console.error(err)
+            ctx.status = 500
+            ctx.body = wdbu_err(err)
+        }
+
+    } else {
+        await next()
+    }
+})
 
 app.use(async (ctx, next) => {
     if (ctx.path === '/xyzd-zzzz') {
         try {
-            fs.writeFileSync('out/xyzd-1.txt', String(ctx.request.body.rj))
+            await yo_kplu_xyzd_zzzz.imfb({
+                nikc_kplu: "./out/xyzd-zzzz",
+                udao: "json",
+                w_jcbz_ngrw_nikc: true,
+                w_zqjp_parse: true,
+                uxux: "diwr",// diwr, vnwm
+            }).catch(err => { throw err })
+
+            // const wrm_xyzd_zzzz = fs.existsSync(yxna_xyzd_zzzz) ? JSON.parse(fs.readFileSync(yxna_xyzd_zzzz).toString()) : {}
+            // fs.writeFileSync(yxna_xyzd_zzzz, JSON.stringify(Object.assign({ [ctx.request.body.wu]: ctx.request.body.bqeo }), null, 2))
+            const wrm_1 = ctx.request.body
+            yo_kplu_xyzd_zzzz[ctx.request.body.atvn_wu](...wrm_1.mcvn)
+            yo_kplu_xyzd_zzzz.zzzz()
             ctx.body = 'cd zzl'
         } catch (err) {
             console.error(err)
@@ -430,6 +478,7 @@ function yp_style(rj_html) {
     return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
 app.use(async (ctx, next) => {
+    const vtnJplp = require("../vtn/vtn-jplp.js")
     const reg_1 = /^\/vtn(?:\/|$)(.*)/i
     if (reg_1.test(ctx.path)) {
         await vtnJplp.allright().catch(err => {//allright
@@ -491,7 +540,7 @@ jplp_rjqt.jplp('gmtb', { nikc_kp: path.resolve('./out/gmtb') })
 jplp_rjqt.jplp('bzks-tbn', { nikc_kp: path.resolve('../bzks-tbn') })
 jplp_rjqt.jplp('node_modules')
 jplp_rjqt.jplp('kpkp', { nikc_kp: path.resolve('./out/kpkp') })
-
+const yo_kplu_xyzd_zzzz = new Jplp_kplu_sdbu()
 app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-net') {
         const html = fs.readFileSync(`${dirName}/afoa-net.html`).toString()

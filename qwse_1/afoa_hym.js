@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // }
     })
     CodeMirror.on(editor, 'change', function (event, item) {
-        voud_xyzd_zzzz_rj(editor.getValue())
+        voud_xyzd_zzzz_rj(editor.getValue()).catch(err => console.error(err))
         if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
             let reg_rfrf_xbst = /(【[^【]*】)+$/
             const diwr_1 = editor.getCursor('from')
@@ -929,6 +929,7 @@ async function cqpi_wrvr_tsjq(rj_kp = "", rj_cqpi_fr = "") {
 
 }
 async function voud_xyzd_zzzz_rj(rj_kp = "") {
+    const jyqh_dyvy = await fetch('/get_jyqh_dyvy').then(res => res.text()).catch(err => { throw err })
     return await fetch("/xyzd-zzzz", {
         method: "POST",
         headers: {
@@ -936,7 +937,11 @@ async function voud_xyzd_zzzz_rj(rj_kp = "") {
             'Access-Control-Request-Headers': '*'
         },
         body: JSON.stringify({
-            rj: rj_kp
+            atvn_wu: "set",
+            mcvn: ["vdzv_zul_rjse_" + jyqh_dyvy, {
+                wu: "vdzv_zul_rjse",
+                bqeo: rj_kp
+            }]
         })
     }).then(res => {
         if (!res.ok) {
