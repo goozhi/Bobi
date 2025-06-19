@@ -1,13 +1,11 @@
 console.time('app-drbz')
 console.time("use-badb-ll")
-console.time("test")
 const fs = require('fs');
 const path = require('path');
 const Koa = require('koa');
 const download = require("../scripts/download")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
-console.timeEnd("test")
 const ussk_cqpi = require('../scripts/ussk_cqpi')
 const rfrf = require('../scripts/rfrf')
 // const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
