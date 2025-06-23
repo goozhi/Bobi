@@ -548,6 +548,15 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if (/hq-wphh/.test(ctx.path)) {
+        ctx.body = `<video controls>
+<source src="${ctx.path.replace(/\/hq-wphh/, "")}">
+</video>`
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     if (ctx.path === '/afoa-simple') {
         const html = fs.readFileSync(`${dirName}/afoa-simple.html`).toString()
         ctx.body = html
