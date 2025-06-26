@@ -433,6 +433,14 @@ function grbj_outputs() {
     }, {}))))
 }
 app.use(async (ctx, next) => {
+    if (ctx.path === "/favicon.ico") {
+        ctx.status = 403
+        ctx.body = "Not found"
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     const user_uid = ctx.header["user-agent"] ? ctx.header["user-agent"] : my_uids[0]
     if (user_uid) {
         if (!my_uids.some((ele) => ele === user_uid)) {
