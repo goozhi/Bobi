@@ -41,6 +41,7 @@ const neig = require('./neig')
 neig.jyqh_dyvy = Date.now()
 neig.xyzd_hym = "K w y v xyzd hycc."
 neig.afoa_jtyj = "K w y v afoa vdum jtyj ybkc hycc."
+neig.afoa_vdzv = "K w y v afoa vdzv ybkc hycc."
 const uzms = require('../scripts/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('../scripts/eysj_zjqt')
@@ -375,6 +376,8 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if (ctx.path === '/xyzd-hym') {
         ctx.body = neig.xyzd_hym
+    } else if (ctx.path === '/afoa-vdzv') {
+        ctx.body = neig.afoa_vdzv
     } else if (ctx.path === '/afoa-jtyj') {
         ctx.body = neig.afoa_jtyj
     } else {
