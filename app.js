@@ -40,6 +40,7 @@ const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'af
 const neig = require('./neig')
 neig.jyqh_dyvy = Date.now()
 neig.xyzd_hym = "K w y v xyzd hycc."
+neig.afoa_jtyj = "K w y v afoa vdum jtyj ybkc hycc."
 const uzms = require('../scripts/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('../scripts/eysj_zjqt')
@@ -374,6 +375,8 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if (ctx.path === '/xyzd-hym') {
         ctx.body = neig.xyzd_hym
+    } else if (ctx.path === '/afoa-jtyj') {
+        ctx.body = neig.afoa_jtyj
     } else {
         await next()
     }
