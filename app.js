@@ -39,6 +39,7 @@ const koaStatic = require('koa-static')
 const yxna_caju = ['test', 'wjdk-vktm', 'yxna-caju', 'hsoy-esqt', 'mamamia', 'afoa', 'about', 'dqab-esqt', 'fdbj-rjqt', 'wubr-jchv', 'likeyou', 'wjfc-vocb']
 const neig = require('./neig')
 neig.jyqh_dyvy = Date.now()
+neig.xyzd_hym = "K w y v xyzd hycc."
 const uzms = require('../scripts/uz_ms')
 const send = require('koa-send');
 const eysj_zjqt = require('../scripts/eysj_zjqt')
@@ -366,6 +367,13 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if (ctx.path === '/nwvt-afoa-zzuy') {
         ctx.body = [...require('./arrC.js'), ...require('../scripts/arrC.js')].map(rn1 => rn1[0])
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
+    if (ctx.path === '/xyzd-hym') {
+        ctx.body = neig.xyzd_hym
     } else {
         await next()
     }
