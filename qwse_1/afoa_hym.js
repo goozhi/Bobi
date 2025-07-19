@@ -282,9 +282,9 @@ Object.assign(diwr_mcvn, {
     }, j: {
         func: () => {
             editor.setCursor(0, 0)
-            editor.replaceSelection("vtn bv wy\n")
+            editor.replaceSelection("zz bv -x wytm\n")
         },
-        leun: "nxzv 'vtn bv wy' tsjq."
+        leun: "nxzv 'zz bv -x wytm' tsjq."
     }, u: {
         func: (mcvn_kp) => {
             if (!mcvn_kp) {
