@@ -61,8 +61,12 @@ document.getElementById('y').addEventListener('mouseup', function () {
     editor.focus()
     let diwr_yhld = Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
     diwr_yhld.ch--
-    editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
+    if (bnll_eqwy_1 === vnwm_ybbp.length-1) {
+        editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0])
+    }else{
+        editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
     document.getElementById('y').focus()
+    }
 })
 document.getElementById('zyvv').addEventListener('mousedown', function () {
     zyvv()
