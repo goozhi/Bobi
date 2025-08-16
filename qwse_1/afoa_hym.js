@@ -124,10 +124,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // }
     })
-    setInterval(() => {
-        voud_xyzd_zzzz_rj(editor.getValue()).catch(err => console.error(err))
-    }, 3000);
+    function Bvzd_kivo(neig_kp = {}) {
+        const neig = Object.assign({ neig_kp }, {
+            vn_trl_kivo_zdog: Date.now() + 90000
+        }, neig_kp)
+        this.set_trl_kivo_zdog = (vn_kp) => {
+            neig.vn_trl_kivo_zdog = vn_kp || 0
+            return this
+        }
+        this.uufb = (atvn_qhbz = () => { }) => {
+            if (neig.vn_trl_kivo_zdog > Date.now()) {
+                clearTimeout(neig.yo_timeout)
+            } else {
+            }
+            neig.yo_timeout = setTimeout(() => {
+                atvn_qhbz()
+            }, neig.vn_trl_kivo_zdog-Date.now());
+            return this
+        }
+    }
+    const yo_bvzd_kivo = new Bvzd_kivo()
     CodeMirror.on(editor, 'change', function (event, item) {
+        yo_bvzd_kivo.set_trl_kivo_zdog(Date.now() + 3000).uufb(() => {
+            voud_xyzd_zzzz_rj(editor.getValue()).catch(err => console.error(err))
+        })
         if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
             let reg_rfrf_xbst = /(【[^【]*】)+$/
             const diwr_1 = editor.getCursor('from')
