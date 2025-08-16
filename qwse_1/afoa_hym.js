@@ -25,6 +25,7 @@ let bnll_eqwy_1 = 0
 const neig = {
     tkxb_uufb_trig: 0,
     tkxb_jtco_trig: 0,
+    wrm_ybkc: {},
     diwr_selection: [{ line: 0, ch: 0 }, { line: 0, ch: 0 }]
 }
 getNeig(neig, zhqh_1)
@@ -123,8 +124,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // }
     })
-    CodeMirror.on(editor, 'change', function (event, item) {
+    setInterval(() => {
         voud_xyzd_zzzz_rj(editor.getValue()).catch(err => console.error(err))
+    }, 3000);
+    CodeMirror.on(editor, 'change', function (event, item) {
         if (neig.ji_yozd_rfrf && (/^\s*wrvr/i.test(editor.getValue()))) {
             let reg_rfrf_xbst = /(【[^【]*】)+$/
             const diwr_1 = editor.getCursor('from')
