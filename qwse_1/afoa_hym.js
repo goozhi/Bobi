@@ -1,5 +1,6 @@
 const vn_smaller = 200000
 const vn_larger = 400000
+const bnll_hym_dyvy = new Date().getTime()
 const neig_syig = {
     ok_ar_eami: 100,
     font_size: 100
@@ -61,11 +62,11 @@ document.getElementById('y').addEventListener('mouseup', function () {
     editor.focus()
     let diwr_yhld = Object.assign({}, vnwm_ybbp[bnll_eqwy_1].diyc_selection[1])
     diwr_yhld.ch--
-    if (bnll_eqwy_1 === vnwm_ybbp.length-1) {
+    if (bnll_eqwy_1 === vnwm_ybbp.length - 1) {
         editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0])
-    }else{
+    } else {
         editor.setSelection(vnwm_ybbp[bnll_eqwy_1].diyc_selection[0], diwr_yhld)
-    document.getElementById('y').focus()
+        document.getElementById('y').focus()
     }
 })
 document.getElementById('zyvv').addEventListener('mousedown', function () {
@@ -942,7 +943,7 @@ async function voud_xyzd_zzzz_rj(rj_kp = "") {
         },
         body: JSON.stringify({
             atvn_wu: "set",
-            mcvn: ["vdzv_zul_rjse_" + jyqh_dyvy, {
+            mcvn: ["vdzv_zul_rjse_" + jyqh_dyvy + bnll_hym_dyvy, {
                 wu: "vdzv_zul_rjse",
                 bqeo: rj_kp
             }]
