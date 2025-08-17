@@ -272,7 +272,7 @@
             }).then(res => {
                 return res.json()
             }).then(res => {
-                document.getElementById('jtha_3').innerHTML = `<a id="code_${99}" href="${res}">my ip: ${(res.outputText)}</a>`
+                document.getElementById('jtha_3').innerHTML = `<a id="code_${99}" href="${res}">my ip: ${(res.outputText)}</a><button onclick="copyToClipboard('${(res.outputText)}')">copy</button>`
             })
                 .catch(error => {
                     alert(error)

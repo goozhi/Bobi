@@ -7,6 +7,8 @@ const download = require("../scripts/download")
 const Jplp_rjqt = require('../koa-ouss/jplp_rjqt.js')
 const wdbu_err = require('../scripts/wdbu_err.js')
 const ussk_cqpi = require('../scripts/ussk_cqpi')
+const wrm_cqzt = require("../zzzz/kplu/cqzt/zt-rs.json")
+const wrm_yfm_di_vnzt_yfm = require("../zzzz/kplu/cqzt/vnzt-gwyf.json")
 const rfrf = require('../scripts/rfrf')
 // const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
 // const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
@@ -169,15 +171,15 @@ app.use(async (ctx, next) => {
 });
 
 // eowl nfmi jthy
-app.use(async (ctx, next) => {
-    const wm_nfmi_jthy_wu = fs.readdirSync(__dirname + "/assets/").filter(rn1 => /\.html$/i.test(rn1))
-    const wu_html = wm_nfmi_jthy_wu.find(rn1 => "/" + rn1.replace(/\.html$/i, "").toLowerCase() === ctx.path.toLowerCase())
-    if (ctx.method === "GET" && wu_html) {
-        ctx.body = fs.readFileSync("assets/" + wu_html).toString()
-    } else {
-        await next();
-    }
-});
+// app.use(async (ctx, next) => {
+//     const wm_nfmi_jthy_wu = fs.readdirSync(__dirname + "/assets/").filter(rn1 => /\.html$/i.test(rn1))
+//     const wu_html = wm_nfmi_jthy_wu.find(rn1 => "/" + rn1.replace(/\.html$/i, "").toLowerCase() === ctx.path.toLowerCase())
+//     if (ctx.method === "GET" && wu_html) {
+//         ctx.body = fs.readFileSync("assets/" + wu_html).toString()
+//     } else {
+//         await next();
+//     }
+// });
 
 
 // ybkc qg zt
@@ -220,6 +222,29 @@ app.use(async (ctx, next) => {
     }
 }
 )
+function zt_ld_yfm(rj_kp = "") {
+    return rj_kp.split('').map(rn1 => {
+        return rn1.trim()
+    }).map(rn1 => {
+        if (wrm_cqzt[rn1]) {
+            const yfm = wrm_cqzt[rn1].yfm || wrm_cqzt[rn1][0].yfm
+            return wrm_yfm_di_vnzt_yfm[yfm] || rn1
+        } else {
+            return rn1
+        }
+    }).join(' ')
+}
+app.use(async (ctx, next) => {
+    if (/\/zt-yfm\b/.test(ctx.path)) {
+        ctx.set('Access-Control-Allow-Origin', '*')
+        const rj_kp = ctx.request.body?.rj_kp || ""
+        ctx.body = { rj_kp, rj_yfm: zt_ld_yfm(ctx.request.body?.rj_kp) }
+    } else {
+        await next()
+    }
+}
+)
+
 
 async function wdbu_url_tsjq(ctx) {
     const diwr_kp = Object.assign({}, ctx.request.body)
