@@ -228,7 +228,7 @@ function zt_ld_yfm(rj_kp = "") {
     }).map(rn1 => {
         if (wrm_cqzt[rn1]) {
             const yfm = wrm_cqzt[rn1].yfm || wrm_cqzt[rn1][0].yfm
-            return wrm_yfm_di_vnzt_yfm[yfm] || rn1
+            return wrm_yfm_di_vnzt_yfm[/\d/.test(yfm) ? ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"][yfm] : yfm] || rn1
         } else {
             return rn1
         }
@@ -513,6 +513,10 @@ app.use(async (ctx, next) => {
 app.use(async (ctx, next) => {
     if (ctx.path === '/') {
         const html = fs.readFileSync(`${dirName}/home.html`).toString()
+
+        ctx.body = html
+    } else if (ctx.path === '/yfkt') {
+        const html = fs.readFileSync(`${dirName}/yfkt.html`).toString()
 
         ctx.body = html
     } else {
