@@ -14,7 +14,7 @@ if (!fs.existsSync(nikc_kpkp)) {
 }
 module.exports = [["kpkp"], {
     describe: `## sc yndf exym cln vodu kpkp nikc tt n sopc rjqt
-    kpkp voud url --non
+    kpkp voud url --non --lclc "url_ fj rr ab izlp om qh."
     
     ## voud kpkp nikc tt tszn n rjqt ab nixb url
     kpkp voud url --tszn
