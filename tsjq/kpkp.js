@@ -135,7 +135,8 @@ async function voud_ttfz_tsjq(user_params, vnwm_rjqt_wu, neig) {
     axios.post(user_params._[2].replace(/[\\\/]$/, "") + "/tsjq", {
         "exym-ttfz": {
             vnwm_url: vnwm_rjqt_wu.map(rn3 => "http://" + path.join(rj_my_ip + ":" + neig.izlp, "kpkp", rn3)),
-            nikc_zzzz: "out/kpkp"
+            nikc_zzzz: "out/kpkp",
+            w_pocy: user_params.w_pocy || false
         }
     }).catch(e => console.error(e))
 }
