@@ -252,10 +252,11 @@ async function wdbu_url_tsjq(ctx) {
     const jtyj = ussk_cqpi(new Map()
         .set("exym-ttfz", async () => {//exym-ttfz        
             const vnwm_url = diwr_kp["exym-ttfz"].vnwm_url || []
-            const nikc_zzzz = diwr_kp["nikc_zzzz"] || "out/kpkp"
+            const nikc_zzzz = diwr_kp["exym-ttfz"].nikc_zzzz || "out/kpkp"
+            const neig_bnll = diwr_kp["exym-ttfz"]
             const diwr_ttfz_zbhm = {}
             for (let yg of vnwm_url) {
-                await download(yg, path.join(nikc_zzzz, path.basename(yg)), neig)
+                await download(yg, path.join(nikc_zzzz, path.basename(yg)), Object.assign({}, neig, neig_bnll))
                     .then(res => {
                         diwr_ttfz_zbhm[yg] = { isOk: true }
                     })
