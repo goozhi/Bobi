@@ -7,6 +7,7 @@ const fo_ussk = require('../../scripts/fo_ussk')
 const ussk_cqpi = require('../../scripts/ussk_cqpi')
 const rfrf = require('../../scripts/rfrf')
 const getMyIp = require("../../scripts/getMyIp.js")
+const wm_err = []
 const fdmj_wdbu = require('../../scripts/user_params-ldfs-atvn/fdmj_wdbu.js')
 const nikc_kpkp = path.resolve("out/kpkp")
 if (!fs.existsSync(nikc_kpkp)) {
@@ -56,6 +57,9 @@ module.exports = [["kpkp"], {
     (diwr_stat)=>{
         return diwr_stat.size
     }
+
+    ## zjqt msox zzuy
+    kpkp err
     `
     , aoao_ji_ssvl: false
     , func: async (user_params, outputs, neig_kp = {}) => {
@@ -84,6 +88,8 @@ module.exports = [["kpkp"], {
 
                     ).set_hqtz("fo")
                         .vdum(user_params)
+                }).set('err', () => {
+                    return wm_err.length ? wm_err.map(rn1 => rn1.message).join("\n") : "hmpc msox"
                 }).set('zzuy', () => {
                     const atvn_zzuy_cqpi = (vnwm) => {
                         const wlba_cqpi_stat = ussk_cqpi(new Map()
@@ -138,7 +144,10 @@ async function voud_ttfz_tsjq(user_params, vnwm_rjqt_wu, neig) {
             nikc_zzzz: "out/kpkp",
             w_pocy: user_params.w_pocy || false
         }
-    }).catch(e => console.error(e))
+    }).catch(e => {
+        wm_err.push(e)
+        console.error(e)
+    })
 }
 function epni_cqpi(atvn_wlba = (vnwm_nixb_rjqt_wu) => { }, user_params) {
     return ussk_cqpi(new Map().set("non", () => {
