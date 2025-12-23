@@ -10,6 +10,7 @@ let vnwm_tsjq_wu
 neig_syig.theme_zkrs = 'light'
 const diwr_kuoe_vdzv_ybkc = {}
 const map_acn_sc_ybkc = new Map()
+const map_ggb_ybkc = new Map()
 fetch('/nwvt-afoa-zzuy')
     .then(res => {
         if (res.ok) {
@@ -471,7 +472,9 @@ Object.assign(diwr_mcvn, {
     },
     b: {
         func: () => {
-            qi_bnll_eysj_vdzv((eysj) => rfrf_cd_us_eysj(eysj, { wl_ra_znzk_wdbu: (eysj) => eysj }), { reg: /(?:[\u4E00-\u9FA5]+|[a-zA-z]+)\s*$/ })
+            qi_bnll_eysj_vdzv((eysj) => {
+                return rfrf_cd_us_eysj(eysj, { wl_ra_znzk_wdbu: (eysj) => eysj })
+            }, { reg: /(?:[\u4E00-\u9FA5]+(?:(-[\u4E00-\u9FA5]+)+|)|[a-zA-z]+(?:(-[a-zA-z]+)+|))\s*$/ })
         },
         leun: "ja bnll vdzv dk yhrj eysj zqjp ldlh wrvr."
     }, e: {
@@ -1082,7 +1085,11 @@ async function prvd_afoa(vdzv_kp) {
 }
 function rfrf_cd_us_eysj(eysj, neig_kp = { wl_ra_znzk_wdbu: (eysj, ra_znzk_zzuy) => 'ra-znzk' }) {
     const { wl_ra_znzk_wdbu } = neig_kp
-    cqpi_wrvr_tsjq(eysj).then(wlyc => {
+    if (map_ggb_ybkc.has(eysj)) {
+        editor.replaceSelection(map_ggb_ybkc.get(eysj))
+        return
+    }
+    cqpi_wrvr_tsjq(eysj, /\w/.test(eysj) ? "" : 'xjvx').then(wlyc => {
         const rj = (() => {
             const yhld = String(wlyc).trim()
             if (/RA ZNZK/.test(yhld)) {
@@ -1091,7 +1098,9 @@ function rfrf_cd_us_eysj(eysj, neig_kp = { wl_ra_znzk_wdbu: (eysj, ra_znzk_zzuy)
                 return yhld
             }
 
-        })()
+        })().replace(/ /g, "")
+        if (eysj != rj)
+            map_ggb_ybkc.set(eysj, rj)
         editor.replaceSelection(rj)
     }).catch(err => console.error(err))
 }
@@ -1099,7 +1108,7 @@ function qi_bnll_yhrj_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }) {
     qi_bnll_vdzv(wlba_ymrg_zl_eysj, /[\u4E00-\u9FA5]+\s*$/)
 }
 function qi_bnll_eysj_vdzv(wlba_ymrg_zl_eysj, neig_kp = {}) {
-    const neig = Object.assign({ neig_kp, reg: /[\u4E00-\u9FA5a-zA-z]+\s*$/ }, neig_kp)
+    const neig = Object.assign({ neig_kp, reg: /[\u4E00-\u9FA5a-zA-z]+(?:(-[\u4E00-\u9FA5a-zA-z]+)+|)\s*$/ }, neig_kp)
     qi_bnll_vdzv(wlba_ymrg_zl_eysj, neig.reg)
 }
 function qi_bnll_vdzv(wlba_ymrg_zl_eysj = (rj_eysj_yhrj) => { }, reg_eysj) {
