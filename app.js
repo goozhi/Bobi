@@ -527,43 +527,43 @@ app.use(async (ctx, next) => {
 function yp_style(rj_html) {
     return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
-app.use(async (ctx, next) => {
-    const vtnJplp = require("../vtn/vtn-jplp.js")
-    const reg_1 = /^\/vtn(?:\/|$)(.*)/i
-    if (reg_1.test(ctx.path)) {
-        await vtnJplp.allright().catch(err => {//allright
-            ctx.status = 500
-            ctx.body = wdbu_err(err)
-            console.error(err)
-        })//allright
-        await (async () => {//ph_
-            const diwr_jthy_atvn = vtnJplp.get_jthy_atvn()
-            const rj_xbst = ctx.path.match(reg_1)?.[1]
-            if (rj_xbst === null) {
-                throw new Error("csrf-ravc msox vohf nq ngce zd-")
-            }
-            if (diwr_jthy_atvn[rj_xbst]) {
-                ctx.body = yp_style((diwr_jthy_atvn[rj_xbst])())
-            } else {
-                if (rj_xbst) {
-                    ctx.status = 403
-                    ctx.body = "not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
-                }
+// app.use(async (ctx, next) => {
+//     const vtnJplp = require("../vtn/vtn-jplp.js")
+//     const reg_1 = /^\/vtn(?:\/|$)(.*)/i
+//     if (reg_1.test(ctx.path)) {
+//         await vtnJplp.allright().catch(err => {//allright
+//             ctx.status = 500
+//             ctx.body = wdbu_err(err)
+//             console.error(err)
+//         })//allright
+//         await (async () => {//ph_
+//             const diwr_jthy_atvn = vtnJplp.get_jthy_atvn()
+//             const rj_xbst = ctx.path.match(reg_1)?.[1]
+//             if (rj_xbst === null) {
+//                 throw new Error("csrf-ravc msox vohf nq ngce zd-")
+//             }
+//             if (diwr_jthy_atvn[rj_xbst]) {
+//                 ctx.body = yp_style((diwr_jthy_atvn[rj_xbst])())
+//             } else {
+//                 if (rj_xbst) {
+//                     ctx.status = 403
+//                     ctx.body = "not found"//Object.keys(diwr_jthy_atvn).filter(rn1=>/vtn_/.test(rn1))
+//                 }
 
-                else
-                    ctx.body = vtnJplp.get_jthy()
-            }
+//                 else
+//                     ctx.body = vtnJplp.get_jthy()
+//             }
 
-        })()//ph_
-            .catch(err => {
-                ctx.status = 500
-                ctx.body = wdbu_err(err)
-                console.error(err)
-            })
-    } else {
-        await next()
-    }
-})
+//         })()//ph_
+//             .catch(err => {
+//                 ctx.status = 500
+//                 ctx.body = wdbu_err(err)
+//                 console.error(err)
+//             })
+//     } else {
+//         await next()
+//     }
+// })
 app.use(async (ctx, next) => {
     if (ctx.path === '/wrvr-yozd-rfrf') {
         const html = fs.readFileSync(`${dirName}/wrvr-yozd-rfrf.html`).toString()
