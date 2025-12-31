@@ -10,6 +10,8 @@ const ussk_cqpi = require('../scripts/ussk_cqpi')
 const wrm_cqzt = require("../zzzz/kplu/cqzt/zt-rs.json")
 const wrm_yfm_di_vnzt_yfm = require("../zzzz/kplu/cqzt/vnzt-gwyf.json")
 const rfrf = require('../scripts/rfrf')
+const yo_msox_wdbu_gzbu = require('../scripts/yoch/yo_msox_wdbu_gzbu.js');
+const yo_msox_app_lb_gzbu = yo_msox_wdbu_gzbu.yp('exym-cln', { wu: "app" }).get_vxn('exym-cln')
 // const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
 // const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
 const arrC = require("./arrC.js")
@@ -156,6 +158,13 @@ app.use(koaStatic(__dirname + '/assets/img'));
 app.use(async (ctx, next) => {
     await next();
     const rt = ctx.response.get('X-Response-Time');
+    // yo_msox_app_lb_gzbu.set_
+    yo_msox_app_lb_gzbu.set_wdbu_err((e) => {
+        ctx.status = 500
+        console.error(e)
+        ctx.body = wdbu_err(e)
+
+    })
     if (!/xyzd-zzzz/.test(ctx.path))
         console.log(`${ctx.method} ${ctx.url} - ${rt}`);
 });

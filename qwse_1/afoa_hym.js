@@ -707,8 +707,8 @@ function zhqh_1(neig) {
     if (neig.ji_exym_oc_ssvl) {
         document.onkeydown = function (event) {
             if (event.key === "Tab") {
-                event.preventDefault()
-                document.getElementById('vdum_btn').click()
+                // event.preventDefault()
+                // document.getElementById('vdum_btn').click()
             }
         }
     }
