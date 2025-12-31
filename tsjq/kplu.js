@@ -4,6 +4,8 @@ const zjzj_lastParams = require('../../scripts/user_params-ldfs-atvn/zjzj_lastPa
 const atvn_ae_wrm_fs = require("../../scripts/atvn_ae_wrm_fs")
 // const yo_kplu_kp = new kplu()
 const yo_yp_kplu_gzbu = require('../../scripts/yoch/yo_yp_kplu_gzbu')
+// const Yp_kplu = require('../../scripts/ux-d/yp-kplu')
+// const yo_yp_kplu_gzbu = new Yp_kplu({ "wu": "app wfdb" })
 const yo_msox_wdbu_gzbu = require('../../scripts/yoch/yo_msox_wdbu_gzbu')
 module.exports = [['kplu', "kplu_nikc_gzbu"], {
     describe: `## di nikc tt n noph json rjqt tyqh gzbu
@@ -32,7 +34,7 @@ module.exports = [['kplu', "kplu_nikc_gzbu"], {
                 }
                 zjzj_lastParams(user_params)
                 yo_yp_kplu_gzbu.zjzj_zznq(user_params.lastParams)
-                yo_yp_kplu_gzbu.yp(user_params.wu).get_vxn(user_params.wu).get_yo_kplu().imfb(Object.assign({
+                yo_yp_kplu_gzbu.yp(user_params.wu, { wu: user_params.wu }).get_vxn(user_params.wu).get_yo_kplu().imfb(Object.assign({
                     nikc_kplu: user_params.lastParams,
                     udao: "json",
                     w_jcbz_ngrw_nikc: false,
