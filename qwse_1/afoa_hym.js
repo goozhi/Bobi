@@ -205,7 +205,14 @@ document.addEventListener('DOMContentLoaded', function () {
                                         return b.getTime() - a.getTime()
                                     })[0] || 0
                             })() > 800) {
-                                qi_bnll_yhrj_vdzv(rfrf_cd_us_eysj)
+                                if (neig.ji_yozd_ldrg && !/ra.znzk/i.test(wlyc) && /\w{4}$/.test(bnll_zt)) {
+                                    qi_bnll_vdzv((eysj) => {
+                                        editor.replaceSelection(wlyc)
+                                    }, /\w+\s*$/)
+
+                                } else if (!neig.ji_yozd_ldrg) {
+                                    qi_bnll_yhrj_vdzv(rfrf_cd_us_eysj)
+                                }
                             }
                         }
                     }
@@ -531,6 +538,26 @@ Object.assign(diwr_mcvn, {
 
         },
         leun: 'uudr yozd rfrf.example:\n g_ gn ggr.\nae\nggr.'
+    }, o: {
+        func: (mcvn_kp) => {
+            if (mcvn_kp === 'gn') {
+                // neig.ji_yozd_rfrf = false
+                neig.ji_yozd_ldrg = false
+            } else {
+                neig.ji_yozd_ldrg = !neig.ji_yozd_ldrg
+
+                // if (!/^\s*wrvr/i.test(editor.getValue())) {
+                //     const diwr_bnll_tkxb = editor.getCursor()
+                //     editor.setValue("wrvr sfxz --uxux md\n" + editor.getValue())
+                //     editor.setCursor(Object.assign(diwr_bnll_tkxb, { line: diwr_bnll_tkxb.line + 1 }))
+                //     neig.ji_yozd_rfrf = true
+                // } else {
+                // neig.ji_yozd_rfrf = !neig.ji_yozd_rfrf
+                // }
+            }
+
+        },
+        leun: 'uudr yozd rfrf ldrg.\nexample:\n g_ gn ggo.\nae\nggo.'
     }, f: {
         func: (mcvn_kp) => {
             neig.ji_acn_sc_vkvj = !neig.ji_acn_sc_vkvj
