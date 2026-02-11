@@ -574,6 +574,8 @@ app.use(async (ctx, next) => {
             }
         }
 
+    } else {
+        await next()
     }
 })
 // app.use(async (ctx, next) => {
