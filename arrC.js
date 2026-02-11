@@ -19,7 +19,7 @@ String.prototype.fmtLines = function (num = 0) {
 String.prototype.trimLines = function () {
     return this.trim().split(/\n/).map(ele => ele.trim()).join('\n')
 }
-const arrC = [[['server'], {
+const arrC = [[['server', 'sv'], {
     describe: `give you the server info
             example:
             server getBlackList

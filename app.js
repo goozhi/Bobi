@@ -12,6 +12,13 @@ const wrm_yfm_di_vnzt_yfm = require("../zzzz/kplu/cqzt/vnzt-gwyf.json")
 const rfrf = require('../scripts/rfrf')
 const yo_msox_wdbu_gzbu = require('../scripts/yoch/yo_msox_wdbu_gzbu.js');
 const yo_msox_app_lb_gzbu = yo_msox_wdbu_gzbu.yp('exym-cln', { wu: "app" }).get_vxn('exym-cln')
+yo_msox_app_lb_gzbu.set_wdbu_err((e, ctx) => {
+    ctx.status = 500
+    console.error(e)
+    ctx.body = wdbu_err(e)
+
+})
+
 // const wrvr_kp = require("../scripts/KPLU/wrvr/index.js")
 // const wrvr_afoa = require("../scripts/cmd-zhqh-atvn/wrvr.js")
 const arrC = require("./arrC.js")
@@ -158,13 +165,6 @@ app.use(koaStatic(__dirname + '/assets/img'));
 app.use(async (ctx, next) => {
     await next();
     const rt = ctx.response.get('X-Response-Time');
-    // yo_msox_app_lb_gzbu.set_
-    yo_msox_app_lb_gzbu.set_wdbu_err((e) => {
-        ctx.status = 500
-        console.error(e)
-        ctx.body = wdbu_err(e)
-
-    })
     if (!/xyzd-zzzz/.test(ctx.path))
         console.log(`${ctx.method} ${ctx.url} - ${rt}`);
 });
@@ -536,6 +536,46 @@ app.use(async (ctx, next) => {
 function yp_style(rj_html) {
     return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
+const atvn_1 = require("../scripts/atvn-a/zero.js")
+const yo_yp_ux_a = atvn_1()
+const yo_zzuy_bwzq = yo_yp_ux_a.get_0("zzuy-wum", "zzuy-updz").get_0("zzuy-rr-wwdb-reye-tz-wum", "zzuy-rr-updz").get_0("zzuy-rr-mfva-lb-wum", "zzuy-rr-mfva-updz")
+app.use(async (ctx, next) => {
+    const vdum_html = async (yo_zzuy_bwzq) => {
+        return yp_style(await yo_zzuy_bwzq.allright()
+            .then(res => {
+                const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
+                return yo_zzuy_bwzq.get_wu(neig_wwdb) + "<br>" + yo_zzuy_bwzq.get_bqeo(Object.assign({}, neig_wwdb, {
+                    get_vxn_link: (yo_yfux) => {
+                        yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e) })
+                        return "/xbyb/" + yo_yfux.get_yoch_dyih()
+                    }
+                }))
+            }).catch(e => {
+                yo_msox_app_lb_gzbu.wdbu_err(e, ctx)
+                return `${e.message}\n${e.stack}`
+            }))
+    }
+    const reg_1 = /^\/xbyb(?:\/|$)(.*)/i
+    if (reg_1.test(ctx.path)) {
+        const rj_xbst = ctx.path.match(reg_1)?.[1]
+        if (rj_xbst === null) {
+            yo_msox_app_lb_gzbu.wdbu_err("csrf-ravc msox vohf nq ngce zd-", ctx)
+        } else {
+            if (!rj_xbst || rj_xbst === "home") {
+                ctx.body = await vdum_html(yo_zzuy_bwzq)
+            } else {
+                const nixb = yo_zzuy_bwzq.get_map_nomr_yfux_yoch_fs_mrzz().get(rj_xbst)
+                if (nixb) {
+                    ctx.body = await vdum_html(nixb)
+                } else {
+                    yo_msox_app_lb_gzbu.wdbu_err("csrf-bi vkih ac zznq oc mrzz yh-" + rj_xbst, ctx)
+                    return 'msox'
+                }
+            }
+        }
+
+    }
+})
 // app.use(async (ctx, next) => {
 //     const vtnJplp = require("../vtn/vtn-jplp.js")
 //     const reg_1 = /^\/vtn(?:\/|$)(.*)/i
