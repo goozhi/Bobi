@@ -460,7 +460,9 @@ app.use(async (ctx, next) => {
                 w_zqjp_parse: true,
                 uxux: "diwr",// diwr, vnwm
             }).catch(err => { throw err })
-
+            if (yo_kplu_xyzd_zzzz.get_kplu_map_tz().size > 5000) {
+                yo_kplu_xyzd_zzzz.clear()
+            }
             // const wrm_xyzd_zzzz = fs.existsSync(yxna_xyzd_zzzz) ? JSON.parse(fs.readFileSync(yxna_xyzd_zzzz).toString()) : {}
             // fs.writeFileSync(yxna_xyzd_zzzz, JSON.stringify(Object.assign({ [ctx.request.body.wu]: ctx.request.body.bqeo }), null, 2))
             const wrm_1 = ctx.request.body
@@ -536,19 +538,21 @@ app.use(async (ctx, next) => {
 function yp_style(rj_html) {
     return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
-const atvn_1 = require("../scripts/atvn-a/zero.js")
-const yo_yp_ux_a = atvn_1()
+// const atvn_1 = require("../scripts/atvn-a/zero.js")
+const yo_yp_ux_a = require("../scripts/yoch/yo-zero.js")
 const yo_zzuy_bwzq = yo_yp_ux_a.get_0("zzuy-wum", "zzuy-updz").get_0("zzuy-rr-wwdb-reye-tz-wum", "zzuy-rr-updz").get_0("zzuy-rr-mfva-lb-wum", "zzuy-rr-mfva-updz")
 app.use(async (ctx, next) => {
     const vdum_html = async (yo_zzuy_bwzq) => {
         return yp_style(await yo_zzuy_bwzq.allright()
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
-                return yo_zzuy_bwzq.get_wu(neig_wwdb) + "<br>" + yo_zzuy_bwzq.get_bqeo(Object.assign({}, neig_wwdb, {
+                return yo_zzuy_bwzq.get_wu(neig_wwdb) + yo_zzuy_bwzq.get_bqeo(Object.assign({}, neig_wwdb, {
+                    spzi_bqeo: ` ${yo_zzuy_bwzq.get_dyih?.()}<br>`,
                     get_vxn_link: (yo_yfux) => {
-                        yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e) })
+                        yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e, ctx) })
                         return "/xbyb/" + yo_yfux.get_yoch_dyih()
-                    }
+                    },
+                    get_vxn_link_wu: (vxn, neig_kp) => vxn.get_wu(neig_wwdb) + " " + vxn.get_dyih()
                 }))
             }).catch(e => {
                 yo_msox_app_lb_gzbu.wdbu_err(e, ctx)

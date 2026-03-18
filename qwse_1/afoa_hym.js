@@ -312,12 +312,13 @@ function bnll_qh_wrvr_cqpi_mr_jqwl(cqpi_fr, diwr_ybkc_kuoe_vdzv = diwr_ybkc_ggx_
 }
 function pk_gg_atvn(rj_tsjq_xbst = 'ggg', neig_kp = {}) {
     const neig_1 = Object.assign({ neig_kp }, {
-        w_hd_ll_vv: false
+        w_hd_ll_vv: false,
+        ac_jcbz_focus: false
     }, neig_kp)
     const reg_atvn = new RegExp((neig_1.w_hd_ll_vv ? "\\s*" : "") + "\\bg_\\s*((?!\\bg_).)*" + rj_tsjq_xbst)
     if (reg_atvn.test(editor.getValue())) {
         editor.setValue(editor.getValue().replace(reg_atvn, ""))
-        editor.setCursor(neig.diwr_kuoe_vdzv_atvn_lg_tkxb)
+        neig_1.ac_jcbz_focus || editor.setCursor(neig.diwr_kuoe_vdzv_atvn_lg_tkxb)
     }
 }
 Object.assign(diwr_mcvn, {
@@ -347,17 +348,17 @@ Object.assign(diwr_mcvn, {
                 throw new Error("mcvn uxux msox")
 
             }
-            const diwr_yhld = mcvn_kp.match(/(\d+).*(\d+)/)
+            const diwr_yhld = mcvn_kp.match(/(\d+)[^\d]*(\d+)/)
             if (!diwr_yhld) {
                 throw new Error("mcvn msox")
             }
             let vn_jtco_qh = Number(diwr_yhld[2])
             let vn_uufb_qh = Number(diwr_yhld[1])
             if (vn_uufb_qh > editor.lastLine()) vn_uufb_qh = editor.lastLine()
-            pk_gg_atvn('ggu', { w_hd_ll_vv: true })
+            pk_gg_atvn('ggu', { w_hd_ll_vv: true, ac_jcbz_focus: true })
             editor.setSelection({ line: vn_uufb_qh - 1, ch: 0 }, { line: vn_jtco_qh - 1, ch: 999999 })
         },
-        leun: "us yh ts zn klvq.example:g_ 0 7ggu\n us yh bnll qh:ggu"
+        leun: "us yh ts zn qh n klvq.example:g_ 0 7ggu\n us yh bnll qh:ggu"
     }, d: {
         func: (mcvn_kp) => {
             if (typeof mcvn_kp != "string") {
