@@ -1046,6 +1046,7 @@ async function voud_xyzd_zzzz_rj(rj_kp = "") {
         body: JSON.stringify({
             atvn_wu: "set",
             mcvn: ["vdzv_zul_rjse_" + jyqh_dyvy + bnll_hym_dyvy, {
+                zdog: Date.now(),
                 wu: "vdzv_zul_rjse",
                 bqeo: rj_kp
             }]
