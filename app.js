@@ -527,6 +527,14 @@ app.use(async (ctx, next) => {
         const html = fs.readFileSync(`${dirName}/home.html`).toString()
 
         ctx.body = html
+    } else if (ctx.path === '/bz-fr') {
+        const html = fs.readFileSync(`${dirName}/bz-fr.html`).toString()
+
+        ctx.body = html
+
+    } else if (/\.html$/.test(ctx.path)) {
+        const html = fs.readFileSync(`${ctx.path.replace(/^\/html/, '').replace(/^\/D/, 'D:')}`).toString()
+        ctx.body = html
     } else if (ctx.path === '/yfkt') {
         const html = fs.readFileSync(`${dirName}/yfkt.html`).toString()
 

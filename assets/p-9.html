@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>九宫格解锁 - 图案收藏夹</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+      color: white;
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 20px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    p {
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    canvas {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .input-area {
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      padding: 10px 15px;
+      width: 180px;
+      border: none;
+      border-radius: 8px;
+      margin: 0 5px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #ff6b6b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin: 0 5px;
+    }
+
+    button:hover {
+      background: #ee5253;
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      background: #aaa;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .info {
+      margin-top: 15px;
+      font-size: 0.9em;
+      opacity: 0.8;
+      text-align: center;
+    }
+
+    /* 图案列表 */
+    .pattern-list {
+      margin-top: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      padding: 15px;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .pattern-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.1);
+      margin: 5px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .pattern-item:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .pattern-name {
+      font-weight: 500;
+    }
+
+    .pattern-code {
+      font-size: 0.85em;
+      opacity: 0.8;
+    }
+
+    .delete-btn {
+      color: #ff6b6b;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📱 九宫格解锁动画</h1>
+  <div>
+    <button onclick="outputDataLength()">输出数据个数</button>
+    <button onclick="outputData()">输出数据</button>
+    <button onclick="inputData()">覆盖数据</button>
+  </div>
+
+  <div class="container">
+    <canvas id="gridCanvas" width="300" height="300"></canvas>
+
+    <div class="input-area">
+      <input type="text" id="pointInput" placeholder="输入点位，如：1,5,9" value="1,5,9" />
+      <button onclick="playAnimation()">▶ 播放</button>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="patternName" placeholder="给图案起个名字吧~" value="我的第一个图案" />
+      <button onclick="savePattern()">💾 保存</button>
+    </div>
+    <div class="input-area">
+      <input type="text" id="pointInput2" placeholder="输入点位，如：1,5,9" value="" />
+      <input type="text" id="patternName2" placeholder="name" value="" />
+      <button onclick="searchPattern()">搜索</button>
+      <button onclick="hdPattern()">删除</button>
+    </div>
+
+    <div class="info">
+      点位对应：<br>
+      1 2 3<br>
+      4 5 6<br>
+      7 8 9
+    </div>
+
+    <div class="pattern-list" id="patternList">
+      <!-- 图案会动态插入到这里 -->
+    </div>
+    <div>
+      <textarea name="vdum_zul" id="vdum_zul"></textarea>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gridCanvas');
+    const ctx = canvas.getContext('2d');
+    const size = 300;
+    const cell = size / 3;
+    const points = [];
+
+    // 初始化9个点的位置
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        points.push({
+          x: col * cell + cell / 2,
+          y: row * cell + cell / 2
+        });
+      }
+    }
+
+    // 存储的图案（从 localStorage 读取）
+    let savedPatterns = JSON.parse(localStorage.getItem('unlockPatterns') || '[]');
+
+    // 绘制静态网格
+    function drawGrid() {
+      ctx.clearRect(0, 0, size, size);
+
+      // 画背景格子
+      ctx.strokeStyle = '#e0e0e0';
+      ctx.lineWidth = 2;
+      for (let i = 1; i < 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(i * cell, 0);
+        ctx.lineTo(i * cell, size);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0, i * cell);
+        ctx.lineTo(size, i * cell);
+        ctx.stroke();
+      }
+
+      // 画圆点
+      points.forEach(p => {
+        ctx.fillStyle = '#aaa';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, cell * 0.15, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    // 播放动画
+    function playAnimation(input) {
+      const inputValue = input || document.getElementById('pointInput').value;
+      const sequence = inputValue.split(',').map(s => parseInt(s.trim()) - 1); // 转为索引
+
+      if (sequence.some(isNaN) || sequence.some(i => i < 0 || i > 8)) {
+        alert('请输入1-9之间的数字，用逗号分隔哦~');
+        return;
+      }
+
+      let index = 0;
+      const path = [];
+      const duration = 300;
+      const startTime = Date.now();
+
+      function animate() {
+        const now = Date.now();
+        const progress = Math.min((now - startTime) / (duration * sequence.length), 1);
+        const currentStep = Math.floor(progress * sequence.length);
+
+        while (index <= currentStep && index < sequence.length) {
+          path.push(sequence[index]);
+          index++;
+        }
+
+        drawGrid();
+
+        if (path.length > 0) {
+          // 画路径线
+          ctx.strokeStyle = '#4CAF50';
+          ctx.lineWidth = 6;
+          ctx.lineCap = 'round';
+          ctx.lineJoin = 'round';
+
+          ctx.beginPath();
+          ctx.moveTo(points[path[0]].x, points[path[0]].y);
+
+          for (let i = 1; i < path.length; i++) {
+            ctx.lineTo(points[path[i]].x, points[path[i]].y);
+          }
+
+          const ratioInStep = (progress * sequence.length) % 1;
+          if (path.length < sequence.length && ratioInStep > 0) {
+            const from = points[path[path.length - 1]];
+            const to = points[sequence[path.length]];
+            const x = from.x + (to.x - from.x) * ratioInStep;
+            const y = from.y + (to.y - from.y) * ratioInStep;
+            ctx.lineTo(x, y);
+          }
+
+          ctx.stroke();
+
+          // 光点特效
+          path.forEach(rn1 => {
+            const lastPoint = points[rn1];
+            const gradient = ctx.createRadialGradient(
+              lastPoint.x, lastPoint.y, 0,
+              lastPoint.x, lastPoint.y, cell * 0.3
+            );
+            gradient.addColorStop(0, 'rgba(76, 175, 80, 0.8)');
+            gradient.addColorStop(1, 'rgba(76, 175, 80, 0)');
+
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(lastPoint.x, lastPoint.y, cell * 0.3, 0, Math.PI * 2);
+            ctx.fill();
+          })
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      }
+
+      drawGrid();
+      setTimeout(animate, 100);
+    }
+
+    function outputDataLength() {
+      prompt('data length:', savedPatterns.length);
+    }
+    function copyToClipboard(string_1) {
+      const tempInput = document.createElement('textarea');
+      tempInput.value = string_1;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+    }
+
+    function outputData() {
+      copyToClipboard(JSON.stringify(savedPatterns, null, 2))
+      document.getElementById('vdum_zul').value = JSON.stringify(savedPatterns, null, 2)
+      alert('cd copy')
+    }
+    function inputData() {
+      const input = prompt('Paste exported drawing data URL here:');
+      if (!input) return;
+      const wm1 = (() => {
+        try {
+          return JSON.parse(input)
+        } catch (e) {
+          alert("格式出错")
+          return null
+        }
+      })()
+      if (wm1) {
+        savedPatterns.splice(0, savedPatterns.length, ...wm1)
+        localStorage.setItem('unlockPatterns', JSON.stringify(savedPatterns));
+      } else {
+        alert("数据不正确")
+      }
+    }
+    function yj_nixb(neig_kp = {}) {
+      const nameInput = document.getElementById('patternName2').value.trim();
+      const pointInput = document.getElementById('pointInput2').value.trim();
+      const name = nameInput || ''
+      let eqwy_yhld
+      const nixb = savedPatterns.find((rn1, eqwy_1) => {
+        if (name && rn1.name === name) {
+          eqwy_yhld = eqwy_1
+          return true
+        }
+        if (pointInput && rn1.code === pointInput) {
+          eqwy_yhld = eqwy_1
+          return true
+        }
+      })
+      if (neig_kp.atvn_eowl) {
+        return neig_kp.atvn_eowl(nixb, eqwy_yhld)
+      } else {
+        return nixb
+      }
+    }
+    function syig_vdzv(nixb) {
+      const nameInput = document.getElementById('patternName2')
+      const pointInput = document.getElementById('pointInput2')
+      nameInput.value = nixb.name
+      pointInput.value = nixb.code
+    }
+    function searchPattern() {
+      const nixb = yj_nixb()
+      if (nixb) {
+        syig_vdzv(nixb)
+        playAnimation(nixb.code)
+      } else {
+        alert("ra yjab-" + name)
+      }
+    }
+    function hdPattern() {
+      const nixb = yj_nixb({ atvn_eowl: (rn1, eqwy_1) => [rn1, eqwy_1] })
+      if (!nixb || !nixb[0]) {
+        alert("ra yjab-" + name)
+      } else {
+        savedPatterns.splice(nixb[1], 1)
+        refreshPatternList()
+        alert('cd hd-' + nixb.name + nixb.code)
+      }
+    }
+    // 保存图案
+    function savePattern() {
+      const input = document.getElementById('pointInput').value;
+      const nameInput = document.getElementById('patternName').value.trim();
+      const name = nameInput || `图案${savedPatterns.length + 1}`;
+      const code = input.replace(/\s/g, '');
+
+      if (!code) {
+        alert('请输入点位序列哦~');
+        return;
+      }
+
+      if (!/^\d+(,\d+)*$/.test(code)) {
+        alert('请输入合法的数字序列，如：1,2,3');
+        return;
+      }
+
+      // 防止重复保存
+      const exists = savedPatterns.some(p => p.code === code);
+      if (exists) {
+        alert('这个图案已经保存过啦！');
+        return;
+      } else {
+        const name_exists = savedPatterns.some(p => p.name === name);
+        if (name_exists) {
+          alert('这个名字已经有啦！');
+          return;
+        }
+
+
+      }
+
+      savedPatterns.push({ name, code });
+      localStorage.setItem('unlockPatterns', JSON.stringify(savedPatterns));
+      refreshPatternList();
+      alert(`✅ "${name}" 已保存到你的解锁收藏夹！`);
+    }
+
+    // 删除图案
+    function deletePattern(index) {
+      if (confirm('确定要删除这个图案吗？')) {
+        savedPatterns.splice(index, 1);
+        localStorage.setItem('unlockPatterns', JSON.stringify(savedPatterns));
+        refreshPatternList();
+      }
+    }
+
+    // 刷新图案列表
+    function refreshPatternList() {
+      const listEl = document.getElementById('patternList');
+      listEl.innerHTML = '';
+
+      if (savedPatterns.length === 0) {
+        listEl.innerHTML = '<div class="info">还没有保存任何图案哦~试试输入一个并保存吧！</div>';
+        return;
+      }
+
+      savedPatterns.forEach((pattern, index) => {
+        const item = document.createElement('div');
+        item.className = 'pattern-item';
+        item.innerHTML = `
+          <div>
+            <div class="pattern-name">${pattern.name}</div>
+            <div class="pattern-code">${pattern.code}</div>
+          </div>
+          <button class="delete-btn" onclick="deletePattern(${index})">×</button>
+        `;
+        item.onclick = (e) => {
+          if (!e.target.classList.contains('delete-btn')) {
+            document.getElementById('pointInput').value = pattern.code;
+            playAnimation(pattern.code);
+          }
+        };
+        listEl.appendChild(item);
+      });
+    }
+
+    // 点击画布添加点（彩蛋）
+    canvas.addEventListener('click', () => {
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      let closestIndex = -1;
+      let minDist = Infinity;
+
+      points.forEach((p, i) => {
+        const dist = (p.x - x) ** 2 + (p.y - y) ** 2;
+        if (dist < minDist && dist < (cell * 0.4) ** 2) {
+          minDist = dist;
+          closestIndex = i;
+        }
+      });
+
+      if (closestIndex !== -1) {
+        const input = document.getElementById('pointInput');
+        const current = input.value.replace(/,$/, '');
+        input.value = current ? `${current},${closestIndex + 1}` : `${closestIndex + 1}`;
+      }
+    });
+
+    // 初始化
+    drawGrid();
+    refreshPatternList(); // 加载已保存的图案
+  </script>
+</body>
+
+</html>
