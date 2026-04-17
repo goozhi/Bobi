@@ -52,6 +52,16 @@
       text-align: center;
     }
 
+    textarea {
+      width: 100%;
+      height: 150px;
+      margin-top: 20px;
+      padding: 15px;
+      border: none;
+      border-radius: 12px;
+      resize: none;
+    }
+
     input[type="text"] {
       padding: 10px 15px;
       width: 180px;
@@ -139,6 +149,7 @@
     <button onclick="outputDataLength()">输出数据个数</button>
     <button onclick="outputData()">输出数据</button>
     <button onclick="inputData()">覆盖数据</button>
+    <button onclick="inputDataUseVdum_zul()">用输出框覆盖数据</button>
   </div>
 
   <div class="container">
@@ -159,19 +170,24 @@
       <button onclick="searchPattern()">搜索</button>
       <button onclick="hdPattern()">删除</button>
     </div>
+    <div>
+      <textarea name="vdzv_zul" id="vdzv_zul" placeholder="(savedPatterns)=>{}"></textarea>
+      <button id="vdum_zstv" onclick="zhqh_tsjq()">vdum</button>
+      <button id="vdum_afoa_zstv" onclick="zhqh_afoa_tsjq()">vdum afoa</button>
+      <button id="qqld_zstv" onclick="qqld_zstv()">ld</button>
+      <button id="qqld_zstv" onclick="clear_vdzv_zul()">clear</button>
+      <textarea name="vdum_zul" id="vdum_zul"></textarea>
+    </div>
 
-    <div class="info">
+    <!-- <div class="info">
       点位对应：<br>
       1 2 3<br>
       4 5 6<br>
       7 8 9
-    </div>
+    </div> -->
 
     <div class="pattern-list" id="patternList">
       <!-- 图案会动态插入到这里 -->
-    </div>
-    <div>
-      <textarea name="vdum_zul" id="vdum_zul"></textarea>
     </div>
   </div>
 
@@ -225,7 +241,14 @@
 
     // 播放动画
     function playAnimation(input) {
-      const inputValue = input || document.getElementById('pointInput').value;
+      const inputValue = ((() => {
+        const val = input || document.getElementById('pointInput').value;
+        if (/,/.test(val)) {
+          return val;
+        } else {
+          return val.split('').join(',');
+        }
+      })());
       const sequence = inputValue.split(',').map(s => parseInt(s.trim()) - 1); // 转为索引
 
       if (sequence.some(isNaN) || sequence.some(i => i < 0 || i > 8)) {
@@ -302,8 +325,11 @@
     }
 
     function outputDataLength() {
-      prompt('data length:', savedPatterns.length);
+      prompt('data length and last:', savedPatterns.length + JSON.stringify(savedPatterns[savedPatterns.length - 1]));
     }
+    const vdzv_zul = document.getElementById('vdzv_zul')
+    const vdum_zul = document.getElementById('vdum_zul')
+
     function copyToClipboard(string_1) {
       const tempInput = document.createElement('textarea');
       tempInput.value = string_1;
@@ -312,11 +338,82 @@
       document.execCommand('copy');
       document.body.removeChild(tempInput);
     }
-
+    function clear_vdzv_zul() {
+      vdzv_zul.value = ""
+    }
+    function qqld_zstv() {
+      const rj1 = vdzv_zul.value
+      vdzv_zul.value = vdum_zul.value
+      vdum_zul.value = rj1
+    }
+    function zhqh_afoa_tsjq() {
+      fetch('/afoa', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Request-Headers': '*'
+        },
+        body: JSON.stringify({ vdzv: vdzv_zul.value })
+      }).then(res => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw res
+        }
+      }).then(jtyj_1 => {
+        vdum_zul.value = String(jtyj_1.outputText)
+      })
+    }
+    function zhqh_tsjq() {
+      const funcStr = document.getElementById('vdzv_zul').value.trim();
+      if (!funcStr) {
+        alert('请输入一个函数哦~');
+        return;
+      }
+      let func
+      try {
+        func = eval(funcStr)
+      } catch (e) {
+        alert("函数格式错误")
+        return
+      }
+      if (typeof func !== 'function') {
+        alert("请输入一个函数哦~");
+        return;
+      }
+      try {
+        const result = func(savedPatterns)
+        document.getElementById('vdum_zul').value = JSON.stringify(result, null, 2)
+      } catch (e) {
+        alert("函数执行出错：" + e.message)
+      }
+    }
     function outputData() {
       copyToClipboard(JSON.stringify(savedPatterns, null, 2))
       document.getElementById('vdum_zul').value = JSON.stringify(savedPatterns, null, 2)
       alert('cd copy')
+    }
+    function inputDataUseVdum_zul() {
+      const input = document.getElementById('vdum_zul').value.trim();
+      if (!input) {
+        alert('输出框是空的哦~');
+        return;
+      }
+      const wm1 = (() => {
+        try {
+          return JSON.parse(input)
+        } catch (e) {
+          alert("格式出错")
+          return null
+        }
+      })()
+      if (wm1) {
+        savedPatterns.splice(0, savedPatterns.length, ...wm1)
+        localStorage.setItem('unlockPatterns', JSON.stringify(savedPatterns));
+        refreshPatternList();
+      } else {
+        alert("数据不正确")
+      }
     }
     function inputData() {
       const input = prompt('Paste exported drawing data URL here:');
@@ -379,7 +476,8 @@
       } else {
         savedPatterns.splice(nixb[1], 1)
         refreshPatternList()
-        alert('cd hd-' + nixb.name + nixb.code)
+        localStorage.setItem('unlockPatterns', JSON.stringify(savedPatterns));
+        alert('cd hd-' + nixb[0].name + nixb[0].code)
       }
     }
     // 保存图案
@@ -387,7 +485,14 @@
       const input = document.getElementById('pointInput').value;
       const nameInput = document.getElementById('patternName').value.trim();
       const name = nameInput || `图案${savedPatterns.length + 1}`;
-      const code = input.replace(/\s/g, '');
+      const code = (() => {
+        const val = input.replace(/,$/, '').replace(/\s/g, '').trim();
+        if (/,/.test(val)) {
+          return val
+        } else {
+          return val.split('').join(',')
+        }
+      })();
 
       if (!code) {
         alert('请输入点位序列哦~');
@@ -403,6 +508,33 @@
       const exists = savedPatterns.some(p => p.code === code);
       if (exists) {
         alert('这个图案已经保存过啦！');
+        return;
+      } else if (savedPatterns.some(p => {
+        if (code.split(',')[0] === code.split(',').reverse()[0]) {
+          const wm1 = code.split(',')
+          const wm1_qq = wm1.slice().reverse()
+          const wm2 = wm1.map((rn1, eqwy_1, wm1) => [rn1, wm1[eqwy_1 + 1]])
+          const wm2_qq = wm1_qq.map((rn1, eqwy_1, wm1_qq) => [rn1, wm1_qq[eqwy_1 + 1]])
+          wm2.splice(-1, 1)
+          wm2_qq.splice(-1, 1)
+          if (p.code[0] === p.code[p.code.length - 1]) {
+            const wm3 = p.code.split(',').map((rn1, eqwy_1, wm) => [rn1, wm[eqwy_1 + 1]])
+            wm3.splice(-1, 1)
+            if (wm2.length === wm3.length) {
+              if (wm3.every(rn3 => wm2.some(rn4 => rn3[0] === rn4[0] && rn3[1] === rn4[1]))) {
+                return true
+              } else if (wm3.every(rn3 => wm2_qq.some(rn4 => rn3[0] === rn4[0] && rn3[1] === rn4[1]))) {
+                return true
+
+              }
+            }
+          }
+        }
+      })) {
+        alert('这个回旋图案已经保存过啦！');
+        return;
+      } else if (savedPatterns.some(p => p.code === code.split(',').reverse().join(','))) {
+        alert('这个图案的反序已经保存过啦！');
         return;
       } else {
         const name_exists = savedPatterns.some(p => p.name === name);

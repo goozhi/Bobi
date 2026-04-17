@@ -527,6 +527,10 @@ app.use(async (ctx, next) => {
         const html = fs.readFileSync(`${dirName}/home.html`).toString()
 
         ctx.body = html
+    } else if (ctx.path === '/p-9') {
+        const html = fs.readFileSync(`${dirName}/p-9.html`).toString()
+
+        ctx.body = html
     } else if (ctx.path === '/bz-fr') {
         const html = fs.readFileSync(`${dirName}/bz-fr.html`).toString()
 
