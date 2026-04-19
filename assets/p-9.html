@@ -215,7 +215,7 @@
     let savedPatterns = JSON.parse(localStorage.getItem('unlockPatterns') || '[]');
 
     // 绘制静态网格
-    let yo_draw = new drawGrid({ ctx, points, cell })
+    let yo_draw = new drawGrid({ ctx, points, cell, size })
     // 播放动画
 
     function outputDataLength() {
@@ -346,7 +346,12 @@
       nameInput.value = nixb.name
       pointInput.value = nixb.code
     }
-    const yo_play = new playAnimation({ ctx, points, cell: cell * 0.8, trl_jyqh: () => yo_draw.draw() })
+    const yo_play = new playAnimation({
+      ctx, points, cell: cell * 0.8, trl_jyqh: () => {
+        ctx.clearRect(0, 0, size, size);
+        yo_draw.draw()
+      }
+    })
     function playAnimation2() {
       yo_play.play()
     }

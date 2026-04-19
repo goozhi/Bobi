@@ -229,7 +229,7 @@
     let savedPatterns = JSON.parse(localStorage.getItem('unlockPatterns') || '[]');
 
     // 绘制静态网格
-    let yo_draw = new drawGrid({ ctx, points, cell })
+    let yo_draw = new drawGrid({ ctx, points, cell, size })
 
     // 播放动画
 

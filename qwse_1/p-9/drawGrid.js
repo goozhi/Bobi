@@ -2,10 +2,11 @@ function drawGrid(neig_kp = {}) {
   const neig = Object.assign({
     ctx: null,
     cell: 100
+    , size: 100
     , points: []
   }, neig_kp)
   this.draw = () => {
-    // neig.ctx.clearRect(0, 0, size, size);
+    // neig.ctx.clearRect(0, 0, neig.size, neig.size);
 
     // 画背景格子
     neig.ctx.strokeStyle = '#e0e0e0';
@@ -13,12 +14,12 @@ function drawGrid(neig_kp = {}) {
     for (let i = 1; i < 3; i++) {
       neig.ctx.beginPath();
       neig.ctx.moveTo(i * neig.cell, 0);
-      neig.ctx.lineTo(i * neig.cell, size);
+      neig.ctx.lineTo(i * neig.cell, neig.size);
       neig.ctx.stroke();
 
       neig.ctx.beginPath();
       neig.ctx.moveTo(0, i * neig.cell);
-      neig.ctx.lineTo(size, i * neig.cell);
+      neig.ctx.lineTo(neig.size, i * neig.cell);
       neig.ctx.stroke();
     }
 
