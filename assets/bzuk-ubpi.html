@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>动画创作工作室</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      padding-top: 20px;
+    }
+
+    #container {
+      position: relative;
+      border: 2px solid #ccc;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="container">
+    <!-- 舞台画布 -->
+    <canvas id="stageCanvas" width="800" height="600"></canvas>
+
+    <!-- 元素控制面板 -->
+    <div id="inspectorPanel"
+      style="display:none; position:absolute; top:10px; left:10px; background:white; border:1px solid #ccc; padding:15px; border-radius:8px; box-shadow:0 2px 15px rgba(0,0,0,0.15); z-index:1000; font-size:13px; width:220px;">
+      <h3 style="margin:0 0 10px 0;">🔧 元素属性</h3>
+
+      <div style="margin-bottom:8px;">
+        <label>名称:</label>
+        <input type="text" id="propName" readonly style="width:100%; margin-top:2px;">
+      </div>
+
+      <div style="display:flex; gap:5px; margin-bottom:8px;">
+        <div style="flex:1;">
+          <label>X:</label>
+          <input type="number" id="propX" step="0.1" style="width:100%;">
+        </div>
+        <div style="flex:1;">
+          <label>Y:</label>
+          <input type="number" id="propY" step="0.1" style="width:100%;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:8px;">
+        <label>旋转 (rad):</label>
+        <input type="number" id="propRot" step="0.01" style="width:100%;">
+      </div>
+
+      <div style="display:flex; gap:5px; margin-bottom:8px;">
+        <div style="flex:1;">
+          <label>Sx:</label>
+          <input type="number" id="propScaleX" step="0.05" min="0.1" max="5" style="width:100%;">
+        </div>
+        <div style="flex:1;">
+          <label>Sy:</label>
+          <input type="number" id="propScaleY" step="0.05" min="0.1" max="5" style="width:100%;">
+        </div>
+      </div>
+
+      <div style="margin-bottom:10px;">
+        <input type="checkbox" id="lockScale"> <label for="lockScale">锁定比例</label>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button onclick="applyProperties()" style="flex:1;">✅ 应用</button>
+        <button onclick="cancelProperties()" style="flex:1;">❌ 关闭</button>
+      </div>
+    </div>
+
+    <!-- 缩放控制 -->
+    <div id="zoomDisplay"
+      style="position:absolute; bottom:20px; right:20px; background:rgba(0,0,0,0.7); color:#fff; padding:4px 8px; border-radius:4px; font-size:12px; z-index:10;">
+      100%
+    </div>
+    <button onclick="resetZoom()" style="position:absolute; bottom:50px; right:20px; z-index:10;">
+      🏠 重置视图
+    </button>
+
+    <!-- 元件库面板 -->
+    <div id="elementPanel"
+      style="position:absolute; top:10px; right:10px; background:white; border:1px solid #ccc; padding:10px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,0.1); z-index:100;">
+      <h3 style="margin:0 0 10px 0; font-size:14px;">➕ 添加元素</h3>
+
+      <!-- 预设图形 -->
+      <div>
+        <strong>🧱 基础形状</strong><br>
+        <button onclick="addPreset('rectangle','small')">⬜ 小方</button>
+        <button onclick="addPreset('rectangle','medium')">🟫 中方</button>
+        <button onclick="addPreset('rectangle','large')">⬛ 大方</button><br>
+        <button onclick="addPreset('circle','small')">⚪ 小圆</button>
+        <button onclick="addPreset('circle','medium')">🔴 中圆</button>
+        <button onclick="addPreset('circle','large')">⚫ 大圆</button><br>
+        <button onclick="addPreset('ellipse','small')">🪄 小椭</button>
+        <button onclick="addPreset('ellipse','medium')">🔸 中椭</button>
+        <button onclick="addPreset('ellipse','large')">🔷 大椭</button><br>
+        <button onclick="addPreset('line','small')">📏 短线</button>
+        <button onclick="addPreset('line','medium')">⟷ 中线</button>
+        <button onclick="addPreset('line','large')">⟷⟷ 长线</button>
+      </div>
+
+      <hr>
+
+      <div id="customItemList">
+        <strong>🎨 我的作品</strong><br>
+      </div>
+    </div>
+
+    <!-- 编辑遮罩层 -->
+    <div id="editOverlay"
+      style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+      <div
+        style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:white; padding:20px; border-radius:10px; text-align:center;">
+        <h3 id="editItemName">编辑元素</h3>
+        <canvas id="editCanvas" width="120" height="120" style="border:2px solid #333; margin:10px;"></canvas><br>
+        <button onclick="saveEdit()">✅ 保存修改</button>
+        <button onclick="cancelEdit()">❌ 取消</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/qwse_1/bzuk-ubpi.js"></script>
+
+</body>
+
+</html>
+ 

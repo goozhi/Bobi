@@ -4,7 +4,10 @@ function bz_fr_xfdb_3(neig_kp) {
         wm_neig_uj: []
     }, neig_kp)
 
-    const canvas = document.getElementById('intersectionCanvas');
+    const canvas = document.getElementById(neig.brm_vkih);
+    if (!canvas) {
+        throw new Error("csrf-canvas lh null-")
+    }
     const ctx = canvas.getContext('2d');
 
     // 路口中心点
