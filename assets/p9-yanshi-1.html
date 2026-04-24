@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>混合输入 - 点击+滑动轨迹</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: system-ui, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            padding: 20px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(4px);
+            border-radius: 64px;
+            padding: 24px 20px 32px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+        }
+        .trajectory-panel {
+            background: #0f172a;
+            border-radius: 48px;
+            padding: 20px;
+            margin-bottom: 32px;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.5), 0 6px 12px rgba(0,0,0,0.2);
+        }
+        .label { font-size: 14px; color: #94a3b8; margin-bottom: 8px; }
+        .trajectory {
+            font-size: 22px;
+            font-weight: bold;
+            color: #facc15;
+            min-height: 72px;
+            background: #020617;
+            padding: 14px 18px;
+            border-radius: 36px;
+            font-family: monospace;
+            word-break: break-all;
+        }
+        .last-trajectory {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid #334155;
+            padding-top: 12px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            aspect-ratio: 1 / 1;
+            background: rgba(0, 0, 0, 0.25);
+            border-radius: 72px;
+            padding: 20px;
+        }
+        .key {
+            background: radial-gradient(circle at 30% 25%, #ffffff, #e2e8f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: #0f172a;
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255,255,255,0.6);
+            transition: 0.05s linear;
+            cursor: pointer;
+            touch-action: none;
+            aspect-ratio: 1 / 1;
+            width: 100%;
+        }
+        .key.active {
+            background: radial-gradient(circle at 30% 25%, #facc15, #eab308);
+            transform: scale(0.94);
+        }
+        .info {
+            margin-top: 28px;
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+        button {
+            background: #facc15;
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+        @media (max-width: 480px) {
+            .grid { gap: 12px; padding: 12px; }
+            .key { font-size: 28px; }
+            .trajectory { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="trajectory-panel">
+        <div class="label">🔁 当前轨迹（点击/滑动叠加）</div>
+        <div class="trajectory" id="trajectoryDisplay">⚡ 触摸或点击按键</div>
+        <div class="last-trajectory" id="lastTrajectoryDisplay">⏮ 上次轨迹: —</div>
+    </div>
+
+    <div class="grid" id="gestureGrid"></div>
+
+    <div class="info">
+        ✅ 点击按键 → 立即加入轨迹（无需等待抬起）<br>
+        ✅ 滑动按键 → 自动跨键记录<br>
+        ✅ 抬起手指后 0.5 秒轨迹锁定
+    </div>
+    <button id="resetBtn">⟳ 重置当前轨迹</button>
+</div>
+
+<script>
+    const KEYS = ['1','2','3','4','5','6','7','8','9'];
+
+    let currentTraj = [];        // 当前轨迹（未锁定）
+    let lastTraj = [];            // 上次锁定的完整轨迹
+    let triggeredSet = new Set(); // 一次“操作周期”内已触发过的键（去重）
+
+    let resetTimer = null;
+    let isMoving = false;
+    let lastTouchedKey = null;
+
+    const gridEl = document.getElementById('gestureGrid');
+    const trajDisplay = document.getElementById('trajectoryDisplay');
+    const lastDisplay = document.getElementById('lastTrajectoryDisplay');
+
+    const keyElements = new Map();
+    let keyRects = new Map();
+
+    // ---------- UI 更新 ----------
+    function updateUI() {
+        if (currentTraj.length === 0) {
+            trajDisplay.innerText = '⚡ 触摸或点击按键';
+        } else {
+            trajDisplay.innerText = currentTraj.join(' → ');
+        }
+        if (lastTraj.length === 0) {
+            lastDisplay.innerText = '⏮ 上次轨迹: —';
+        } else {
+            lastDisplay.innerText = '⏮ 上次轨迹: ' + lastTraj.join(' → ');
+        }
+    }
+
+    // 最终锁定轨迹
+    function finalizeTrajectory() {
+        if (currentTraj.length === 0) return;
+        lastTraj = [...currentTraj];
+        currentTraj = [];
+        triggeredSet.clear();
+        updateUI();
+        lastTouchedKey = null;
+    }
+
+    // 延迟锁定（手指抬起后）
+    function scheduleFinalize() {
+        if (resetTimer) clearTimeout(resetTimer);
+        resetTimer = setTimeout(() => {
+            finalizeTrajectory();
+            resetTimer = null;
+        }, 500);
+    }
+
+    // 触发一个按键（核心）
+    function triggerKey(key, fromClick = false) {
+        if (!key) return;
+        // 如果是从点击触发，且当前没有触摸滑动，直接追加并重置定时器
+        if (fromClick && !isMoving) {
+            // 但需要确保不重复触发同一个键（在一次完整周期内去重）
+            if (triggeredSet.has(key)) return;
+            triggeredSet.add(key);
+            currentTraj.push(key);
+            updateUI();
+            // 每次点按都要重新延迟轨迹锁定时间（只要在 500ms 内连续点按就不会分段）
+            scheduleFinalize();
+            return;
+        }
+
+        // 滑动移动时触发的 Key
+        if (triggeredSet.has(key)) return;
+        triggeredSet.add(key);
+        currentTraj.push(key);
+        updateUI();
+        scheduleFinalize();
+    }
+
+    // 重置当前轨迹（手动重置键）
+    function resetCurrent() {
+        if (resetTimer) clearTimeout(resetTimer);
+        finalizeTrajectory();
+        updateUI();
+    }
+
+    // ---------- 位置查找 ----------
+    function findKeyByTouch(clientX, clientY) {
+        for (let [key, rect] of keyRects.entries()) {
+            if (clientX >= rect.x && clientX <= rect.x + rect.w &&
+                clientY >= rect.y && clientY <= rect.y + rect.h) {
+                return key;
+            }
+        }
+        return null;
+    }
+
+    function updateKeyRects() {
+        const newRects = new Map();
+        for (let [key, el] of keyElements.entries()) {
+            const r = el.getBoundingClientRect();
+            newRects.set(key, { x: r.left, y: r.top, w: r.width, h: r.height });
+        }
+        keyRects = newRects;
+    }
+
+    // ---------- 触摸事件 ----------
+    function onTouchStart(e) {
+        e.preventDefault();
+        isMoving = true;
+        // 不清空轨迹，允许继续追加（但去重集合不清空，否则会重复触发）
+        // 但这里为了更符合“不断刷新延迟”，不清空 triggeredSet
+        updateKeyRects();
+        const touch = e.touches[0];
+        const key = findKeyByTouch(touch.clientX, touch.clientY);
+        if (key) triggerKey(key, false);
+    }
+
+    function onTouchMove(e) {
+        if (!isMoving) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const key = findKeyByTouch(touch.clientX, touch.clientY);
+        if (key && key !== lastTouchedKey) {
+            triggerKey(key, false);
+            lastTouchedKey = key;
+        }
+    }
+
+    function onTouchEnd(e) {
+        e.preventDefault();
+        isMoving = false;
+        lastTouchedKey = null;
+        scheduleFinalize();
+    }
+
+    // 点击事件（独立于滑动）
+    function onKeyClick(key) {
+        // 模拟一次干净的追加
+        triggerKey(key, true);
+    }
+
+    // ---------- 构建九宫格 ----------
+    function buildGrid() {
+        gridEl.innerHTML = '';
+        keyElements.clear();
+        KEYS.forEach(k => {
+            const div = document.createElement('div');
+            div.className = 'key';
+            div.innerText = k;
+            div.setAttribute('data-key', k);
+            div.addEventListener('click', (e) => {
+                e.stopPropagation();
+                onKeyClick(k);
+            });
+            gridEl.appendChild(div);
+            keyElements.set(k, div);
+        });
+        setTimeout(() => updateKeyRects(), 20);
+    }
+
+    // ---------- 事件绑定 ----------
+    function bindEvents() {
+        gridEl.addEventListener('touchstart', onTouchStart, { passive: false });
+        gridEl.addEventListener('touchmove', onTouchMove, { passive: false });
+        gridEl.addEventListener('touchend', onTouchEnd);
+        // 避免页面滚动
+        document.body.addEventListener('touchmove', (e) => {
+            if (isMoving) e.preventDefault();
+        }, { passive: false });
+        window.addEventListener('resize', () => updateKeyRects());
+    }
+
+    // ---------- 初始化 ----------
+    function init() {
+        buildGrid();
+        bindEvents();
+        updateUI();
+        document.getElementById('resetBtn').addEventListener('click', () => resetCurrent());
+    }
+    init();
+</script>
+</body>
+</html>
