@@ -2,731 +2,734 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>行内文本编辑器 - 点击行显示自定义键盘</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, shrink-to-fit=no">
+    <title>移动端行编辑器 - 纯自定义键盘 | 无系统键盘</title>
     <style>
         * {
             box-sizing: border-box;
-            user-select: none; /* 避免拖动时选中文本，但保留内部编辑区的选择，下面会覆盖 */
+            user-select: none; /* 避免长按菜单干扰，但编辑区需要精细控制 */
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background: linear-gradient(145deg, #e0e5ec 0%, #f0f4fa 100%);
+            background: #e9eef5;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', 'Roboto', 'Inter', system-ui, -apple-system, sans-serif;
-            padding: 20px;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+            padding: 12px;
             margin: 0;
         }
 
-        /* 编辑器卡片容器 */
-        .editor-container {
+        /* 主容器卡片 */
+        .editor-card {
             width: 100%;
-            max-width: 900px;
-            background: rgba(255,255,255,0.75);
-            backdrop-filter: blur(2px);
-            border-radius: 2rem;
-            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.3), inset 0 1px 1px rgba(255,255,255,0.8);
-            padding: 1.5rem;
-            transition: all 0.2s ease;
-        }
-
-        /* 文本编辑区 (类富文本行编辑器风格，但每一行独立感知点击) */
-        .text-lines-area {
-            background: #fffef7;
-            border-radius: 1.25rem;
-            padding: 1.2rem 1rem;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.08);
-            min-height: 350px;
-            max-height: 55vh;
-            overflow-y: auto;
-            font-size: 1rem;
-            line-height: 1.65;
-            outline: none;
-            cursor: text;
-            white-space: pre-wrap;
-            word-break: break-word;
-        }
-
-        /* 每一行的包裹div，用于定位和点击 */
-        .line-item {
-            display: block;
-            width: 100%;
-            padding: 6px 12px;
-            margin: 2px 0;
-            border-radius: 14px;
-            transition: background 0.1s ease;
-            cursor: pointer;
-            /* 行内文字可编辑: 使用 contenteditable 单独控制？为了更好的体验，我们将整个区域设置为可编辑，但点击行弹出键盘需要识别光标所在行。
-               更精准方案: 区域整体contenteditable，但点击时获取当前光标所在行元素。为了完全符合“点击哪一行就在哪一行下方显示键盘”，
-               同时支持直接编辑，我们采用contenteditable + JS监听光标位置，实时检测当前行。
-               但是原生contenteditable跨行复杂，为了稳定且直观，采用“每行独立可编辑div”方案? 
-               但那样更像行编辑器。为了更接近文本编辑器且优雅，采用全局contenteditable但监听click和selection，找到光标所在行(祖先行包装)，确保键盘窗口跟随。
-            */
-        }
-
-        /* 改进: 实际text-lines-area 整体 contenteditable="true"，每一行由 <div class="line-item"> 包裹，让用户编辑时自动换行保持结构。
-           为了实现真实的“行”概念，我们需要在用户输入回车时自动创建新行，删除时合并，比较复杂。但为了展示核心需求：点击哪一行就在该行下显示自定义键盘窗口，
-           我们可以采用简易可靠的方法: 将每一行渲染成独立的可编辑div，这样每一行的点击天然知道是哪一行，并且编辑互不干扰。
-           但是“独立可编辑div”的体验就像多行文本框，用户Tab键或者自动换行需要额外处理，但完全满足需求且稳定。
-           所以采用基于独立行(div contenteditable)的轻量级文本编辑器。
-        */
-
-        /* 每行独立可编辑样式 */
-        .editable-row {
-            display: block;
-            width: 100%;
-            padding: 8px 14px;
-            margin: 4px 0;
-            border-radius: 18px;
-            background: #ffffff;
-            border: 1px solid transparent;
-            transition: all 0.15s;
-            font-size: 1rem;
-            line-height: 1.5;
-            outline: none;
-            word-break: break-word;
-            cursor: text;
-            box-shadow: 0 1px 1px rgba(0,0,0,0.02);
-        }
-
-        .editable-row:hover {
-            background: #faf9ff;
-            border-color: #cbd5e1;
-        }
-
-        .editable-row:focus {
-            border-color: #8b5cf6;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(139,92,246,0.15);
-        }
-
-        /* 自定义键盘窗口 */
-        .custom-keyboard {
-            position: relative;
-            margin-top: 8px;
-            margin-bottom: 6px;
-            background: #2d2f36;
-            background: linear-gradient(135deg, #2b2e38, #1f2128);
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.96);
             border-radius: 32px;
-            padding: 12px 16px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            justify-content: flex-start;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            backdrop-filter: blur(4px);
-        }
-
-        /* 键盘按钮通用样式 */
-        .key-btn {
-            background: #3e424e;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: 500;
-            padding: 8px 14px;
-            border-radius: 40px;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            font-family: monospace;
-            letter-spacing: 0.5px;
-        }
-
-        .key-btn.special {
-            background: #6c5ce7;
-            box-shadow: 0 2px 6px rgba(108,92,231,0.4);
-        }
-
-        .key-btn.special-em {
-            background: #e84393;
-        }
-
-        .key-btn.action {
-            background: #00b894;
-        }
-
-        .key-btn.danger {
-            background: #d63031;
-        }
-
-        .key-btn.small {
-            font-size: 0.9rem;
-            padding: 6px 12px;
-        }
-
-        .key-btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-        }
-
-        .key-btn:active {
-            transform: translateY(1px);
-        }
-
-        /* 键盘头部 */
-        .keyboard-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 6px;
-            color: #cdd9ff;
-            font-size: 0.7rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #5f6c84;
-            padding-bottom: 6px;
-        }
-
-        .close-keyboard {
-            background: rgba(220, 20, 60, 0.8);
-            border: none;
-            color: white;
-            border-radius: 30px;
-            padding: 2px 12px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            font-weight: bold;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            backdrop-filter: blur(0);
+            transition: all 0.2s ease;
         }
 
         /* 工具栏 */
         .toolbar {
             display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            padding: 16px 20px;
+            background: #ffffffdd;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .btn-icon {
-            background: #ffffffcc;
-            backdrop-filter: blur(4px);
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .tool-btn {
+            background: #f1f5f9;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 40px;
             font-weight: 600;
-            cursor: pointer;
             font-size: 0.85rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            transition: 0.1s;
+            color: #1e293b;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .btn-icon:hover {
-            background: white;
-            transform: scale(0.97);
+        .tool-btn:active {
+            transform: scale(0.96);
+            background: #e2e8f0;
         }
 
-        .status-badge {
-            font-size: 0.75rem;
-            background: #2c3e66;
+        .status-tag {
+            background: #334155;
             color: white;
-            padding: 4px 12px;
-            border-radius: 26px;
-        }
-
-        /* 键盘所在行指示小标签 */
-        .active-line-indicator {
             font-size: 0.7rem;
-            background: #8b5cf6;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            margin-left: 8px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: normal;
         }
 
-        /* 响应式 */
-        @media (max-width: 550px) {
-            .key-btn { padding: 6px 10px; font-size: 1rem;}
-            .custom-keyboard { gap: 6px; }
-            .editor-container { padding: 1rem; }
+        /* 文本行容器 - 滚动区域 */
+        .lines-scroll {
+            max-height: 55vh;
+            overflow-y: auto;
+            padding: 16px 12px;
+            background: #fefcf5;
+            scroll-behavior: smooth;
+        }
+
+        /* 每一行 - 可编辑但禁用原生键盘的关键 */
+        .editable-row {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 14px 18px;
+            margin-bottom: 12px;
+            font-size: 1rem;
+            line-height: 1.5;
+            word-break: break-word;
+            white-space: pre-wrap;
+            border: 1px solid #e2edf2;
+            transition: all 0.15s ease;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            cursor: text;
+            /* 重要：禁用原生键盘的关键属性组合 */
+            -webkit-user-select: text;
+            user-select: text;
+            caret-color: transparent;   /* 隐藏光标, 移动端通常不显示闪烁光标, 但为了完全避免键盘禁用 */
+            color: #0f172a;
+        }
+
+        /* 高亮被选中的行 */
+        .editable-row.active-row {
+            background: #f1ebff;
+            border-left: 5px solid #8b5cf6;
+            border-radius: 20px 14px 14px 20px;
+            box-shadow: 0 4px 10px rgba(139,92,246,0.15);
+        }
+
+        /* 提示文本 */
+        .info-note {
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 10px 15px;
+            background: #f1f5f9;
+            color: #475569;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* ----- 自定义键盘窗口 (移动友好)----- */
+        .custom-keyboard-panel {
+            background: #1e293b;
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 28px;
+            margin: 8px 12px 16px 12px;
+            padding: 12px 14px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border: 0.5px solid rgba(255,255,255,0.2);
+            transition: all 0.2s;
+            animation: fadeSlideUp 0.2s ease;
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .keyboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #475569;
+        }
+
+        .keyboard-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            letter-spacing: 0.5px;
+        }
+
+        .close-keyboard-btn {
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 1px 2px black;
+        }
+
+        .close-keyboard-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 按钮网格 */
+        .keys-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .key-btn-mobile {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.05s linear;
+            flex: 1 0 auto;
+            min-width: 70px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            touch-action: manipulation;
+        }
+
+        .key-btn-mobile:active {
+            transform: scale(0.94);
+            background: #475569;
+        }
+
+        .key-special {
+            background: #8b5cf6;
+        }
+
+        .key-action {
+            background: #10b981;
+        }
+
+        .key-danger {
+            background: #dc2626;
+        }
+
+        .key-warning {
+            background: #f59e0b;
+        }
+
+        /* 自定义输入条 */
+        .custom-input-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .custom-input-field {
+            flex: 1;
+            background: #0f172a;
+            border: 1px solid #475569;
+            border-radius: 40px;
+            padding: 10px 14px;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .custom-input-field::placeholder {
+            color: #94a3b8;
+        }
+
+        .insert-custom-btn {
+            background: #3b82f6;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        /* Toast 轻提示 */
+        .toast-message {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1e293be6;
+            backdrop-filter: blur(12px);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            z-index: 2000;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        /* 滚动条美观 */
+        .lines-scroll::-webkit-scrollbar {
+            width: 4px;
         }
     </style>
 </head>
 <body>
-<div class="editor-container">
+<div class="editor-card">
     <div class="toolbar">
-        <div>
-            <button class="btn-icon" id="addRowBtn">➕ 新增行</button>
-            <button class="btn-icon" id="clearAllBtn">🗑️ 清空所有行</button>
+        <div class="btn-group">
+            <button class="tool-btn" id="addLineBtn">➕ 新增行</button>
+            <button class="tool-btn" id="clearAllBtn">🗑️ 清空</button>
         </div>
-        <div style="display: flex; gap: 5px; align-items: center;">
-            <span class="status-badge">✨ 点击任意行 → 弹出定制键盘</span>
-        </div>
+        <div class="status-tag">✍️ 自定义键盘 · 无弹窗键盘</div>
     </div>
 
-    <!-- 行列表容器: 动态渲染的行, 每行都是独立可编辑div -->
-    <div id="linesContainer" class="text-lines-area" style="background: #fefcf0; min-height: 280px;">
-        <!-- js 动态生成行 -->
+    <!-- 行列表容器 -->
+    <div id="linesContainer" class="lines-scroll">
+        <!-- 动态生成每一行 -->
     </div>
-    <p style="font-size: 0.7rem; margin-top: 12px; text-align: center; color: #5b5c6e;">
-        💡 提示：点击任意行会在该行下方展示【自定义键盘窗口】, 可插入特殊符号或删除该行内容。
-    </p>
-    <!-- 全局自定义键盘浮层定位锚点（为了动态定位到点击的行下方） -->
+    <div class="info-note">
+        💡 点击任意行 → 弹出【自定义键盘】进行编辑 · 手机系统键盘不会弹出<br>
+        🎨 支持插入符号/大小写切换/复制行/删除末字等
+    </div>
 </div>
 
 <script>
-    // ---------- 状态管理 ----------
-    // 存储所有行的DOM元素引用 (数组)
+    // ------------------------------
+    // 移动端专用: 完全禁用原生键盘, 所有文本编辑通过自定义键盘修改行内容
+    // 核心思路: contenteditable 但设置 readonly 或 通过 div 模拟但为了保留复制/选中等，采用 contenteditable 但阻止焦点时拉起键盘
+    // 最好的移动端禁用键盘是: 设置 inputmode="none" 但是contenteditable元素不支持inputmode。
+    // 所以我们采用 "readonly" 结合 自定义键盘修改文本，并且点击时让div失去焦点？但为了不弹出系统键盘，必须防止获得焦点时唤起键盘。
+    // 解决方案: 让 .editable-row 不可编辑(contenteditable="false")，但同时保留修改能力: 点击行时通过自定义键盘修改其innerText，不需要原生编辑。
+    // 用户自定义键盘提供插入/删除/大小写等操作，完全满足文本编辑需求。同时保留复制粘贴选取文本功能（用户可长按复制但是不会弹键盘）。
+    // 这样绝对避免系统键盘。
+    // 为了支持选择文本复制(移动端长按复制菜单)，依然保留 user-select: text，但不弹出键盘且无法直接编辑。
+    // 完美符合“点击输入框时不弹出手机虚拟键盘”。
+    // 但为了让用户能选择文字复制，不可编辑模式完全可行，使用自定义键盘增删改内容。
+    // -----------------------------------------------------------
+    
+    // 存储所有行DOM
     let rowElements = [];
-    // 当前激活的行索引 (显示键盘的行)
     let activeRowIndex = -1;
-    // 当前显示的自定义键盘DOM元素 (全局唯一)
-    let activeKeyboard = null;
+    let activeKeyboardPanel = null;
+    let currentActiveRowDiv = null;
 
-    // 获取容器
     const linesContainer = document.getElementById('linesContainer');
 
-    // ---------- 内置自定义键盘布局与逻辑 ----------
-    // 定义键盘按钮组 (名称，值/操作，样式类)
-    const keyboardButtons = [
-        { text: '📎 插入 "★"', value: '★', type: 'insert', class: 'special' },
-        { text: '✨ 插入 "→"', value: ' → ', type: 'insert', class: '' },
-        { text: '💬 插入 "【】"', value: '【】', type: 'insertAround', class: 'special-em' },
-        { text: '✅ 插入 "✔️"', value: '✔️', type: 'insert', class: '' },
-        { text: '🔤 大写锁定', value: 'TOGGLE_CASE', type: 'toggleCase', class: 'action' },
-        { text: '🔁 清除本行', value: 'clearRow', type: 'clearRow', class: 'danger' },
-        { text: '📋 复制本行', value: 'copyRow', type: 'copyRow', class: 'small' },
-        { text: '⌫ 删末字', value: 'backspace', type: 'backspace', class: 'small' }
-    ];
-
-    // 当前显示键盘对应的行元素引用
-    let currentTargetRow = null;
-
-    // 关闭键盘函数
-    function closeKeyboard() {
-        if (activeKeyboard && activeKeyboard.parentNode) {
-            activeKeyboard.remove();
-            activeKeyboard = null;
-        }
-        // 移除所有行的高亮样式（可选）
-        if (currentTargetRow) {
-            currentTargetRow.style.background = '';
-            currentTargetRow.style.borderColor = '';
-            currentTargetRow = null;
-        }
-        activeRowIndex = -1;
-    }
-
-    // 在指定行下方显示自定义键盘窗口
-    function showKeyboardForRow(rowElement, rowIndex) {
-        // 如果已经显示同一个行的键盘, 不做变化，也可以关闭重新展示但没必要；为了体验如果同一行再次点击则关闭？常规需求点击不同行切换键盘
-        if (activeKeyboard && activeRowIndex === rowIndex && currentTargetRow === rowElement) {
-            // 如果已经显示键盘，再次点击同一行不做变动 (也可以选择不执行任何动作)
+    // 展示自定义键盘面板 (绝对无系统键盘)
+    function showCustomKeyboard(rowDiv, rowIdx) {
+        // 如果已经显示同一个键盘，不重复创建 (但可以重新显示)
+        if (activeKeyboardPanel && activeRowIndex === rowIdx && currentActiveRowDiv === rowDiv) {
             return;
         }
-        // 关闭已有的键盘
-        closeKeyboard();
+        closeKeyboardPanel();
 
-        // 记录当前激活行
-        activeRowIndex = rowIndex;
-        currentTargetRow = rowElement;
-
-        // 高亮该行
-        rowElement.style.transition = 'background 0.1s';
-        rowElement.style.background = '#f0ecfe';
-        rowElement.style.borderColor = '#a78bfa';
-
-        // 创建键盘容器
-        const keyboardDiv = document.createElement('div');
-        keyboardDiv.className = 'custom-keyboard';
-        // 添加头部信息和关闭按钮
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'keyboard-header';
-        headerDiv.innerHTML = `<span>🎹 自定义输入键盘 · 行 ${rowIndex + 1}</span>
-                               <button class="close-keyboard">✖ 关闭</button>`;
-        keyboardDiv.appendChild(headerDiv);
-
-        // 按钮区容器
-        const buttonsContainer = document.createElement('div');
-        buttonsContainer.style.display = 'flex';
-        buttonsContainer.style.flexWrap = 'wrap';
-        buttonsContainer.style.gap = '8px';
-        buttonsContainer.style.width = '100%';
-
-        // 创建所有按钮
-        keyboardButtons.forEach(btnDef => {
-            const btn = document.createElement('button');
-            btn.textContent = btnDef.text;
-            btn.className = `key-btn ${btnDef.class}`;
-            // 绑定操作
-            btn.addEventListener('click', (e) => {
+        activeRowIndex = rowIdx;
+        currentActiveRowDiv = rowDiv;
+        
+        // 高亮激活行
+        if (rowElements.forEach(r => r.classList.remove('active-row')));
+        rowDiv.classList.add('active-row');
+        
+        // 创建自定义键盘面板
+        const panel = document.createElement('div');
+        panel.className = 'custom-keyboard-panel';
+        panel.setAttribute('data-for-row', rowIdx);
+        
+        // Header
+        const header = document.createElement('div');
+        header.className = 'keyboard-header';
+        header.innerHTML = `
+            <span class="keyboard-title">🔧 行 ${rowIdx+1} 专属键盘 · 移动定制</span>
+            <button class="close-keyboard-btn">✖ 关闭</button>
+        `;
+        panel.appendChild(header);
+        
+        // 按钮区域
+        const keysGrid = document.createElement('div');
+        keysGrid.className = 'keys-grid';
+        
+        // 定义按钮集（移动端加大间距，易触）
+        const buttonsSet = [
+            { text: '★', value: '★', type: 'insert', style: 'key-special' },
+            { text: '→', value: ' → ', type: 'insert', style: '' },
+            { text: '【】', value: '【】', type: 'insertAround', style: 'key-special' },
+            { text: '✔️', value: '✔️', type: 'insert', style: '' },
+            { text: '✨', value: ' ✨ ', type: 'insert', style: '' },
+            { text: '🔤 大小写', value: 'toggleCase', type: 'toggleCase', style: 'key-action' },
+            { text: '🗑️ 清行', value: 'clearRow', type: 'clearRow', style: 'key-danger' },
+            { text: '📋 复制行', value: 'copyRow', type: 'copyRow', style: 'key-warning' },
+            { text: '⌫ 删末字', value: 'backspace', type: 'backspace', style: '' },
+            { text: '🔁 撤销?', value: 'undoLast', type: 'undo', style: '' } // 简易撤销单步
+        ];
+        
+        // 存储行临时内容缓存用于简单撤销 (只存上一个内容)
+        let previousContent = rowDiv.innerText;
+        
+        buttonsSet.forEach(btn => {
+            const btnEl = document.createElement('button');
+            btnEl.textContent = btn.text;
+            btnEl.className = `key-btn-mobile ${btn.style}`;
+            btnEl.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
-                handleKeyboardAction(btnDef, rowElement);
+                // 操作前备份当前文本 (用于可能的撤销)
+                const beforeText = rowDiv.innerText;
+                handleActionOnRow(btn, rowDiv, () => {
+                    // 如果是撤销，特殊处理
+                });
+                // 简单撤销记录: 如果类型不是 undo, 就记录上个内容到自定义属性
+                if (btn.type !== 'undo') {
+                    rowDiv.setAttribute('data-last-content', beforeText);
+                }
+                // 刷新行显示并且保持高亮
+                rowDiv.focus({ preventScroll: true }); // 不会弹出键盘
+                // 有时候移动端需要防止默认
             });
-            buttonsContainer.appendChild(btn);
+            keysGrid.appendChild(btnEl);
         });
-
-        keyboardDiv.appendChild(buttonsContainer);
-
-        // 附加一个小的自定义文本输入快捷区（可选）增加灵活性
-        const customInputGroup = document.createElement('div');
-        customInputGroup.style.display = 'flex';
-        customInputGroup.style.width = '100%';
-        customInputGroup.style.marginTop = '8px';
-        customInputGroup.style.gap = '8px';
-        const extraInput = document.createElement('input');
-        extraInput.type = 'text';
-        extraInput.placeholder = '✏️ 输入自定义字符，点击插入...';
-        extraInput.style.flex = '1';
-        extraInput.style.borderRadius = '40px';
-        extraInput.style.border = 'none';
-        extraInput.style.padding = '8px 12px';
-        extraInput.style.fontSize = '0.85rem';
-        extraInput.style.outline = 'none';
-        const insertCustomBtn = document.createElement('button');
-        insertCustomBtn.textContent = '插入内容';
-        insertCustomBtn.className = 'key-btn special small';
-        insertCustomBtn.style.background = '#4f46e5';
-        insertCustomBtn.addEventListener('click', () => {
-            const val = extraInput.value.trim();
-            if (val !== '') {
-                insertTextAtCursor(rowElement, val);
-                extraInput.value = '';
-                // 可选保持焦点
-                rowElement.focus();
-            } else {
-                // 提示
-                const tip = document.createElement('span');
-                tip.textContent = '⚠️ 输入内容不能为空';
-                tip.style.color = '#facc15';
-                tip.style.fontSize = '0.7rem';
-                customInputGroup.appendChild(tip);
-                setTimeout(() => tip.remove(), 800);
-            }
+        
+        panel.appendChild(keysGrid);
+        
+        // 添加自定义输入区域 (插入任意文本)
+        const customRow = document.createElement('div');
+        customRow.className = 'custom-input-row';
+        const customInput = document.createElement('input');
+        customInput.type = 'text';
+        customInput.placeholder = '输入任意文字，然后点击插入 ➕';
+        customInput.className = 'custom-input-field';
+        // 阻止input唤起键盘的关键: 设置inputmode="none" 以及 readonly? 为了防止系统键盘弹出，让这个input也是 readonly，但是用户需要输入字符？不行。
+        // 但是自定义键盘内如果需要自定义输入字符，用户想打字就必须弹系统键盘，这背离初衷。最好是不需要系统键盘，我们可以提供字母数字面板，但复杂。
+        // 改进: 自定义输入部分不要标准输入框，改用一组快速预设或直接点击追加符号就够了。更干净: 换成一组辅助符号或者常用短语。
+        // 为了完全避免任何系统键盘，我们将自定义输入框移除，改成几个常用短语插入按钮，避免唤起键盘。
+        // 修正: 移除文本输入框，改为几个快捷短语插入按钮，这样用户完全用自定义键盘。
+        const customRowAlt = document.createElement('div');
+        customRowAlt.className = 'custom-input-row';
+        customRowAlt.style.justifyContent = 'space-between';
+        const quickPhrases = ['😀 微笑', '👍 好的', '❤️ 爱心', 'OK', '已阅', '待办:'];
+        quickPhrases.forEach(phrase => {
+            const phraseBtn = document.createElement('button');
+            phraseBtn.textContent = phrase;
+            phraseBtn.className = 'key-btn-mobile';
+            phraseBtn.style.background = '#475569';
+            phraseBtn.style.fontSize = '0.8rem';
+            phraseBtn.style.padding = '6px 12px';
+            phraseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                insertTextAtCursorCustom(rowDiv, phrase.replace(/^[^ ]+/, match => match) + ' ');
+                rowDiv.setAttribute('data-last-content', rowDiv.innerText);
+            });
+            customRowAlt.appendChild(phraseBtn);
         });
-        customInputGroup.appendChild(extraInput);
-        customInputGroup.appendChild(insertCustomBtn);
-        keyboardDiv.appendChild(customInputGroup);
-
-        // 将键盘插入到行元素的下方（作为相邻元素）
-        // 因为行元素在linesContainer内部，键盘需要紧随其后插入到linesContainer中但在该行的后面
-        // 可以使用 insertAdjacentElement 将键盘插入到 rowElement 之后
-        if (rowElement.nextSibling) {
-            linesContainer.insertBefore(keyboardDiv, rowElement.nextSibling);
+        
+        panel.appendChild(customRowAlt);
+        
+        // 额外增加一个辅助插入数字/字母的轻便条(常用快速)
+        const quickSymbols = ['abc', '123', '@', '.', ',', '?', '!', ' '];
+        const symbolRow = document.createElement('div');
+        symbolRow.className = 'custom-input-row';
+        symbolRow.style.marginTop = '6px';
+        quickSymbols.forEach(sym => {
+            const btnSym = document.createElement('button');
+            btnSym.textContent = sym;
+            btnSym.className = 'key-btn-mobile';
+            btnSym.style.background = '#2d3a4e';
+            btnSym.style.padding = '6px 12px';
+            btnSym.style.fontSize = '0.9rem';
+            btnSym.addEventListener('click', (e) => {
+                e.stopPropagation();
+                insertTextAtCursorCustom(rowDiv, sym);
+                rowDiv.setAttribute('data-last-content', rowDiv.innerText);
+            });
+            symbolRow.appendChild(btnSym);
+        });
+        panel.appendChild(symbolRow);
+        
+        // 关闭按钮事件
+        const closeBtn = header.querySelector('.close-keyboard-btn');
+        closeBtn.addEventListener('click', () => {
+            closeKeyboardPanel();
+        });
+        
+        // 将面板插入到 rowDiv 后面 (行下方)
+        if (rowDiv.nextSibling) {
+            linesContainer.insertBefore(panel, rowDiv.nextSibling);
         } else {
-            linesContainer.appendChild(keyboardDiv);
+            linesContainer.appendChild(panel);
         }
-        activeKeyboard = keyboardDiv;
-
-        // 为关闭按钮绑定事件(已经绑定了header内的关闭按钮)
-        const closeBtn = keyboardDiv.querySelector('.close-keyboard');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                closeKeyboard();
-            });
-        }
-
-        // 点击键盘内部不冒泡关闭（避免干扰）
-        keyboardDiv.addEventListener('click', (e) => e.stopPropagation());
-        // 滚动、点击外部关闭(可选: 点击文档其他位置关闭键盘)
-        const outsideClickListener = (e) => {
-            // 如果点击的目标是行内部或者键盘内部或者按钮等，不关闭
-            if (rowElement.contains(e.target) || (activeKeyboard && activeKeyboard.contains(e.target))) {
-                return;
+        activeKeyboardPanel = panel;
+        
+        // 滚动到可视区域
+        panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        // 点击外部关闭 (监听轻触)
+        const outsideHandler = (e) => {
+            if (!panel.contains(e.target) && !rowDiv.contains(e.target)) {
+                closeKeyboardPanel();
+                document.removeEventListener('click', outsideHandler);
+                document.removeEventListener('touchstart', outsideHandler);
             }
-            // 但是点击工具栏或其它区域关闭键盘会提升体验
-            closeKeyboard();
-            document.removeEventListener('click', outsideClickListener);
         };
-        // 延迟添加避免立即触发
         setTimeout(() => {
-            document.addEventListener('click', outsideClickListener);
-            // 存储一个清理函数以便关闭键盘时移除监听
-            const originalClose = closeKeyboard;
-            window.__tempCloseHandler = () => {
-                document.removeEventListener('click', outsideClickListener);
-                originalClose();
-            };
+            document.addEventListener('click', outsideHandler);
+            document.addEventListener('touchstart', outsideHandler);
         }, 50);
     }
-
-    // 操作处理器：对当前行做各种编辑动作
-    function handleKeyboardAction(actionDef, rowElement) {
-        const type = actionDef.type;
-        const val = actionDef.value;
-
-        // 确保行获得焦点，便于插入光标
-        rowElement.focus();
-
-        switch (type) {
+    
+    // 操作统一分发
+    function handleActionOnRow(btnDef, rowDiv, undoHook) {
+        const type = btnDef.type;
+        const val = btnDef.value;
+        switch(type) {
             case 'insert':
-                insertTextAtCursor(rowElement, val);
+                insertTextAtCursorCustom(rowDiv, val);
                 break;
             case 'insertAround':
-                // 插入 【】 并让光标位于中间
-                insertTextAround(rowElement, '【', '】');
+                insertAround(rowDiv, '【', '】');
                 break;
             case 'toggleCase':
-                toggleSelectedCase(rowElement);
+                toggleCaseForRow(rowDiv);
                 break;
             case 'clearRow':
-                // 清空该行内容
-                rowElement.innerText = '';
-                // 触发input事件以保持数据但无额外动作
-                rowElement.dispatchEvent(new Event('input', { bubbles: true }));
-                rowElement.focus();
+                rowDiv.innerText = '';
                 break;
             case 'copyRow':
-                copyRowContent(rowElement);
+                copyRowText(rowDiv);
                 break;
             case 'backspace':
-                deleteLastChar(rowElement);
+                deleteLastCharMobile(rowDiv);
                 break;
-            default:
-                insertTextAtCursor(rowElement, val);
+            case 'undo':
+                undoLastChange(rowDiv);
                 break;
+            default: insertTextAtCursorCustom(rowDiv, val);
         }
+        // 更新内容后触发自定义事件无碍
+        rowDiv.dispatchEvent(new Event('input', { bubbles: true }));
     }
-
-    // 在光标位置插入文本 (基于contenteditable)
-    function insertTextAtCursor(element, text) {
-        element.focus();
+    
+    // 因为行不可直接编辑，需要维护光标位置？在移动端我们不再需要光标概念，所有插入默认追加到行末或者基于选中文本替换。
+    // 为了更好的体验: 支持用户选中部分文本替换 (移动端用户长按可以选择文本)，然后点击自定义按钮可以替换选中文本。
+    // 需要获取选中的文字 (window.getSelection)
+    function getSelectedTextInRow(rowDiv) {
         const selection = window.getSelection();
-        if (!selection.rangeCount) {
-            // 如果没有选区，将内容追加到末尾
-            element.appendChild(document.createTextNode(text));
-            return;
-        }
-        const range = selection.getRangeAt(0);
-        if (range.commonAncestorContainer !== element && !element.contains(range.commonAncestorContainer)) {
-            // 光标不在当前行内时, 直接将文本追加到最后
-            element.appendChild(document.createTextNode(text));
-            return;
-        }
-        range.deleteContents();
-        const textNode = document.createTextNode(text);
-        range.insertNode(textNode);
-        range.collapse(false);
-        selection.removeAllRanges();
-        selection.addRange(range);
-        element.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-
-    function insertTextAround(element, left, right) {
-        element.focus();
-        const selection = window.getSelection();
-        let inserted = false;
         if (selection.rangeCount > 0) {
             const range = selection.getRangeAt(0);
-            if (element.contains(range.commonAncestorContainer) || range.commonAncestorContainer === element) {
-                const selectedText = range.toString();
-                const newText = left + selectedText + right;
+            if (rowDiv.contains(range.commonAncestorContainer) && !range.collapsed) {
+                return range.toString();
+            }
+        }
+        return null;
+    }
+    
+    function replaceSelectedText(rowDiv, newText) {
+        const selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            if (rowDiv.contains(range.commonAncestorContainer) && !range.collapsed) {
                 range.deleteContents();
                 const textNode = document.createTextNode(newText);
                 range.insertNode(textNode);
-                if (selectedText.length === 0) {
-                    // 将光标移到左右括号中间
-                    range.setStart(textNode, left.length);
-                    range.setEnd(textNode, left.length);
-                } else {
-                    range.setStartAfter(textNode);
-                }
                 selection.removeAllRanges();
-                selection.addRange(range);
-                inserted = true;
-            }
-        }
-        if (!inserted) {
-            const currentText = element.innerText;
-            const newContent = left + right;
-            element.innerText = currentText + newContent;
-            // 移动光标到中间偏左位置
-            const newRange = document.createRange();
-            const lastNode = element.lastChild;
-            if (lastNode) {
-                newRange.setStart(lastNode, lastNode.length - right.length);
+                const newRange = document.createRange();
+                newRange.setStartAfter(textNode);
                 newRange.collapse(true);
-                selection.removeAllRanges();
                 selection.addRange(newRange);
+                return true;
             }
         }
-        element.dispatchEvent(new Event('input', { bubbles: true }));
+        return false;
     }
-
-    function toggleSelectedCase(rowElement) {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            if (rowElement.contains(range.commonAncestorContainer) && !range.collapsed) {
-                const selectedText = range.toString();
-                const toggled = selectedText.split('').map(ch => {
-                    if (ch >= 'a' && ch <= 'z') return ch.toUpperCase();
-                    if (ch >= 'A' && ch <= 'Z') return ch.toLowerCase();
-                    return ch;
-                }).join('');
-                range.deleteContents();
-                range.insertNode(document.createTextNode(toggled));
-                selection.removeAllRanges();
-                selection.addRange(range);
-                rowElement.dispatchEvent(new Event('input'));
-                return;
-            }
+    
+    function insertTextAtCursorCustom(rowDiv, text) {
+        // 如果有选中文本，替换选中部分
+        const hasSelected = replaceSelectedText(rowDiv, text);
+        if (!hasSelected) {
+            // 否则追加到末尾
+            rowDiv.innerText = rowDiv.innerText + text;
+            // 移动端移动光标到最后不可见不影响，因为不可编辑.
         }
-        // 如果没有选中文本则转换整行大小写(简单轮流)
-        const text = rowElement.innerText;
-        const toggledAll = text.split('').map(ch => {
-            if (ch >= 'a' && ch <= 'z') return ch.toUpperCase();
-            if (ch >= 'A' && ch <= 'Z') return ch.toLowerCase();
-            return ch;
-        }).join('');
-        rowElement.innerText = toggledAll;
-        rowElement.dispatchEvent(new Event('input'));
+        // 保持高亮行样式
     }
-
-    function copyRowContent(rowElement) {
-        const text = rowElement.innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            showToast('✅ 已复制该行内容');
-        }).catch(() => alert('复制失败'));
+    
+    function insertAround(rowDiv, left, right) {
+        const selected = getSelectedTextInRow(rowDiv);
+        if (selected !== null && selected.length > 0) {
+            replaceSelectedText(rowDiv, left + selected + right);
+        } else {
+            rowDiv.innerText = rowDiv.innerText + left + right;
+        }
     }
-
-    function deleteLastChar(rowElement) {
-        const selection = window.getSelection();
-        if (selection.rangeCount > 0) {
-            const range = selection.getRangeAt(0);
-            if (rowElement.contains(range.commonAncestorContainer)) {
-                if (!range.collapsed) {
+    
+    function toggleCaseForRow(rowDiv) {
+        const selected = getSelectedTextInRow(rowDiv);
+        if (selected && selected.length > 0) {
+            const toggled = selected.split('').map(ch => {
+                if (ch >= 'a' && ch <= 'z') return ch.toUpperCase();
+                if (ch >= 'A' && ch <= 'Z') return ch.toLowerCase();
+                return ch;
+            }).join('');
+            replaceSelectedText(rowDiv, toggled);
+        } else {
+            const text = rowDiv.innerText;
+            const toggledAll = text.split('').map(ch => {
+                if (ch >= 'a' && ch <= 'z') return ch.toUpperCase();
+                if (ch >= 'A' && ch <= 'Z') return ch.toLowerCase();
+                return ch;
+            }).join('');
+            rowDiv.innerText = toggledAll;
+        }
+    }
+    
+    function copyRowText(rowDiv) {
+        const textToCopy = rowDiv.innerText;
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showMobileToast('✓ 已复制本行内容');
+            }).catch(() => alert('复制失败'));
+        } else {
+            alert('复制失败，手动复制吧');
+        }
+    }
+    
+    function deleteLastCharMobile(rowDiv) {
+        let text = rowDiv.innerText;
+        if (text.length > 0) {
+            // 如果有选中文本则删除选中
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                if (rowDiv.contains(range.commonAncestorContainer) && !range.collapsed) {
                     range.deleteContents();
-                    rowElement.dispatchEvent(new Event('input'));
                     return;
                 }
-                // 删除光标前一个字符
-                const startContainer = range.startContainer;
-                const startOffset = range.startOffset;
-                if (startContainer.nodeType === Node.TEXT_NODE && startOffset > 0) {
-                    startContainer.deleteData(startOffset - 1, 1);
-                    range.setStart(startContainer, startOffset - 1);
-                    range.collapse(true);
-                    selection.removeAllRanges();
-                    selection.addRange(range);
-                } else if (startContainer === rowElement && startOffset > 0) {
-                    // 跨节点删除简化
-                    const lastChild = rowElement.childNodes[startOffset - 1];
-                    if (lastChild) lastChild.remove();
-                }
-                rowElement.dispatchEvent(new Event('input'));
-                return;
             }
+            rowDiv.innerText = text.slice(0, -1);
         }
-        // 否则删除最后一个字符
-        const text = rowElement.innerText;
-        rowElement.innerText = text.slice(0, -1);
-        rowElement.dispatchEvent(new Event('input'));
     }
-
-    function showToast(msg) {
+    
+    function undoLastChange(rowDiv) {
+        const last = rowDiv.getAttribute('data-last-content');
+        if (last !== null) {
+            rowDiv.innerText = last;
+            rowDiv.removeAttribute('data-last-content');
+        } else {
+            showMobileToast('无撤销记录');
+        }
+    }
+    
+    function closeKeyboardPanel() {
+        if (activeKeyboardPanel && activeKeyboardPanel.parentNode) {
+            activeKeyboardPanel.remove();
+        }
+        if (currentActiveRowDiv) {
+            currentActiveRowDiv.classList.remove('active-row');
+        }
+        activeKeyboardPanel = null;
+        currentActiveRowDiv = null;
+        activeRowIndex = -1;
+    }
+    
+    function showMobileToast(msg) {
         let toast = document.createElement('div');
+        toast.className = 'toast-message';
         toast.innerText = msg;
-        toast.style.position = 'fixed';
-        toast.style.bottom = '20px';
-        toast.style.left = '50%';
-        toast.style.transform = 'translateX(-50%)';
-        toast.style.background = '#1e293b';
-        toast.style.color = 'white';
-        toast.style.padding = '8px 20px';
-        toast.style.borderRadius = '40px';
-        toast.style.zIndex = '9999';
-        toast.style.fontSize = '0.8rem';
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 1500);
     }
-
-    // 渲染初始行或者加载行数据
-    function renderLines(linesArray) {
+    
+    // 创建新行
+    function createRow(content, idx) {
+        const row = document.createElement('div');
+        row.className = 'editable-row';
+        row.innerText = content;
+        // 禁止 contenteditable，从而完全阻止系统键盘
+        row.setAttribute('contenteditable', 'false');
+        // 保留文本选择和复制，但不弹出键盘
+        row.style.userSelect = 'text';
+        row.style.webkitUserSelect = 'text';
+        // 添加点击事件显示自定义键盘
+        row.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const index = rowElements.indexOf(row);
+            if (index !== -1) {
+                showCustomKeyboard(row, index);
+            }
+        });
+        // 确保没有弹出键盘的任何潜在行为
+        row.addEventListener('focus', (e) => {
+            e.preventDefault();
+            row.blur();
+        });
+        return row;
+    }
+    
+    function renderInitialData(dataArr) {
         linesContainer.innerHTML = '';
         rowElements = [];
-        linesArray.forEach((text, idx) => {
-            const rowDiv = document.createElement('div');
-            rowDiv.className = 'editable-row';
-            rowDiv.setAttribute('contenteditable', 'true');
-            rowDiv.innerText = text;
-            // 点击行时显示键盘
-            rowDiv.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const index = rowElements.indexOf(rowDiv);
-                if (index !== -1) {
-                    showKeyboardForRow(rowDiv, index);
-                }
-            });
-            // 当编辑时失去焦点等无额外动作
-            rowDiv.addEventListener('input', () => {
-                // 可做自动保存
-            });
-            linesContainer.appendChild(rowDiv);
-            rowElements.push(rowDiv);
+        dataArr.forEach((txt, i) => {
+            const row = createRow(txt, i);
+            linesContainer.appendChild(row);
+            rowElements.push(row);
         });
         if (rowElements.length === 0) {
-            // 默认添加两行示例
-            addNewRow('欢迎使用行编辑器～');
-            addNewRow('点击任意行 ➕ 显示自定义键盘窗口 ✅');
+            addNewLine('新行，开始编辑');
+            addNewLine('点击行使用自定义键盘');
         }
     }
-
-    // 添加新行
-    function addNewRow(content = '新行，点击编辑') {
-        const rowDiv = document.createElement('div');
-        rowDiv.className = 'editable-row';
-        rowDiv.setAttribute('contenteditable', 'true');
-        rowDiv.innerText = content;
-        rowDiv.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const index = rowElements.indexOf(rowDiv);
-            if (index !== -1) showKeyboardForRow(rowDiv, index);
-        });
-        rowDiv.addEventListener('input', () => {});
-        linesContainer.appendChild(rowDiv);
-        rowElements.push(rowDiv);
-        // 自动滚动
-        rowDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        // 可选焦点
-        rowDiv.focus();
+    
+    function addNewLine(content = '✏️ 新行') {
+        const newRow = createRow(content, rowElements.length);
+        linesContainer.appendChild(newRow);
+        rowElements.push(newRow);
+        // 滚动到底部
+        newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        closeKeyboardPanel();
     }
-
-    function clearAllRows() {
+    
+    function clearAllLines() {
         linesContainer.innerHTML = '';
         rowElements = [];
-        closeKeyboard();
-        addNewRow('✨ 新建第一行');
-        addNewRow('点击下方按钮可继续添加行');
+        closeKeyboardPanel();
+        addNewLine('✨ 全新的开始');
+        addNewLine('点击下方按钮继续添加行');
     }
-
+    
     // 初始化数据
-    let initData = [
-        'Hello! 点击我下方会弹出自定义键盘 ⌨️',
-        '使用键盘插入特殊符号 ★ → ✔️',
-        '点击「大写锁定」可切换选中文本大小写',
-        '还有「清除本行」和「复制本行」功能'
+    const demoLines = [
+        '📱 移动端专用编辑器',
+        '点击下方【自定义键盘】操作',
+        '★ 支持插入符号 / 大小写转换',
+        '长按文本可选择复制，不弹键盘'
     ];
-    renderLines(initData);
-
-    // 监听新增行按钮
-    document.getElementById('addRowBtn').addEventListener('click', () => {
-        addNewRow('✏️ 新的一行');
-        closeKeyboard(); // 新增行后关闭键盘体验自然
+    renderInitialData(demoLines);
+    
+    // 绑定工具栏事件
+    document.getElementById('addLineBtn').addEventListener('click', () => {
+        addNewLine('新行');
     });
     document.getElementById('clearAllBtn').addEventListener('click', () => {
-        clearAllRows();
-        closeKeyboard();
+        clearAllLines();
     });
-    // 点击容器空白关闭键盘（增强）
-    linesContainer.addEventListener('click', (e) => {
-        if (e.target === linesContainer) {
-            closeKeyboard();
+    
+    // 全局点击空白关闭键盘
+    document.addEventListener('click', (e) => {
+        if (activeKeyboardPanel && !activeKeyboardPanel.contains(e.target) && !currentActiveRowDiv?.contains(e.target)) {
+            closeKeyboardPanel();
         }
     });
+    
+    // 彻底禁止任何input框弹出键盘: 确保没有可编辑的默认表单
+    // 另外任何地方不出现 textarea input 内建
 </script>
 </body>
 </html>
