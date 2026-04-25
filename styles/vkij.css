@@ -1,0 +1,315 @@
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #eef2f9;
+            font-family: system-ui, -apple-system, 'Segoe UI', 'Roboto', sans-serif;
+            margin: 0;
+            padding: 16px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 700px;
+            background: #ffffff;
+            border-radius: 36px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .global-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #f8fafd;
+            border-bottom: 1px solid #eef2f8;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tool-btn {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .tool-btn:active {
+            transform: scale(0.96);
+            background: #f1f5f9;
+        }
+
+        .status-badge {
+            background: #1e293b;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 30px;
+        }
+
+        /* 禁用系统键盘模式的开关按钮特殊样式 */
+        .toggle-switch {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .toggle-switch.active {
+            background: #10b981;
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+        }
+
+        .toggle-switch:active {
+            transform: scale(0.96);
+        }
+
+        .editor-wrapper {
+            padding: 12px;
+            background: #fefcf7;
+            position: relative;
+        }
+
+        .CodeMirror {
+            height: auto;
+            min-height: 320px;
+            border-radius: 28px;
+            font-size: 16px;
+            background: white;
+            border: 1px solid #edf2f7;
+        }
+
+        /* ========= 悬浮键盘样式 ========= */
+        .floating-keyboard {
+            position: fixed;
+            z-index: 10000;
+            background: #1e293b;
+            background: linear-gradient(145deg, #1f2a3e, #121926);
+            border-radius: 32px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            width: 330px;
+            transition: none;
+            touch-action: none;
+        }
+
+        .drag-handle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 6px 12px 4px 12px;
+            margin: -6px -6px 8px -6px;
+            cursor: grab;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 28px 28px 20px 20px;
+            touch-action: none;
+        }
+
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        .drag-icon {
+            width: 40px;
+            height: 4px;
+            background: #5f6c84;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+
+        .drag-icon::before,
+        .drag-icon::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #5f6c84;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        .close-float-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        .close-float-btn:active {
+            transform: scale(0.95);
+        }
+
+        .keyboard-inner {
+            width: 100%;
+        }
+
+        .selection-control-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .arrow-key {
+            background: #2d3e5f;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 10px 16px;
+            border-radius: 50px;
+            min-width: 70px;
+            cursor: pointer;
+        }
+
+        .arrow-key:active {
+            transform: scale(0.96);
+            background: #3b5a7a;
+        }
+
+        .select-key {
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            min-width: 80px;
+            cursor: pointer;
+        }
+
+        .select-key.active {
+            background: #ef4444;
+        }
+
+        .quick-locate-row,
+        .edit-actions-row {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .locate-key,
+        .edit-key {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .edit-key:active,
+        .locate-key:active {
+            transform: scale(0.96);
+        }
+
+        .primary-edit {
+            background: #8b5cf6;
+        }
+
+        .danger-edit {
+            background: #dc2626;
+        }
+
+        .key-row {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 6px;
+            flex-wrap: wrap;
+        }
+
+        .letter-key {
+            background: #2c3e55;
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 0;
+            border-radius: 35px;
+            width: 38px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .letter-key:active {
+            transform: scale(0.93);
+        }
+
+        .space-key {
+            width: 100px;
+            background: #2d3e5f;
+        }
+
+        .wide-key {
+            width: auto;
+            padding: 8px 12px;
+        }
+
+        .info-tip {
+            font-size: 0.65rem;
+            text-align: center;
+            padding: 8px;
+            background: #f1f6fe;
+            color: #4b5565;
+        }
+
+        .show-keyboard-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            z-index: 10001;
+        }
+
+        /* 系统键盘禁用指示器小圆点 */
+        .status-led {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            margin-right: 6px;
+            background-color: #10b981;
+            box-shadow: 0 0 4px #10b981;
+        }
+
+        .status-led.disabled {
+            background-color: #ef4444;
+            box-shadow: 0 0 4px #ef4444;
+        }

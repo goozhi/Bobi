@@ -651,6 +651,7 @@ app.use(async (ctx, next) => {
 //     }
 // })
 jplp_rjqt.jplp('qwse_1')
+jplp_rjqt.jplp('styles')
 jplp_rjqt.jplp('scripts', { nikc_kp: path.resolve('../scripts') })
 jplp_rjqt.jplp('wrvr_imgs', { nikc_kp: path.resolve('../wrvr_imgs') })
 jplp_rjqt.jplp('sdcard', { nikc_kp: path.resolve('/sdcard/') })
