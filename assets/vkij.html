@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>讯飞风格选择面板 | CodeMirror + 自定义键盘 | 完整禁用系统键盘</title>
+    <title>悬浮键盘 | 讯飞风格选择面板 | 可拖拽移动</title>
     <!-- CodeMirror v5 核心库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/material.min.css">
@@ -32,6 +32,7 @@
             border-radius: 36px;
             overflow: hidden;
             box-shadow: 0 20px 35px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .global-toolbar {
@@ -67,134 +68,155 @@
         .editor-wrapper {
             padding: 12px;
             background: #fefcf7;
+            position: relative;
         }
 
         .CodeMirror {
             height: auto;
-            min-height: 280px;
+            min-height: 320px;
             border-radius: 28px;
             font-size: 16px;
             background: white;
             border: 1px solid #edf2f7;
         }
 
-        /* ========= 仿讯飞键盘面板 ========= */
-        .xunfei-keyboard {
+        /* ========= 悬浮键盘样式 ========= */
+        .floating-keyboard {
+            position: fixed;
+            z-index: 10000;
             background: #1e293b;
             background: linear-gradient(145deg, #1f2a3e, #121926);
-            border-top: 1px solid #334155;
-            padding: 12px 12px 20px;
+            border-radius: 32px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+            padding: 12px;
+            width: 320px;
+            transition: none;
+            touch-action: none; /* 拖拽时防止滚动 */
         }
 
-        /* 移动控制行 - 左右键 + 中间选择键（讯飞风格）*/
+        /* 拖拽手柄 */
+        .drag-handle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 8px 12px 6px 12px;
+            margin: -6px -6px 8px -6px;
+            cursor: grab;
+            background: rgba(255,255,255,0.05);
+            border-radius: 28px 28px 20px 20px;
+            touch-action: none;
+        }
+        .drag-handle:active { cursor: grabbing; }
+        .drag-icon {
+            width: 40px;
+            height: 4px;
+            background: #5f6c84;
+            border-radius: 4px;
+            margin: 0 auto;
+        }
+        .drag-icon::before,
+        .drag-icon::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 4px;
+            background: #5f6c84;
+            border-radius: 4px;
+            margin: 5px 0;
+        }
+
+        /* 关闭按钮 */
+        .close-float-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: #ef4444;
+            border: none;
+            color: white;
+            font-size: 0.7rem;
+            padding: 4px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+        .close-float-btn:active { transform: scale(0.95); }
+
+        /* 键盘内容区域 (复用之前的样式，适当缩小) */
+        .keyboard-inner {
+            width: 100%;
+        }
         .selection-control-row {
             display: flex;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
-
         .arrow-key {
             background: #2d3e5f;
             border: none;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: bold;
-            padding: 14px 24px;
-            border-radius: 60px;
-            min-width: 90px;
+            padding: 10px 16px;
+            border-radius: 50px;
+            min-width: 70px;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
         .arrow-key:active { transform: scale(0.96); background: #3b5a7a; }
-
-        /* 中间选择键 - 核心特色 */
         .select-key {
             background: #8b5cf6;
             border: none;
             color: white;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: bold;
-            padding: 14px 28px;
-            border-radius: 60px;
-            min-width: 100px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            min-width: 80px;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(139,92,246,0.4);
-            transition: all 0.1s;
         }
-        .select-key:active { transform: scale(0.96); background: #7c3aed; }
-        .select-key.active {
-            background: #ef4444;
-            box-shadow: 0 2px 8px rgba(239,68,68,0.4);
-        }
-
-        /* 快速定位行 */
-        .quick-locate-row {
+        .select-key.active { background: #ef4444; }
+        .quick-locate-row, .edit-actions-row {
             display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
         }
-        .locate-key {
+        .locate-key, .edit-key {
             background: #334155;
             border: none;
             color: white;
-            padding: 8px 12px;
-            border-radius: 40px;
-            font-size: 0.75rem;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
             flex: 1;
             cursor: pointer;
         }
-        .locate-key:active { transform: scale(0.96); background: #475569; }
-
-        /* 文本操作行 */
-        .edit-actions-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid #334155;
-        }
-        .edit-key {
-            background: #475569;
-            padding: 8px 14px;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: white;
-            border: none;
-            flex: 1;
-            min-width: 60px;
-            cursor: pointer;
-        }
-        .edit-key:active { transform: scale(0.96); background: #5f6c84; }
+        .edit-key:active, .locate-key:active { transform: scale(0.96); }
         .primary-edit { background: #8b5cf6; }
         .danger-edit { background: #dc2626; }
-
-        /* 字母键盘区 */
         .key-row {
             display: flex;
             justify-content: center;
-            gap: 6px;
-            margin-bottom: 8px;
+            gap: 5px;
+            margin-bottom: 6px;
             flex-wrap: wrap;
         }
         .letter-key {
             background: #2c3e55;
             border: none;
             color: white;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 500;
-            padding: 10px 0;
-            border-radius: 40px;
-            width: 44px;
+            padding: 8px 0;
+            border-radius: 35px;
+            width: 38px;
             text-align: center;
             cursor: pointer;
         }
-        .letter-key:active { transform: scale(0.93); background: #3e5a7c; }
-        .space-key { width: 130px; background: #2d3e5f; }
-        .wide-key { width: auto; padding: 10px 16px; }
+        .letter-key:active { transform: scale(0.93); }
+        .space-key { width: 100px; background: #2d3e5f; }
+        .wide-key { width: auto; padding: 8px 12px; }
 
         .info-tip {
             font-size: 0.65rem;
@@ -202,6 +224,20 @@
             padding: 8px;
             background: #f1f6fe;
             color: #4b5565;
+        }
+        .show-keyboard-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 40px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            cursor: pointer;
+            z-index: 10001;
         }
     </style>
 </head>
@@ -217,135 +253,86 @@
 
     <div class="editor-wrapper">
         <textarea id="codeEditor">
-📱 讯飞风格选择面板演示 (已修复 inputStyle)
+📱 悬浮键盘演示 (仿讯飞选择面板)
 
-点击下方键盘的【选择】按钮，进入选择模式
-然后按 ◀ 左移 / 右移 ▶ 来扩展选区边界
+✨ 键盘特点：
+• 可拖拽悬浮于编辑器之上
+• 点击【选择】键后，按左右键扩展选区
+• 支持复制/剪切/删除/撤销
+• 可随时关闭/重新打开
 
-选中文字后，可以使用复制/剪切/删除功能
-
-左右移动键：普通模式移动光标，选择模式扩展选区
+试试选中文字后使用复制功能吧！
         </textarea>
     </div>
-
-    <div class="xunfei-keyboard" id="customKeyboardPanel">
-        <!-- 核心：选择控制行 - 左移 | 选择键 | 右移 -->
-        <div class="selection-control-row">
-            <button class="arrow-key" id="moveLeftBtn">◀ 左移</button>
-            <button class="select-key" id="selectModeBtn">🔽 选择</button>
-            <button class="arrow-key" id="moveRightBtn">右移 ▶</button>
-        </div>
-
-        <!-- 快速定位辅助行 -->
-        <div class="quick-locate-row">
-            <button class="locate-key" id="moveStartBtn">⤒ 行首</button>
-            <button class="locate-key" id="moveEndBtn">⤓ 行尾</button>
-            <button class="locate-key" id="selectAllBtn">✅ 全选</button>
-        </div>
-
-        <!-- 文本操作行 -->
-        <div class="edit-actions-row">
-            <button class="edit-key" id="copyBtn">📋 复制</button>
-            <button class="edit-key" id="cutBtn">✂️ 剪切</button>
-            <button class="edit-key danger-edit" id="deleteBtn">🗑️ 删除</button>
-            <button class="edit-key" id="undoBtn">↩️ 撤销</button>
-        </div>
-
-        <!-- 字母键盘行 -->
-        <div class="key-row">
-            <button class="letter-key" data-char="q">Q</button><button class="letter-key" data-char="w">W</button>
-            <button class="letter-key" data-char="e">E</button><button class="letter-key" data-char="r">R</button>
-            <button class="letter-key" data-char="t">T</button><button class="letter-key" data-char="y">Y</button>
-            <button class="letter-key" data-char="u">U</button><button class="letter-key" data-char="i">I</button>
-            <button class="letter-key" data-char="o">O</button><button class="letter-key" data-char="p">P</button>
-        </div>
-        <div class="key-row">
-            <button class="letter-key" data-char="a">A</button><button class="letter-key" data-char="s">S</button>
-            <button class="letter-key" data-char="d">D</button><button class="letter-key" data-char="f">F</button>
-            <button class="letter-key" data-char="g">G</button><button class="letter-key" data-char="h">H</button>
-            <button class="letter-key" data-char="j">J</button><button class="letter-key" data-char="k">K</button>
-            <button class="letter-key" data-char="l">L</button>
-        </div>
-        <div class="key-row">
-            <button class="letter-key" data-char="z">Z</button><button class="letter-key" data-char="x">X</button>
-            <button class="letter-key" data-char="c">C</button><button class="letter-key" data-char="v">V</button>
-            <button class="letter-key" data-char="b">B</button><button class="letter-key" data-char="n">N</button>
-            <button class="letter-key" data-char="m">M</button>
-            <button class="letter-key wide-key" data-char=",">,</button>
-            <button class="letter-key wide-key" data-char=".">.</button>
-        </div>
-        <div class="key-row">
-            <button class="letter-key space-key" data-char=" ">空格</button>
-            <button class="letter-key wide-key" id="deleteCharBtn">⌫ 删除</button>
-            <button class="letter-key wide-key" id="newlineBtn">↵ 换行</button>
-        </div>
-    </div>
     <div class="info-tip">
-        💡 【选择模式】提示：点击「选择」后，再按左右键即可扩展选区 | 再次点击「选择」退出选择模式
-        <br>✅ 已设置 inputStyle="textarea" + inputMode="none"，系统键盘已被完全禁用
+        💡 点击任意文本区域后，悬浮键盘会自动弹出 | 按住顶部横条可拖动键盘
     </div>
 </div>
 
+<button class="show-keyboard-btn" id="showKeyboardBtn">⌨️ 显示键盘</button>
+
 <script>
     // ========== 初始化 CodeMirror 编辑器 ==========
-    // ★★★★★ 关键配置: inputStyle: "textarea" 确保使用 textarea 底层，这样才能设置 inputMode="none" ★★★★★
     const textarea = document.getElementById('codeEditor');
     const editor = CodeMirror.fromTextArea(textarea, {
         lineNumbers: true,
         theme: "material",
         lineWrapping: true,
-        inputStyle: "textarea",   // ★★★★★ 这是最关键的一行！★★★★★
+        inputStyle: "textarea",   // ★ 关键：使用 textarea 底层
         extraKeys: {
             "Insert": () => false, "Enter": () => false, "Space": () => false,
-            "Tab": () => false, "Backspace": () => false, "Delete": () => false,
-            "Cmd": () => false, "Ctrl": () => false, "Alt": () => false
+            "Tab": () => false, "Backspace": () => false, "Delete": () => false
         }
     });
 
-    // ★★★★★ 禁用系统键盘的核心: 找到底层 textarea 并设置 inputmode="none" ★★★★★
+    // 禁用系统键盘
     const cmWrapper = editor.getWrapperElement();
     const hiddenTextarea = cmWrapper.querySelector('textarea');
     if (hiddenTextarea) {
         hiddenTextarea.setAttribute('inputmode', 'none');
         hiddenTextarea.setAttribute('readonly', 'readonly');
         hiddenTextarea.style.pointerEvents = 'none';
-        // 强制设置 inputMode 属性
         hiddenTextarea.inputMode = 'none';
     }
-
-    // 额外保障：每次编辑器获得焦点时重新设置
     editor.on('focus', () => {
         const ta = cmWrapper.querySelector('textarea');
         if (ta) {
             ta.setAttribute('inputmode', 'none');
             ta.inputMode = 'none';
-            ta.setAttribute('readonly', 'readonly');
         }
     });
 
-    // ========== 选择模式状态管理（仿讯飞核心功能）==========
+    // ========== 选择模式状态 ==========
     let selectMode = false;
+    let floatingKeyboard = null;
+    let isKeyboardVisible = false;
 
-    const selectModeBtn = document.getElementById('selectModeBtn');
-    const modeStatusSpan = document.getElementById('modeStatus');
-
-    function updateModeUI() {
-        if (selectMode) {
-            selectModeBtn.classList.add('active');
-            selectModeBtn.innerHTML = '🔴 选择中';
-            modeStatusSpan.innerHTML = '📌 选择模式 ◀ 扩展选区 ▶';
-        } else {
-            selectModeBtn.classList.remove('active');
-            selectModeBtn.innerHTML = '🔽 选择';
-            modeStatusSpan.innerHTML = '⌨️ 光标模式';
+    // 更新模式UI的通用函数（会在悬浮键盘内调用）
+    function updateModeUIInKeyboard(keyboardDiv) {
+        const selectBtn = keyboardDiv.querySelector('#floatSelectModeBtn');
+        const modeBadge = document.getElementById('modeStatus');
+        if (selectBtn) {
+            if (selectMode) {
+                selectBtn.classList.add('active');
+                selectBtn.innerHTML = '🔴 选择中';
+                if (modeBadge) modeBadge.innerHTML = '📌 选择模式 ◀ 扩展选区 ▶';
+            } else {
+                selectBtn.classList.remove('active');
+                selectBtn.innerHTML = '🔽 选择';
+                if (modeBadge) modeBadge.innerHTML = '⌨️ 光标模式';
+            }
         }
     }
 
+    // 全局模式切换函数
     function toggleSelectMode() {
         selectMode = !selectMode;
-        updateModeUI();
-
+        if (floatingKeyboard) {
+            updateModeUIInKeyboard(floatingKeyboard);
+        }
+        const modeBadge = document.getElementById('modeStatus');
         if (selectMode) {
+            // 进入选择模式时，如果当前没有选区，则创建一个字符的选区
             const selections = editor.listSelections();
             if (selections.length && selections[0].empty()) {
                 const cursor = editor.getCursor();
@@ -362,6 +349,7 @@
                     );
                 }
             }
+            if (modeBadge) modeBadge.innerHTML = '📌 选择模式 ◀ 扩展选区 ▶';
             showToast('📌 选择模式已开启，按左右键扩展选区');
         } else {
             const selections = editor.listSelections();
@@ -369,12 +357,13 @@
                 const anchor = selections[0].anchor;
                 editor.setCursor(anchor);
             }
+            if (modeBadge) modeBadge.innerHTML = '⌨️ 光标模式';
             showToast('⌨️ 已退出选择模式');
         }
         editor.focus();
     }
 
-    // 核心：选择模式下的左右移动扩展选区
+    // 光标/选区操作函数
     function moveAndExtendSelection(direction) {
         if (!selectMode) {
             if (direction === 'left') moveCursorLeft();
@@ -384,11 +373,9 @@
 
         const selections = editor.listSelections();
         if (!selections.length) return;
-
         const currentSel = selections[0];
         const anchor = currentSel.anchor;
         const head = currentSel.head;
-
         let from, to;
         if (anchor.line < head.line || (anchor.line === head.line && anchor.ch < head.ch)) {
             from = anchor;
@@ -397,10 +384,8 @@
             from = head;
             to = anchor;
         }
-
         let newFrom = { ...from };
         let newTo = { ...to };
-
         if (direction === 'left') {
             if (from.ch > 0) {
                 newFrom = { line: from.line, ch: from.ch - 1 };
@@ -484,73 +469,53 @@
         editor.focus();
     }
 
-    function selectAll() {
-        editor.execCommand('selectAll');
-        showToast('✅ 已全选');
-    }
-
+    function selectAll() { editor.execCommand('selectAll'); showToast('✅ 已全选'); }
     async function copySelection() {
         const selected = editor.getSelection();
         if (selected && navigator.clipboard) {
             await navigator.clipboard.writeText(selected);
             showToast('📋 已复制');
-        } else if (selected) {
-            showToast('选中内容: ' + selected.slice(0, 20));
-        } else {
-            showToast('未选中文字');
-        }
+        } else if (selected) showToast('选中内容: ' + selected.slice(0, 20));
+        else showToast('未选中文字');
     }
-
     async function cutSelection() {
         const selected = editor.getSelection();
         if (selected && navigator.clipboard) {
             await navigator.clipboard.writeText(selected);
             editor.replaceSelection('');
             showToast('✂️ 已剪切');
-        } else {
-            showToast('未选中内容');
-        }
+        } else showToast('未选中内容');
     }
-
     function deleteSelection() {
         const selections = editor.listSelections();
-        if (selections.length && !selections[0].empty()) {
-            editor.replaceSelection('');
-        } else {
+        if (selections.length && !selections[0].empty()) editor.replaceSelection('');
+        else {
             const cursor = editor.getCursor();
-            if (cursor.ch > 0) {
-                editor.replaceRange('', { line: cursor.line, ch: cursor.ch - 1 }, cursor);
-            } else if (cursor.line > 0) {
+            if (cursor.ch > 0) editor.replaceRange('', { line: cursor.line, ch: cursor.ch - 1 }, cursor);
+            else if (cursor.line > 0) {
                 const prevLineLength = editor.getLine(cursor.line - 1).length;
                 editor.replaceRange('', { line: cursor.line - 1, ch: prevLineLength }, { line: cursor.line, ch: 0 });
             }
         }
         editor.focus();
     }
-
-    function undo() {
-        editor.undo();
-    }
-
+    function undo() { editor.undo(); }
     function insertText(text) {
         const selections = editor.listSelections();
-        if (selections.length && !selections[0].empty()) {
-            editor.replaceSelection(text);
-        } else {
+        if (selections.length && !selections[0].empty()) editor.replaceSelection(text);
+        else {
             const cursor = editor.getCursor();
             editor.replaceRange(text, cursor);
             editor.setCursor({ line: cursor.line, ch: cursor.ch + text.length });
         }
         editor.focus();
     }
-
     function insertNewline() {
         const cursor = editor.getCursor();
         editor.replaceRange('\n', cursor);
         editor.setCursor({ line: cursor.line + 1, ch: 0 });
         editor.focus();
     }
-
     function showToast(msg) {
         let toast = document.createElement('div');
         toast.style.position = 'fixed';
@@ -563,45 +528,238 @@
         toast.style.padding = '6px 18px';
         toast.style.borderRadius = '40px';
         toast.style.fontSize = '0.75rem';
-        toast.style.zIndex = '9999';
+        toast.style.zIndex = '10002';
         toast.innerText = msg;
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 1200);
     }
 
-    // ========== 绑定事件 ==========
-    document.getElementById('selectModeBtn').addEventListener('click', toggleSelectMode);
-    document.getElementById('moveLeftBtn').addEventListener('click', () => moveAndExtendSelection('left'));
-    document.getElementById('moveRightBtn').addEventListener('click', () => moveAndExtendSelection('right'));
-    document.getElementById('moveStartBtn').addEventListener('click', moveToLineStart);
-    document.getElementById('moveEndBtn').addEventListener('click', moveToLineEnd);
-    document.getElementById('selectAllBtn').addEventListener('click', selectAll);
-    document.getElementById('copyBtn').addEventListener('click', copySelection);
-    document.getElementById('cutBtn').addEventListener('click', cutSelection);
-    document.getElementById('deleteBtn').addEventListener('click', deleteSelection);
-    document.getElementById('undoBtn').addEventListener('click', undo);
-    document.getElementById('deleteCharBtn').addEventListener('click', deleteSelection);
-    document.getElementById('newlineBtn').addEventListener('click', insertNewline);
-    document.getElementById('addLineBtn').addEventListener('click', () => {
+    // ========== 创建悬浮键盘 ==========
+    function createFloatingKeyboard() {
+        if (floatingKeyboard) return floatingKeyboard;
+
+        const keyboardDiv = document.createElement('div');
+        keyboardDiv.className = 'floating-keyboard';
+        keyboardDiv.id = 'floatingKeyboard';
+        keyboardDiv.innerHTML = `
+            <button class="close-float-btn" id="closeFloatBtn">✖ 关闭</button>
+            <div class="drag-handle" id="dragHandle">
+                <div class="drag-icon"></div>
+            </div>
+            <div class="keyboard-inner">
+                <div class="selection-control-row">
+                    <button class="arrow-key" id="floatMoveLeft">◀ 左移</button>
+                    <button class="select-key" id="floatSelectModeBtn">🔽 选择</button>
+                    <button class="arrow-key" id="floatMoveRight">右移 ▶</button>
+                </div>
+                <div class="quick-locate-row">
+                    <button class="locate-key" id="floatMoveStart">⤒ 行首</button>
+                    <button class="locate-key" id="floatMoveEnd">⤓ 行尾</button>
+                    <button class="locate-key" id="floatSelectAll">✅ 全选</button>
+                </div>
+                <div class="edit-actions-row">
+                    <button class="edit-key" id="floatCopy">📋 复制</button>
+                    <button class="edit-key" id="floatCut">✂️ 剪切</button>
+                    <button class="edit-key danger-edit" id="floatDelete">🗑️ 删除</button>
+                    <button class="edit-key" id="floatUndo">↩️ 撤销</button>
+                </div>
+                <div class="key-row">
+                    ${'q w e r t y u i o p'.split(' ').map(l => `<button class="letter-key" data-char="${l}">${l.toUpperCase()}</button>`).join('')}
+                </div>
+                <div class="key-row">
+                    ${'a s d f g h j k l'.split(' ').map(l => `<button class="letter-key" data-char="${l}">${l.toUpperCase()}</button>`).join('')}
+                </div>
+                <div class="key-row">
+                    ${'z x c v b n m'.split(' ').map(l => `<button class="letter-key" data-char="${l}">${l.toUpperCase()}</button>`).join('')}
+                    <button class="letter-key wide-key" data-char=",">,</button>
+                    <button class="letter-key wide-key" data-char=".">.</button>
+                </div>
+                <div class="key-row">
+                    ${'1 2 3 4 5 6 7 8 9 0'.split(' ').map(n => `<button class="letter-key" data-char="${n}">${n}</button>`).join('')}
+                </div>
+                <div class="key-row">
+                    <button class="letter-key space-key" data-char=" ">空格</button>
+                    <button class="letter-key wide-key" id="floatDeleteChar">⌫ 删除</button>
+                    <button class="letter-key wide-key" id="floatNewline">↵ 换行</button>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(keyboardDiv);
+        return keyboardDiv;
+    }
+
+    // 绑定悬浮键盘事件
+    function bindFloatingKeyboardEvents(keyboardDiv) {
+        // 选择模式按钮
+        const selectBtn = keyboardDiv.querySelector('#floatSelectModeBtn');
+        if (selectBtn) selectBtn.addEventListener('click', () => toggleSelectMode());
+        
+        // 移动按钮
+        keyboardDiv.querySelector('#floatMoveLeft')?.addEventListener('click', () => moveAndExtendSelection('left'));
+        keyboardDiv.querySelector('#floatMoveRight')?.addEventListener('click', () => moveAndExtendSelection('right'));
+        keyboardDiv.querySelector('#floatMoveStart')?.addEventListener('click', moveToLineStart);
+        keyboardDiv.querySelector('#floatMoveEnd')?.addEventListener('click', moveToLineEnd);
+        keyboardDiv.querySelector('#floatSelectAll')?.addEventListener('click', selectAll);
+        keyboardDiv.querySelector('#floatCopy')?.addEventListener('click', copySelection);
+        keyboardDiv.querySelector('#floatCut')?.addEventListener('click', cutSelection);
+        keyboardDiv.querySelector('#floatDelete')?.addEventListener('click', deleteSelection);
+        keyboardDiv.querySelector('#floatUndo')?.addEventListener('click', undo);
+        keyboardDiv.querySelector('#floatDeleteChar')?.addEventListener('click', deleteSelection);
+        keyboardDiv.querySelector('#floatNewline')?.addEventListener('click', insertNewline);
+        keyboardDiv.querySelector('#closeFloatBtn')?.addEventListener('click', () => hideFloatingKeyboard());
+        
+        // 字母按键
+        keyboardDiv.querySelectorAll('[data-char]').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const ch = btn.dataset.char;
+                if (ch !== undefined) insertText(ch);
+            });
+        });
+    }
+
+    // 拖拽功能
+    function enableDragging(keyboardDiv) {
+        const dragHandle = keyboardDiv.querySelector('#dragHandle');
+        let startX, startY, startLeft, startTop;
+        let isDragging = false;
+
+        const onTouchStart = (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            startX = touch.clientX;
+            startY = touch.clientY;
+            const rect = keyboardDiv.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            isDragging = true;
+        };
+
+        const onTouchMove = (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const touch = e.touches[0];
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+            let newLeft = startLeft + deltaX;
+            let newTop = startTop + deltaY;
+            // 边界限制
+            newLeft = Math.max(0, Math.min(window.innerWidth - keyboardDiv.offsetWidth, newLeft));
+            newTop = Math.max(0, Math.min(window.innerHeight - keyboardDiv.offsetHeight, newTop));
+            keyboardDiv.style.left = newLeft + 'px';
+            keyboardDiv.style.top = newTop + 'px';
+            keyboardDiv.style.right = 'auto';
+            keyboardDiv.style.bottom = 'auto';
+        };
+
+        const onTouchEnd = () => {
+            isDragging = false;
+        };
+
+        dragHandle.addEventListener('touchstart', onTouchStart);
+        dragHandle.addEventListener('touchmove', onTouchMove);
+        dragHandle.addEventListener('touchend', onTouchEnd);
+        // 鼠标支持（用于调试）
+        dragHandle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            startX = e.clientX;
+            startY = e.clientY;
+            const rect = keyboardDiv.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            const onMouseMove = (moveEvent) => {
+                const deltaX = moveEvent.clientX - startX;
+                const deltaY = moveEvent.clientY - startY;
+                let newLeft = startLeft + deltaX;
+                let newTop = startTop + deltaY;
+                newLeft = Math.max(0, Math.min(window.innerWidth - keyboardDiv.offsetWidth, newLeft));
+                newTop = Math.max(0, Math.min(window.innerHeight - keyboardDiv.offsetHeight, newTop));
+                keyboardDiv.style.left = newLeft + 'px';
+                keyboardDiv.style.top = newTop + 'px';
+                keyboardDiv.style.right = 'auto';
+                keyboardDiv.style.bottom = 'auto';
+            };
+            const onMouseUp = () => {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            };
+            document.addEventListener('mousemove', onMouseMove);
+            document.addEventListener('mouseup', onMouseUp);
+        });
+    }
+
+    function showFloatingKeyboardAtCursor() {
+        let keyboardDiv = createFloatingKeyboard();
+        if (!keyboardDiv.parentNode) document.body.appendChild(keyboardDiv);
+        
+        // 获取光标或编辑器位置
+        const cursor = editor.getCursor();
+        const cursorCoords = editor.cursorCoords(cursor, 'local');
+        const editorRect = cmWrapper.getBoundingClientRect();
+        let top = editorRect.top + cursorCoords.bottom + 10;
+        let left = editorRect.left + cursorCoords.left;
+        
+        // 边界检查
+        const kbWidth = 320;
+        const kbHeight = 480;
+        if (left + kbWidth > window.innerWidth) left = window.innerWidth - kbWidth - 10;
+        if (left < 10) left = 10;
+        if (top + kbHeight > window.innerHeight) top = window.innerHeight - kbHeight - 10;
+        if (top < 50) top = 50;
+        
+        keyboardDiv.style.left = left + 'px';
+        keyboardDiv.style.top = top + 'px';
+        keyboardDiv.style.right = 'auto';
+        keyboardDiv.style.bottom = 'auto';
+        keyboardDiv.style.display = 'block';
+        
+        if (!floatingKeyboard) {
+            floatingKeyboard = keyboardDiv;
+            bindFloatingKeyboardEvents(keyboardDiv);
+            enableDragging(keyboardDiv);
+        }
+        updateModeUIInKeyboard(keyboardDiv);
+        isKeyboardVisible = true;
+    }
+
+    function hideFloatingKeyboard() {
+        if (floatingKeyboard) {
+            floatingKeyboard.style.display = 'none';
+            isKeyboardVisible = false;
+        }
+    }
+
+    // 监听编辑器获得焦点时显示悬浮键盘
+    editor.on('focus', () => {
+        if (!isKeyboardVisible) {
+            showFloatingKeyboardAtCursor();
+        }
+    });
+
+    // 手动显示/隐藏
+    document.getElementById('showKeyboardBtn')?.addEventListener('click', () => {
+        if (isKeyboardVisible) hideFloatingKeyboard();
+        else showFloatingKeyboardAtCursor();
+        editor.focus();
+    });
+
+    // 顶部工具栏按钮
+    document.getElementById('addLineBtn')?.addEventListener('click', () => {
         const current = editor.getValue();
         editor.setValue(current + (current ? '\n新增行' : '新增行'));
         moveToLineEnd();
     });
-    document.getElementById('clearEditorBtn').addEventListener('click', () => {
+    document.getElementById('clearEditorBtn')?.addEventListener('click', () => {
         editor.setValue('');
         showToast('已清空');
     });
 
-    document.querySelectorAll('[data-char]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const ch = btn.dataset.char;
-            if (ch !== undefined) insertText(ch);
-        });
-    });
-
-    updateModeUI();
-    editor.focus();
+    // 初始显示键盘
+    setTimeout(() => {
+        editor.focus();
+        showFloatingKeyboardAtCursor();
+    }, 500);
 </script>
 </body>
 </html>
