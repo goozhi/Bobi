@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>CodeMirror + 自定义键盘 | 完美禁用系统键盘</title>
-    <!-- CodeMirror 核心库 (v5 稳定版，因为 extraKeys 配置直观，inputMode 同样支持) -->
+    <title>讯飞风格选择面板 | CodeMirror + 自定义键盘 | 完整禁用系统键盘</title>
+    <!-- CodeMirror v5 核心库 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/material.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
@@ -25,7 +25,6 @@
             align-items: center;
         }
 
-        /* 主容器 - 移动端卡片风格 */
         .app-container {
             width: 100%;
             max-width: 700px;
@@ -35,7 +34,6 @@
             box-shadow: 0 20px 35px rgba(0,0,0,0.1);
         }
 
-        /* 头部工具栏 */
         .global-toolbar {
             display: flex;
             justify-content: space-between;
@@ -46,6 +44,7 @@
             flex-wrap: wrap;
             gap: 8px;
         }
+
         .tool-btn {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -54,9 +53,9 @@
             font-size: 0.8rem;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.1s;
         }
         .tool-btn:active { transform: scale(0.96); background: #f1f5f9; }
+
         .status-badge {
             background: #1e293b;
             color: white;
@@ -65,84 +64,115 @@
             border-radius: 30px;
         }
 
-        /* CodeMirror 编辑器容器 - 完全禁用系统键盘 */
         .editor-wrapper {
             padding: 12px;
             background: #fefcf7;
         }
+
         .CodeMirror {
             height: auto;
             min-height: 280px;
             border-radius: 28px;
-            font-size: 16px;  /* 防止移动端缩放 */
+            font-size: 16px;
             background: white;
             border: 1px solid #edf2f7;
         }
-        /* 确保编辑器可点击但不会弹出键盘的核心样式 */
-        .CodeMirror textarea {
-            /* 隐藏原生textarea，但保留功能 */
-            opacity: 0;
-        }
 
-        /* ========= 自定义键盘 (仿移动端主流布局) ========= */
-        .custom-keyboard {
+        /* ========= 仿讯飞键盘面板 ========= */
+        .xunfei-keyboard {
             background: #1e293b;
             background: linear-gradient(145deg, #1f2a3e, #121926);
             border-top: 1px solid #334155;
             padding: 12px 12px 20px;
-            margin-top: 8px;
         }
-        /* 顶部控制行 (移动+编辑) */
-        .control-bar {
+
+        /* 移动控制行 - 左右键 + 中间选择键（讯飞风格）*/
+        .selection-control-row {
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: center;
+            gap: 12px;
             margin-bottom: 16px;
         }
-        .direction-row {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-around;
-            gap: 8px;
-        }
-        .move-key {
+
+        .arrow-key {
             background: #2d3e5f;
             border: none;
             color: white;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            padding: 10px 0;
-            border-radius: 48px;
-            flex: 1;
-            min-width: 65px;
-            text-align: center;
+            padding: 14px 24px;
+            border-radius: 60px;
+            min-width: 90px;
             cursor: pointer;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
-        .move-key:active { transform: scale(0.94); background: #3b5a7a; }
-        .edit-row {
+        .arrow-key:active { transform: scale(0.96); background: #3b5a7a; }
+
+        /* 中间选择键 - 核心特色 */
+        .select-key {
+            background: #8b5cf6;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 14px 28px;
+            border-radius: 60px;
+            min-width: 100px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(139,92,246,0.4);
+            transition: all 0.1s;
+        }
+        .select-key:active { transform: scale(0.96); background: #7c3aed; }
+        .select-key.active {
+            background: #ef4444;
+            box-shadow: 0 2px 8px rgba(239,68,68,0.4);
+        }
+
+        /* 快速定位行 */
+        .quick-locate-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .locate-key {
+            background: #334155;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            flex: 1;
+            cursor: pointer;
+        }
+        .locate-key:active { transform: scale(0.96); background: #475569; }
+
+        /* 文本操作行 */
+        .edit-actions-row {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             justify-content: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #334155;
         }
         .edit-key {
             background: #475569;
-            padding: 10px 12px;
+            padding: 8px 14px;
             border-radius: 40px;
             font-size: 0.75rem;
             font-weight: 600;
             color: white;
             border: none;
             flex: 1;
-            min-width: 70px;
+            min-width: 60px;
             cursor: pointer;
         }
-        .edit-key:active { transform: scale(0.94); background: #5f6c84; }
+        .edit-key:active { transform: scale(0.96); background: #5f6c84; }
         .primary-edit { background: #8b5cf6; }
         .danger-edit { background: #dc2626; }
 
-        /* 字母键盘区 (QWERTY) */
+        /* 字母键盘区 */
         .key-row {
             display: flex;
             justify-content: center;
@@ -154,39 +184,18 @@
             background: #2c3e55;
             border: none;
             color: white;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
-            padding: 12px 0;
+            padding: 10px 0;
             border-radius: 40px;
-            width: 46px;
+            width: 44px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
         }
         .letter-key:active { transform: scale(0.93); background: #3e5a7c; }
-        .space-key {
-            width: 140px;
-            background: #2d3e5f;
-        }
-        .wide-key {
-            width: auto;
-            padding: 12px 18px;
-        }
-        .bottom-bar {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 12px;
-        }
-        .close-keyboard-btn {
-            background: #ef4444;
-            border: none;
-            padding: 10px;
-            border-radius: 40px;
-            color: white;
-            flex: 1;
-            font-size: 0.8rem;
-        }
+        .space-key { width: 130px; background: #2d3e5f; }
+        .wide-key { width: auto; padding: 10px 16px; }
+
         .info-tip {
             font-size: 0.65rem;
             text-align: center;
@@ -203,40 +212,46 @@
             <button class="tool-btn" id="addLineBtn">➕ 新增行</button>
             <button class="tool-btn" id="clearEditorBtn">🗑️ 清空</button>
         </div>
-        <div class="status-badge">⌨️ 完全禁用系统键盘 | CodeMirror</div>
+        <div class="status-badge" id="modeStatus">⌨️ 光标模式</div>
     </div>
 
-    <!-- CodeMirror 编辑器区域 (单编辑器模式，取代多行独立div) -->
     <div class="editor-wrapper">
-        <textarea id="codeEditor" placeholder="在这里编辑文本...">
-📱 欢迎使用 CodeMirror 编辑器！
-• 点击下方自定义键盘输入内容
-• 原生手机键盘【不会弹出】
-• 支持移动光标 / 复制 / 剪切 / 撤销
-• 完全通过 inputMode="none" + extraKeys 阻止系统键盘
+        <textarea id="codeEditor">
+📱 讯飞风格选择面板演示 (已修复 inputStyle)
+
+点击下方键盘的【选择】按钮，进入选择模式
+然后按 ◀ 左移 / 右移 ▶ 来扩展选区边界
+
+选中文字后，可以使用复制/剪切/删除功能
+
+左右移动键：普通模式移动光标，选择模式扩展选区
         </textarea>
     </div>
 
-    <!-- 自定义键盘面板 (底部固定风格) -->
-    <div class="custom-keyboard" id="customKeyboardPanel">
-        <!-- 移动控制 + 文本操作整合区 -->
-        <div class="control-bar">
-            <div class="direction-row">
-                <button class="move-key" data-action="moveLeft">◀ 左移</button>
-                <button class="move-key" data-action="moveRight">右移 ▶</button>
-                <button class="move-key" data-action="moveStart">⤒ 行首</button>
-                <button class="move-key" data-action="moveEnd">⤓ 行尾</button>
-            </div>
-            <div class="edit-row">
-                <button class="edit-key primary-edit" data-action="selectAll">✅ 全选</button>
-                <button class="edit-key" data-action="copy">📋 复制</button>
-                <button class="edit-key" data-action="cut">✂️ 剪切</button>
-                <button class="edit-key danger-edit" data-action="delete">🗑️ 删除</button>
-                <button class="edit-key" data-action="undo">↩️ 撤销</button>
-            </div>
+    <div class="xunfei-keyboard" id="customKeyboardPanel">
+        <!-- 核心：选择控制行 - 左移 | 选择键 | 右移 -->
+        <div class="selection-control-row">
+            <button class="arrow-key" id="moveLeftBtn">◀ 左移</button>
+            <button class="select-key" id="selectModeBtn">🔽 选择</button>
+            <button class="arrow-key" id="moveRightBtn">右移 ▶</button>
         </div>
 
-        <!-- 字母键盘 QWERTY 标准布局 -->
+        <!-- 快速定位辅助行 -->
+        <div class="quick-locate-row">
+            <button class="locate-key" id="moveStartBtn">⤒ 行首</button>
+            <button class="locate-key" id="moveEndBtn">⤓ 行尾</button>
+            <button class="locate-key" id="selectAllBtn">✅ 全选</button>
+        </div>
+
+        <!-- 文本操作行 -->
+        <div class="edit-actions-row">
+            <button class="edit-key" id="copyBtn">📋 复制</button>
+            <button class="edit-key" id="cutBtn">✂️ 剪切</button>
+            <button class="edit-key danger-edit" id="deleteBtn">🗑️ 删除</button>
+            <button class="edit-key" id="undoBtn">↩️ 撤销</button>
+        </div>
+
+        <!-- 字母键盘行 -->
         <div class="key-row">
             <button class="letter-key" data-char="q">Q</button><button class="letter-key" data-char="w">W</button>
             <button class="letter-key" data-char="e">E</button><button class="letter-key" data-char="r">R</button>
@@ -260,157 +275,152 @@
             <button class="letter-key wide-key" data-char=".">.</button>
         </div>
         <div class="key-row">
-            <button class="letter-key" data-char="1">1</button><button class="letter-key" data-char="2">2</button>
-            <button class="letter-key" data-char="3">3</button><button class="letter-key" data-char="4">4</button>
-            <button class="letter-key" data-char="5">5</button><button class="letter-key" data-char="6">6</button>
-            <button class="letter-key" data-char="7">7</button><button class="letter-key" data-char="8">8</button>
-            <button class="letter-key" data-char="9">9</button><button class="letter-key" data-char="0">0</button>
-        </div>
-        <div class="bottom-bar">
             <button class="letter-key space-key" data-char=" ">空格</button>
-            <button class="letter-key wide-key" data-action="deleteChar">⌫ 删除</button>
-            <button class="letter-key wide-key" data-action="insertNewline">↵ 换行</button>
-        </div>
-        <div class="bottom-bar" style="margin-top: 8px;">
-            <button class="close-keyboard-btn" id="hideKeyboardBtn">隐藏键盘</button>
+            <button class="letter-key wide-key" id="deleteCharBtn">⌫ 删除</button>
+            <button class="letter-key wide-key" id="newlineBtn">↵ 换行</button>
         </div>
     </div>
     <div class="info-tip">
-        ⚡ 此编辑器已设置 inputMode="none" + extraKeys 完全禁止系统键盘 | 点击任意键盘按钮即可编辑文本
+        💡 【选择模式】提示：点击「选择」后，再按左右键即可扩展选区 | 再次点击「选择」退出选择模式
+        <br>✅ 已设置 inputStyle="textarea" + inputMode="none"，系统键盘已被完全禁用
     </div>
 </div>
 
 <script>
-    // ========== 核心: CodeMirror 编辑器初始化 + inputMode 禁用系统键盘 ==========
+    // ========== 初始化 CodeMirror 编辑器 ==========
+    // ★★★★★ 关键配置: inputStyle: "textarea" 确保使用 textarea 底层，这样才能设置 inputMode="none" ★★★★★
     const textarea = document.getElementById('codeEditor');
-    
     const editor = CodeMirror.fromTextArea(textarea, {
         lineNumbers: true,
         theme: "material",
         lineWrapping: true,
-        // ★★★★★ 关键配置1: 通过 extraKeys 拦截所有可能触发系统键盘或输入的动作
+        inputStyle: "textarea",   // ★★★★★ 这是最关键的一行！★★★★★
         extraKeys: {
-            "Insert": () => false,
-            "Enter": () => false,
-            "Space": () => false,
-            "Tab": () => false,
-            "Backspace": () => false,   // 禁用原生删除，由自定义键盘控制
-            "Delete": () => false,
-            "Cmd": () => false,
-            "Ctrl": () => false,
-            "Alt": () => false,
-            "Shift": () => false
-        },
-        // ★★★★★ 关键配置2: 通过指定 inputStyle 和 原生属性确保 inputMode="none"
-        inputStyle: "textarea",  // 保持 textarea 底层，但通过属性控制
+            "Insert": () => false, "Enter": () => false, "Space": () => false,
+            "Tab": () => false, "Backspace": () => false, "Delete": () => false,
+            "Cmd": () => false, "Ctrl": () => false, "Alt": () => false
+        }
     });
-    
-    // 直接获取编辑器包裹的 textarea 原生元素，并设置 inputMode = "none"
-    // CodeMirror v5 内部会生成一个 textarea，我们需要找到它并设置属性
+
+    // ★★★★★ 禁用系统键盘的核心: 找到底层 textarea 并设置 inputmode="none" ★★★★★
     const cmWrapper = editor.getWrapperElement();
     const hiddenTextarea = cmWrapper.querySelector('textarea');
     if (hiddenTextarea) {
         hiddenTextarea.setAttribute('inputmode', 'none');
-        hiddenTextarea.setAttribute('readonly', 'readonly');  // 辅助防止键盘
-        // 有些移动浏览器 respect readonly 不会弹键盘，但为了保险再添加
-        hiddenTextarea.style.pointerEvents = 'none'; // 让用户无法直接与原生textarea交互，完全通过自定义键盘操作
+        hiddenTextarea.setAttribute('readonly', 'readonly');
+        hiddenTextarea.style.pointerEvents = 'none';
+        // 强制设置 inputMode 属性
+        hiddenTextarea.inputMode = 'none';
     }
-    
-    // 额外: 阻止编辑器获得焦点时自动聚焦到原生textarea导致的光标闪现，但保留codemirror内部光标逻辑
-    // 通过监听 mousedown 保证编辑器可获焦但不弹键盘
+
+    // 额外保障：每次编辑器获得焦点时重新设置
     editor.on('focus', () => {
-        // 再次确保每次聚焦都重新强制设置 inputmode
         const ta = cmWrapper.querySelector('textarea');
         if (ta) {
             ta.setAttribute('inputmode', 'none');
+            ta.inputMode = 'none';
             ta.setAttribute('readonly', 'readonly');
-            // 确保原生textarea不可编辑
-            ta.readOnly = true;
         }
     });
-    
-    // 完全禁用原生键盘的最终保险: 当用户点击编辑器时，主动失焦并重获 CodeMirror 内部光标控制
-    // 但为了不破坏可用性，仅作额外保障
-    editor.getWrapperElement().addEventListener('mousedown', (e) => {
-        // 确保底层 textarea 不会获得焦点
-        e.preventDefault();
-        editor.focus();
-        const ta = cmWrapper.querySelector('textarea');
-        if (ta) ta.blur();
-    });
-    
-    // ========== 自定义键盘操作函数 (调用 CodeMirror API) ==========
-    // 获取当前选中范围或光标位置
-    function getCursor() {
-        return editor.getCursor();
-    }
-    
-    function replaceSelectionOrInsert(text) {
-        const selections = editor.listSelections();
-        if (selections.length && !selections[0].empty()) {
-            editor.replaceSelections(Array(selections.length).fill(text));
+
+    // ========== 选择模式状态管理（仿讯飞核心功能）==========
+    let selectMode = false;
+
+    const selectModeBtn = document.getElementById('selectModeBtn');
+    const modeStatusSpan = document.getElementById('modeStatus');
+
+    function updateModeUI() {
+        if (selectMode) {
+            selectModeBtn.classList.add('active');
+            selectModeBtn.innerHTML = '🔴 选择中';
+            modeStatusSpan.innerHTML = '📌 选择模式 ◀ 扩展选区 ▶';
         } else {
-            const cursor = editor.getCursor();
-            editor.replaceRange(text, cursor);
-            // 移动光标到插入文本之后
-            const newPos = { line: cursor.line, ch: cursor.ch + text.length };
-            editor.setCursor(newPos);
+            selectModeBtn.classList.remove('active');
+            selectModeBtn.innerHTML = '🔽 选择';
+            modeStatusSpan.innerHTML = '⌨️ 光标模式';
         }
-        editor.focus();
     }
-    
-    // 删除 (如果有选中则删除选中，否则删除光标前一个字符)
-    function deleteSelectionOrPrevious() {
-        const selections = editor.listSelections();
-        if (selections.length && !selections[0].empty()) {
-            editor.replaceSelections(['']);
-        } else {
-            const cursor = editor.getCursor();
-            if (cursor.ch === 0 && cursor.line === 0) return;
-            if (cursor.ch > 0) {
-                editor.replaceRange('', { line: cursor.line, ch: cursor.ch - 1 }, cursor);
-            } else {
-                // 上一行末尾
-                const prevLine = cursor.line - 1;
-                const prevLineLength = editor.getLine(prevLine).length;
-                editor.replaceRange('', { line: prevLine, ch: prevLineLength }, { line: cursor.line, ch: 0 });
-                editor.setCursor({ line: prevLine, ch: prevLineLength });
+
+    function toggleSelectMode() {
+        selectMode = !selectMode;
+        updateModeUI();
+
+        if (selectMode) {
+            const selections = editor.listSelections();
+            if (selections.length && selections[0].empty()) {
+                const cursor = editor.getCursor();
+                const line = editor.getLine(cursor.line);
+                if (line.length > 0 && cursor.ch < line.length) {
+                    editor.setSelection(
+                        { line: cursor.line, ch: cursor.ch },
+                        { line: cursor.line, ch: Math.min(cursor.ch + 1, line.length) }
+                    );
+                } else if (cursor.ch > 0) {
+                    editor.setSelection(
+                        { line: cursor.line, ch: cursor.ch - 1 },
+                        { line: cursor.line, ch: cursor.ch }
+                    );
+                }
             }
+            showToast('📌 选择模式已开启，按左右键扩展选区');
+        } else {
+            const selections = editor.listSelections();
+            if (selections.length && !selections[0].empty()) {
+                const anchor = selections[0].anchor;
+                editor.setCursor(anchor);
+            }
+            showToast('⌨️ 已退出选择模式');
         }
         editor.focus();
     }
-    
-    function selectAll() {
-        editor.execCommand('selectAll');
-    }
-    
-    async function copySelection() {
-        const selected = editor.getSelection();
-        if (selected && navigator.clipboard) {
-            await navigator.clipboard.writeText(selected);
-            showToast('📋 已复制');
-        } else if (selected) {
-            showToast('选中内容: ' + selected.slice(0,20));
-        } else {
-            showToast('未选中文字');
+
+    // 核心：选择模式下的左右移动扩展选区
+    function moveAndExtendSelection(direction) {
+        if (!selectMode) {
+            if (direction === 'left') moveCursorLeft();
+            else moveCursorRight();
+            return;
         }
-    }
-    
-    async function cutSelection() {
-        const selected = editor.getSelection();
-        if (selected && navigator.clipboard) {
-            await navigator.clipboard.writeText(selected);
-            editor.replaceSelection('');
-            showToast('✂️ 已剪切');
+
+        const selections = editor.listSelections();
+        if (!selections.length) return;
+
+        const currentSel = selections[0];
+        const anchor = currentSel.anchor;
+        const head = currentSel.head;
+
+        let from, to;
+        if (anchor.line < head.line || (anchor.line === head.line && anchor.ch < head.ch)) {
+            from = anchor;
+            to = head;
         } else {
-            showToast('未选中内容');
+            from = head;
+            to = anchor;
         }
+
+        let newFrom = { ...from };
+        let newTo = { ...to };
+
+        if (direction === 'left') {
+            if (from.ch > 0) {
+                newFrom = { line: from.line, ch: from.ch - 1 };
+            } else if (from.line > 0) {
+                const prevLineLength = editor.getLine(from.line - 1).length;
+                newFrom = { line: from.line - 1, ch: prevLineLength };
+            }
+            editor.setSelection(newFrom, newTo);
+        } else {
+            const lineLength = editor.getLine(to.line).length;
+            if (to.ch < lineLength) {
+                newTo = { line: to.line, ch: to.ch + 1 };
+            } else if (to.line < editor.lineCount() - 1) {
+                newTo = { line: to.line + 1, ch: 0 };
+            }
+            editor.setSelection(newFrom, newTo);
+        }
+        editor.focus();
     }
-    
-    function undo() {
-        editor.undo();
-    }
-    
+
     function moveCursorLeft() {
         const cursor = editor.getCursor();
         if (cursor.ch > 0) {
@@ -421,7 +431,7 @@
         }
         editor.focus();
     }
-    
+
     function moveCursorRight() {
         const cursor = editor.getCursor();
         const lineLength = editor.getLine(cursor.line).length;
@@ -432,27 +442,115 @@
         }
         editor.focus();
     }
-    
+
     function moveToLineStart() {
         const cursor = editor.getCursor();
-        editor.setCursor({ line: cursor.line, ch: 0 });
+        if (selectMode) {
+            const selections = editor.listSelections();
+            if (selections.length) {
+                const sel = selections[0];
+                const anchor = sel.anchor;
+                const head = sel.head;
+                if (anchor.line < head.line || (anchor.line === head.line && anchor.ch < head.ch)) {
+                    editor.setSelection({ line: anchor.line, ch: 0 }, head);
+                } else {
+                    editor.setSelection(anchor, { line: head.line, ch: 0 });
+                }
+            }
+        } else {
+            editor.setCursor({ line: cursor.line, ch: 0 });
+        }
         editor.focus();
     }
-    
+
     function moveToLineEnd() {
         const cursor = editor.getCursor();
         const lineLength = editor.getLine(cursor.line).length;
-        editor.setCursor({ line: cursor.line, ch: lineLength });
+        if (selectMode) {
+            const selections = editor.listSelections();
+            if (selections.length) {
+                const sel = selections[0];
+                const anchor = sel.anchor;
+                const head = sel.head;
+                if (anchor.line < head.line || (anchor.line === head.line && anchor.ch < head.ch)) {
+                    editor.setSelection(anchor, { line: head.line, ch: lineLength });
+                } else {
+                    editor.setSelection({ line: anchor.line, ch: lineLength }, head);
+                }
+            }
+        } else {
+            editor.setCursor({ line: cursor.line, ch: lineLength });
+        }
         editor.focus();
     }
-    
+
+    function selectAll() {
+        editor.execCommand('selectAll');
+        showToast('✅ 已全选');
+    }
+
+    async function copySelection() {
+        const selected = editor.getSelection();
+        if (selected && navigator.clipboard) {
+            await navigator.clipboard.writeText(selected);
+            showToast('📋 已复制');
+        } else if (selected) {
+            showToast('选中内容: ' + selected.slice(0, 20));
+        } else {
+            showToast('未选中文字');
+        }
+    }
+
+    async function cutSelection() {
+        const selected = editor.getSelection();
+        if (selected && navigator.clipboard) {
+            await navigator.clipboard.writeText(selected);
+            editor.replaceSelection('');
+            showToast('✂️ 已剪切');
+        } else {
+            showToast('未选中内容');
+        }
+    }
+
+    function deleteSelection() {
+        const selections = editor.listSelections();
+        if (selections.length && !selections[0].empty()) {
+            editor.replaceSelection('');
+        } else {
+            const cursor = editor.getCursor();
+            if (cursor.ch > 0) {
+                editor.replaceRange('', { line: cursor.line, ch: cursor.ch - 1 }, cursor);
+            } else if (cursor.line > 0) {
+                const prevLineLength = editor.getLine(cursor.line - 1).length;
+                editor.replaceRange('', { line: cursor.line - 1, ch: prevLineLength }, { line: cursor.line, ch: 0 });
+            }
+        }
+        editor.focus();
+    }
+
+    function undo() {
+        editor.undo();
+    }
+
+    function insertText(text) {
+        const selections = editor.listSelections();
+        if (selections.length && !selections[0].empty()) {
+            editor.replaceSelection(text);
+        } else {
+            const cursor = editor.getCursor();
+            editor.replaceRange(text, cursor);
+            editor.setCursor({ line: cursor.line, ch: cursor.ch + text.length });
+        }
+        editor.focus();
+    }
+
     function insertNewline() {
         const cursor = editor.getCursor();
         editor.replaceRange('\n', cursor);
         editor.setCursor({ line: cursor.line + 1, ch: 0 });
         editor.focus();
     }
-    
+
     function showToast(msg) {
         let toast = document.createElement('div');
         toast.style.position = 'fixed';
@@ -470,65 +568,40 @@
         document.body.appendChild(toast);
         setTimeout(() => toast.remove(), 1200);
     }
-    
-    // ========== 绑定自定义键盘事件 ==========
-    const panel = document.getElementById('customKeyboardPanel');
-    
-    panel.querySelectorAll('[data-action]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const action = btn.dataset.action;
-            switch (action) {
-                case 'moveLeft': moveCursorLeft(); break;
-                case 'moveRight': moveCursorRight(); break;
-                case 'moveStart': moveToLineStart(); break;
-                case 'moveEnd': moveToLineEnd(); break;
-                case 'selectAll': selectAll(); break;
-                case 'copy': copySelection(); break;
-                case 'cut': cutSelection(); break;
-                case 'delete': deleteSelectionOrPrevious(); break;
-                case 'undo': undo(); break;
-                case 'deleteChar': deleteSelectionOrPrevious(); break;
-                case 'insertNewline': insertNewline(); break;
-                default: break;
-            }
-        });
-    });
-    
-    panel.querySelectorAll('[data-char]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            const ch = btn.dataset.char;
-            if (ch !== undefined) replaceSelectionOrInsert(ch);
-        });
-    });
-    
-    document.getElementById('hideKeyboardBtn')?.addEventListener('click', () => {
-        // 隐藏键盘不是必须，但提供选项让出屏幕空间，这里只是视觉上不操作，编辑器正常
-        showToast('键盘依然可用，点击编辑器可继续');
-    });
-    
-    // 清空编辑器内容
-    document.getElementById('clearEditorBtn').addEventListener('click', () => {
-        editor.setValue('');
-        showToast('已清空');
-    });
-    // 新增行 (在末尾添加一行文字)
+
+    // ========== 绑定事件 ==========
+    document.getElementById('selectModeBtn').addEventListener('click', toggleSelectMode);
+    document.getElementById('moveLeftBtn').addEventListener('click', () => moveAndExtendSelection('left'));
+    document.getElementById('moveRightBtn').addEventListener('click', () => moveAndExtendSelection('right'));
+    document.getElementById('moveStartBtn').addEventListener('click', moveToLineStart);
+    document.getElementById('moveEndBtn').addEventListener('click', moveToLineEnd);
+    document.getElementById('selectAllBtn').addEventListener('click', selectAll);
+    document.getElementById('copyBtn').addEventListener('click', copySelection);
+    document.getElementById('cutBtn').addEventListener('click', cutSelection);
+    document.getElementById('deleteBtn').addEventListener('click', deleteSelection);
+    document.getElementById('undoBtn').addEventListener('click', undo);
+    document.getElementById('deleteCharBtn').addEventListener('click', deleteSelection);
+    document.getElementById('newlineBtn').addEventListener('click', insertNewline);
     document.getElementById('addLineBtn').addEventListener('click', () => {
         const current = editor.getValue();
         editor.setValue(current + (current ? '\n新增行' : '新增行'));
         moveToLineEnd();
-        showToast('已添加新行');
     });
-    
-    // 初始聚焦编辑器体验
-    setTimeout(() => {
-        editor.focus();
-        const ta = cmWrapper.querySelector('textarea');
-        if (ta) ta.setAttribute('inputmode', 'none');
-    }, 100);
+    document.getElementById('clearEditorBtn').addEventListener('click', () => {
+        editor.setValue('');
+        showToast('已清空');
+    });
+
+    document.querySelectorAll('[data-char]').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const ch = btn.dataset.char;
+            if (ch !== undefined) insertText(ch);
+        });
+    });
+
+    updateModeUI();
+    editor.focus();
 </script>
 </body>
 </html>
