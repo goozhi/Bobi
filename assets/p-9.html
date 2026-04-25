@@ -161,6 +161,7 @@
     <div class="input-area">
       <input type="text" id="pointInput" placeholder="输入点位，如：1,5,9" value="1,5,9" />
       <button onclick="playAnimation2()">▶ 播放</button>
+      <button onclick="getClip()">▶ 粘贴</button>
     </div>
 
     <div class="input-area">
@@ -319,6 +320,8 @@
         alert("数据不正确")
       }
     }
+    const pointInput = document.getElementById('pointInput')
+
     function yj_nixb(neig_kp = {}) {
       const nameInput = document.getElementById('patternName2').value.trim();
       const pointInput = document.getElementById('pointInput2').value.trim();
@@ -484,6 +487,11 @@
         };
         listEl.appendChild(item);
       });
+    }
+    function getClip() {
+      getClipboardText().then(res => {
+        pointInput.value = res
+      }).catch(e => alert(e.message))
     }
 
     // 点击画布添加点（彩蛋）
