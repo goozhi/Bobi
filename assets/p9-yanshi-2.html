@@ -155,9 +155,8 @@
 <body>
     <div class="card">
         <div class="info">
-            🎆 烟花 + 实时连线 + 已触发按键<span style="color:#facc15;"> 保持高亮 ✨</span>
+            <span id="sj1" style="color:#facc15;"> 保持高亮 ✨</span>
         </div>
-        <button id="resetBtn">⟳ 重置轨迹 & 清空高亮</button>
         <div class="canvas-container" id="canvasContainer">
             <canvas id="lineCanvas" width="500" height="500"></canvas>
             <div class="grid" id="gestureGrid"></div>
@@ -167,11 +166,17 @@
             <div class="trajectory" id="trajectoryDisplay">⚡ 触摸或点击</div>
             <div class="last-trajectory" id="lastTrajectoryDisplay">⏮ 上次轨迹: —</div>
         </div>
-
+        <button id="resetBtn">⟳ 重置轨迹 & 清空高亮</button>
+        <button id="refresh_ztwy_cqzt">⟳字典刷新</button>
+        <button id="syig_zhkl_caum">⟳提示刷新</button>
+        <textarea name="vdzv_zul_1" id="vdzv_zul_1"></textarea>
     </div>
 
     <script>
         (function () {
+            var wm_ztwy_cqzt = []
+            let wrm_ztwy_cqzt = {}
+            nwvt_bj_uace_ztwy()
             const map_zdog_ybkc = new Map()
             const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
             let currentSequence = [];
@@ -180,6 +185,17 @@
             let resetTimer = null;
             let isMoving = false;
 
+            let vn_tymi_zhkl = 0
+            var wm_sj1 = [
+                { code: "158", name: "我" },
+                { code: "148", name: "你" },
+                { code: "139", name: "他" }
+            ]
+            let eqwy_zhkl = 0
+
+            const sj1 = document.getElementById('sj1');
+            set_zhkl()
+            const vdzv_zul_1 = document.getElementById('vdzv_zul_1');
             const gridEl = document.getElementById('gestureGrid');
             const trajDiv = document.getElementById('trajectoryDisplay');
             const lastTrajDiv = document.getElementById('lastTrajectoryDisplay');
@@ -194,6 +210,46 @@
             let particles = [];
             let animFrame = null;
 
+            function findCodeUseName(name) {
+                return wrm_ztwy_cqzt[name]?.code || "13971"
+
+            }
+            function findUseCode(code) {
+                const map_yhld = new Map()
+                wm_ztwy_cqzt.forEach(rn1 => {
+                    map_yhld.set(rn1.code.replace(/,/g, ""), rn1)
+                })
+                return map_yhld.get(code)
+            }
+            function syig_zhkl_caum() {
+
+                wm_sj1 = vdzv_zul_1.value.split("").map(rn1 => {
+                    return { name: rn1, code: findCodeUseName(rn1) }
+                })
+            }
+            function nwvt_bj_uace_ztwy() {
+                fetch("/zzzz/kplu/p9/cqzt-p9.json")
+                    .then(response => {
+                        // 检查请求是否成功
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        // 将响应解析为 JSON
+                        return response.json();
+                    })
+                    .then(data => {
+                        wm_ztwy_cqzt = data
+                        wm_ztwy_cqzt.forEach(rn1 => wrm_ztwy_cqzt[rn1.name] = rn1)
+                        // 在这里处理解析后的数据
+                        // console.log(data);
+                        // 显示数据到页面
+                        // const resultDiv = document.getElementById('result');
+                        // resultDiv.innerHTML = JSON.stringify(data[0], null, 2);
+                    })
+                    .catch(error => {
+                        console.error('Fetch 错误:', error);
+                    });
+            }
             function random(min, max) { return min + Math.random() * (max - min); }
             class Particle {
                 constructor(x, y, color) {
@@ -330,11 +386,20 @@
                 else trajDiv.innerText = currentSequence.join(' → ');
             }
 
+            function set_zhkl() {
+                eqwy_zhkl = vn_tymi_zhkl % wm_sj1.length
+                sj1.innerText = wm_sj1[eqwy_zhkl].name //+ " " + wm_sj1[eqwy_zhkl].code
+            }
             function scheduleReset() {
                 if (resetTimer) clearTimeout(resetTimer);
                 resetTimer = setTimeout(() => {
                     if (currentSequence.length) {
                         lastSequence = [...currentSequence];
+                        // alert(wm_sj1[eqwy_zhkl].name)
+                        if (currentSequence.join("") === wm_sj1[eqwy_zhkl].code.replace(/,/g, "")) {
+                            vn_tymi_zhkl++
+                            set_zhkl()
+                        }
                         lastTrajDiv.innerText = '⏮ 上次轨迹: ' + (lastSequence.length ? lastSequence.join(' → ') : '—');
                     }
                     // ⭐ 重置时不清除高亮？根据“点亮已点过的按键”，重置需要清除高亮才合理（与UI重置保持一致）
@@ -454,6 +519,13 @@
             buildGrid();
             bindEvents();
             document.getElementById('resetBtn').addEventListener('click', resetAll);
+            document.getElementById('refresh_ztwy_cqzt').addEventListener('click', nwvt_bj_uace_ztwy);
+            document.getElementById('syig_zhkl_caum').addEventListener('click', () => {
+                console.log("click zhkl uace")
+                syig_zhkl_caum()
+                set_zhkl()
+            });
+
             updateTrajectoryUI();
         })();
     </script>
