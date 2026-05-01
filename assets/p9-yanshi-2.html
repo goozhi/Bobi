@@ -190,6 +190,8 @@
             <div class="last-trajectory" id="lastTrajectoryDisplay">⏮ 上次轨迹: —</div>
         </div>
         <button id="resetBtn">⟳ 重置轨迹 & 清空高亮</button>
+        <button id="syig_neig">neig-syig</button>
+        <button id="nwvt_neig">neig-nwvt</button>
         <button id="refresh_ztwy_cqzt">⟳字典刷新</button>
         <button id="syig_zhkl_caum">⟳提示刷新</button>
         <textarea name="vdzv_zul_1" id="vdzv_zul_1"></textarea>
@@ -197,6 +199,9 @@
 
     <script>
         (function () {
+            const neig = {
+                ztwy_shjp: "/zzzz/kplu/p9/cqzt-p9.json"
+            }
             // p9 canvas
             const canvas = document.getElementById('canvas_p9');
             const ctx_p9 = canvas.getContext('2d');
@@ -266,7 +271,7 @@
                 vn_tymi_zhkl = 0
             }
             function nwvt_bj_uace_ztwy() {
-                fetch("/zzzz/kplu/p9/cqzt-p9.json")
+                fetch(neig.ztwy_shjp)
                     .then(response => {
                         // 检查请求是否成功
                         if (!response.ok) {
@@ -443,7 +448,7 @@
                             vn_tymi_zhkl++
                             set_zhkl()
                         }
-                        lastTrajDiv.innerText = '⏮ 上次轨迹: ' + (lastSequence.length ? lastSequence.join(' → ') : '—');
+                        lastTrajDiv.innerText = '⏮ 上次轨迹: ' + (lastSequence.length ? lastSequence.join(' → ') + ":" + findUseCode(lastSequence.join(''))?.name : '—');
                     }
                     // ⭐ 重置时不清除高亮？根据“点亮已点过的按键”，重置需要清除高亮才合理（与UI重置保持一致）
                     resetHighlights();
@@ -561,6 +566,26 @@
 
             buildGrid();
             bindEvents();
+            document.getElementById('nwvt_neig').addEventListener('click', () => {
+                if (vdzv_zul_1.value != "258369") {
+                    alert("aoao gd vdzv wvvy")
+                } else {
+                    vdzv_zul_1.value = JSON.stringify(neig, null, 2)
+                }
+            })
+            document.getElementById('syig_neig').addEventListener('click', () => {
+                const neig_dbkz = atvn_fs(vdzv_zul_1.value)
+                if (!neig_dbkz) {
+                    alert("neig lh vv ra oan rzvo")
+                }
+                if (!(neig_dbkz instanceof Object)) {
+                    alert("aoao ji json brtz")
+                } else {
+                    Object.assign(neig, neig_dbkz)
+
+                    alert("cd rzvo neig")
+                }
+            });
             document.getElementById('resetBtn').addEventListener('click', resetAll);
             document.getElementById('refresh_ztwy_cqzt').addEventListener('click', nwvt_bj_uace_ztwy);
             document.getElementById('syig_zhkl_caum').addEventListener('click', () => {
@@ -572,6 +597,15 @@
             updateTrajectoryUI();
 
         })();
+        function atvn_fs(rj) {
+            try {
+                return eval("(" + rj + ")")
+            } catch (e) {
+                alert(e)
+                return null
+            }
+        }
+
     </script>
 </body>
 
