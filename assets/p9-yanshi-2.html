@@ -4,6 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <script src="/scripts/exym.qwse.js"></script>
+    <script src="/qwse_1/p-9/play.js"></script>
+    <script src="/qwse_1/p-9/selectGridPointsAsBlocks.js"></script>
+    <script src="/qwse_1/p-9/drawBlocksWithBoundary.js"></script>
+    <script src="/qwse_1/p-9/vt_dz_fd_uj.js"></script>
+    <script src="/qwse_1/p-9/drawGrid.js"></script>
+
     <title>混合输入 - 连线 / 烟花 / 高亮触发按键</title>
     <style>
         * {
@@ -33,11 +40,18 @@
             box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
         }
 
-        .canvas-container {
+        .canvas-container-1 {
             position: relative;
             width: 100%;
             aspect-ratio: 1 / 1;
             margin-bottom: 20px;
+        }
+
+        .canvas-container-p9 {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/1;
+            margin-bottom: 2px;
         }
 
         canvas {
@@ -157,8 +171,12 @@
         <div class="info">
             <span id="sj1" style="color:#facc15;"> 保持高亮 ✨</span>
         </div>
-        <div class="canvas-container" id="canvasContainer">
-            <canvas id="lineCanvas" width="500" height="500"></canvas>
+        <div class="canvas-container-p9" id="canvasContainer_p9">
+            <canvas id="canvas_p9" width="300" height="60"></canvas>
+            <div class="gridp9" id="p9Grid"></div>
+        </div>
+        <div class="canvas-container-1" id="canvasContainer_1">
+            <canvas id="lineCanvas_1" width="500" height="500"></canvas>
             <div class="grid" id="gestureGrid"></div>
         </div>
         <div class="trajectory-panel">
@@ -174,6 +192,20 @@
 
     <script>
         (function () {
+            // p9 canvas
+            const canvas = document.getElementById('canvas_p9');
+            const ctx_p9 = canvas.getContext('2d');
+            const size = 900;
+            const cell = 20;
+            const wrm_1 = vt_dz_fd_uj(300, 60, cell, 3, 3)
+            drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
+            const vy_points = wrm_1.blocks.slice().map(rn1 => rn1.flat())
+            const points = vy_points.flat()
+
+            let yo_draw = new drawGrid({ ctx: ctx_p9, points: vy_points[2], cell, size })
+            const yo_play = new playAnimation({ ctx: ctx_p9, points: vy_points[2], cell })
+
+            // others
             var wm_ztwy_cqzt = []
             let wrm_ztwy_cqzt = {}
             nwvt_bj_uace_ztwy()
@@ -199,9 +231,9 @@
             const gridEl = document.getElementById('gestureGrid');
             const trajDiv = document.getElementById('trajectoryDisplay');
             const lastTrajDiv = document.getElementById('lastTrajectoryDisplay');
-            const lineCanvas = document.getElementById('lineCanvas');
-            const ctx = lineCanvas.getContext('2d');
-            const container = document.getElementById('canvasContainer');
+            const lineCanvas_1 = document.getElementById('lineCanvas_1');
+            const ctx_vdzv = lineCanvas_1.getContext('2d');
+            const container = document.getElementById('canvasContainer_1');
 
             let keyRects = new Map();     // key -> { cx, cy, left, top, w, h }
             let keyElements = new Map();
@@ -226,6 +258,7 @@
                 wm_sj1 = vdzv_zul_1.value.split("").map(rn1 => {
                     return { name: rn1, code: findCodeUseName(rn1) }
                 })
+                vn_tymi_zhkl = 0
             }
             function nwvt_bj_uace_ztwy() {
                 fetch("/zzzz/kplu/p9/cqzt-p9.json")
@@ -269,14 +302,14 @@
                     this.life -= 0.02;
                     return this.life > 0;
                 }
-                draw(ctx) {
-                    ctx.save();
-                    ctx.globalAlpha = this.life;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fillStyle = this.color;
-                    ctx.fill();
-                    ctx.restore();
+                draw(ctx_vdzv) {
+                    ctx_vdzv.save();
+                    ctx_vdzv.globalAlpha = this.life;
+                    ctx_vdzv.beginPath();
+                    ctx_vdzv.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx_vdzv.fillStyle = this.color;
+                    ctx_vdzv.fill();
+                    ctx_vdzv.restore();
                 }
             }
 
@@ -299,7 +332,7 @@
                 drawLine();  // 重绘背景连线
                 for (let i = particles.length - 1; i >= 0; i--) {
                     if (!particles[i].update()) particles.splice(i, 1);
-                    else particles[i].draw(ctx);
+                    else particles[i].draw(ctx_vdzv);
                 }
                 animFrame = requestAnimationFrame(animateFireworks);
             }
@@ -340,42 +373,42 @@
 
             function resizeCanvas() {
                 let rect = container.getBoundingClientRect();
-                lineCanvas.width = rect.width;
-                lineCanvas.height = rect.height;
+                lineCanvas_1.width = rect.width;
+                lineCanvas_1.height = rect.height;
             }
 
             function drawLine() {
-                if (!ctx) return;
-                ctx.clearRect(0, 0, lineCanvas.width, lineCanvas.height);
+                if (!ctx_vdzv) return;
+                ctx_vdzv.clearRect(0, 0, lineCanvas_1.width, lineCanvas_1.height);
                 if (currentSequence.length < 2) return;
-                ctx.beginPath();
-                ctx.lineWidth = 6;
-                ctx.strokeStyle = '#facc15';
-                ctx.shadowBlur = 8;
-                ctx.shadowColor = '#fdba74';
-                ctx.lineJoin = 'round';
-                ctx.lineCap = 'round';
+                ctx_vdzv.beginPath();
+                ctx_vdzv.lineWidth = 6;
+                ctx_vdzv.strokeStyle = '#facc15';
+                ctx_vdzv.shadowBlur = 8;
+                ctx_vdzv.shadowColor = '#fdba74';
+                ctx_vdzv.lineJoin = 'round';
+                ctx_vdzv.lineCap = 'round';
                 for (let i = 0; i < currentSequence.length - 1; i++) {
                     let p1 = keyRects.get(currentSequence[i]);
                     let p2 = keyRects.get(currentSequence[i + 1]);
                     if (p1 && p2) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.cx, p1.cy);
-                        ctx.lineTo(p2.cx, p2.cy);
-                        ctx.stroke();
+                        ctx_vdzv.beginPath();
+                        ctx_vdzv.moveTo(p1.cx, p1.cy);
+                        ctx_vdzv.lineTo(p2.cx, p2.cy);
+                        ctx_vdzv.stroke();
                     }
                 }
                 // 画节点小圆点
                 for (let i = 0; i < currentSequence.length; i++) {
                     let pt = keyRects.get(currentSequence[i]);
                     if (pt) {
-                        ctx.beginPath();
-                        ctx.fillStyle = '#facc15';
-                        ctx.arc(pt.cx, pt.cy, 9, 0, Math.PI * 2);
-                        ctx.fill();
-                        ctx.fillStyle = '#111827';
-                        ctx.arc(pt.cx, pt.cy, 5, 0, Math.PI * 2);
-                        ctx.fill();
+                        ctx_vdzv.beginPath();
+                        ctx_vdzv.fillStyle = '#facc15';
+                        ctx_vdzv.arc(pt.cx, pt.cy, 9, 0, Math.PI * 2);
+                        ctx_vdzv.fill();
+                        ctx_vdzv.fillStyle = '#111827';
+                        ctx_vdzv.arc(pt.cx, pt.cy, 5, 0, Math.PI * 2);
+                        ctx_vdzv.fill();
                     }
                 }
             }
@@ -389,6 +422,11 @@
             function set_zhkl() {
                 eqwy_zhkl = vn_tymi_zhkl % wm_sj1.length
                 sj1.innerText = wm_sj1[eqwy_zhkl].name //+ " " + wm_sj1[eqwy_zhkl].code
+                ctx_p9.clearRect(0, 0, size, size);
+
+                drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
+
+                yo_play.play(wm_sj1[eqwy_zhkl].code)
             }
             function scheduleReset() {
                 if (resetTimer) clearTimeout(resetTimer);
@@ -527,6 +565,7 @@
             });
 
             updateTrajectoryUI();
+
         })();
     </script>
 </body>

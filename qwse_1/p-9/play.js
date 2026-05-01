@@ -53,7 +53,7 @@ function playAnimation(neig_kp) {
             if (path.length > 0) {
                 // 画路径线
                 neig.ctx.strokeStyle = '#4CAF50';
-                neig.ctx.lineWidth = cell / 7;
+                neig.ctx.lineWidth = neig.cell / 7;
                 neig.ctx.lineCap = 'round';
                 neig.ctx.lineJoin = 'round';
 

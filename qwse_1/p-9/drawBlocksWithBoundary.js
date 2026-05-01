@@ -62,7 +62,7 @@ function drawBlocksWithBoundary(ctx, result, spacing) {
 
 
 function drawBlocks(ctx, result, spacing) {
-  const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
+  const colors = ['#4ECDC4', '#45B7D1', '#FF6B6B', '#96CEB4',
     '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7B731'];
 
   result.blocks.forEach((block, idx) => {
