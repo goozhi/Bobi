@@ -51,7 +51,7 @@
             position: relative;
             width: 100%;
             aspect-ratio: 4/1;
-            margin-bottom: 2px;
+            margin-bottom: 20px;
         }
 
         canvas {
@@ -84,12 +84,13 @@
             font-size: 32px;
             font-weight: bold;
             color: #0f172a;
+            margin: 10%;
             box-shadow: 0 12px 18px rgba(0, 0, 0, 0.4);
             transition: 0.1s ease;
             cursor: pointer;
             touch-action: none;
             aspect-ratio: 1 / 1;
-            width: 100%;
+            width: 80%;
         }
 
         /* 💡 已触发按键高亮（永久保持） */
@@ -168,6 +169,10 @@
 
 <body>
     <div class="card">
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
         <div class="info">
             <span id="sj1" style="color:#facc15;"> 保持高亮 ✨</span>
         </div>
@@ -289,10 +294,10 @@
                     this.x = x; this.y = y;
                     this.vx = random(-3.5, 3.5);
                     this.vy = random(-6, -1.5);
-                    this.gravity = 0.2;
+                    this.gravity = 0.15;
                     this.life = 1;
                     this.color = color;
-                    this.size = random(3, 6);
+                    this.size = random(9, 18);
                 }
                 update() {
                     this.vx *= 0.98;
@@ -382,7 +387,7 @@
                 ctx_vdzv.clearRect(0, 0, lineCanvas_1.width, lineCanvas_1.height);
                 if (currentSequence.length < 2) return;
                 ctx_vdzv.beginPath();
-                ctx_vdzv.lineWidth = 6;
+                ctx_vdzv.lineWidth = 9;
                 ctx_vdzv.strokeStyle = '#facc15';
                 ctx_vdzv.shadowBlur = 8;
                 ctx_vdzv.shadowColor = '#fdba74';
