@@ -431,7 +431,7 @@
 
             function set_zhkl() {
                 eqwy_zhkl = vn_tymi_zhkl % wm_sj1.length
-                sj1.innerText = wm_sj1[eqwy_zhkl].name //+ " " + wm_sj1[eqwy_zhkl].code
+                sj1.innerText = wm_sj1[eqwy_zhkl].name +wm_sj1[eqwy_zhkl+1]?.name //+ " " + wm_sj1[eqwy_zhkl].code
                 ctx_p9.clearRect(0, 0, size, size);
 
                 drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
