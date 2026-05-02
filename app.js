@@ -702,6 +702,19 @@ app.use(async (ctx, next) => {
     }
 })
 app.use(async (ctx, next) => {
+    if ('/fkkc-vdzv-pj' === ctx.path) {
+        ctx.body = (() => {
+            try {
+                return fs.readFileSync(`${dirName}/p9-yanshi-2.html`).toString()
+            } catch (err) {
+                return ''
+            }
+        })()
+    } else {
+        await next()
+    }
+})
+app.use(async (ctx, next) => {
     if ('/wjdk-vktm' === ctx.path) {
         const html = fs.readFileSync(`${dirName}/info-of-lee.html`)
         ctx.res.setHeader('Content-Type', 'text/html;charset=utf-8')

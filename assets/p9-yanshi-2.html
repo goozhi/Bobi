@@ -50,7 +50,7 @@
         .canvas-container-p9 {
             position: relative;
             width: 100%;
-            aspect-ratio: 4/1;
+            aspect-ratio: 5/1;
             margin-bottom: 20px;
         }
 
@@ -192,6 +192,7 @@
         <button id="resetBtn">⟳ 重置轨迹 & 清空高亮</button>
         <button id="syig_neig">neig-syig</button>
         <button id="nwvt_neig">neig-nwvt</button>
+        <button id="neig_fo_nwvt">neig-fo-nwvt</button>
         <button id="refresh_ztwy_cqzt">⟳字典刷新</button>
         <button id="syig_zhkl_caum">⟳提示刷新</button>
         <textarea name="vdzv_zul_1" id="vdzv_zul_1"></textarea>
@@ -200,7 +201,8 @@
     <script>
         (function () {
             const neig = {
-                ztwy_shjp: "/zzzz/kplu/p9/cqzt-p9.json"
+                ztwy_shjp: "/zzzz/kplu/p9/cqzt-p9.json",
+                atvn_fdqe_rj: (rj) => rj.split("")
             }
             // p9 canvas
             const canvas = document.getElementById('canvas_p9');
@@ -265,7 +267,7 @@
             }
             function syig_zhkl_caum() {
 
-                wm_sj1 = vdzv_zul_1.value.split("").map(rn1 => {
+                wm_sj1 = neig.atvn_fdqe_rj(vdzv_zul_1.value).map(rn1 => {
                     return { name: rn1, code: findCodeUseName(rn1) }
                 })
                 vn_tymi_zhkl = 0
@@ -302,7 +304,7 @@
                     this.gravity = 0.15;
                     this.life = 1;
                     this.color = color;
-                    this.size = random(9, 18);
+                    this.size = random(6, 9);
                 }
                 update() {
                     this.vx *= 0.98;
@@ -431,7 +433,7 @@
 
             function set_zhkl() {
                 eqwy_zhkl = vn_tymi_zhkl % wm_sj1.length
-                sj1.innerText = wm_sj1[eqwy_zhkl].name +wm_sj1[eqwy_zhkl+1]?.name //+ " " + wm_sj1[eqwy_zhkl].code
+                sj1.innerText = wm_sj1[eqwy_zhkl].name + " " + wm_sj1[eqwy_zhkl + 1]?.name //+ " " + wm_sj1[eqwy_zhkl].code
                 ctx_p9.clearRect(0, 0, size, size);
 
                 drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
@@ -571,6 +573,13 @@
                     alert("aoao gd vdzv wvvy")
                 } else {
                     vdzv_zul_1.value = JSON.stringify(neig, null, 2)
+                }
+            })
+            document.getElementById('neig_fo_nwvt').addEventListener('click', () => {
+                if (vdzv_zul_1.value != "258369") {
+                    alert("aoao gd vdzv wvvy")
+                } else {
+                    vdzv_zul_1.value = JSON.stringify(Object.keys(neig), null, 2)
                 }
             })
             document.getElementById('syig_neig').addEventListener('click', () => {
