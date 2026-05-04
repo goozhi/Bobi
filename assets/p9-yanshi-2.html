@@ -100,30 +100,6 @@
             box-shadow: 0 0 12px #ffd966;
             transform: scale(0.96);
         }
-        .key.highlight_1 {
-            background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
-            color: red;
-            box-shadow: 0 0 12px #ffd966;
-            transform: scale(0.96);
-        }
-        .key.highlight_2 {
-            background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
-            color: #1e1b2f;
-            box-shadow: 0 0 12px #ffd966;
-            transform: scale(0.96);
-        }
-        .key.highlight_3 {
-            background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
-            color: green;
-            box-shadow: 0 0 12px #ffd966;
-            transform: scale(0.96);
-        }
-        .key.highlight_4 {
-            background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
-            color: blue;
-            box-shadow: 0 0 12px #ffd966;
-            transform: scale(0.96);
-        }
 
         /* 瞬时按下反馈 */
         .key.active {
@@ -166,6 +142,62 @@
             color: #9ca3af;
             margin-top: 16px;
             font-size: 12px;
+        }
+
+        /* 颜色定义 */
+        .key.color-red {
+            background: radial-gradient(circle at 30% 25%, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .key.color-orange {
+            background: radial-gradient(circle at 30% 25%, #ffaa44, #ff7700);
+            color: white;
+        }
+
+        .key.color-yellow {
+            background: radial-gradient(circle at 30% 25%, #ffee44, #ffcc00);
+            color: #333;
+        }
+
+        .key.color-green {
+            background: radial-gradient(circle at 30% 25%, #44ff44, #00aa00);
+            color: white;
+        }
+
+        .key.color-blue {
+            background: radial-gradient(circle at 30% 25%, #4488ff, #0044cc);
+            color: white;
+        }
+
+        .key.color-white {
+            background: radial-gradient(circle at 30% 25%, #ffffff, #dddddd);
+            color: #333;
+        }
+
+        .key.color-tc {
+            background: radial-gradient(circle at 30% 25%, #cb30f6, #8c06bc);
+            color: #333;
+        }
+
+        .key.color-nwn-tb {
+            background: radial-gradient(circle at 30% 25%, #3fbff1, #0995f2);
+            color: #333;
+        }
+
+        .key.color-wkl {
+            background: radial-gradient(circle at 30% 25%, #18803d, #03743d);
+            color: #333;
+        }
+
+        .key.color-ucl {
+            background: radial-gradient(circle at 30% 25%, #ffd966, #dddddd);
+            color: #333;
+        }
+
+        .key.color-uum {
+            background: radial-gradient(circle at 30% 25%, #ffd966, #f6a105);
+            color: #333;
         }
 
         button {
@@ -247,6 +279,78 @@
             nwvt_bj_uace_ztwy()
             const map_zdog_ybkc = new Map()
             const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            // 按键对应的颜色（索引0对应按键1）
+            const KEY_COLORS = {
+                '1': 'yellow',
+                '2': 'orange',
+                '3': 'yellow',
+                '4': 'orange',
+                '5': 'red',
+                '6': 'orange',
+                '7': 'yellow',
+                '8': 'orange',
+                '9': 'yellow'
+            };
+            // 颜色对应的CSS类名
+            const COLOR_CLASS = {
+                'red': 'color-red',
+                'orange': 'color-orange',
+                'yellow': 'color-yellow',
+                'green': 'color-green',
+                'blue': 'color-blue',
+                'white': 'color-white',
+                'ucl': 'color-ucl',
+                'uum': 'color-uum',
+                'tc': 'color-tc',
+                wkl: 'color-wkl',
+                'nwn-tb': 'color-nwn-tb'
+            };
+            let colorTimers = new Map();   // 存储每个按键的恢复定时器
+
+            function setKeyColor(key, colorName, temporary = false) {
+                const el = keyElements.get(key);
+                if (!el) return;
+
+                // 移除所有颜色类
+                el.classList.remove('color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-white');
+
+                // 添加新的颜色类
+                if (COLOR_CLASS[colorName]) {
+                    el.classList.add(COLOR_CLASS[colorName]);
+                }
+
+                // 如果是临时颜色，设置定时器恢复默认颜色
+                if (temporary) {
+                    // 清除已有的定时器
+                    if (colorTimers.has(key)) {
+                        clearTimeout(colorTimers.get(key));
+                    }
+                    // 1秒后恢复默认颜色
+                    const timer = setTimeout(() => {
+                        resetKeyColor(key);
+                        colorTimers.delete(key);
+                    }, 1000);
+                    colorTimers.set(key, timer);
+                }
+            }
+
+            function resetKeyColor(key) {
+                const el = keyElements.get(key);
+                if (!el) return;
+                // 移除所有颜色类，恢复默认渐变
+                el.classList.remove('color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue'
+                    , 'color-white'
+                    , 'color-ucl'
+                    , 'color-uum'
+                    , 'color-wkl'
+                    , 'color-nwn-tb'
+                    , 'color-tc'
+                );
+                // 恢复原始样式（通过内联样式或恢复类，这里依靠CSS默认样式）
+                el.style.background = ''; // 清除可能的内联样式
+            }
+
+
             let currentSequence = [];
             let lastSequence = [];
             let triggeredSet = new Set();   // 已触发过的按键（用于高亮维持）
@@ -484,19 +588,27 @@
                     updateTrajectoryUI();
                     drawLine();
                     resetTimer = null;
+                    KEYS.forEach(rn1 => {
+                        resetKeyColor(rn1)
+                    })
                 }, 700);
             }
             function triggerKey(key, fromClick = false) {
                 if (!key) return;
                 if (!fromClick && triggeredSet.has(key) && Date.now() - (map_zdog_ybkc.get(key) || Date.now()) < 1000) return;// 限制单个点击次数和时间间隔
                 triggeredSet.add(key);
+                const colorName = KEY_COLORS[key];
+                if (colorName) {
+                    setKeyColor(key, colorName, false);
+                }
+
                 map_zdog_ybkc.set(key, Date.now())
                 currentSequence.push(key);
                 updateTrajectoryUI();
                 drawLine();
 
                 // 💡 高亮（永久）
-                highlightKeyPermanent(key);
+                // highlightKeyPermanent(key);
 
                 //  🎆 烟花
                 let pos = keyRects.get(key);
