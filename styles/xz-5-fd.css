@@ -1,0 +1,48 @@
+/* 你的样式表 */
+.cm-style1 {
+    color: red;
+}
+
+.cm-style2 {
+    color: blue;
+}
+
+.cm-keyword {
+    color: #c678dd;
+}
+
+/* 关键字颜色 */
+.cm-string {
+    color: #98c379;
+}
+
+/* 字符串颜色 */
+.cm-comment {
+    color: #5c6370;
+}
+
+/* 注释颜色 */
+.cm-hjxz {
+    color: black;
+    background-color: yellow;
+}
+
+.cm-ewxz {
+    color: white;
+    background-color: red;
+}
+
+.cm-bcxz {
+    color: white;
+    background-color: green;
+}
+
+.cm-tbxz {
+    color: white;
+    background-color: blue;
+}
+
+.cm-jcn {
+    color: white;
+    background-color: orange;
+}
