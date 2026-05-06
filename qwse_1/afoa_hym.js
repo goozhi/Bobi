@@ -100,14 +100,85 @@ document.getElementById("frih_bx").addEventListener("mouseup", function (event) 
 })
 
 document.addEventListener('DOMContentLoaded', function () {
-    // 初始化CodeMirror实例
+    // 第二步：定义模式
+    CodeMirror.defineMode("iuxz-mode", function () {
+        return {
+            token: function (stream) {
+                // 匹配关键字
+                // if (stream.match(/function|var|let|const/)) {
+                //     return "keyword";   // 会映射到 .cm-keyword 类
+                // }
+                // // 匹配字符串
+                // if (stream.match(/".*?"|'.*?'/)) {
+                //     return "string";    // 会映射到 .cm-string 类
+                // }
+                // // 匹配注释
+                // if (stream.match(/\/\/.*/)) {
+                //     return "comment";   // 会映射到 .cm-comment 类
+                // }
+                if (stream.match(/[fghijklm]/i)) {
+                    return "hjxz"
+                }
+                if (stream.match(/[a]/i)) {
+                    return "ewxz"
+                }
+                if (stream.match(/[nopqrstu]/i)) {
+                    return "bcxz"
+                }
+                if (stream.match(/[vwxzy]/i)) {
+                    return "tbxz"
+                }
+                if (stream.match(/[bcde]/i)) {
+                    return "jcn"
+                }
+
+
+                stream.next();
+                return null;
+            }
+        };
+    });
+
+    CodeMirror.defineMode("soxz-mode", function () {
+        return {
+            token: function (stream) {
+                // 匹配关键字
+                // if (stream.match(/function|var|let|const/)) {
+                //     return "keyword";   // 会映射到 .cm-keyword 类
+                // }
+                // // 匹配字符串
+                // if (stream.match(/".*?"|'.*?'/)) {
+                //     return "string";    // 会映射到 .cm-string 类
+                // }
+                // // 匹配注释
+                // if (stream.match(/\/\/.*/)) {
+                //     return "comment";   // 会映射到 .cm-comment 类
+                // }
+
+
+                stream.next();
+                return null;
+            }
+        };
+    });
+
+    // 第三步：在初始化中使用自定义模式
     editor = CodeMirror.fromTextArea(vdzv_1, {
         lineNumbers: true,
         tabSize: 4,
         lineWrapping: true,
-        // backgroundColor:"#f0f0f0",
-        theme: 'monokai' // 设置主题，根据需要选择其他主题
+        mode: "iuxz-mode",  // 使用自定义模式
+        theme: "default"       // 这里可以使用任意主题作为基础
     });
+    // 初始化CodeMirror实例
+
+    // editor = CodeMirror.fromTextArea(vdzv_1, {
+    //     lineNumbers: true,
+    //     tabSize: 4,
+    //     lineWrapping: true,
+    //     // backgroundColor:"#f0f0f0",
+    //     theme: 'monokai' // 设置主题，根据需要选择其他主题
+    // });
 
     // 调整编辑器大小以填充整个视窗
     editor.setSize('100%', '55%');
@@ -421,6 +492,10 @@ Object.assign(diwr_mcvn, {
                 , [/^f_\d+$/i, () => {
                     neig_syig.font_size = mcvn.match(/\d+/)?.[0] || 100
                     changeFontSize(neig_syig.font_size)
+                }], [/^iuxz+$/i, () => {
+                    editor.setOption("mode", "iuxz-mode")
+                }], [/^soxz+$/i, () => {
+                    editor.setOption("mode", "soxz-mode")
                 }]
                 , [/^w_\d+$/i, () => {
                     neig_syig.ok_ar_eami = mcvn.match(/\d+/)?.[0] || 100
@@ -468,6 +543,14 @@ Object.assign(diwr_mcvn, {
         \n\
         \n## set image max width lh 50%\
         \ng_ w_50 ggs\
+        \n\
+        \n## set rjzt sfxz lh iuxz\
+        \ng_ uixz ggs\
+        \n\
+        \n\
+        \n## set rjzt sfxz lh soxz\
+        \ng_ soxz ggs\
+        \n\
         \n\
         \n## set font size lh 50%\
         \ng_ f_50 ggs\
