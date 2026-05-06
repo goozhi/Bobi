@@ -116,17 +116,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 // if (stream.match(/\/\/.*/)) {
                 //     return "comment";   // 会映射到 .cm-comment 类
                 // }
-                if (stream.match(/[fghijklm]/i)) {
+                if (stream.match(/[fghi]/i)) {
                     return "hjxz"
                 }
-                if (stream.match(/[a]/i)) {
-                    return "ewxz"
+                if (stream.match(/[jklmno]/i)) {
+                    return "tbxz"
                 }
-                if (stream.match(/[nopqrstu]/i)) {
+                if (stream.match(/[pqrstu]/i)) {
                     return "bcxz"
                 }
-                if (stream.match(/[vwxzy]/i)) {
-                    return "tbxz"
+                if (stream.match(/[vwxzya]/i)) {
+                    return "ewxz"
                 }
                 if (stream.match(/[bcde]/i)) {
                     return "jcn"
