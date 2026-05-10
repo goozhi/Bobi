@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
         lineNumbers: true,
         tabSize: 4,
         lineWrapping: true,
-        mode: "iuxz-mode",  // 使用自定义模式
+        mode: "soxz-mode",  // 使用自定义模式
         theme: "default"       // 这里可以使用任意主题作为基础
     });
     // 初始化CodeMirror实例
