@@ -554,21 +554,26 @@ function yp_style(rj_html) {
     return `<div style="${neig.rj_html_style}">${rj_html}</div>`
 }
 // const atvn_1 = require("../scripts/atvn-a/zero.js")
-const yo_yp_ux_a = require("../scripts/yoch/yo-zero.js")
-const yo_zzuy_bwzq = yo_yp_ux_a.get_0("zzuy-wum", "zzuy-updz").get_0("zzuy-rr-wwdb-reye-tz-wum", "zzuy-rr-updz").get_0("zzuy-rr-mfva-lb-wum", "zzuy-rr-mfva-updz")
+// const yo_yp_ux_a = require("../scripts/yoch/yo-zero.js")
+const yo_shn_ux_zero = require("../scripts/yoch/yo-zero-map.js")
+// const yo_zzuy_bwzq = yo_yp_ux_a.get_0("zzuy-wum", "zzuy-updz").get_0("zzuy-rr-wwdb-reye-tz-wum", "zzuy-rr-updz").get_0("zzuy-rr-mfva-lb-wum", "zzuy-rr-mfva-updz")
+const yo_zzuy_bwzq = [...[...yo_shn_ux_zero.get_db_vkih("zzuy-shn")].find(rn1 => rn1.get_neig().wu === "zzuy").get_db_vkih("zzuy-rr")].find(rn1 => rn1.get_neig().wu === "ybkc updz")
 app.use(async (ctx, next) => {
-    const vdum_html = async (yo_zzuy_bwzq) => {
-        return yp_style(await yo_zzuy_bwzq.allright()
+    const vdum_html = async (yo_zzuy_1) => {
+        return yp_style(await yo_zzuy_1.allright()
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
-                return yo_zzuy_bwzq.get_wu(neig_wwdb) + yo_zzuy_bwzq.get_bqeo(Object.assign({}, neig_wwdb, {
-                    spzi_bqeo: ` ${yo_zzuy_bwzq.get_dyih?.()}<br>`,
+                return yo_zzuy_1.get_wu(neig_wwdb) + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
+                    spzi_bqeo: ` ${yo_zzuy_1.get_yoch_dyih?.()}<br>`,
+                    wm_fo_shn_vkih_ae_yo: [...yo_zzuy_1.keys()],
                     get_vxn_link: (yo_yfux) => {
                         yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e, ctx) })
                         return "/xbyb/" + yo_yfux.get_yoch_dyih()
                     },
-                    get_vxn_link_wu: (vxn, neig_kp) => vxn.get_wu(neig_wwdb) + " " + vxn.get_dyih()
+                    get_vxn_link_wu: (vxn, neig_kp) => vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: "txt" }))
+                    , get_ds_bqeo: (vxn) => "->" + vxn.get_yoch_dyih()
                 }))
+                // + [...yo_zzuy_1].map(([fo1, yg1]) => fo1.get_wu(neig_wwdb) + "\n" + yo_zzuy_1.get_bnlb_link([fo1])).join("\n\n")
             }).catch(e => {
                 yo_msox_app_lb_gzbu.wdbu_err(e, ctx)
                 return `${e.message}\n${e.stack}`
@@ -583,12 +588,18 @@ app.use(async (ctx, next) => {
             if (!rj_xbst || rj_xbst === "home") {
                 ctx.body = await vdum_html(yo_zzuy_bwzq)
             } else {
-                const nixb = yo_zzuy_bwzq.get_map_nomr_yfux_yoch_fs_mrzz().get(rj_xbst)
+                const nixb = yo_zzuy_bwzq.get_nomr_yoch_fs_mrzz().get(rj_xbst)
                 if (nixb) {
                     ctx.body = await vdum_html(nixb)
                 } else {
-                    yo_msox_app_lb_gzbu.wdbu_err("csrf-bi vkih ac zznq oc mrzz yh-" + rj_xbst, ctx)
-                    return 'msox'
+                    if (yo_zzuy_bwzq.w_ah_ypfz(rj_xbst)) {
+                        ctx.body = await vdum_html(yo_zzuy_bwzq.ncn_db_nmky_pzva({
+                            yoch_dyih: rj_xbst
+                        }))
+                    } else {
+                        yo_msox_app_lb_gzbu.wdbu_err("csrf-bi vkih ac zznq oc mrzz yh-" + rj_xbst, ctx)
+                        return 'msox'
+                    }
                 }
             }
         }
