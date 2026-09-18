@@ -429,8 +429,47 @@ app.use(async (ctx, next) => {
 })
 
 app.use(async (ctx, next) => {
-    if (ctx.path === '/get_xyzd-zzzz') {
-        try {
+    try {
+        const imfb_kplu = async () => {
+            try {
+                await yo_kplu_xyzd_zzzz.imfb({
+                    nikc_kplu: "./out/xyzd-zzzz",
+                    udao: "json",
+                    w_jcbz_ngrw_nikc: true,
+                    w_zqjp_parse: true,
+                    uxux: "diwr",// diwr, vnwm
+                }).catch(err => { throw err })
+                // ctx.body = yo_kplu_xyzd_zzzz.get_kplu()
+            } catch (err) {
+                console.error(err)
+                ctx.status = 500
+                ctx.body = wdbu_err(err)
+            }
+
+        }
+        const reg_hd = /^\/+hd-([\w\-]+)$/
+        if (ctx.path === '/get_xyzd-zzzz') {
+            try {
+                await yo_kplu_xyzd_zzzz.imfb({
+                    nikc_kplu: "./out/xyzd-zzzz",
+                    udao: "json",
+                    w_jcbz_ngrw_nikc: true,
+                    w_zqjp_parse: true,
+                    uxux: "diwr",// diwr, vnwm
+                }).catch(err => { throw err })
+                ctx.body = yo_kplu_xyzd_zzzz.get_kplu()
+            } catch (err) {
+                console.error(err)
+                ctx.status = 500
+                ctx.body = wdbu_err(err)
+            }
+
+        } else if (reg_hd.test(ctx.path)) {
+            await imfb_kplu().catch(e => { console.error(e) })
+            const key = ctx.path.match(reg_hd)[1]
+            yo_kplu_xyzd_zzzz.hd(key)
+            ctx.body = "cd hd " + key
+        } else if (ctx.path === '/zzzz_xyzd-zzzz') {
             await yo_kplu_xyzd_zzzz.imfb({
                 nikc_kplu: "./out/xyzd-zzzz",
                 udao: "json",
@@ -438,15 +477,16 @@ app.use(async (ctx, next) => {
                 w_zqjp_parse: true,
                 uxux: "diwr",// diwr, vnwm
             }).catch(err => { throw err })
-            ctx.body = yo_kplu_xyzd_zzzz.get_kplu()
-        } catch (err) {
-            console.error(err)
-            ctx.status = 500
-            ctx.body = wdbu_err(err)
-        }
+            yo_kplu_xyzd_zzzz.bvzd_zzzz()
+            ctx.body = "cd zzzz"
 
-    } else {
-        await next()
+        } else {
+            await next()
+        }
+    } catch (err) {
+        console.error(err)
+        ctx.status = 500
+        ctx.body = wdbu_err(err)
     }
 })
 
@@ -551,7 +591,10 @@ app.use(async (ctx, next) => {
     }
 })
 function yp_style(rj_html) {
-    return `<div style="${neig.rj_html_style}">${rj_html}</div>`
+    const rj_html_afoa_hqah = fs.readFileSync("assets/afoa-net-hqah.html").toString()
+    return rj_html_afoa_hqah
+        .replace(/wuzt-1/, "vtn")
+        .replace(/tihuan/, `<div style="${neig.rj_html_style}">${rj_html}</div>`)
 }
 // const atvn_1 = require("../scripts/atvn-a/zero.js")
 // const yo_yp_ux_a = require("../scripts/yoch/yo-zero.js")
