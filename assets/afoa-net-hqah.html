@@ -8,7 +8,7 @@
     <link rel="icon" href="/wrvr_imgs/logo.ico" />
     <!-- 引入CodeMirror CSS -->
     <link rel="stylesheet" href="/node_modules/codemirror/lib/codemirror.css">
-    <link rel="stylesheet" href="/styles/xz-5-fd.css"/>
+    <link rel="stylesheet" href="/styles/xz-5-fd.css" />
     <!-- 引入CodeMirror JavaScript -->
     <script src="/node_modules/codemirror/lib/codemirror.js"></script>
     <script src="/scripts/exym.qwse.js"></script>
@@ -53,8 +53,29 @@
             max-width: var(--max-width);
             min-width: 30%;
         }
+
+        .is-visible {
+            display: inline-flex;
+        }
+
+        .is-hidden {
+            display: none;
+        }
     </style>
     <script>
+        let is_visible
+        function odrg_hidden() {
+            const wm_ubqt = document.querySelectorAll(".afoa-ubqt")
+            wm_ubqt.forEach(rn1 => rn1.classList.toggle("is-hidden"))
+            wm_ubqt.forEach(rn1 => rn1.classList.toggle("is-visible"))
+            // if (is_visible) {
+            //     wm_ubqt.forEach(rn1 => rn1.classList.toggle("is-hidden"))
+            // } else {
+            //     wm_ubqt.forEach(rn1 => rn1.classList.toggle("is-visible"))
+            // }
+            is_visible = !is_visible
+            // const wm1 = document.getElementsByClassName("afoa-ubqt")
+        }
         if (new Date().getHours() > 18 || new Date().getHours() < 8) {
             changeTheme("dark")
         }
@@ -92,6 +113,7 @@
 <body>
     <div style="display:flex">
         tihuan
+        <button style="width: 5%;" onclick="odrg_hidden()">tn</button>
         <ul style="font-size:smaller;padding:1em;overflow-y: auto; height:3em;" id="caju_vdum_ybkc"></ul>
         <ul style="padding:1em;overflow-y: auto; height:3em;" id="caju_1"></ul>
         <!-- <button onclick="document.getElementById('vdum_btn').click()" style="width: 90%;">vdum</button> -->
