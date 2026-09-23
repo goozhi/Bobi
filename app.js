@@ -606,16 +606,42 @@ app.use(async (ctx, next) => {
         return yp_style(await yo_zzuy_1.allright()
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
-                return yo_zzuy_1.get_wu(neig_wwdb) + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
-                    spzi_bqeo: ` ${yo_zzuy_1.get_yoch_dyih?.()}<br>`,
-                    wm_fo_shn_vkih_ae_yo: [...yo_zzuy_1.keys()],
-                    get_vxn_link: (yo_yfux) => {
-                        yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e, ctx) })
-                        return "/xbyb/" + yo_yfux.get_yoch_dyih()
-                    },
-                    get_vxn_link_wu: (vxn, neig_kp) => vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: "txt" }))
-                    , get_ds_bqeo: (vxn) => "->" + vxn.get_yoch_dyih()
-                }))
+                return yo_zzuy_1.get_wu(neig_wwdb)
+                    + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
+                        spzi_bqeo: ` ${yo_zzuy_1.get_yoch_dyih?.()}<br>`,
+                        wm_fo_shn_vkih_ae_yo: [...yo_zzuy_1.keys()],
+                        get_vxn_link: (yo_yfux) => {
+                            yo_yfux.allright().catch(e => { yo_msox_app_lb_gzbu.wdbu_err(e, ctx) })
+                            return "/xbyb/" + yo_yfux.get_yoch_dyih()
+                        },
+                        get_vxn_link_wu: (vxn, neig_kp) => vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: "txt" }))
+                        //                 , get_ds_bqeo: (vxn, shn1, slm1) => "->" +`<button onClick="fetch('/afoa',{
+                        //                 method:'POST'
+                        // , 'headers': { 'Content-Type': 'application/json'
+                        //                     ,'Access-Control-Request-Headers': '*' }
+                        //                     , body:'{}'
+                        //                 }${})">hd</button>` 
+                        , get_ds_bqeo: (vxn, shn1, slm1) => {
+                            return "-> " + vxn.get_yoch_dyih()
+                                + `<button onClick="copyToClipboard('${vxn.get_yoch_dyih()}')">copy</button>`
+                                + `<button onClick="if(confirm('hd ${vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x hd --kp \`${slm1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${vxn.get_yoch_dyih()}\`') ">hd</button>`
+                        }
+                    }))
+                    + `<input id="vdzv-${yo_zzuy_1}" placeholder="shn, hidz"></input><button onClick="
+                    let vdum_rj = document.getElementById("vdzv-${yo_zzuy_1}").value
+                    let wm1 = vdum_rj.split(/ *, */)
+                    if(wm1.length!=2){
+                        alert('mcvn nhvn msox-'+wm1.length)
+                    }else{
+                        alert('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},'+vdum_rj+'\`')
+                    if(confirm('add to ${yo_zzuy_1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
+                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},'+vdum_rj+'\`')
+                    } 
+}
+                    ">add</button>
+                        
+                        
+                    `
                 // + [...yo_zzuy_1].map(([fo1, yg1]) => fo1.get_wu(neig_wwdb) + "\n" + yo_zzuy_1.get_bnlb_link([fo1])).join("\n\n")
             }).catch(e => {
                 yo_msox_app_lb_gzbu.wdbu_err(e, ctx)
