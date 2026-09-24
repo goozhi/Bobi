@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <script src="/scripts/exym.qwse.js"></script>
+    <script src="/qwse_1/p-9/play.js"></script>
+    <script src="/qwse_1/p-9/selectGridPointsAsBlocks.js"></script>
+    <script src="/qwse_1/p-9/drawBlocksWithBoundary.js"></script>
+    <script src="/qwse_1/p-9/vt_dz_fd_uj.js"></script>
+    <script src="/qwse_1/p-9/drawGrid.js"></script>
+
+    <title>混合输入 - 连线 / 烟花 / 高亮触发按键</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120, #111827);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(8px);
+            border-radius: 64px;
+            padding: 20px 16px 32px;
+            width: 100%;
+            max-width: 550px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
+        }
+
+        .canvas-container-1 {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            margin-bottom: 20px;
+        }
+
+        .canvas-container-p9 {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 5/1;
+            margin-bottom: 20px;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 48px;
+            pointer-events: none;
+        }
+
+        .grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+        }
+
+        /* 默认按键样式 */
+        .key {
+            background: radial-gradient(circle at 30% 30%, #ffffff, #cbd5e6);
+            border-radius: 10%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #0f172a;
+            margin: 10%;
+            box-shadow: 0 12px 18px rgba(0, 0, 0, 0.4);
+            transition: 0.1s ease;
+            cursor: pointer;
+            touch-action: none;
+            aspect-ratio: 1 / 1;
+            width: 80%;
+        }
+
+        /* 💡 已触发按键高亮（永久保持） */
+        .key.highlight {
+            background: radial-gradient(circle at 30% 30%, #facc15, #f59e0b);
+            color: #1e1b2f;
+            box-shadow: 0 0 12px #ffd966;
+            transform: scale(0.96);
+        }
+
+        /* 瞬时按下反馈 */
+        .key.active {
+            transform: scale(0.92);
+            filter: brightness(1.1);
+        }
+
+        .trajectory-panel {
+            background: #0f172a;
+            border-radius: 42px;
+            padding: 16px 20px;
+            margin-top: 4px;
+        }
+
+        .label {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .trajectory {
+            font-size: 18px;
+            font-weight: bold;
+            color: #facc15;
+            background: #020617;
+            padding: 12px 16px;
+            border-radius: 32px;
+            margin: 8px 0 12px;
+            font-family: monospace;
+        }
+
+        .last-trajectory {
+            font-size: 13px;
+            color: #64748b;
+            border-top: 1px solid #334155;
+            padding-top: 10px;
+        }
+
+        .info {
+            text-align: center;
+            color: #9ca3af;
+            margin-top: 16px;
+            font-size: 12px;
+        }
+
+        /* 颜色定义 */
+        .key.color-red {
+            background: radial-gradient(circle at 30% 25%, #ff4444, #cc0000);
+            color: white;
+        }
+
+        .key.color-orange {
+            background: radial-gradient(circle at 30% 25%, #ffaa44, #ff7700);
+            color: white;
+        }
+
+        .key.color-yellow {
+            background: radial-gradient(circle at 30% 25%, #ffee44, #ffcc00);
+            color: #333;
+        }
+
+        .key.color-green {
+            background: radial-gradient(circle at 30% 25%, #44ff44, #00aa00);
+            color: white;
+        }
+
+        .key.color-blue {
+            background: radial-gradient(circle at 30% 25%, #4488ff, #0044cc);
+            color: white;
+        }
+
+        .key.color-white {
+            background: radial-gradient(circle at 30% 25%, #ffffff, #dddddd);
+            color: #333;
+        }
+
+        .key.color-tc {
+            background: radial-gradient(circle at 30% 25%, #cb30f6, #8c06bc);
+            color: #333;
+        }
+
+        .key.color-nwn-tb {
+            background: radial-gradient(circle at 30% 25%, #3fbff1, #0995f2);
+            color: #333;
+        }
+
+        .key.color-wkl {
+            background: radial-gradient(circle at 30% 25%, #18803d, #03743d);
+            color: #333;
+        }
+
+        .key.color-ucl {
+            background: radial-gradient(circle at 30% 25%, #ffd966, #dddddd);
+            color: #333;
+        }
+
+        .key.color-uum {
+            background: radial-gradient(circle at 30% 25%, #ffd966, #f6a105);
+            color: #333;
+        }
+
+        button {
+            background: #facc15;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 40px;
+            font-weight: bold;
+            margin-top: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 500px) {
+            .key {
+                font-size: 24px;
+            }
+
+            .grid {
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
+        <button class="trajectory-panel"></button>
+        <div class="info">
+            <span id="sj1" style="color:#facc15;"> 保持高亮 ✨</span>
+        </div>
+        <div class="canvas-container-p9" id="canvasContainer_p9">
+            <canvas id="canvas_p9" width="300" height="60"></canvas>
+            <div class="gridp9" id="p9Grid"></div>
+        </div>
+        <div class="canvas-container-1" id="canvasContainer_1">
+            <canvas id="lineCanvas_1" width="500" height="500"></canvas>
+            <div class="grid" id="gestureGrid"></div>
+        </div>
+        <div class="trajectory-panel">
+            <div class="label">✨ 当前轨迹（点击+滑动）</div>
+            <div class="trajectory" id="trajectoryDisplay">⚡ 触摸或点击</div>
+            <div class="last-trajectory" id="lastTrajectoryDisplay">⏮ 上次轨迹: —</div>
+        </div>
+        <button id="resetBtn">⟳ 重置轨迹 & 清空高亮</button>
+        <button id="syig_neig">neig-syig</button>
+        <button id="nwvt_neig">neig-nwvt</button>
+        <button id="neig_fo_nwvt">neig-fo-nwvt</button>
+        <button id="refresh_ztwy_cqzt">⟳字典刷新</button>
+        <button id="syig_zhkl_caum">⟳提示刷新</button>
+        <textarea name="vdzv_zul_1" id="vdzv_zul_1"></textarea>
+    </div>
+
+    <script>
+        (function () {
+            const neig = {
+                ztwy_shjp: "/zzzz/kplu/p9/cqzt-p9.json",
+                atvn_fdqe_rj: (rj) => rj.split("")
+            }
+            // p9 canvas
+            const canvas = document.getElementById('canvas_p9');
+            const ctx_p9 = canvas.getContext('2d');
+            const size = 900;
+            const cell = 20;
+            const wrm_1 = vt_dz_fd_uj(300, 60, cell, 5, 5)
+            alert(JSON.stringify(wrm_1,null,2))
+            drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
+            const vy_points = wrm_1.blocks.slice().map(rn1 => rn1.flat())
+            const points = vy_points.flat()
+
+            let yo_draw = new drawGrid({ ctx: ctx_p9, points: vy_points[2], cell, size })
+            const yo_play = new playAnimation({ ctx: ctx_p9, points: vy_points[2], cell })
+
+            // others
+            var wm_ztwy_cqzt = []
+            let wrm_ztwy_cqzt = {}
+            nwvt_bj_uace_ztwy()
+            const map_zdog_ybkc = new Map()
+            const KEYS = ['x', 'r', 'k', 'q', 'w', 's', 'g', 'b', 'f', 'p', 'l', 'c', 'a', 'e', 'j', 't', 'h', 'd', 'i', 'o', 'y', 'u', 'm', 'n', 'v'] //wum zd ts
+            // const KEYS = ['x', 'q', 'k', 'r', 'y', 'p', 'f', 'b', 'g', 's', 'j', 'e', 'a', 'c', 'l', 'o', 'i', 'd', 'h', 't', 'w', 'n', 'm', 'u', 'v'] //wum zd ts
+
+            // const KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+            // 按键对应的颜色（索引0对应按键1）
+            const KEY_COLORS = {
+                'f': 'yellow',
+                'e': 'orange',
+                'g': 'yellow',
+                'b': 'orange',
+                'a': 'red',
+                'c': 'orange',
+                'h': 'yellow',
+                'd': 'orange',
+                k: "yellow",
+                j: "yellow",
+                m: "yellow",
+                l: "yellow",
+                w: "blue",
+                v: "blue",
+                x: "blue",
+                y: "blue",
+                o: "green",
+                n: "green",
+                p: "green",
+                q: "green",
+                r: "green",
+                s: "green",
+                t: "green",
+                u: "green",
+                'i': 'yellow'
+            };
+            // 颜色对应的CSS类名
+            const COLOR_CLASS = {
+                'red': 'color-red',
+                'orange': 'color-orange',
+                'yellow': 'color-yellow',
+                'green': 'color-green',
+                'blue': 'color-blue',
+                'white': 'color-white',
+                'ucl': 'color-ucl',
+                'uum': 'color-uum',
+                'tc': 'color-tc',
+                wkl: 'color-wkl',
+                'nwn-tb': 'color-nwn-tb'
+            };
+            let colorTimers = new Map();   // 存储每个按键的恢复定时器
+
+            function setKeyColor(key, colorName, temporary = false) {
+                const el = keyElements.get(key);
+                if (!el) return;
+
+                // 移除所有颜色类
+                el.classList.remove('color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue', 'color-white');
+
+                // 添加新的颜色类
+                if (COLOR_CLASS[colorName]) {
+                    el.classList.add(COLOR_CLASS[colorName]);
+                }
+
+                // 如果是临时颜色，设置定时器恢复默认颜色
+                if (temporary) {
+                    // 清除已有的定时器
+                    if (colorTimers.has(key)) {
+                        clearTimeout(colorTimers.get(key));
+                    }
+                    // 1秒后恢复默认颜色
+                    const timer = setTimeout(() => {
+                        resetKeyColor(key);
+                        colorTimers.delete(key);
+                    }, 1000);
+                    colorTimers.set(key, timer);
+                }
+            }
+
+            function resetKeyColor(key) {
+                const el = keyElements.get(key);
+                if (!el) return;
+                // 移除所有颜色类，恢复默认渐变
+                el.classList.remove('color-red', 'color-orange', 'color-yellow', 'color-green', 'color-blue'
+                    , 'color-white'
+                    , 'color-ucl'
+                    , 'color-uum'
+                    , 'color-wkl'
+                    , 'color-nwn-tb'
+                    , 'color-tc'
+                );
+                // 恢复原始样式（通过内联样式或恢复类，这里依靠CSS默认样式）
+                el.style.background = ''; // 清除可能的内联样式
+            }
+
+
+            let currentSequence = [];
+            let lastSequence = [];
+            let triggeredSet = new Set();   // 已触发过的按键（用于高亮维持）
+            let resetTimer = null;
+            let isMoving = false;
+
+            let vn_tymi_zhkl = 0
+            var wm_sj1 = [
+                { code: "158", name: "我" },
+                { code: "148", name: "你" },
+                { code: "139", name: "他" }
+            ]
+            let eqwy_zhkl = 0
+
+            const sj1 = document.getElementById('sj1');
+            set_zhkl()
+            const vdzv_zul_1 = document.getElementById('vdzv_zul_1');
+            const gridEl = document.getElementById('gestureGrid');
+            const trajDiv = document.getElementById('trajectoryDisplay');
+            const lastTrajDiv = document.getElementById('lastTrajectoryDisplay');
+            const lineCanvas_1 = document.getElementById('lineCanvas_1');
+            const ctx_vdzv = lineCanvas_1.getContext('2d');
+            const container = document.getElementById('canvasContainer_1');
+
+            let keyRects = new Map();     // key -> { cx, cy, left, top, w, h }
+            let keyElements = new Map();
+
+            // ---------- 烟花粒子 ----------
+            let particles = [];
+            let animFrame = null;
+
+            function findCodeUseName(name) {
+                return wrm_ztwy_cqzt[name]?.code || "1245"
+
+            }
+            function findUseCode(code) {
+                const map_yhld = new Map()
+                wm_ztwy_cqzt.forEach(rn1 => {
+                    map_yhld.set(rn1.code.replace(/,/g, ""), rn1)
+                })
+                return map_yhld.get(code)
+            }
+            function syig_zhkl_caum() {
+
+                wm_sj1 = neig.atvn_fdqe_rj(vdzv_zul_1.value).map(rn1 => {
+                    return { name: rn1, code: findCodeUseName(rn1) }
+                })
+                vn_tymi_zhkl = 0
+            }
+            function nwvt_bj_uace_ztwy() {
+                fetch(neig.ztwy_shjp)
+                    .then(response => {
+                        // 检查请求是否成功
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        // 将响应解析为 JSON
+                        return response.json();
+                    })
+                    .then(data => {
+                        wm_ztwy_cqzt = data
+                        wm_ztwy_cqzt.forEach(rn1 => wrm_ztwy_cqzt[rn1.name] = rn1)
+                        // 在这里处理解析后的数据
+                        // console.log(data);
+                        // 显示数据到页面
+                        // const resultDiv = document.getElementById('result');
+                        // resultDiv.innerHTML = JSON.stringify(data[0], null, 2);
+                    })
+                    .catch(error => {
+                        console.error('Fetch 错误:', error);
+                    });
+            }
+            function random(min, max) { return min + Math.random() * (max - min); }
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x; this.y = y;
+                    this.vx = random(-3.5, 3.5);
+                    this.vy = random(-6, -1.5);
+                    this.gravity = 0.15;
+                    this.life = 1;
+                    this.color = color;
+                    this.size = random(6, 9);
+                }
+                update() {
+                    this.vx *= 0.98;
+                    this.vy += this.gravity;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.life -= 0.02;
+                    return this.life > 0;
+                }
+                draw(ctx_vdzv) {
+                    ctx_vdzv.save();
+                    ctx_vdzv.globalAlpha = this.life;
+                    ctx_vdzv.beginPath();
+                    ctx_vdzv.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx_vdzv.fillStyle = this.color;
+                    ctx_vdzv.fill();
+                    ctx_vdzv.restore();
+                }
+            }
+
+            function burstFirework(x, y) {
+                //const colors = ['#facc15', '#ff6b6b', '#4ade80', '#60a5fa', '#f472b6', '#c084fc'];
+                const colors = ['#ffd966', '#ffd966', '#ffd966', '#ffd966', '#ffd966', '#ffd966'];
+                for (let i = 0; i < 28; i++) {
+                    let col = colors[Math.floor(Math.random() * colors.length)];
+                    particles.push(new Particle(x, y, col));
+                }
+                if (!animFrame) animateFireworks();
+            }
+
+            function animateFireworks() {
+                if (particles.length === 0) {
+                    if (animFrame) cancelAnimationFrame(animFrame);
+                    animFrame = null;
+                    drawLine(); // 重绘连线（避免残留）
+                    return;
+                }
+                drawLine();  // 重绘背景连线
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    if (!particles[i].update()) particles.splice(i, 1);
+                    else particles[i].draw(ctx_vdzv);
+                }
+                animFrame = requestAnimationFrame(animateFireworks);
+            }
+
+            // ---------- 高亮按键（永久保持）----------
+            function highlightKeyPermanent(key) {
+                let el = keyElements.get(key);
+                if (el && !el.classList.contains('highlight')) {
+                    el.classList.add('highlight');
+                }
+            }
+
+            // 重置所有高亮
+            function resetHighlights() {
+                for (let [key, el] of keyElements.entries()) {
+                    el.classList.remove('highlight');
+                }
+            }
+
+            // ---------- 连线相关 ----------
+            function updateKeyPositions() {
+                let containerRect = container.getBoundingClientRect();
+                let newRects = new Map();
+                for (let [key, el] of keyElements.entries()) {
+                    let r = el.getBoundingClientRect();
+                    let cx = r.left + r.width / 2 - containerRect.left;
+                    let cy = r.top + r.height / 2 - containerRect.top;
+                    newRects.set(key, {
+                        cx, cy,
+                        left: r.left, top: r.top,
+                        w: r.width, h: r.height
+                    });
+                }
+                keyRects = newRects;
+                resizeCanvas();
+                drawLine();
+            }
+
+            function resizeCanvas() {
+                let rect = container.getBoundingClientRect();
+                lineCanvas_1.width = rect.width;
+                lineCanvas_1.height = rect.height;
+            }
+
+            function drawLine() {
+                if (!ctx_vdzv) return;
+                ctx_vdzv.clearRect(0, 0, lineCanvas_1.width, lineCanvas_1.height);
+                if (currentSequence.length < 2) return;
+                ctx_vdzv.beginPath();
+                ctx_vdzv.lineWidth = 9;
+                ctx_vdzv.strokeStyle = '#facc15';
+                ctx_vdzv.shadowBlur = 8;
+                ctx_vdzv.shadowColor = '#fdba74';
+                ctx_vdzv.lineJoin = 'round';
+                ctx_vdzv.lineCap = 'round';
+                for (let i = 0; i < currentSequence.length - 1; i++) {
+                    let p1 = keyRects.get(currentSequence[i]);
+                    let p2 = keyRects.get(currentSequence[i + 1]);
+                    if (p1 && p2) {
+                        ctx_vdzv.beginPath();
+                        ctx_vdzv.moveTo(p1.cx, p1.cy);
+                        ctx_vdzv.lineTo(p2.cx, p2.cy);
+                        ctx_vdzv.stroke();
+                    }
+                }
+                // 画节点小圆点
+                for (let i = 0; i < currentSequence.length; i++) {
+                    let pt = keyRects.get(currentSequence[i]);
+                    if (pt) {
+                        ctx_vdzv.beginPath();
+                        ctx_vdzv.fillStyle = '#facc15';
+                        ctx_vdzv.arc(pt.cx, pt.cy, 9, 0, Math.PI * 2);
+                        ctx_vdzv.fill();
+                        ctx_vdzv.fillStyle = '#111827';
+                        ctx_vdzv.arc(pt.cx, pt.cy, 5, 0, Math.PI * 2);
+                        ctx_vdzv.fill();
+                    }
+                }
+            }
+
+            // ---------- 轨迹核心 ----------
+            function updateTrajectoryUI() {
+                if (currentSequence.length === 0) trajDiv.innerText = '⚡ 触摸或点击按键';
+                else trajDiv.innerText = currentSequence.join(' → ');
+            }
+
+            function set_zhkl() {
+                eqwy_zhkl = vn_tymi_zhkl % wm_sj1.length
+                sj1.innerText = wm_sj1[eqwy_zhkl].name + " " + wm_sj1[eqwy_zhkl + 1]?.name //+ " " + wm_sj1[eqwy_zhkl].code
+                ctx_p9.clearRect(0, 0, size, size);
+
+                drawBlocksWithBoundary(ctx_p9, wrm_1, cell)
+
+                yo_play.play(wm_sj1[eqwy_zhkl].code)
+            }
+            function scheduleReset() {
+                if (resetTimer) clearTimeout(resetTimer);
+                resetTimer = setTimeout(() => {
+                    if (currentSequence.length) {
+                        lastSequence = [...currentSequence];
+                        // alert(wm_sj1[eqwy_zhkl].name)
+                        if (currentSequence.join("") === wm_sj1[eqwy_zhkl].code.replace(/,/g, "")) {
+                            vn_tymi_zhkl++
+                            set_zhkl()
+                        }
+                        lastTrajDiv.innerText = '⏮ 上次轨迹: ' + (lastSequence.length ? lastSequence.join(' → ') + ":" + findUseCode(lastSequence.join(''))?.name : '—');
+                    }
+                    // ⭐ 重置时不清除高亮？根据“点亮已点过的按键”，重置需要清除高亮才合理（与UI重置保持一致）
+                    resetHighlights();
+                    currentSequence = [];
+                    triggeredSet.clear();
+                    updateTrajectoryUI();
+                    drawLine();
+                    resetTimer = null;
+                    KEYS.forEach(rn1 => {
+                        resetKeyColor(rn1)
+                    })
+                }, 700);
+            }
+            function triggerKey(key, fromClick = false) {
+                if (!key) return;
+                if (!fromClick && triggeredSet.has(key) && Date.now() - (map_zdog_ybkc.get(key) || Date.now()) < 1000) return;// 限制单个点击次数和时间间隔
+                triggeredSet.add(key);
+                const colorName = KEY_COLORS[key];
+                if (colorName) {
+                    setKeyColor(key, colorName, false);
+                }
+
+                map_zdog_ybkc.set(key, Date.now())
+                currentSequence.push(key);
+                updateTrajectoryUI();
+                drawLine();
+
+                // 💡 高亮（永久）
+                // highlightKeyPermanent(key);
+
+                //  🎆 烟花
+                let pos = keyRects.get(key);
+                if (pos) burstFirework(pos.cx, pos.cy);
+
+                scheduleReset();
+
+                // 瞬时反馈
+                let el = keyElements.get(key);
+                if (el) {
+                    el.classList.add('active');
+                    setTimeout(() => el.classList.remove('active'), 120);
+                }
+            }
+
+            // 重置全部（按钮）
+            function resetAll() {
+                if (resetTimer) clearTimeout(resetTimer);
+                currentSequence = [];
+                triggeredSet.clear();
+                lastSequence = [];
+                resetHighlights();
+                updateTrajectoryUI();
+                lastTrajDiv.innerText = '⏮ 上次轨迹: —';
+                drawLine();
+            }
+
+            // ---------- 触摸/点击查找 ----------
+            function findKeyByTouch(clientX, clientY) {
+                for (let [key, info] of keyRects.entries()) {
+                    if (clientX >= info.left && clientX <= info.left + info.w &&
+                        clientY >= info.top && clientY <= info.top + info.h) {
+                        return key;
+                    }
+                }
+                return null;
+            }
+
+            function onTouchStart(e) {
+                e.preventDefault();
+                isMoving = true;
+                updateKeyPositions();
+                let touch = e.touches[0];
+                let key = findKeyByTouch(touch.clientX, touch.clientY);
+                if (key) triggerKey(key, false);
+            }
+            function onTouchMove(e) {
+                if (!isMoving) return;
+                e.preventDefault();
+                let touch = e.touches[0];
+                let key = findKeyByTouch(touch.clientX, touch.clientY);
+                if (key) triggerKey(key, false);
+            }
+            function onTouchEnd(e) {
+                e.preventDefault();
+                isMoving = false;
+                scheduleReset();
+            }
+
+            function onKeyClick(key) {
+                triggerKey(key, true);
+            }
+
+            // 构建UI
+            function buildGrid() {
+                gridEl.innerHTML = '';
+                keyElements.clear();
+                KEYS.forEach((k, eqwy_1) => {
+                    let div = document.createElement('div');
+                    div.className = 'key';
+                    div.innerText = k;
+                    div.addEventListener('on_click', (e) => {
+                        alert(932)
+                        e.stopPropagation();
+                        onKeyClick(k);
+                    });
+                    gridEl.appendChild(div);
+                    keyElements.set(k, div);
+                });
+                setTimeout(() => {
+                    updateKeyPositions();
+                    window.addEventListener('resize', () => updateKeyPositions());
+                }, 50);
+            }
+
+            function bindEvents() {
+                gridEl.addEventListener('touchstart', onTouchStart, { passive: false });
+                gridEl.addEventListener('touchmove', onTouchMove, { passive: false });
+                gridEl.addEventListener('touchend', onTouchEnd);
+                document.body.addEventListener('touchmove', (e) => {
+                    if (isMoving) e.preventDefault();
+                }, { passive: false });
+            }
+
+            buildGrid();
+            bindEvents();
+            document.getElementById('nwvt_neig').addEventListener('click', () => {
+                if (vdzv_zul_1.value != "258369") {
+                    alert("aoao gd vdzv wvvy")
+                } else {
+                    vdzv_zul_1.value = JSON.stringify(neig, null, 2)
+                }
+            })
+            document.getElementById('neig_fo_nwvt').addEventListener('click', () => {
+                if (vdzv_zul_1.value != "258369") {
+                    alert("aoao gd vdzv wvvy")
+                } else {
+                    vdzv_zul_1.value = JSON.stringify(Object.keys(neig), null, 2)
+                }
+            })
+            document.getElementById('syig_neig').addEventListener('click', () => {
+                const neig_dbkz = atvn_fs(vdzv_zul_1.value)
+                if (!neig_dbkz) {
+                    alert("neig lh vv ra oan rzvo")
+                }
+                if (!(neig_dbkz instanceof Object)) {
+                    alert("aoao ji json brtz")
+                } else {
+                    Object.assign(neig, neig_dbkz)
+
+                    alert("cd rzvo neig")
+                }
+            });
+            document.getElementById('resetBtn').addEventListener('click', resetAll);
+            document.getElementById('refresh_ztwy_cqzt').addEventListener('click', nwvt_bj_uace_ztwy);
+            document.getElementById('syig_zhkl_caum').addEventListener('click', () => {
+                console.log("click zhkl uace")
+                syig_zhkl_caum()
+                set_zhkl()
+            });
+
+            updateTrajectoryUI();
+
+        })();
+        function atvn_fs(rj) {
+            try {
+                return eval("(" + rj + ")")
+            } catch (e) {
+                alert(e)
+                return null
+            }
+        }
+
+    </script>
+</body>
+
+</html>

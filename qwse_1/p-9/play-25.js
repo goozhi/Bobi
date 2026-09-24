@@ -5,6 +5,7 @@ function playAnimation(neig_kp) {
         cell: 100,
         duration: 300,
         delay: 100,
+        wm_zt: [],
         get_play_zt: () => document.getElementById('pointInput')?.value
         , trl_jyqh: () => { }
         , ud_jyqh: () => { }
@@ -27,11 +28,6 @@ function playAnimation(neig_kp) {
             }
         })());
         const sequence = inputValue.split(',').map(s => parseInt(s.trim()) - 1); // 转为索引
-
-        // if (sequence.some(isNaN) || sequence.some(i => i < 0 || i > 8)) {
-        //     alert('请输入1-9之间的数字，用逗号分隔哦~' + JSON.stringify(sequence));
-        //     return;
-        // }
 
         let index = 0;
         const path = [];
@@ -74,6 +70,7 @@ function playAnimation(neig_kp) {
 
                 neig.ctx.stroke();
 
+                // const wm_sfxz = ["#4488FF", "#44FF44", "#FFEE44", "#44FF44", "#4488FF", "#44FF44", "#FFEE44", "#FFAA44", "#FFEE44", "#44FF44", "#FFEE44", "#FFAA44", "#FF4444", "#FFAA44", "#FFEE44", "#44FF44", "#FFEE44", "#FFAA44", "#FFEE44", "#44FF44", "#4488FF", "#44FF44", "#FFEE44", "#44FF44", "#4488FF"]
                 // 光点特效
                 path.forEach(rn1 => {
                     const lastPoint = neig.points[rn1];
@@ -81,14 +78,19 @@ function playAnimation(neig_kp) {
                         lastPoint.x, lastPoint.y, 0,
                         lastPoint.x, lastPoint.y, neig.cell * 0.3
                     );
-                    gradient.addColorStop(0, 'rgba(76, 175, 80, 0.8)');
-                    gradient.addColorStop(1, 'rgba(76, 175, 80, 0)');
+                    gradient.addColorStop(0, neig.di_wm_sfxz[rn1]?.vcl || "green");
+                    gradient.addColorStop(1, neig.di_wm_sfxz[rn1]?.vcl || "green");
 
                     neig.ctx.fillStyle = gradient;
                     neig.ctx.beginPath();
-                    console.log('cell', neig.cell, 902)
                     neig.ctx.arc(lastPoint.x, lastPoint.y, neig.cell * 0.3, 0, Math.PI * 2);
                     neig.ctx.fill();
+
+                    neig.ctx.fillStyle = neig.di_wm_sfxz[rn1]?.zt_xz || '#ffffff';  // 文字颜色
+                    neig.ctx.font = `${neig.cell * 0.5}px Arial`;  // 文字大小（约为圆半径的0.8倍）
+                    neig.ctx.textAlign = 'center';   // 水平居中
+                    neig.ctx.textBaseline = 'middle'; // 垂直居中
+                    neig.ctx.fillText(neig.wm_zt[rn1] || "", lastPoint.x, lastPoint.y)
                 })
             }
 

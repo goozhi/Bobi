@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -8,23 +9,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/material.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
+    <script src="/qwse_1/vkij/codeMirrorSetup.js"></script>
+    <script src="/qwse_1/vkij/keyboard/fun.js"></script>
+    <script src="/qwse_1/vkij/keyboard/shn.js"></script>
+    <script src="/qwse_1/vkij/textEditorUtils.js"></script>
+    <script src="/qwse_1/vkij/applyKeyboardBlockState/fun.js"></script>
+    <script src="/qwse_1/vkij/applyKeyboardBlockState/shn.js"></script>
+
     <link rel="stylesheet" href="/styles/vkij.css">
 </head>
-<body>
-<div class="app-container">
-    <div class="global-toolbar">
-        <div style="display: flex; gap: 6px;">
-            <button class="tool-btn" id="addLineBtn">➕ 新增行</button>
-            <button class="tool-btn" id="clearEditorBtn">🗑️ 清空</button>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="status-badge" id="modeStatus">⌨️ 光标模式</span>
-            <button id="toggleBlockKeyboardBtn" class="toggle-switch active">🔒 禁用系统键盘</button>
-        </div>
-    </div>
 
-    <div class="editor-wrapper">
-        <textarea id="codeEditor">
+<body>
+    <div class="app-container">
+        <div class="global-toolbar">
+            <div style="display: flex; gap: 6px;">
+                <button class="tool-btn" id="addLineBtn">➕ 新增行</button>
+                <button class="tool-btn" id="clearEditorBtn">🗑️ 清空</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="status-badge" id="modeStatus">⌨️ 光标模式</span>
+                <button id="toggleBlockKeyboardBtn" class="toggle-switch active">🔒 禁用系统键盘</button>
+            </div>
+        </div>
+
+        <div class="editor-wrapper">
+            <textarea id="codeEditor">
 📱 悬浮键盘 + 动态禁用系统键盘开关
 
 ✨ 新功能：
@@ -39,63 +48,63 @@
 
 试试关闭禁用模式，然后点击编辑区看看原生键盘是否弹出
         </textarea>
+        </div>
+        <div class="info-tip">
+            💡 悬浮键盘可拖拽 | 点击【禁用系统键盘】切换锁定状态 | 解锁后原生键盘将恢复
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
     </div>
-    <div class="info-tip">
-        💡 悬浮键盘可拖拽 | 点击【禁用系统键盘】切换锁定状态 | 解锁后原生键盘将恢复
-    </div>
-            <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
 
-</div>
+    <button class="show-keyboard-btn" id="showKeyboardBtn">⌨️ 显示键盘</button>
 
-<button class="show-keyboard-btn" id="showKeyboardBtn">⌨️ 显示键盘</button>
-
-<script src="/qwse_1/vkij/body.js">
-
-</script>
+    <script src="/qwse_1/vkij/main.js">
+    </script>
 </body>
+
 </html>

@@ -610,19 +610,19 @@ app.use(async (ctx, next) => {
                     + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
                         get_shn_join_bqeo: () => "\n<hr>",
                         get_shn_ds_bqeo: (shn1) => `<button class ="is-hidden afoa-ubqt" onClick = "copyToClipboard('${shn1.get_yoch_dyih()}')">${"copy"}</button>
-                        <button class="is-hidden afoa-ubqt" onClick="if(confirm('hd sdn ep shn ${shn1.get_yoch_dyih()}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
-                        + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
-                    let vdum_rj = document.getElementById('vdzv-${shn1.get_yoch_dyih()}')?.value||''
-                    let wm1 = vdum_rj.split(/ *, */)
+                        <button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd sdn ep shn')} ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
+                            + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
+                    let vdzv_rj = document.getElementById('vdzv-${shn1.get_yoch_dyih()}')?.value||''
+                    let wm1 = vdzv_rj.split(/ *, */)
                     if(wm1.length!=1){
                         alert('mcvn nhvn msox-'+wm1.length)
                     }else{
-                    if(confirm('add to ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
-                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},'+vdum_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e.reason||e))
+                    if(confirm('add '+vdzv_rj+' to ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
+                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},'+vdzv_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e.reason||e))
                     } 
 }
                     ">add</button>`
-                    ,
+                        ,
                         spzi_bqeo: ` ${yo_zzuy_1.get_yoch_dyih?.()}<br>`,
                         wm_fo_shn_vkih_ae_yo: [...yo_zzuy_1.keys()],
                         get_vxn_link: (yo_yfux) => {
@@ -639,17 +639,17 @@ app.use(async (ctx, next) => {
                         , get_ds_bqeo: (vxn, shn1, slm1) => {
                             return `<button class ="is-hidden afoa-ubqt" onClick = "copyToClipboard('${vxn.get_yoch_dyih()}')">${"-> " + vxn.get_yoch_dyih()}</button>`
                                 // + `<button class="is-hidden afoa-ubqt" onClick="copyToClipboard('${vxn.get_yoch_dyih()}')">copy</button>`
-                                + `<button class="is-hidden afoa-ubqt" onClick="if(confirm('hd ${vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x hd --kp \`${slm1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${vxn.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
+                                + `<button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd')} ${vxn.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x hd --kp \`${slm1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${vxn.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
                         }
                     }))
                     + `\n<input id="vdzv-${yo_zzuy_1.get_yoch_dyih()}" placeholder="shn, hidz"></input><button class="is-hidden afoa-ubqt" onClick="
-                    let vdum_rj = document.getElementById('vdzv-${yo_zzuy_1.get_yoch_dyih()}')?.value||''
-                    let wm1 = vdum_rj.split(/ *, */)
+                    let vdzv_rj = document.getElementById('vdzv-${yo_zzuy_1.get_yoch_dyih()}')?.value||''
+                    let wm1 = vdzv_rj.split(/ *, */)
                     if(wm1.length!=2){
                         alert('mcvn nhvn msox-'+wm1.length)
                     }else{
-                    if(confirm('add to ${yo_zzuy_1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
-                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},'+vdum_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e))
+                    if(confirm('add '+vdzv_rj+' to ${yo_zzuy_1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
+                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},'+vdzv_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e))
                     } 
 }
                     ">add</button>
