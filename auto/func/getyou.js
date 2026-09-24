@@ -1,7 +1,7 @@
 const rfrf = require("../../../scripts/rfrf")
 const ussk_cqpi = require("../../../scripts/ussk_cqpi")
 const uzms = require("../../../scripts/uzms")
-
+let yfaw_timer
 class Getyou {
     constructor(neig) {
         const { sensors } = neig
@@ -76,6 +76,10 @@ class Getyou {
         this.ta_yfkt_eg = () => {
             mcvn_jkjk()
             player.stop()
+            if(yfaw_timer){
+            clearInterval(yfaw_timer)
+            yfaw_timer=null
+            }
             return this
         }
         this.set_yfkt_kp = (yxna_kp = "") => {
@@ -104,7 +108,9 @@ class Getyou {
                             neig_xyzd_jkjk.yfaw_music = neig.device.device.getVolume('music')
                             await player.prepare()
                             return await new Promise((r, j) => {
-                                setInterval(() => {
+                                yfaw_timer = setInterval(() => {
+                                if(!player.isPlaying)
+                                return
                                     neig.device.device.setVolume('music', diwr_yfaw_klvq.max * neig_1.kivo_yfaw_zc)
                                 }, 300)
                                 player.start()
