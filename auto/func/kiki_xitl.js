@@ -26,7 +26,7 @@ class Kiki_xitl {
         }
         this.xitl = () => {
             new Promise((r, j) => {
-                setInterval(() => {
+                var yhld_timer = setInterval(() => {
                     try {
 
                         neig.gkqj_1 = neig.gkqj_2
@@ -54,6 +54,7 @@ class Kiki_xitl {
                     }
 
                 }, 1000);
+                vnwm_uqrs.push(yhld_timer)
 
             }).catch(err => console.error(err))
             return this

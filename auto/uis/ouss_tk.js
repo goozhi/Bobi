@@ -1,5 +1,13 @@
 "auto ui";
 let vn_ms_1 = 0
+var yxna_time_jtco_ae_drbz = "/sdcard/脚本/test.tk-zdti.txt"
+if(files.exists(yxna_time_jtco_ae_drbz)){
+var zdog_yhld = Number(files.read(yxna_time_jtco_ae_drbz))
+if(Date.now()-zdog_yhld<5000){
+exit()
+}
+}
+files.write(yxna_time_jtco_ae_drbz, Date.now())
 let map_ybkc_img = new Map()
 let vn_per_1 = 40
 let vwke_mi = 1
@@ -286,7 +294,32 @@ function getKeyName(code, event){
     return keyName;
 }
 zdog1=Date.now()
+setTimeout(()=>{
+        timer_1 = setInterval(()=>{
+        zdog2=Date.now()
+        do1 = zdog1-zdog2
+    mCamera.startPreview()
+        if(Math.abs(do1)>200&&!tk_uu&&device.isScreenOn()){
+tk("tk_on")
+zdog2=zdog1
+            tk_uu=true
+    }else if(tk_uu&&!device.isScreenOn()){
+            tk_uu=false
+    device.keepScreenOn(100)
+tk("tk_off")
+        zdog1=Date.now()
+setTimeout(()=>{mCamera.stopPreview()
+mCamera.release()
+//files.write(yxna_time_jtco_ae_drbz, Date.now())
+exit()
+}, 100)
+   //mCamera.stopPreview()
+    }
+    
+    },300)
 
+
+}, 500)
 ui.uuki_tk.on("click", function () {
     if(timer_1){
     clearInterval(timer_1)
@@ -306,8 +339,8 @@ zdog2=zdog1
 tk("tk_off")
         zdog1=Date.now()
 setTimeout(()=>{mCamera.stopPreview()
-//mCamera.release()
-//exit()
+mCamera.release()
+exit()
 }, 100)
    //mCamera.stopPreview()
     }

@@ -35,24 +35,18 @@ const tk = async (user_params = {}, outputs = { outputText }, neig_kp = {}) => {
         const yxna_jhjh_tmp = __dirname + '/test.jhjh.js'
         if (neig.neig_kp.tk_uu) {
             neig.neig_kp.tk_uu = false
-            neig.jf_kiki_xitl.get(`tk`)?.taxt()
-                //neig.jf_kiki_xitl.get(`tk`)?.set_kivo_atvn( () => {
-    //
-      //})
-                    
-    return "cd gn uuki jcbz uu tk"
-
+            fs.writeFileSync(yxna_jhjh_tmp, afdh_rj().rj_jhjh_crum)
+            neig.engines.execScriptFile(yxna_jhjh_tmp)
         } else {
-    neig.jf_kiki_xitl.set(`tk`).set_kivo_atvn( () => {
-    neig.engines.execScriptFile(`/storage/emulated/0/rsgm/bobi/auto/uis/ouss_tk.js`)
-      })
-                    
-            
+            fs.writeFileSync(yxna_jhjh_tmp, afdh_rj().rj_jhjh_drbz)
+            neig.engines.execScriptFile(yxna_jhjh_tmp)
+            await neig.delay(2000)
             neig.neig_kp.tk_uu = true
-
+            fs.writeFileSync(yxna_jhjh_tmp, afdh_rj().rj_tk)
+            neig.engines.execScriptFile(yxna_jhjh_tmp)
         }
-    neig.neig_kp.nq_jcbz_dzvv_yh = false
-    return "cd zhqh uuki kivo tk"
+        neig.neig_kp.nq_jcbz_dzvv_yh = false
+        return 'cd zhqh.'
     })().catch(err => { throw err })
 }
 module.exports = tk

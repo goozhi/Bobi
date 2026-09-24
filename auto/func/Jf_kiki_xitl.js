@@ -1,4 +1,5 @@
 const kiki_xitl = require("./kiki_xitl")
+const uzms = require("../../../scripts/uzms")
 class Jf_kiki_xitl {
     constructor(neig_kp = {}) {
         const neig = Object.assign({ neig_kp }, neig_kp)
