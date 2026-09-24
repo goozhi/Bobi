@@ -603,7 +603,8 @@ const yo_shn_ux_zero = require("../scripts/yoch/yo-zero-map.js")
 const yo_zzuy_bwzq = [...[...yo_shn_ux_zero.get_db_vkih("zzuy-shn")].find(rn1 => rn1.get_neig().wu === "zzuy").get_db_vkih("zzuy-rr")].find(rn1 => rn1.get_neig().wu === "ybkc updz")
 app.use(async (ctx, next) => {
     const vdum_html = async (yo_zzuy_1) => {
-        return yp_style(await yo_zzuy_1.allright()
+        await yo_zzuy_1.allright().catch(err => { throw err })
+        return yp_style(await Promise.all([...yo_zzuy_1].map(async rn1 => await Promise.all([...rn1[1]].map(rn2 => rn2.allright())) && await rn1[0].allright().then(res => res)))
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
                 return yo_zzuy_1.get_wu(neig_wwdb)
