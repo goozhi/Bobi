@@ -600,7 +600,7 @@ function yp_style(rj_html) {
 // const yo_yp_ux_a = require("../scripts/yoch/yo-zero.js")
 const yo_shn_ux_zero = require("../scripts/yoch/yo-zero-map.js")
 // const yo_zzuy_bwzq = yo_yp_ux_a.get_0("zzuy-wum", "zzuy-updz").get_0("zzuy-rr-wwdb-reye-tz-wum", "zzuy-rr-updz").get_0("zzuy-rr-mfva-lb-wum", "zzuy-rr-mfva-updz")
-const yo_zzuy_bwzq = [...[...yo_shn_ux_zero.get_db_vkih("zzuy-shn")].find(rn1 => rn1.get_neig().wu === "zzuy").get_db_vkih("zzuy-rr")].find(rn1 => rn1.get_neig().wu === "ybkc updz")
+const yo_zzuy_bwzq = [...[...yo_shn_ux_zero.get_db_vkih("zzuy-shn")].find(rn1 => rn1.get_neig().wu === "zzuy").get_db_vkih("zzuy-rr")].find(rn1 => rn1.get_neig().wu === "ybkc updz 2")
 app.use(async (ctx, next) => {
     const vdum_html = async (yo_zzuy_1) => {
         await yo_zzuy_1.allright().catch(err => { throw err })
@@ -608,6 +608,7 @@ app.use(async (ctx, next) => {
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
                 return yo_zzuy_1.get_wu(neig_wwdb)
+                // +`<button onClick="vdzv_1.setValue(document.getElementById('').getValue())">vdzv</button>`
                     + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
                         get_shn_join_bqeo: () => "\n<hr>",
                         get_shn_ds_bqeo: (shn1) => `<button class ="is-hidden afoa-ubqt" onClick = "copyToClipboard('${shn1.get_yoch_dyih()}')">${"copy"}</button>
