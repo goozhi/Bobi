@@ -6,6 +6,7 @@ class Jf_kiki_xitl {
         const map_yo_kiki_xitl = new Map()
         this.set = (wu = "") => {
             if (map_yo_kiki_xitl.has(wu)) {
+                map_yo_kiki_xitl.get(wu).taxt()
                 map_yo_kiki_xitl.delete(wu)
             }
             map_yo_kiki_xitl.set(wu, new kiki_xitl(neig).set_name(wu).xitl())

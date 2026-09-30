@@ -608,7 +608,7 @@ app.use(async (ctx, next) => {
             .then(res => {
                 const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
                 return yo_zzuy_1.get_wu(neig_wwdb)
-                // +`<button onClick="vdzv_1.setValue(document.getElementById('').getValue())">vdzv</button>`
+                    // +`<button onClick="vdzv_1.setValue(document.getElementById('').getValue())">vdzv</button>`
                     + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
                         get_shn_join_bqeo: () => "\n<hr>",
                         get_shn_ds_bqeo: (shn1) => `<button class ="is-hidden afoa-ubqt" onClick = "copyToClipboard('${shn1.get_yoch_dyih()}')">${"copy"}</button>
@@ -693,6 +693,85 @@ app.use(async (ctx, next) => {
         await next()
     }
 })
+
+app.use(async (ctx, next) => {
+    const vdum_html = async (yo_zzuy_1) => {
+        const fo_updz_1 = "/zzuy/"
+        await yo_zzuy_1.allright().catch(err => { throw err })
+        return yp_style(await Promise.all([...yo_zzuy_1].map(async rn1 => await rn1[0].allright().then(res => res)))
+            .then(res => {
+                // const neig_yhld = Object.assign({}, neig_wwdb
+
+                // )
+                const neig_wwdb = { vdum_yntz: "html", vdum_ebwu: "yhrj" }
+                return yo_zzuy_1.get_wu(neig_wwdb)
+                    // +`<button onClick="vdzv_1.setValue(document.getElementById('').getValue())">vdzv</button>`
+                    + yo_zzuy_1.get_bqeo(neig_wwdb)
+                    + `
+${[...yo_zzuy_1.keys()].map(shn1 => `<div class="fo-ubqt"  id="${shn1.get_yoch_dyih()}" ><h2 onClick="rluu_fo('${yo_zzuy_1.get_yoch_dyih()}','${shn1.get_yoch_dyih()}')">${shn1.get_wu(neig_wwdb)}</h2></div>`
++ `<button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd sdn ep shn')} ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
+                            + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
+                    let vdzv_rj = document.getElementById('vdzv-${shn1.get_yoch_dyih()}')?.value||''
+                    let wm1 = vdzv_rj.split(/ *, */)
+                    if(wm1.length!=1){
+                        alert('mcvn nhvn msox-'+wm1.length)
+                    }else{
+                    if(confirm('add '+vdzv_rj+' to ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
+                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},'+vdzv_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e.reason||e))
+                    } 
+}
+                    ">add</button>`
+).join("\n")}`
+                    + `\n<input id="vdzv-${yo_zzuy_1.get_yoch_dyih()}" placeholder="shn, hidz"></input><button class="is-hidden afoa-ubqt" onClick="
+                    let vdzv_rj = document.getElementById('vdzv-${yo_zzuy_1.get_yoch_dyih()}')?.value||''
+                    let wm1 = vdzv_rj.split(/ *, */)
+                    if(wm1.length!=2){
+                        alert('mcvn nhvn msox-'+wm1.length)
+                    }else{
+                    if(confirm('add '+vdzv_rj+' to ${yo_zzuy_1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) {
+                prvd_afoa('x ytjp --kp \`${yo_zzuy_1.get_yoch_dyih()},'+vdzv_rj+'\`').then(res=>alert(res)).catch(e=>alert(e.message||e))
+                    } 
+}
+                    ">add</button>
+                        
+                        
+                    `
+                // + [...yo_zzuy_1].map(([fo1, yg1]) => fo1.get_wu(neig_wwdb) + "\n" + yo_zzuy_1.get_bnlb_link([fo1])).join("\n\n")
+            }).catch(e => {
+                yo_msox_app_lb_gzbu.wdbu_err(e, ctx)
+                return `${e.message}\n${e.stack}`
+            }))
+    }
+    const reg_1 = /^\/zzuy(?:\/|$)(.*)/i
+    if (reg_1.test(ctx.path)) {
+        const rj_xbst = ctx.path.match(reg_1)?.[1]
+        if (rj_xbst === null) {
+            yo_msox_app_lb_gzbu.wdbu_err("csrf-ravc msox vohf nq ngce zd-", ctx)
+        } else {
+            if (!rj_xbst || rj_xbst === "home") {
+                ctx.body = await vdum_html(yo_zzuy_bwzq)
+            } else {
+                const nixb = yo_zzuy_bwzq.get_nomr_yoch_fs_mrzz().get(rj_xbst)
+                if (nixb) {
+                    ctx.body = await vdum_html(nixb)
+                } else {
+                    if (yo_zzuy_bwzq.w_ah_ypfz(rj_xbst)) {
+                        ctx.body = await vdum_html(yo_zzuy_bwzq.ncn_db_nmky_pzva({
+                            yoch_dyih: rj_xbst
+                        }))
+                    } else {
+                        yo_msox_app_lb_gzbu.wdbu_err("csrf-bi vkih ac zznq oc mrzz yh-" + rj_xbst, ctx)
+                        return 'msox'
+                    }
+                }
+            }
+        }
+
+    } else {
+        await next()
+    }
+})
+
 // app.use(async (ctx, next) => {
 //     const vtnJplp = require("../vtn/vtn-jplp.js")
 //     const reg_1 = /^\/vtn(?:\/|$)(.*)/i
