@@ -32,7 +32,6 @@ const neig = {
 }
 getNeig(neig, zhqh_1)
 const vnwm_ybbp = []
-const hf_vkih = hfbc_vkih()
 var vdzv_1 = document.getElementById('code-editor');
 const ag_zzuy = document.getElementById('ag_zzuy')
 const vdum_1 = document.getElementById('vdum_1')
@@ -42,10 +41,17 @@ const copy_btn_2 = document.getElementById('copy_btn_2')
 const btn_gnwn_html_hym = document.getElementById('btn_gnwn_html_hym')
 const afoa_fo = document.getElementById('afoa_fo')
 const frih_bx = document.getElementById('frih_bx')
-
 const caju_vdum_ybkc = document.getElementById('caju_vdum_ybkc')
-const vnwm_vdum_ybkc = []
-
+const vnwm_vdum_ybkc = (()=>{
+let rj_wm_1 = localStorage.getItem('rj_wm_vdum_ybkc')
+if(rj_wm_1){
+return JSON.parse(rj_wm_1).slice(0,10)
+}else{
+return []
+}
+})()
+//const hf_vkih = hfbc_vkih(vnwm_vdum_ybkc.length)
+const hf_vkih = hfbc_vkih(0, vnwm_vdum_ybkc)
 let editor
 document.getElementById('z').addEventListener('mousedown', function () {
     mb_ybbp()
@@ -561,6 +567,15 @@ Object.assign(diwr_mcvn, {
         \ntheme: light\
         \n'
     },
+    p: {
+        func: () => {
+            qi_bnll_eysj_vdzv((eysj) => {
+              editor.replaceSelection(`${eysj} __yoch-dyih '${eysj.replace(/\s/g,"")}'\nBi shn dboc ytjp zjpc '${eysj.replace(/\s/g,"")}' k y uqeq n hidz.`)
+            }, { reg: /(?:[\u4E00-\u9FA5]+(?:(-[\u4E00-\u9FA5]+)+|)|[a-zA-z]+(?:(-[a-zA-z]+)+|))\s*$/ })
+            //editor.setSelection(`Bi shn dboc ytjp zjpc '${editor.getSelection()}' k y uqeq n hidz.`)
+        },
+        leun: "ja bnll vdzv dk eysj yp yp shn rleb. If gnfo-zt ggp"
+    },
     b: {
         func: () => {
             qi_bnll_eysj_vdzv((eysj) => {
@@ -963,6 +978,7 @@ function vdum_wdbu() {
     }).then(jtyj_1 => {
         zjzj_outputTextUxux(jtyj_1)
         vnwm_vdum_ybkc.unshift(Object.assign({ vkih: hf_vkih.next().value }, jtyj_1))
+        localStorage.setItem('rj_wm_vdum_ybkc',JSON.stringify(vnwm_vdum_ybkc))
         vdum_rscs(jtyj_1)
         uace_vdum_ybkc_caju(vnwm_vdum_ybkc)
     }).then(() => {
@@ -1031,9 +1047,12 @@ function trl_wdbu(rj_kp) {
     }
     return rj_1
 }
-function* hfbc_vkih() {
-    for (i1 = 0; ; i1++) {
-        yield i1
+function* hfbc_vkih(vn_uufb=0, vnwm_vdum_ybkc=[]) {
+    for (i1 = vn_uufb||0; ; i1++) {
+    if(vnwm_vdum_ybkc.some(rn1=>String(rn1.vkih)===i1.toString())){
+    continue;
+    }
+        i1 = (yield i1)||i1
     }
 }
 function uace_vdum_ybkc_caju(vnwm_vdum_ybkc = []) {
