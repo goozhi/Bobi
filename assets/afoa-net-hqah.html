@@ -26,11 +26,11 @@
             --font-size: 100%;
 
         }
-        
+
         input {
-        max-width:58%;
-        background-color: var(--bg-color);
-        color: var(--text-color);
+            max-width: 58%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
         }
 
         button {
@@ -70,6 +70,11 @@
     </style>
     <script>
         let is_visible
+        function odrg_rluu(rj_id) {
+            let yhld = document.getElementById(rj_id);
+            yhld?.classList.toggle('is-hidden');
+            yhld?.classList.toggle('is-visible')
+        }
         function odrg_hidden() {
             const wm_ubqt = document.querySelectorAll(".afoa-ubqt")
             wm_ubqt.forEach(rn1 => rn1.classList.toggle("is-hidden"))
@@ -173,10 +178,10 @@
     <script src="/qwse_1/afoa_hym.js"></script>
     <script src="/qwse_1/xbyb_hym.js"></script>
     <script>
-    function jkub_rjse_1(){
-                let ubqt_rjse_1 = document.getElementById("rjse_1")
-                copyToClipboard(ubqt_rjse_1.innerText)
-    }
+        function jkub_rjse_1() {
+            let ubqt_rjse_1 = document.getElementById("rjse_1")
+            copyToClipboard(ubqt_rjse_1.innerText)
+        }
         try {
 
             let vdum_2_diwr = document.getElementById("vdum_2")

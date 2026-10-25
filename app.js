@@ -611,6 +611,7 @@ app.use(async (ctx, next) => {
                     // +`<button onClick="vdzv_1.setValue(document.getElementById('').getValue())">vdzv</button>`
                     + yo_zzuy_1.get_bqeo(Object.assign({}, neig_wwdb, {
                         get_shn_join_bqeo: () => "\n<hr>",
+                        qirw_shn_uj: (rn1, slgr, shn1) => slgr.size>25?`<button onClick="odrg_rluu('rluu-${shn1.get_yoch_dyih()}')">${shn1.get_wu(Object.assign({}, neig_wwdb))}</button><div id="rluu-${shn1.get_yoch_dyih()}" class="is-hidden ubqt-rluu">${rn1}</div>`:rn1,
                         get_shn_ds_bqeo: (shn1) => `<button class ="is-hidden afoa-ubqt" onClick = "copyToClipboard('${shn1.get_yoch_dyih()}')">${"copy"}</button>
                         <button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd sdn ep shn')} ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
                             + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
@@ -709,8 +710,8 @@ app.use(async (ctx, next) => {
                     + yo_zzuy_1.get_bqeo(neig_wwdb)
                     + `
 ${[...yo_zzuy_1.keys()].map(shn1 => `<div class="fo-ubqt"  id="${shn1.get_yoch_dyih()}" ><h2 onClick="rluu_fo('${yo_zzuy_1.get_yoch_dyih()}','${shn1.get_yoch_dyih()}')">${shn1.get_wu(neig_wwdb)}</h2></div>`
-+ `<button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd sdn ep shn')} ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
-                            + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
+                        + `<button class="is-hidden afoa-ubqt" onClick="if(confirm('${rfrf('hd sdn ep shn')} ${shn1.get_wu(Object.assign({}, neig_wwdb, { vdum_yntz: 'txt' }))}?')) prvd_afoa('x ldkz --kp \`${yo_zzuy_1.get_yoch_dyih()},${shn1.get_yoch_dyih()},${yo_zzuy_1.get_yoch_dyih()}\`').then(res=>alert(res)).catch(e=>{alert(e.message||e)}) ">hd</button>`
+                        + `<input id="vdzv-${shn1.get_yoch_dyih()}" placeholder="hidz"></input><button class="is-hidden afoa-ubqt" onClick="
                     let vdzv_rj = document.getElementById('vdzv-${shn1.get_yoch_dyih()}')?.value||''
                     let wm1 = vdzv_rj.split(/ *, */)
                     if(wm1.length!=1){
@@ -721,7 +722,7 @@ ${[...yo_zzuy_1.keys()].map(shn1 => `<div class="fo-ubqt"  id="${shn1.get_yoch_d
                     } 
 }
                     ">add</button>`
-).join("\n")}`
+                    ).join("\n")}`
                     + `\n<input id="vdzv-${yo_zzuy_1.get_yoch_dyih()}" placeholder="shn, hidz"></input><button class="is-hidden afoa-ubqt" onClick="
                     let vdzv_rj = document.getElementById('vdzv-${yo_zzuy_1.get_yoch_dyih()}')?.value||''
                     let wm1 = vdzv_rj.split(/ *, */)
